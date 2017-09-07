@@ -1,0 +1,5 @@
+<div class="background-wrap">
+	<video id="video-ng-elem" preload="auto" autoplay="true" loop="loop" muted="muted">
+		<source src="{{ asset('videos/Spring Flower.mp4') }}" type="video/mp4">
+	</video>
+</div>

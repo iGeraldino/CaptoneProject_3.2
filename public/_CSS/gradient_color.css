@@ -1,0 +1,30 @@
+.Amy {
+	background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+}
+
+
+.Sharp {
+	
+	background-image: linear-gradient(to top, #c79081 0%, #dfa579 100%);
+}
+
+.Love {
+	background: linear-gradient(to right, #e53935, #e35d5b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.Lemon {
+	background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+}
+
+.Kind {
+	background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+} 
+
+
+.Soft {
+	background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+}
+
+.Beach {
+	background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+}

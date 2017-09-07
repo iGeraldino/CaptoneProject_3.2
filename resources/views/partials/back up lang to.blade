@@ -1,0 +1,18 @@
+      <ul class="sidebar-menu" >
+          <li class="treeview active">
+              <a href="#">
+                <i class="ion-ios-flower"></i>
+                <span>Flowers</span>
+                <span class="pull-right-container">
+                  <span class="label label-primary pull-right"></span>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="{{ Request:: is('flower.flowerlist') ? "active" : "" }}"><a href="{{url ('flower/flowerlist') }}"><i class="fa fa-circle-o"></i>Flower List</a></li>
+                <li><a href="{{url ('flower/flowershow') }}"><i class="fa fa-circle-o"></i>Inventory Transaction</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>Flower Reserved</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>Schedule Invetory</a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i>Flower Price List</a></li>
+              </ul>
+            </li>
+      </ul>
