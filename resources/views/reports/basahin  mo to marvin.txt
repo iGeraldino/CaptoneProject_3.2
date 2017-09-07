@@ -1,0 +1,5 @@
+gumawa ka dito ng design, for receipt ng pickup lang at receipt ng for delivery lang 
+eto kasi yung lalabas sa pagsubmit ng order ng order ng customer sa online, asap
+
+
+tinry ko gumawa pero di gumana yung css eh 

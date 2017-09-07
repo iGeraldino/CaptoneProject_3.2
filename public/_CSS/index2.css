@@ -1,0 +1,487 @@
+@font-face {
+    font-family: Champagne;
+    src: url(../fonts/Champagne.ttf);
+
+}
+@font-face {
+    font-family: CaviarDreams;
+    src: url(../fonts/CaviarDreams.ttf);
+}
+
+@font-face {
+    font-family: KeepCalm;
+    src: url(../fonts/KeepCalm-Medium.ttf);
+}
+
+@font-face {
+    font-family: Lemon;
+    src: url(../fonts/LemonMilk.otf);
+}
+
+@font-face {
+    font-family: Basic;
+    src: url(../fonts/basictitlefont.ttf);
+}
+
+@font-face {
+    font-family: BebasNeue;
+    src: url(../fonts/BebasNeue.otf);
+}
+@font-face {
+    font-family: intro;
+    src: url(../fonts/intro.otf);
+}
+@font-face {
+    font-family: Pretty Girls Script Demo;
+    src: url(../fonts/Pretty Girls Script Demo.ttf);
+}
+@font-face {
+    font-family: Strawberry Gossip DEMO;
+    src: url(../fonts/Strawberry Gossip DEMO.otf);
+}
+@font-face {
+    font-family: FLOWER;
+    src: url(../fonts/FLOWER.ttf);
+}
+@font-face {
+    font-family: AlphaFlowers;
+    src: url(../fonts/AlphaFlowers.ttf);
+}
+@font-face {
+    font-family: Flower Bold;
+    src: url(../fonts/Flower Bold.ttf);
+}
+@font-face {
+    font-family: flowerx;
+    src: url(../fonts/flower2.ttf);
+}
+@font-face {
+    font-family: winter;
+    src: url(../fonts/winter.ttf);
+}
+@font-face {
+    font-family: Amarillo;
+    src: url(../fonts/Amarillo.ttf);
+}
+
+
+
+/* NAVBAR DESIGN */
+
+.navbar {
+  background-color: #fe9b7c;
+}
+.navbar ul li a:focus {
+ 
+  text-decoration: none;
+ 
+}
+.navbar ul li a:hover {
+  color: white;
+  background-color: transparent;
+
+}
+.navbar ul li a {
+	font-weight: bolder;
+  font-family: intro;
+  font-size: 15px;
+  color: black;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+} 
+
+.navbar-brand {
+  font-family: winter;
+  color: black;
+  font-weight: bolder;
+}
+.navbar-brand:hover {
+color: white;
+background-color: transparent;
+}
+
+
+
+
+/*SEARCH*/
+.search-form .form-group {
+  float: right !important;
+  transition: all 0.35s, border-radius 0s;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+
+}
+.search-form .form-group input.form-control {
+  padding-right: 20px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+}
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+}
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+}
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+}
+.search-form .form-group:hover,
+.search-form .form-group.hover {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
+}
+.search-form .form-group span.form-control-feedback {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #3596e0;
+  left: initial;
+  font-size: 14px;
+}
+
+.search {
+  padding-top: 10px;
+
+}
+
+/* END OF SEARCH */
+
+/** carousel Design **/
+
+.slide1{
+  background-image: url('../images/Carousel_Home/Carousel1.jpg');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide2{
+  background-image: url('../images/Carousel_Home/Carousel5.jpg');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide3{
+  background-image: url('../images/Carousel_Home/Carousel6.jpg');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.carousel-caption h1{
+  font-size: 5.4em;
+  font-family: winter;
+  color: #fff;
+    text-shadow: #000 2px 2px 2px;
+    -webkit-font-smoothing: antialiased;
+  padding-bottom: .4em;
+  color: white;
+}
+.carousel-caption p{
+  font-size: 2em;
+  font-family: coolvetica;
+}
+.design {
+  font-family: coolvetica;
+}
+
+/** End Of Carousel Design **/
+
+
+/* START OF FEATURED DESIGN */
+.feat h1 {
+  font-family: BebasNeue;
+  font-weight: bold;
+  
+  right: 15%;
+  bottom: 20px;
+  left: 15%;
+  z-index: 10;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: black;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+
+
+
+/*** FEATURED ITEMS
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+
+
+
+.product-item {
+    padding: 15px;
+    background: #fff;
+    margin-top: 20px;
+    position: relative;
+}
+.product-item:hover {
+    box-shadow: 5px 5px rgba(234, 234, 234, 0.9);
+}
+.product-item:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    line-height:0;
+}
+.sticker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 63px;
+    height: 63px;
+}
+.sticker-new {
+    background: url(http://keenthemes.com/assets/bootsnipp/new.png) no-repeat;
+    left: auto;
+    right: 0;
+}
+.pi-img-wrapper {
+    position: relative;
+}
+.pi-img-wrapper div {
+    background: rgba(0,0,0,0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.product-item:hover>.pi-img-wrapper>div {
+    display: block;
+}
+.pi-img-wrapper div .btn {
+    padding: 3px 10px;
+    color: #fff;
+    border: 1px #fff solid;
+    margin: -13px 5px 0;
+    background: transparent;
+    text-transform: uppercase;
+    position: relative;
+    top: 50%;
+    line-height: 1.4;
+    font-size: 12px;
+}
+.product-item .btn:hover {
+    background: #fd8a6d;
+    border-color: #c8c8c8;
+}
+
+.product-item h3 {
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: 4px;
+    text-transform: uppercase;
+}
+.product-item h3 a {
+    color: #3e4d5c;
+}
+.product-item h3 a:hover {
+    color: #E02222;
+}
+.pi-price {
+    color: #e84d1c;
+    font-size: 18px;
+    float: left;
+    padding-top: 1px;
+}
+.product-item .add2cart {
+    float: right;
+    color: #a8aeb3;
+    border: 1px #ededed solid;
+    padding: 3px 6px;
+    text-transform: uppercase;
+}
+.product-item .add2cart:hover {
+    color: #fff;
+    background: #fd8a6d;
+    border-color: #e84d1c;
+}
+/* END OF FOOTER DESIGN */
+
+
+
+
+/* START OF FOOTER DESIGN*/
+
+.full {
+    width: 100%;  
+}
+.gap {
+  height: 30px;
+  width: 100%;
+  clear: both;
+  display: block;
+}
+.footer {
+  background: #fe9b7c;
+  height: auto;
+  padding-bottom: 30px;
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #DDDDDD;
+}
+.footer p {
+  margin: 0;
+}
+.footer img {
+  max-width: 100%;
+}
+.footer h3 {
+  border-bottom: 1px solid #353232;
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  padding: 40px 0 10px;
+  text-transform: uppercase;
+}
+.footer ul {
+  font-size: 13px;
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-top: 15px;
+  color: black;
+}
+.footer ul li a {
+  padding: 0 0 5px 0;
+  display: block;
+  color: black;
+}
+.footer a {
+  color: ;
+}
+.footer a:hover {
+  text-decoration: none;
+  color: #c8324b;
+}
+.supportLi h4 {
+  font-size: 20px;
+  font-weight: lighter;
+  line-height: normal;
+  margin-bottom: 0 !important;
+  padding-bottom: 0;
+}
+.newsletter-box input#appendedInputButton {
+  background: #FFFFFF;
+  display: inline-block;
+  float: left;
+  height: 30px;
+  clear: both;
+  width: 100%;
+}
+.newsletter-box .btn {
+  border: medium none;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  display: inline-block;
+  height: 40px;
+  padding: 0;
+  width: 100%;
+  color: #fff;
+}
+.newsletter-box {
+  overflow: hidden;
+}
+.bg-gray {
+  background-image: -moz-linear-gradient(center bottom, #BBBBBB 0%, #F0F0F0 100%);
+  box-shadow: 0 1px 0 #B4B3B3;
+  background-color: #2c3e50;
+}
+
+.social li {
+  background: none repeat scroll 0 0 #B5B5B5;
+  border: 2px solid #B5B5B5;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -o-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 8px 0 0;
+  padding:0;
+  margin-left: 13%;
+  text-align: center;
+  width: 36px;
+  transition: all 0.5s ease 0s;
+  -moz-transition: all 0.5s ease 0s;
+  -webkit-transition: all 0.5s ease 0s;
+  -ms-transition: all 0.5s ease 0s;
+  -o-transition: all 0.5s ease 0s;
+
+}
+.social li:hover {
+  transform: scale(1.15) rotate(360deg);
+  -webkit-transform: scale(1.1) rotate(360deg);
+  -moz-transform: scale(1.1) rotate(360deg);
+  -ms-transform: scale(1.1) rotate(360deg);
+  -o-transform: scale(1.1) rotate(360deg);
+}
+.social li a {
+  color: #EDEFF1;
+}
+.social li:hover {
+  border: 2px solid #2c3e50;
+  background: #2c3e50;
+}
+.social li a i {
+  font-size: 16px;
+  margin: 0 0 0 5px;
+  color: #EDEFF1 !important;
+}
+.footer-bottom {
+  background: #2c3e50;
+  border-top: 1px solid #DDDDDD;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-color: #2c3e50;
+}
+.footer-bottom p.pull-left {
+  padding-top: 6px;
+  color: #b1b0b0;
+}
+
+.center {
+  text-align: center;
+  font-family: coolvetica;
+  font-weight: bolder;
+}
+.payments {
+  font-size: 1.5em; 
+}
+
+/*END OF FOOTER DESIGN*/
