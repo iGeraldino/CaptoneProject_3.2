@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('content')
-	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8" style="margin-left: -7px;">
@@ -96,7 +96,7 @@
 						</div>
 					</div>
 					<div class="panel-footer">
-						
+
 					</div>
 				</div>
 			</div>
@@ -260,7 +260,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 @endsection
 
 @section('scripts')

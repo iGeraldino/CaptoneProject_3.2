@@ -3,13 +3,13 @@
 @section('content')
 
 <?php
-//declaration of variable to to be used in determining the quantity of the existing 
+//declaration of variable to to be used in determining the quantity of the existing
 
 $Flower_Count = 0;
 ?>
 
                   @foreach(Cart::instance('OrderedBqt_Flowers')->content() as $Flowersrow)
-                  <?php 
+                  <?php
                    $Flower_Count += $Flowersrow->qty;
                   ?>
                   @endforeach
@@ -18,25 +18,25 @@ $Flower_Count = 0;
                     <input id = 'count_offlowers_Field' value = "{{$Flower_Count}}">
                   </div>
 <h2><b>Customize your own Bouquet</b></h2>
- <?php 
-  $sessionValue = Session::get('Added_FlowerToBQT_Order'); 
+ <?php
+  $sessionValue = Session::get('Added_FlowerToBQT_Order');
   Session::remove('Added_FlowerToBQT_Order');//determines the addition of new flower
-  
-  $sessionAcValue = Session::get('Added_AcessoryToBQT_Order'); 
+
+  $sessionAcValue = Session::get('Added_AcessoryToBQT_Order');
   Session::remove('Added_AcessoryToBQT_Order');//determines the addition of new acessory
 
-  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_Order'); 
+  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_Order');
   Session::remove('Update_FlowerToBQT_Order');//deteremines the qty update of flower*/
 
-  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order'); 
+  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order');
   Session::remove('Update_AcessoryToBQT_Order');//deteremines the qty update of acessories*/
 
-  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_Order'); 
+  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_Order');
   Session::remove('Deleted_FlowerfromBQT_Order');//determines the deletion of flower
-  
-  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_Order'); 
+
+  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_Order');
   Session::remove('Deleted_AcessoryfromBQT_Order');//determines the deletion of Acessory
-  
+
   $NewOrderDetailsRows = Session::get('newOrderSession');
   ?>
 
@@ -53,8 +53,8 @@ $Flower_Count = 0;
 
 <div class = "row">
     <div class = "col-md-9">
-    
-      <span class="label" style="font-size: 120%; background-color: #F62459; margin-left: 10px;">feel free to choose a flower</span> 
+
+      <span class="label" style="font-size: 120%; background-color: #F62459; margin-left: 10px;">feel free to choose a flower</span>
     </div>
     <div class = "col-md-3">
       <a href=" {{ route ('Order.CancelBouquetCreation') }}" class="btn btn-md btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made here will now be cleared for you have cancelled the creation, and will redirect you to your specific order" data-container="body"><span class = "glyphicon glyphicon-remove"></span> Cancel bouquet creation </a>
@@ -81,7 +81,7 @@ $Flower_Count = 0;
                       Choose Acessories
                     </label>
                   </div>
-                </div><!--end of class row-->  
+                </div><!--end of class row-->
                 <div>
                   <!---->
 
@@ -96,7 +96,7 @@ $Flower_Count = 0;
                         @foreach($flowers as $flowers)
                           <option value = "{{ $flowers->flower_ID}}" data-tag = "{{ $flowers->Final_SellingPrice}}"> FLWR_{{ $flowers->flower_ID}} - ({{ $flowers->flower_name}})</option>
                         @endforeach
-                      </select>  
+                      </select>
                          <img src= "" id="imageBox" name="imageBox" class = "img-rounded img-raised img-responsive" style="max-width: 300px; max-height: 300px;" />
                            <select id = 'FlowerList2' name = 'FlowerList2'>
                             @foreach($flowers2 as $frows)
@@ -130,7 +130,7 @@ $Flower_Count = 0;
 
                           <label>The decision</label>
                           <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
-                        </div>      <!--end of hidden input field-->                      
+                        </div>      <!--end of hidden input field-->
 
                         <div id = 'availableQTYDIV' hidden>
                           <div  class="input-group" >
@@ -140,13 +140,13 @@ $Flower_Count = 0;
                         </div>
 
                       </div>
-                      
+
                       <!--<div id = 'agreement_Div' hidden>
                          <div class="input-group">
                          <label>Agreement Price:</label>
                           <input type="number" class="form-control" name="AgreementPrice_Field" id="AgreementPrice_Field"  placeholder="" disabled/>
-                        </div>                            
-                      </div> -->                 
+                        </div>
+                      </div> -->
 
                       <div id = "divToggleBtn" class="togglebutton" hidden>
                             <label>
@@ -159,14 +159,14 @@ $Flower_Count = 0;
                          <div class="form-group label-floating">
                           <label class = 'control-label'>New Price:</label>
                           <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field" value = '1.00' step = "0.01"/>
-                         </div>                            
+                         </div>
                        </div>
 
                       <div id = 'QTY_Div'>
                          <div class="form-group label-floating">
                           <label class = 'control-label'>Quantity:</label>
                           <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
-                        </div>                            
+                        </div>
                       </div>
                       <div class = "row">
                             <div class="input-group">
@@ -183,8 +183,8 @@ $Flower_Count = 0;
                       </div>
                     </div>
             {!! Form::close() !!}
-                  </div><!--end of class FLower_ListDiv-->     
-                                    
+                  </div><!--end of class FLower_ListDiv-->
+
         <!--Start of Adding Acessory div-->
                   <div id = 'Acessory_ListDiv' class = "row" hidden>
                   {!! Form::open(array('route' => 'OrdersAcSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
@@ -195,7 +195,7 @@ $Flower_Count = 0;
                         @foreach($accessories as $accessories)
                           <option value = "{{$accessories->ACC_ID}}" data-tag = "{{$accessories->price}}" > ACRS_{{$accessories->ACC_ID}} - ({{$accessories->name}}) </option>
                         @endforeach
-                       </select>  
+                       </select>
                          <img src= "" id="AcessoryimageBox" name="AcessoryimageBox" class = "img-rounded img-raised img-responsive" style="max-width: 300px; max-height: 300px;" />
                     </div>
                     <div hidden>
@@ -203,13 +203,13 @@ $Flower_Count = 0;
                         @foreach($accessories2 as $acRow)
                           <option value = "{{$acRow->name}}" data-tag = "{{$acRow->ACC_ID}}" > {{$acRow->image}}</option>
                         @endforeach
-                        </select> 
+                        </select>
 
                         <select id = 'AcessoryPic_List' name = 'AcessoryPic_List' class = 'btn btn-primary btn-md'>
                         @foreach($accessories3 as $acRow2)
                           <option value = "{{$acRow2->image}}" data-tag = "{{$acRow2->ACC_ID}}" > {{$acRow2->name}}</option>
                         @endforeach
-                        </select> 
+                        </select>
                     </div>
                     <div class = 'col-md-4'>
                       <div>
@@ -223,15 +223,15 @@ $Flower_Count = 0;
 
                           <label>The decision</label>
                           <input type="text" class="form-control" name="AcessoryDecision_Field" id="AcessoryDecision_Field" value = 'O'/>
-                        </div>      <!--end of hidden input field-->                      
+                        </div>      <!--end of hidden input field-->
                       </div>
-                      
+
                       <!--<div id = 'agreement_Div' hidden>
                          <div class="input-group">
                          <label>Agreement Price:</label>
                           <input type="number" class="form-control" name="AgreementPrice_Field" id="AgreementPrice_Field"  placeholder="" disabled/>
-                        </div>                            
-                      </div> -->                 
+                        </div>
+                      </div> -->
 
                       <div id = "divToggleBtnforAcessories" class="togglebutton" hidden>
                             <label>
@@ -244,14 +244,14 @@ $Flower_Count = 0;
                          <div class="form-group label-floating">
                           <label class = 'control-label'>New Price:</label>
                           <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01"/>
-                         </div>                            
+                         </div>
                        </div>
 
                       <div id = 'QTY_Div'>
                          <div class="form-group label-floating">
                           <label class = 'control-label'>Quantity:</label>
                           <input type="number" class="form-control" name="AcessoryQTY_Field" id="AcessoryQTY_Field" placeholder="" min = '1' required/>
-                        </div>                            
+                        </div>
                       </div>
 
                       <div class = "row">
@@ -270,13 +270,13 @@ $Flower_Count = 0;
                       </div>
                     </div>
             {!! Form::close() !!}
-                  </div><!--end of class Acessory_ListDiv-->     
-                </div><!--end of class row-->        
-              </div><!--end of class panel body-->        
-            </div><!--end of class panel primary-->    
-          </div><!--end of class contaner-->        
+                  </div><!--end of class Acessory_ListDiv-->
+                </div><!--end of class row-->
+              </div><!--end of class panel body-->
+            </div><!--end of class panel primary-->
+          </div><!--end of class contaner-->
         </div><!-- end of left panel-->
-    
+
         <div class="col-md-6" style = "margin-left: -2%; margin-top:1%;">
           <div class="panel">
                 <div class="panel panel-info">
@@ -303,7 +303,7 @@ $Flower_Count = 0;
                     <div id = "flowersCart_Div" hidden>
 
                   @foreach(Cart::instance('OrderedBqt_Flowers')->content() as $BQT_Flowers)
-        {!! Form::model($BQT_Flowers, ['route'=>['OrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!} 
+        {!! Form::model($BQT_Flowers, ['route'=>['OrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!}
                     <div class="row">
                       <div class="col-xs-1"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$BQT_Flowers->options['image'])}}">
                       </div>
@@ -332,7 +332,7 @@ $Flower_Count = 0;
         {!! Form::close() !!}
                         <div class="col-xs-1">
                           <a type="button" href="{{ route('BqtFlowerorderSessions.DelOrderFlowers',['flower_ID'=>$BQT_Flowers->id]) }}" class="btn btn-danger btn-xs">
-                            <span class = "glyphicon glyphicon-trash"></span> 
+                            <span class = "glyphicon glyphicon-trash"></span>
                           </a>
                         </div>
                       </div>
@@ -345,10 +345,10 @@ $Flower_Count = 0;
                         <h5 class="text-right"><strong>(Flowers)Total Amount:</strong> Php {{Cart::instance('OrderedBqt_Flowers')->subtotal()}}</h4>
                     </div>
 <hr>
-                    <div id = "AcessoriesCart_Div" hidden> 
+                    <div id = "AcessoriesCart_Div" hidden>
                 @foreach(Cart::instance('OrderedBqt_Acessories')->content() as $BQT_Acessories)
 
-        {!! Form::model($BQT_Acessories, ['route'=>['OrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!} 
+        {!! Form::model($BQT_Acessories, ['route'=>['OrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!}
 <!--Form open here for update-->
                     <div class="row">
                       <div class="col-xs-1"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('accimage/'.$BQT_Acessories->options['image'])}}">
@@ -379,14 +379,14 @@ $Flower_Count = 0;
 <!--form close here for update-->
                         <div class="col-xs-1">
                           <a id = 'deleteAc_Btn' type="button" href="{{ route('Sessionorder.DelAcessories',['Acessory_ID'=>$BQT_Acessories->id]) }}" class="btn btn-danger btn-xs">
-                            <span class = "glyphicon glyphicon-trash"></span> 
+                            <span class = "glyphicon glyphicon-trash"></span>
                           </a>
                         </div>
                       </div>
                     </div>
                     <hr>
                   @endforeach
-                    </div><!--End of Acessories in cart Div-->                    
+                    </div><!--End of Acessories in cart Div-->
                       <div class="col-xs-12">
                         <h5 class="text-right"><strong>(Acessoriess)Total Amount:</strong> Php {{Cart::instance('OrderedBqt_Acessories')->subtotal()}}</h5>
                       </div>
@@ -394,9 +394,9 @@ $Flower_Count = 0;
                   <div class="panel-footer">
                     <div class="row text-center">
                       <div class="col-xs-9">
-                      <?php 
-                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal()); 
-                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal()); 
+                      <?php
+                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
+                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal());
                         ?>
                         <h4 class="text-left"><strong>Total Amount of Bouquet: </strong> Php {{number_format($Flowers_subtotal + $Acessories_subtotal,2)}}</h4>
                       </div>
@@ -461,7 +461,7 @@ $Flower_Count = 0;
      $('#availableQTYDIV').prop('hidden',true);
     }
 
-  
+
   if($('#DeleteAcessory_result').val()=='Successful'){
     //Show popup
     swal("Good!","Acessory has been removed!","success");
@@ -493,7 +493,7 @@ $Flower_Count = 0;
     //Show popup
     swal("Good!","Acessory has been successfully added to your Bouquet!","success");
    }
-   
+
 
         if($('#count_offlowers_Field').val()<12){
           $('#saveBtn').attr('disabled',true);
@@ -505,7 +505,7 @@ $Flower_Count = 0;
 
         if($('#ViewFlowers_CheckBox').is(":checked")){
             $('#flowersCart_Div').slideDown();
-          }//if the checkbutton is clicked by default, the there must be a display of the items on cart 
+          }//if the checkbutton is clicked by default, the there must be a display of the items on cart
         if($('#ViewAcessories_CheckBox').is(":checked")){
             $('#AcessoriesCart_Div').slideDown();
           }//if the checkbutton is clicked by default, the there must be a display of the items on cart
@@ -513,19 +513,19 @@ $Flower_Count = 0;
         $('#ViewFlowers_CheckBox').click(function(){
           if($('#ViewFlowers_CheckBox').is(":checked")){
             $('#flowersCart_Div').slideDown();
-          } 
+          }
           else{
             $('#flowersCart_Div').slideUp();
-          }  
+          }
         });
 
         $('#ViewAcessories_CheckBox').click(function(){
           if($('#ViewAcessories_CheckBox').is(":checked")){
             $('#AcessoriesCart_Div').slideDown();
-          } 
+          }
           else{
             $('#AcessoriesCart_Div').slideUp();
-          }  
+          }
         });
 
         $('#flowerBtn').click(function(){
@@ -549,13 +549,13 @@ $Flower_Count = 0;
         $('#CancelPrice_Btn').click(function(){
           $('#newPrice_Btn').slideDown();
           $('#NewPrice_Div').slideUp();
-        }); 
+        });
         //end of functionx
 
         if($("#FLowerList option").val() == '-1'){
           $('#AddFlowerBtn').attr('disabled',true);
         }
-        
+
         if($("#AcessoryList option").val() == '-1'){
           $('#AddAcessoryBtn').attr('disabled',true);
         }
@@ -626,7 +626,7 @@ $Flower_Count = 0;
               $('#NewPrice_Field').attr('required',false);
               $('#NewPrice_Field').val(DefPrice);
               $('#Decision_Field').val(Descision);
-  
+
               $('#OrigInputPrice_Field').change(function(){
                var NewTAmt =  $('#OrigInputPrice_Field').val() * $("#QTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
@@ -639,7 +639,7 @@ $Flower_Count = 0;
                $('#total_Amt').val(FinalTAmt);
               });
            }
-        });  //end of functionx   
+        });  //end of functionx
 
 
         $("#AcessoryList").change(function(){
@@ -675,7 +675,7 @@ $Flower_Count = 0;
               Ai_element.attr('selected',true);
             }//this sets the name of the flower to the other field
           });
-        });//end of function  
+        });//end of function
 
 
           $('#NewAcessoryPriceCheckBox').click(function(){
@@ -708,37 +708,34 @@ $Flower_Count = 0;
               $('#AcessoryNewPrice_Field').attr('required',false);
               $('#AcessoryNewPrice_Field').val(Defaultprice);
               $('#AcessoryDecision_Field').val(AcessoryDescision);
-  
+
               $('#AcessoryQTY_Field').change(function(){
                var NewTAmt =  $('#AcessoryOrigInputPrice_Field').val() * $("#AcessoryQTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
                $('#Acessorytotal_Amt').val(FinalTAmt);
-              }); 
+              });
             }
-      }); 
+      });
 
 //scripts for avoiding invalid characters in a number field
       $('#NewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
 
       $('#AcessoryNewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#QTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#AcessoryQTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 //end of scripts
 
  });
 </script>
 @endsection
-
-
-

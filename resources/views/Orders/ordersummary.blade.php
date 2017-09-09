@@ -395,14 +395,17 @@
 
   <script>
   $('document').ready(function(){
-	  	$("#Cust_Det_NextBtn").click(function(){
+  	$("#Cust_Det_NextBtn").click(function(){
+				//alert('hello');
 	  		$("#Customer_DetailsDiv").hide("fold");
 	  		$("#ShippingMethod_Div").show("fold");
 	  	});
 
-			if('#Pickup_Rdo').is("checked" function(){
-				alert('hahha');
-			});
+		$("#PickUp_Rdo").click(function(){
+			$('#pickUp_Div').show("fold");
+			$('#Delivery_Div').hide("fold");
+		});
+
 
 
 
