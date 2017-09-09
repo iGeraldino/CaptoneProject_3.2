@@ -19,7 +19,7 @@ class longorderController extends Controller
      */
     public function index()
     {
-        //        
+        //
 
         /*if(auth::check() == false){
             Session::put('loginSession','fail');
@@ -51,7 +51,7 @@ class longorderController extends Controller
             ->with('cust',$customers)
             ->with('city',$cities)
             ->with('city2',$cities)
-            ->with('province',$province)   
+            ->with('province',$province)
             ->with('accessories',$accessories)
             ->with('FlowerList',$AvailableFlowers);
     }

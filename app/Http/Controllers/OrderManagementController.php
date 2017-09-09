@@ -24,14 +24,12 @@ class OrderManagementController extends Controller
 			foreach(Cart::instance('Ordered_Flowers')->content() as $row){
 				if($row->id == $flower_ID){
 					echo $row->id;
-					Cart::instance('Ordered_Flowers')->remove($row->rowId);		
-		        	Session::put('Deleted_Flowerfrom_Order', 'Successful');	
+					Cart::instance('Ordered_Flowers')->remove($row->rowId);
+		        	Session::put('Deleted_Flowerfrom_Order', 'Successful');
 				}
 			}//end of function
-            	return redirect()-> route('Long_Sales_Order.index');
-	             
-	             //return view('Orders.creationOfOrders')
-	             //->with('FlowerList',$AvailableFlowers);
+	             return view('Orders.creationOfOrders')
+	             ->with('FlowerList',$AvailableFlowers);
        	//}
 	}
     public function DeleteFlower_per_Bqt_Order($flower_ID,$order_ID)
@@ -45,8 +43,8 @@ class OrderManagementController extends Controller
 			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 				if($row->id == $flower_ID){
 					echo $row->id;
-					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);		
-		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');	
+					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
+		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
 				}
 			}
 			return redirect()->route('Order.CreateaBouquet', $order_ID);//returns to the creation of flowers
@@ -64,14 +62,12 @@ class OrderManagementController extends Controller
 			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 				if($row->id == $flower_ID){
 					echo $row->id;
-					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);		
-		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');	
+					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
+		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
 				}
 			}
 			//echo 'hahaah';
-            return redirect()-> route('Long_Sales_Order.index');
-	        
-	        //return redirect()->route('Order.CustomizeaBouquet');
+	        return redirect()->route('Order.CustomizeaBouquet');
 	    //}
 	}//end of function
 
@@ -109,9 +105,7 @@ class OrderManagementController extends Controller
 					Session::put('Deleted_AcessoryfromBQT_Order', 'Successful');
 				}
 			}
-            return redirect()-> route('Long_Sales_Order.index');
-	        
-	        //return redirect()->route('Order.CustomizeaBouquet');
+	        return redirect()->route('Order.CustomizeaBouquet');
 			//returns to the creation of bouquet*/
     	//}
 	}//end of function
@@ -127,13 +121,14 @@ class OrderManagementController extends Controller
 			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
 			Cart::instance('OrderedBqt_Flowers')->destroy();
-					
+
 			Session::put('Buquet_Cancelation', 'Successful');
 	    	 return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
 	     //}
+
 	}//end of function
-	
+
 
 	public function Cancel_and_Clear_Bqt_Order()
 	{
@@ -142,10 +137,10 @@ class OrderManagementController extends Controller
             return redirect() -> route('adminsignin');//
         else{*/
 			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-			
+
 			Cart::instance('OrderedBqt_Flowers')->destroy();
 			Cart::instance('OrderedBqt_Acessories')->destroy();
-					
+
 			Session::put('Buquet_Cancelation', 'Successful');
 			return redirect()->route('Sales_Qoutation.show');//returns to the creation of flowers
 		//}
@@ -163,52 +158,13 @@ class OrderManagementController extends Controller
 			Cart::instance('OrderedBqt_Flowers')->destroy();
 			Cart::instance('OrderedBqt_Acessories')->destroy();
 			Cart::instance('Ordered_Bqt')->destroy();
-					
+
 			Session::put('Buquet_Cancelation', 'Successful');
 			     return view('Orders.creationOfOrders')
 	             ->with('FlowerList',$AvailableFlowers);
 			return redirect()->route('Sales_Qoutation.show');//returns to the creation of flowers
 		//}
 	}//end of function
-	
-	public function Clear_Cart()
-	{
-        /*if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{*/
-
-			Cart::instance('FinalBqt_Flowers')->destroy();
-			Cart::instance('FinalBqt_Acessories')->destroy();
-			Cart::instance('Ordered_Bqt')->destroy();
-			Cart::instance('Ordered_Flowers')->destroy();
-					
-			Session::put('CartClearSession', 'Successful');
-              return redirect()-> route('Long_Sales_Order.index');
-			//returns to the creation of flowers
-		//}
-	}//end of function
-	
-
-	public function Clear_Bouquet()
-	{
-        /*if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{*/
-
-			Cart::instance('OrderedBqt_Flowers')->destroy();
-			Cart::instance('OrderedBqt_Acessories')->destroy();
-					
-			Session::put('BqtClearSession', 'Successful');
-              return redirect()-> route('Long_Sales_Order.index');
-			//returns to the creation of flowers
-		//}
-	}//end of function
-	
-
 
 	public function saveCustomized_Bqt($order_ID)
 	{
@@ -222,7 +178,7 @@ class OrderManagementController extends Controller
 						$BQT_Flower_Count += $row->qty;
 				}
 
-			    $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal()); 
+			    $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
 
 
 	            $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal());
@@ -231,7 +187,7 @@ class OrderManagementController extends Controller
 	            echo '<h2><b>BOQUET_total = </b>'.number_format($Acessories_subtotal + $Flowers_subtotal,2).'<\h2>';
 	            echo '<h2><b>BOQUET Flower Count = </b>'.$BQT_Flower_Count.' pcs. <\h2>';
 		//add a record for the bouqeut_details table and bouquest_flowers table and then add that bouquet_ID to the sales orderBouquet,as well as the flowers to the sales_order_bouquet_flowers
-	           
+
 	    //create a bouquet record first
 	            $BQT_Price = $Acessories_subtotal + $Flowers_subtotal;
 
@@ -249,7 +205,7 @@ class OrderManagementController extends Controller
 	    //after creating a new bouquet please make sure that you will add it to the specific order it was made for
 	            $insertBQT_to_theOrder = DB::select('CALL insert_CreatedBqt_to_mySalesOrder(?, ?, ?, ?)',array($order_ID,$newBqt_ID,$BQT_Price,1));
 
-	    //then add flowers to that bouquet with the help of the ID of the newly created bouquet 
+	    //then add flowers to that bouquet with the help of the ID of the newly created bouquet
 	           foreach(Cart::instance('OrderedBqt_Flowers')->content() as $OrderedFlowerrow){
 						//adds the flowers that are in the session inside the bouquet_flowers table
 						$addFlower_To_BQT_details_table = DB::select('CALL add_Flower_to_Bouquet(?,?,?)',array($newBqt_ID,$OrderedFlowerrow->id,$OrderedFlowerrow->qty));
@@ -288,13 +244,13 @@ class OrderManagementController extends Controller
 			/*Cart::instance('FinalBqt_Acessories')->destroy();
 			Cart::instance('Ordered_Bqt')->destroy();
 			Cart::instance('FinalBqt_Flowers')->destroy();*/
-		
+
 				$BQT_Flower_Count = 0;
 				foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 						$BQT_Flower_Count += $row->qty;
 				}
 
-			    $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal()); 
+			    $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
 
 	            $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal());
 	 /*           echo '<h2><b>$Flowers_subtotal = </b>'.$Flowers_subtotal.'<\h2>';
@@ -302,9 +258,9 @@ class OrderManagementController extends Controller
 	            echo '<h2><b>BOQUET_total = </b>'.number_format($Acessories_subtotal + $Flowers_subtotal,2).'<\h2>';
 	            echo '<h2><b>BOQUET Flower Count = </b>'.$BQT_Flower_Count.' pcs. <\h2>';
 	*/
-	            
+
 	            $BQT_Price = $Acessories_subtotal + $Flowers_subtotal;
-			
+
 				if(Cart::instance('Ordered_Bqt')->count() == 0){
 						$bqt_Id = mt_rand();//generates a random id
 						$bqtName = 'BQT_'.$bqt_Id;
@@ -321,7 +277,7 @@ class OrderManagementController extends Controller
 				        	echo '<h4><b> $bqt_price = </b>'.$bqt->price.'</h4>';
 				        	echo '<h4><b> $bqt_count = </b>'.$bqt->options['count'].'</h4>';
 				        	echo '</div>';
-				    	}  */   
+				    	}  */
 
 				        foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 						    //this foreach will transafer all of their content to another session
@@ -412,11 +368,8 @@ class OrderManagementController extends Controller
 			Cart::instance('OrderedBqt_Flowers')->destroy();
 			Cart::instance('OrderedBqt_Acessories')->destroy();
 	        Session::put('Save_Bouqet_To_myOrder', 'Successful');
-              return redirect()-> route('Long_Sales_Order.index');
-			
-
-			//return view('Orders.creationOfOrders')
-	     	//->with('FlowerList',$AvailableFlowers);//returns to the creation of orders
+			return view('Orders.creationOfOrders')
+	     	->with('FlowerList',$AvailableFlowers);//returns to the creation of orders
      //}
 	}//end of function
 
@@ -470,7 +423,7 @@ class OrderManagementController extends Controller
 	        ->with('province',$province);
     	//}
 	}//end of function
-	
+
 	public function return_to_CreationOfOrder()
 	{//
        /* if(auth::check() == false){
@@ -479,10 +432,10 @@ class OrderManagementController extends Controller
         }
         else{*/
 			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-	        
+
 			return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
 	     //}
 	}//end of function
-	
+
 }

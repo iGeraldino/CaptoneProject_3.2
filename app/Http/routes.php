@@ -165,9 +165,7 @@ Route::get('/saveNewCustomized_Bouquet/',['uses' => 'OrderManagementController@s
 
 Route::get('/order_creations/',['uses' => 'OrderManagementController@return_to_CreationOfOrder', 'as'=>'return.orderCreation']);//saves the newly created bqt
 
-Route::get('/cartClear/',['uses' => 'OrderManagementController@Clear_Cart', 'as'=>'Order.ClearCart']);//saves the newly created bqt
 
-Route::get('/BqtClear/',['uses' => 'OrderManagementController@Clear_Bouquet', 'as'=>'Order.ClearBqt']);//saves the newly created bqt
 
 
 
@@ -319,18 +317,18 @@ Route::group(['prefix' => 'user'], function() {
 		]);
 
 		 Route::get('AdminLogin', [
-			'uses'=>'PagesController@getLoginPage', 
+			'uses'=>'PagesController@getLoginPage',
 			'as'=>'AdminLogin',
 			'middleware' => 'guest'
 			]);
- 		
+
 
 		Route::post('AdminLogin', [
-			'uses' => 'AdminAccounts_Controller@postSignin', 
+			'uses' => 'AdminAccounts_Controller@postSignin',
 			'as' => 'adminsignin',
 			'middleware' => 'guest'
 			]);
-		
+
 
 	});
 

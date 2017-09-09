@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('content')
-   <?php 
+   <?php
 
    $clearBqtSession_Value = Session::get('BqtClearSession');
    Session::remove('BqtClearSession');
@@ -10,35 +10,35 @@
    $clearCartSession_Value = Session::get('CartClearSession');
    Session::remove('CartClearSession');
 
-  $sessionValue = Session::get('Added_FlowerToBQT_Order'); 
+  $sessionValue = Session::get('Added_FlowerToBQT_Order');
   Session::remove('Added_FlowerToBQT_Order');//determines the addition of new flower
-  
-  $sessionAcValue = Session::get('Added_AcessoryToBQT_Order'); 
+
+  $sessionAcValue = Session::get('Added_AcessoryToBQT_Order');
   Session::remove('Added_AcessoryToBQT_Order');//determines the addition of new acessory
 
-  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_Order'); 
+  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_Order');
   Session::remove('Update_FlowerToBQT_Order');//deteremines the qty update of flower*/
 
-  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order'); 
+  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order');
   Session::remove('Update_AcessoryToBQT_Order');//deteremines the qty update of acessories*/
 
-  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_Order'); 
+  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_Order');
   Session::remove('Deleted_FlowerfromBQT_Order');//determines the deletion of flower
-  
-  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_Order'); 
-  Session::remove('Deleted_AcessoryfromBQT_Order');//determines the deletion of Acessory
-  
 
-  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder'); 
+  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_Order');
+  Session::remove('Deleted_AcessoryfromBQT_Order');//determines the deletion of Acessory
+
+
+  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder');
   Session::remove('Save_Bouqet_To_myOrder');//determines the addition of new flower
 
-  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder'); 
+  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder');
   Session::remove('AddFlower_To_myOrder');//determines the addition of new flower
 
-  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer'); 
+  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer');
   Session::remove('Add_Order_ofCustomer');//determines the addition of new flower
 
-  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation'); 
+  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation');
   Session::remove('Buquet_Cancelation');//determines the addition of new flower
 
   $DeletionofFlowerOrderSessionValue = Session::get('Deleted_Flowerfrom_Order');
@@ -57,7 +57,7 @@
    ?>
 
   @foreach(Cart::instance('OrderedBqt_Flowers')->content() as $Flowersrow)
-  <?php 
+  <?php
    $Flower_Count += $Flowersrow->qty;
   ?>
   @endforeach
@@ -66,11 +66,11 @@
     <input id = 'count_offlowers_Field' value = "{{$Flower_Count}}">
   </div>
 
-<div hidden>  
+<div hidden>
 
   <input id = "ClearBqt_result" value = "{{$clearBqtSession_Value}}">
   <input id = "ClearCart_result" value = "{{$clearCartSession_Value}}">
-  
+
   <input id = "AddFlower_result" value = "{{$sessionValue}}">
   <input id = "AddAcessory_result" value = "{{$sessionAcValue}}">
   <input id = "UpdateFlower_result" value = "{{$sessionUpdateFValue}}">
@@ -126,12 +126,12 @@
 										<input class = "Flwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 										<input class = "Flwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 										<input class = "Flwr_name_Field" value = "{{ $Fdetails->flower_name}}">
-										<input class = "Flwr_currentPrice_Field" 
+										<input class = "Flwr_currentPrice_Field"
 											   value = "{{$Fdetails->Final_SellingPrice}}">
 									</div>
 									<a class="btn btn-sm Lemon Flower_Tab_Btn" data-toggle="modal" data-target="#flowerTab_modal"> QUICK VIEW</a>
 	                    		</div>
-                               @endforeach  
+                               @endforeach
 							</div><!--end of active pane-->
 							<div class="tab-pane" id="Bouquets">
 								<div class="col-md-6">
@@ -144,12 +144,12 @@
 											<input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 											<input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
-											<input class = "BqtFlwr_currentPrice_Field" 
+											<input class = "BqtFlwr_currentPrice_Field"
 											   value = "{{$Fdetails->Final_SellingPrice}}">
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
-                               @endforeach  
+                               @endforeach
 
 									</div>
 								</div>
@@ -165,7 +165,7 @@
 												<input class = "BqtAcrs_pic_Field" value = "{{ asset('accimage/'.$accessories->image)}}">
 												<input class = "BqtAcrs_imageValue_Field" value = "{{$accessories->image}}">
 												<input class = "BqtAcrs_name_Field" value = "{{$accessories->name}}">
-												<input class = "BqtAcrs_currentPrice_Field" 
+												<input class = "BqtAcrs_currentPrice_Field"
 												   value = "{{$accessories->price}}">
 											</div>
 											<a class="btn btn-sm Lemon BqtAcrs_Btn" data-toggle="modal" data-target="#accessoriesmodal"> QUICK VIEW</a>
@@ -192,12 +192,12 @@
                       			</div>
                     		</div>
                     		<div class="panel-body">
-                    		          <?php 
-				                        $Flower_TAmt = 0; 
+                    		          <?php
+				                        $Flower_TAmt = 0;
 				                        $Total_Order_Amt = 0;
 				                      ?>
                     			@foreach(Cart::instance('Ordered_Flowers')->content() as $Flwr)
-                    			<div class="row"> 
+                    			<div class="row">
 			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
 			                        </div>
 			                        <div class="col-xs-2">
@@ -229,7 +229,7 @@
 				                        //$Total_Order_Amt += $Flower_TAmt;
 				                        ?>
                                 <div class="col-xs-12">
-			                          <h5 class="text-right" style = "color:darkviolet"><strong>(Flowers)Total Amount:</strong> Php {{number_format($Flower_TAmt,2)}}</h5> 
+			                          <h5 class="text-right" style = "color:darkviolet"><strong>(Flowers)Total Amount:</strong> Php {{number_format($Flower_TAmt,2)}}</h5>
 			                    </div>
 			                  <hr>
 <!-- List Of Bouquets on Cart-->
@@ -238,7 +238,7 @@
 		                        $total_BQT_Price = str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
 		                        ?>
                    				@foreach(Cart::instance('Ordered_Bqt')->content() as $Bqt)
-                    			<div class="row"> 
+                    			<div class="row">
 			                        <div class="col-xs-2">
 			                          <h6 class="product-name"><strong>Bouquet-{{$Bqt->id}}</strong></h6>
 			                        </div>
@@ -280,13 +280,13 @@
 						</div>
 					</div>
 					<div class="panel">
-						<div class="panel"> 
+						<div class="panel">
 							<div class="panel-heading Sharp">
                       			<div class="panel-title">
                         			<div class="row">
                           				<div class="col-xs-6">
                             				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Bouquet Content</h6>
-                          				</div>	
+                          				</div>
                         			</div>
                       			</div>
                     		</div>
@@ -295,7 +295,7 @@
 
 
                   			@foreach(Cart::instance('OrderedBqt_Flowers')->content() as $BQT_Flowers)
-        					{!! Form::model($BQT_Flowers, ['route'=>['OrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!} 
+        					{!! Form::model($BQT_Flowers, ['route'=>['OrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!}
                     			<div class="row">
 			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$BQT_Flowers->options['image'])}}">
 			                        </div>
@@ -326,11 +326,11 @@
 										</a>
 			                        </div>
                       			</div>
-							{!! Form::close() !!}				                        
+							{!! Form::close() !!}
                   			@endforeach
-                    			<!----> 
+                    			<!---->
 		                @foreach(Cart::instance('OrderedBqt_Acessories')->content() as $BQT_Acessories)
-					        {!! Form::model($BQT_Acessories, ['route'=>['OrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!} 
+					        {!! Form::model($BQT_Acessories, ['route'=>['OrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!}
                     			<div class="row">
 			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('accimage/'.$BQT_Acessories->options['image'])}}">
 			                        </div>
@@ -363,14 +363,14 @@
 										</a>
 			                        </div>
                       			</div>
-							{!! Form::close() !!}				                        
+							{!! Form::close() !!}
                   			@endforeach
-                    			<!----> 
+                    			<!---->
                     		</div>
                     		<div class="panel-footer">
-		                      <?php 
-		                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal()); 
-		                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal()); 
+		                      <?php
+		                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
+		                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal());
 		                        ?>
                     			<a id = "saveBtn" href="{{route('Bqtorder.saveNewBouquet')}}" type="button" class="btn Lemon btn-sm" data-toggle="tooltip" data-placement="top" title="This Button will save the bouquet that you have created, also please be noted that if your flowers are less than 12 this button will not submit your Bouquet" data-container="body"> Add to Cart</a>
                     			<a  href = "{{route('Order.ClearBqt')}}" type="button" class="btn Love btn-sm"> Clear Bouquet</a>
@@ -415,7 +415,7 @@
 
                                 <label>The decision</label>
                                 <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->                      
+                            </div>      <!--end of hidden input field-->
 							<div class="togglebutton">
 								<label>
 							    	<input type="checkbox" name = "NewPriceCheckBox" id = "NewPriceCheckBox">
@@ -426,7 +426,7 @@
                                <div class="form-group">
                                 <label class = 'control-label'>New Price:</label>
                                 <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field" value = '' step = "0.01" min = '1.00'/>
-                               </div>                            
+                               </div>
                             </div>
 							<div id = 'availableQTYDIV' hidden>
                                 <div  class="input-group" >
@@ -438,7 +438,7 @@
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>Quantity:</label>
                                 <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
-                              </div>                            
+                              </div>
                             </div>
                             <div id = 'TAmt_Div'>
 								<div class="input-group">
@@ -449,10 +449,10 @@
 			        	</div>
 	        		</div>
 	    		</div>
-	      
+
 	    		<div class="modal-footer">
 			    	<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-			    	<br> <br> <br> 
+			    	<br> <br> <br>
 			        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
 			        <button type="submit" class="btn btn-success btn-simple">Add To Cart</button>
 			    </div>
@@ -492,7 +492,7 @@
 
                                 <label>The decision</label>
                                 <input type="text" class="form-control" name = "BqtDecision_Field" id = "BqtDecision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->                      
+                            </div>      <!--end of hidden input field-->
 							<div class="togglebutton">
 								<label>
 							    	<input type="checkbox" name = "BqtNewPriceCheckBox" id = "BqtNewPriceCheckBox">
@@ -503,7 +503,7 @@
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>New Price:</label>
                                 <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01"/>
-                               </div>                            
+                               </div>
                             </div>
 							<div id = 'BqtavailableQTYDIV' hidden>
                                 <div  class="input-group" >
@@ -515,7 +515,7 @@
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>Quantity:</label>
                                 <input type="number" class="form-control" name="BqtQTY_Field" id="BqtQTY_Field"  placeholder="" min = '1' required/>
-                              </div>                            
+                              </div>
                             </div>
                             <div id = 'BqtTAmt_Div'>
 								<div class="input-group">
@@ -526,10 +526,10 @@
 			        	</div>
 	        		</div>
 	    		</div>
-	      
+
 	    		<div class="modal-footer">
 			    	<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-			    	<br> <br> <br> 
+			    	<br> <br> <br>
 			        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
 			        <button type="submit" class="btn btn-success btn-simple">Add To Cart</button>
 			    </div>
@@ -572,7 +572,7 @@
 
 	                                <label>The decision</label>
 	                                <input type="text" class="form-control" name = "AcessoryDecision_Field" id = "AcessoryDecision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->            
+                            </div>      <!--end of hidden input field-->
 							<div id = "divToggleBtnforAcessories" class="togglebutton" class="togglebutton">
 								<label>
 							    	<input type="checkbox" name = "NewAcessoryPriceCheckBox" id = "NewAcessoryPriceCheckBox">
@@ -584,9 +584,9 @@
 	                         <div class="form-group label-floating">
 	                          <label class = 'control-label'>New Price:</label>
 	                          <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01"/>
-	                         </div>                            
+	                         </div>
 	                       	</div>
-							
+
 							<div id = 'BqtavailableQTYDIV' hidden>
                                 <div  class="input-group" >
                                   <label class = 'control-label'>Available Quantity:</label>
@@ -611,10 +611,10 @@
 			        	</div>
 	        		</div>
 	    		</div>
-	      
+
 	    		<div class="modal-footer">
 			    	<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-			    	<br> <br> <br> 
+			    	<br> <br> <br>
 			        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
 			        <button type="submit" name = "AddAcessoryBtn" id = "AddAcessoryBtn" class="btn btn-success btn-simple">Add To Cart</button>
 			    </div>
@@ -623,7 +623,7 @@
 	    	</div>
 	  	</div>
 	</div>
-			
+
 @endsection
 
 @section('scripts')
@@ -716,7 +716,7 @@
          //Show popup
          swal("Good Job!:","Deletion of flower was Successfully done","success");
        }
-   
+
       if($('#Cancel_BQTSessionValue').val()=='Successful'){
          //Show popup
          swal("Take Note:","Creation of bouquet was cancelled the progress of ceation will be reset","success");
@@ -739,7 +739,7 @@
         //end of functionx
 
 
-		
+
 		$(document).on('click', '.BqtAcrs_Btn', function(){
 			$("#Acrs_ID").remove();
 			$("#Acrs_Name").remove();
@@ -753,7 +753,7 @@
 			var Acrs_Price = $('.BqtAcrs_currentPrice_Field').eq(index).val();
 
 			$('#AcessoryViewPrice_Field').val("Php " + Acrs_Price);
-			$('#AcessoryOrigInputPrice_Field').val(Acrs_Price);			
+			$('#AcessoryOrigInputPrice_Field').val(Acrs_Price);
 			$('#AcessoryNewPrice_Field').val(Acrs_Price);
 			$('#AcrsID_Field').val(Acrs_ID);
 			$('#AcrsName_Field').val(Acrs_Name);
@@ -764,7 +764,7 @@
 			$('#AcrssellingPrice_Div').prepend('<h5 id = "Acrs_ID">FLWR-'+Acrs_ID+'</h5>'+'<h5 id = "Acrs_Name">'+Acrs_Name+'</h5>');
 		});//
 
-		
+
 		$(document).on('click', '.Flower_Tab_Btn', function(){
 			$("#Flwr_ID").remove();
 			$("#Flwr_Name").remove();
@@ -777,7 +777,7 @@
 			var Flwr_Price = $('.Flwr_currentPrice_Field').eq(index).val();
 
 			$('#ViewPrice_Field').val("Php " + Flwr_Price);
-			$('#OrigInputPrice_Field').val(Flwr_Price);			
+			$('#OrigInputPrice_Field').val(Flwr_Price);
 			$('#NewPrice_Field').val(Flwr_Price);
 			$('#FlwrID_Field').val(Flwr_ID);
 			$('#FlWR_tab_Image').attr("src",Flwr_IMG);
@@ -800,7 +800,7 @@
 			var Flwr_Price = $('.BqtFlwr_currentPrice_Field').eq(index).val();
 
 			$('#BqtViewPrice_Field').val("Php " + Flwr_Price);
-			$('#BqtOrigInputPrice_Field').val(Flwr_Price);			
+			$('#BqtOrigInputPrice_Field').val(Flwr_Price);
 			$('#BqtNewPrice_Field').val(Flwr_Price);
 			$('#BqtFlwrID_Field').val(Flwr_ID);
 			$('#BqtFlWR_tab_Image').attr("src",Flwr_IMG);
@@ -808,7 +808,7 @@
 			//alert(Flwr_IMG+ "---" +Flwr_Name +'----' + Flwr_ID + '---' +  Flwr_Price);
 		});
 
-		
+
 
         $('#OrigInputPrice_Field').change(function(){
            var NewTAmt =  $('#OrigInputPrice_Field').val() * $("#QTY_Field").val();
@@ -819,7 +819,7 @@
            var FinalTAmt = 'Php '+ NewTAmt;
            $('#total_Amt').val(FinalTAmt);
           });
-        
+
         });
 
 
@@ -864,7 +864,7 @@
                Descision = 'O';
               $('#NewPrice_Field').attr('required',false);
               $('#Decision_Field').val(Descision);
-  
+
               $('#OrigInputPrice_Field').change(function(){
                var NewTAmt =  $('#OrigInputPrice_Field').val() * $("#QTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
@@ -923,17 +923,17 @@
               $('#AcessoryNewPrice_Field').attr('required',false);
               //$('#AcessoryNewPrice_Field').val(Defaultprice);
               $('#AcessoryDecision_Field').val(AcessoryDescision);
-  
+
               $('#AcessoryQTY_Field').change(function(){
                var NewTAmt =  $('#AcessoryOrigInputPrice_Field').val() * $("#AcessoryQTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
                $('#Acessorytotal_Amt').val(FinalTAmt);
-              }); 
+              });
             }
-      }); 
+      });
 
 
-        
+
 //----------------------------------------------------------------------------------------------------------------------------------
         $('#BqtOrigInputPrice_Field').change(function(){
            var NewTAmt =  $('#BqtOrigInputPrice_Field').val() * $("#BqtQTY_Field").val();
@@ -944,7 +944,7 @@
            var FinalTAmt = 'Php '+ NewTAmt;
            $('#Bqttotal_Amt').val(FinalTAmt);
           });
-        
+
         });
 
 
@@ -992,7 +992,7 @@
                Descision = 'O';
               $('#BqtNewPrice_Field').attr('required',false);
               $('#BqtDecision_Field').val(Descision);
-  
+
               $('#BqtOrigInputPrice_Field').change(function(){
                var NewTAmt =  $('#BqtOrigInputPrice_Field').val() * $("#BqtQTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
@@ -1010,28 +1010,28 @@
 
 //scripts for avoiding invalid characters in a number field
       $('#NewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#BqtNewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
 
       $('#AcessoryNewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#QTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#BqtQTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#AcessoryQTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 //end of scripts
 
