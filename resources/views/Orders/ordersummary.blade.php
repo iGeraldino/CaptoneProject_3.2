@@ -247,7 +247,7 @@
 									<label>
 								    	<div class="radio">
 											<label>
-												<input type="radio" name="optionsRadios"  id = "Deliver_Rdo">
+												<input type="radio" name="optionsRadios"  id = "Delivery_Rdo">
 												Delivery
 											</label>
 										</div>
@@ -406,6 +406,10 @@
 			$('#Delivery_Div').hide("fold");
 		});
 
+		$("#Delivery_Rdo").click(function(){
+			$('#pickUp_Div').hide("fold");
+			$('#Delivery_Div').show("fold");
+		});
 
 
 
