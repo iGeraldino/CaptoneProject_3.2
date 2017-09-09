@@ -153,7 +153,7 @@
 		                     <div class = "col-md-7">
 								<div id = "editFooterdiv" >
 		                       		<div class="btn-group" role="group">
-		                       			<a type = "button" href="{{route('return.orderCreation')}}" class = "btn btn-default btn-default" > 
+		                       			<a type = "button" href="{{route('Long_Sales_Order.index')}}" class = "btn btn-default btn-default" > 
 	                            			Return to Creation of Order
 	                      				</a>
 		                       		</div>

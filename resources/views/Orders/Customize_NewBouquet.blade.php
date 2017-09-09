@@ -250,7 +250,7 @@ $Flower_Count = 0;
                       <div id = 'QTY_Div'>
                          <div class="form-group label-floating">
                           <label class = 'control-label'>Quantity:</label>
-                          <input type="number" class="form-control" name="AcessoryQTY_Field" id="AcessoryQTY_Field"  placeholder="" min = '1' required/>
+                          <input type="number" class="form-control" name="AcessoryQTY_Field" id="AcessoryQTY_Field" placeholder="" min = '1' required/>
                         </div>                            
                       </div>
 
@@ -714,7 +714,7 @@ $Flower_Count = 0;
                var FinalTAmt = 'Php '+ NewTAmt;
                $('#Acessorytotal_Amt').val(FinalTAmt);
               }); 
-        }
+            }
       }); 
 
 //scripts for avoiding invalid characters in a number field

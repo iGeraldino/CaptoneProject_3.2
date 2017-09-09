@@ -43,6 +43,7 @@ class longorderController extends Controller
             ->get();
 
             $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+            $accessories = DB::select('CALL Acessories_Records()');
 
             //
             return view('Orders.longorder')
@@ -51,6 +52,7 @@ class longorderController extends Controller
             ->with('city',$cities)
             ->with('city2',$cities)
             ->with('province',$province)   
+            ->with('accessories',$accessories)
             ->with('FlowerList',$AvailableFlowers);
     }
 

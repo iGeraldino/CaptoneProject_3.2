@@ -50,16 +50,16 @@ class AddFlowers_to_session_BQT extends Controller
         else{     */   
              Cart::instance('OrderedBqt_Flowers')->count();
 
-            $Flower_ID = $request->FLowerList;
-            $Flower_name = $request->flower_name;
-            $Original_Price = $request->OrigInputPrice_Field;
-            $order_ID = $request->orderID_Field;
-            $descision = $request->Decision_Field;//if it is N then there should be a new price
-            $New_Price = $request->NewPrice_Field;//new price set by the user
-            $Qty = $request->QTY_Field;
-            $image = $request->flower_image;
+            $Flower_ID = $request->BqtFlwrID_Field;
+            $Original_Price = $request->BqtOrigInputPrice_Field;
+           // $order_ID = $request->orderID_Field;
+            $descision = $request->BqtDecision_Field;//if it is N then there should be a new price
+            $New_Price = $request->BqtNewPrice_Field;//new price set by the user
+            $Qty = $request->BqtQTY_Field;
 
             $flower_details = flower_details::find($Flower_ID);//search for details of specific flower
+            $Flower_name = $flower_details->flower_name;
+            $image = $flower_details->Image;
 
             if(Cart::instance('OrderedBqt_Flowers')->count() == 0){
                 echo 'wala pang laman';
@@ -150,7 +150,9 @@ class AddFlowers_to_session_BQT extends Controller
         }//end of outer else
 
             Session::put('Added_FlowerToBQT_Order', 'Successful');
-            return redirect()->route('Order.CustomizeaBouquet');
+              return redirect()-> route('Long_Sales_Order.index');
+            
+            //return redirect()->route('Order.CustomizeaBouquet');
      // }//END OF MAIN ELSE         
 
     }
@@ -235,7 +237,9 @@ class AddFlowers_to_session_BQT extends Controller
           }//end of foreach*/
           
           Session::put('Update_FlowerToBQT_Order', 'Successful');
-          return redirect()->route('Order.CustomizeaBouquet');
+              return redirect()-> route('Long_Sales_Order.index');
+          
+          //return redirect()->route('Order.CustomizeaBouquet');
         //}//
     }
 

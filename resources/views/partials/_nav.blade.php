@@ -67,7 +67,7 @@
         </a>
         <ul class="treeview-menu">
           <li>
-            <a href="http://localhost:8000/Sales_Qoutation"><i class="fa fa-circle-o"></i> Sales Order
+            <a href="/Sales_Qoutation"><i class="fa fa-circle-o"></i> Sales Order
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -83,7 +83,7 @@
         </ul>
         <ul class="treeview-menu">
           <li>
-            <a href="Long_Sales_Order"><i class="fa fa-circle-o"></i> Make Long Order
+            <a href="/Long_Sales_Order"><i class="fa fa-circle-o"></i> Make Long Order
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -102,8 +102,8 @@
             </span>
           </a>
            <ul class="treeview-menu">
-                <li><a href="http://localhost:8000/customers"><i class="fa fa-circle-o"></i> Customer List</a></li>
-                <li><a href="http://localhost:8000/TradeAgreements"><i class="fa fa-circle-o"></i> Customer Trade Agreement</a></li>
+                <li><a href="/customers"><i class="fa fa-circle-o"></i> Customer List</a></li>
+                <li><a href="/TradeAgreements"><i class="fa fa-circle-o"></i> Customer Trade Agreement</a></li>
                <!-- <li><a href="#"><i class="fa fa-circle-o"></i> Customer_Invoice</a></li>-->
             </ul>
         </li>

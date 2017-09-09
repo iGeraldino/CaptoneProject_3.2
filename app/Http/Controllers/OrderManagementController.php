@@ -28,8 +28,10 @@ class OrderManagementController extends Controller
 		        	Session::put('Deleted_Flowerfrom_Order', 'Successful');	
 				}
 			}//end of function
-	             return view('Orders.creationOfOrders')
-	             ->with('FlowerList',$AvailableFlowers);
+            	return redirect()-> route('Long_Sales_Order.index');
+	             
+	             //return view('Orders.creationOfOrders')
+	             //->with('FlowerList',$AvailableFlowers);
        	//}
 	}
     public function DeleteFlower_per_Bqt_Order($flower_ID,$order_ID)
@@ -67,7 +69,9 @@ class OrderManagementController extends Controller
 				}
 			}
 			//echo 'hahaah';
-	        return redirect()->route('Order.CustomizeaBouquet');
+            return redirect()-> route('Long_Sales_Order.index');
+	        
+	        //return redirect()->route('Order.CustomizeaBouquet');
 	    //}
 	}//end of function
 
@@ -105,7 +109,9 @@ class OrderManagementController extends Controller
 					Session::put('Deleted_AcessoryfromBQT_Order', 'Successful');
 				}
 			}
-	        return redirect()->route('Order.CustomizeaBouquet');
+            return redirect()-> route('Long_Sales_Order.index');
+	        
+	        //return redirect()->route('Order.CustomizeaBouquet');
 			//returns to the creation of bouquet*/
     	//}
 	}//end of function
@@ -126,7 +132,6 @@ class OrderManagementController extends Controller
 	    	 return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
 	     //}
-    
 	}//end of function
 	
 
@@ -166,6 +171,45 @@ class OrderManagementController extends Controller
 		//}
 	}//end of function
 	
+	public function Clear_Cart()
+	{
+        /*if(auth::check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{*/
+
+			Cart::instance('FinalBqt_Flowers')->destroy();
+			Cart::instance('FinalBqt_Acessories')->destroy();
+			Cart::instance('Ordered_Bqt')->destroy();
+			Cart::instance('Ordered_Flowers')->destroy();
+					
+			Session::put('CartClearSession', 'Successful');
+              return redirect()-> route('Long_Sales_Order.index');
+			//returns to the creation of flowers
+		//}
+	}//end of function
+	
+
+	public function Clear_Bouquet()
+	{
+        /*if(auth::check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{*/
+
+			Cart::instance('OrderedBqt_Flowers')->destroy();
+			Cart::instance('OrderedBqt_Acessories')->destroy();
+					
+			Session::put('BqtClearSession', 'Successful');
+              return redirect()-> route('Long_Sales_Order.index');
+			//returns to the creation of flowers
+		//}
+	}//end of function
+	
+
+
 	public function saveCustomized_Bqt($order_ID)
 	{
         /*if(auth::check() == false){
@@ -368,8 +412,11 @@ class OrderManagementController extends Controller
 			Cart::instance('OrderedBqt_Flowers')->destroy();
 			Cart::instance('OrderedBqt_Acessories')->destroy();
 	        Session::put('Save_Bouqet_To_myOrder', 'Successful');
-			return view('Orders.creationOfOrders')
-	     	->with('FlowerList',$AvailableFlowers);//returns to the creation of orders
+              return redirect()-> route('Long_Sales_Order.index');
+			
+
+			//return view('Orders.creationOfOrders')
+	     	//->with('FlowerList',$AvailableFlowers);//returns to the creation of orders
      //}
 	}//end of function
 

@@ -47,19 +47,19 @@ class AddAcessory_to_session_BQT extends Controller
         else{*/
             $countofAcessories =  Cart::instance('OrderedBqt_Acessories')->count();
             
-            $Acessory_ID = $request->AcessoryList;
-            $Acessory_name = $request->Acessoryname_List;
+            $Acessory_ID = $request->AcrsID_Field;
+            $Acessory_name = $request->AcrsName_Field;
             $Original_Price = $request->AcessoryOrigInputPrice_Field;
-            $order_ID = $request->AcessoryorderID_Field;
+            //$order_ID = $request->AcessoryorderID_Field;
             $descision = $request->AcessoryDecision_Field;//if it is N then there should be a new price
             $New_Price = $request->AcessoryNewPrice_Field;//new price set by the user
             $Qty = $request->AcessoryQTY_Field;
-            $image = $request->AcessoryPic_List;
+            $image = $request->Acrs_Image_Field;
 
             echo '<h4><b>$Acessory_ID = </b>'.$Acessory_ID.'</h4>';     
             echo '<h4><b>$Acessory_name = </b>'.$Acessory_name.'</h4>';     
             echo '<h4><b>$Original_Price = </b>'.$Original_Price.'</h4>';     
-            echo '<h4><b>$order_ID = </b>'.$order_ID.'</h4>';     
+            //echo '<h4><b>$order_ID = </b>'.$order_ID.'</h4>';     
             echo '<h4><b>$descision = </b>'.$descision.'</h4>';     
             echo '<h4><b>$New_Price = </b>'.$New_Price.'</h4>';     
             echo '<h4><b>$Qty = </b>'.$Qty.'</h4>';     
@@ -130,7 +130,8 @@ class AddAcessory_to_session_BQT extends Controller
             }//end of outer else
 
             Session::put('Added_AcessoryToBQT_Order', 'Successful');
-            return redirect()->route('Order.CustomizeaBouquet');
+              return redirect()-> route('Long_Sales_Order.index');
+            //return redirect()->route('Order.CustomizeaBouquet');
         //
           //}
     }
@@ -202,7 +203,8 @@ class AddAcessory_to_session_BQT extends Controller
                 }//end of if
             }//end of foreach
             Session::put('Update_AcessoryToBQT_Order', 'Successful');
-            return redirect()->route('Order.CustomizeaBouquet');
+            return redirect()-> route('Long_Sales_Order.index');
+            //return redirect()->route('Order.CustomizeaBouquet');
         //}        
     }
 
