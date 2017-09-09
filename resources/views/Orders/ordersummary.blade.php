@@ -265,8 +265,8 @@
 									</div>
 								</div>
 								<div class = "pull-right">
-									<a id = "" type="button" class="btn btn-sm Love"> Back</a>
-									<a id = "Ship_PickUp_NextBtn" href="" type="button" class="btn btn-sm Lemon"> Next</a>
+									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
+									<a id = "Ship_PickUp_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
 								</div>
 							</div>
 							<div id = "Delivery_Div" hidden>
@@ -354,13 +354,77 @@
 										</div>
 									</div>
 								<div class = "pull-right">
-									<a type="button" class="btn btn-sm Love"> Back</a>
-									<a id = "Ship_Delivery_NextBtn" href="" type="button" class="btn btn-sm Lemon"> Next</a>
+									<a id = "Shipping_Delivery_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
+									<a id = "Ship_Delivery_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
 								</div>
 								</div>
 							</div><!-- end of shipping method div-->
 						</div>
-
+							<div id = "PickUp_Payment_MethodDiv" hidden>
+									<div class="panel-body">
+										Pickup
+										<h5 class="text-center">Payment Method</h5>
+										<div class="col-md-6">
+											<label>
+										    	<div class="radio">
+													<label>
+														<input type="radio" name="optionsRadios" checked="true">
+														Cash
+													</label>
+												</div>
+											</label>
+										</div>
+										<div class="col-md-6">
+											<label>
+										    	<div class="radio">
+													<label>
+														<input type="radio" name="optionsRadios">
+														Bank
+													</label>
+												</div>
+											</label>
+										</div>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3"></textarea>
+									</div>
+									<div class="panel-footer">
+										<a href="" type="button" class="btn btn-sm Love"> Back</a>
+										<a data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+									</div>
+							</div>
+							<div id = "Delivery_Payment_MethodDiv" hidden>
+									<div class="panel-body">
+										delivery
+										<h5 class="text-center">Payment Method</h5>
+										<div class="col-md-6">
+											<label>
+										    	<div class="radio">
+													<label>
+														<input type="radio" name="optionsRadios" checked="true">
+														Cash
+													</label>
+												</div>
+											</label>
+										</div>
+										<div class="col-md-6">
+											<label>
+										    	<div class="radio">
+													<label>
+														<input type="radio" name="optionsRadios">
+														Bank
+													</label>
+												</div>
+											</label>
+										</div>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3"></textarea>
+									</div>
+									<div class="panel-footer">
+										<a href="" type="button" class="btn btn-sm Love"> Back</a>
+										<a data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+									</div>
+							</div>
+						</div><!--Payment Method Div-->
 					</div><!--Customer Detais Div-->
 
 
@@ -411,6 +475,17 @@
 			$('#Delivery_Div').show("fold");
 		});
 
+		$("#Ship_Delivery_NextBtn").click(function(){
+			$("#ShippingMethod_Div").hide("fold");
+			$('#PickUp_Payment_MethodDiv').hide("fold");
+			$('#Delivery_Payment_MethodDiv').show("fold");
+		});
+
+		$("#Ship_PickUp_NextBtn").click(function(){
+			$("#ShippingMethod_Div").hide("fold");
+			$('#Delivery_Payment_MethodDiv').hide("fold");
+			$('#PickUp_Payment_MethodDiv').show("fold");
+		});
 
 
 	});//end of document ready
