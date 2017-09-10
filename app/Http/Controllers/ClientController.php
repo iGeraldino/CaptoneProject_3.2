@@ -114,7 +114,8 @@ class ClientController extends Controller
 
         public function getSignin(){
 
-            $usernames = Db::select('call view_customer_Account_Usernames()');
+            $usernames =
+
 
             return view('customer_side.pages.loginx') -> with('usernames', $usernames);
           }
