@@ -16,11 +16,26 @@ class OrderManagementController extends Controller
   public function ViewOrderSummary()
   {
     //for showing the checkout options of the order
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+
     $customers = DB::table('customer_details')
     ->select('*')
     ->get();
+    $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
+
     return view('orders/ordersummary')
-    ->with('cust',$customers);
+    ->with('CustTradeAgreements',$CustWith_TradeAgreement)
+    ->with('cust',$customers)
+    ->with('city',$cities)
+    ->with('city2',$cities)
+    ->with('province',$province);
+
   }
 
     public function DeleteFlower_per_Order($flower_ID)
@@ -228,7 +243,6 @@ class OrderManagementController extends Controller
 				foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 						$BQT_Flower_Count += $row->qty;
 				}
-
 			    $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
 
 
@@ -333,7 +347,8 @@ class OrderManagementController extends Controller
 				        foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 						    //this foreach will transafer all of their content to another session
 			                Cart::instance('FinalBqt_Flowers')
-			                ->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $row->price,'options' => ['orig_price' => $row->options['orig_price'],'T_Amt' => $row->options['T_Amt'],'image'=>$row->options['image'],'priceType'=>$row->options['priceType'], 'bqt_ID' => $bqt_Id]]);
+			                ->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $row->price,'options' => ['orig_price' => $row->options['orig_price'],'T_Amt' => $row->options['T_Amt'],'image'=>$row->options['image'],
+                      'priceType'=>$row->options['priceType'], 'bqt_ID' => $bqt_Id]]);
 				        }//END OF INNER FOREACH of flower cart
 
 				       /* foreach(Cart::instance('FinalBqt_Flowers')->content() as $row){

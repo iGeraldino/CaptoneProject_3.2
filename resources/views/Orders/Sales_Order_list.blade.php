@@ -207,7 +207,7 @@
                 <div class="col-sm-4">
                     <div id = "emailDisplayDiv" class="form-group label-floating">
                       <label class="control-label">Email Address</label>
-                      <input type="text" class="form-control" name="email_Field" id="email_Field" " required/>
+                      <input type="text" class="form-control" name="email_Field" id="email_Field"  required/>
                     </div>
                 </div>
 
@@ -245,7 +245,7 @@
                 <div class="col-sm-5">
                     <div id = "Brgydisplaydiv" class="form-group label-floating">
                       <label class="control-label">Baranggay</label>
-                      <input type="text" class="form-control" name="brgyField" id="brgyField" " required/>
+                      <input type="text" class="form-control" name="brgyField" id="brgyField" required/>
                     </div>
                 </div>
               </div><!--end of row-->

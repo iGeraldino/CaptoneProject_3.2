@@ -141,7 +141,6 @@
 		</div>
 	</div>
 
-
 	<!--MODAL-->
 
 	<!-- Modal Core -->

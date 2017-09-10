@@ -141,6 +141,7 @@
               			</div>
 					</div>
 					<div id = "Customer_DetailsDiv">
+						<form id = "Customer_details_Form" name = "Customer_details_Form">
 						<div class="panel-body">
 							<h5 class="text-center">Customer Details</h5>
 							<div class="togglebutton">
@@ -158,20 +159,32 @@
 						 </div>
 
 							<div id = "Customer_Chooser">
-								<input class = "form-control"  name="customerList_ID" list="customerList_ID" placeholder="Select Existing Customers"/>
+								<input id = "customerList_Field" class = "form-control"  name="customerList_ID" list="customerList_ID" placeholder="Enter Customer ID/ "/>
 								<datalist id="customerList_ID">
 									<!--Foreach Loop data Here value = "Name" data-tag = "id"-->
 									@foreach($cust as $Cdetails)
-								    <option value="{{$Cdetails->Cust_FName}} {{$Cdetails->Cust_MName}} {{$Cdetails->Cust_LName}}" data-tag = "{{$Cdetails->Cust_ID}}">
+								    <option value="CUST_{{$Cdetails->Cust_ID}}" data-id = "{{$Cdetails->Cust_ID}}">
+											({{$Cdetails->Cust_FName}} {{$Cdetails->Cust_MName}} {{$Cdetails->Cust_LName}})
+										</option>
 									@endforeach
 									<!--Loop data Here-->
 								</datalist>
 							</div>
 
+							<div id = 'Customer_TradeDiv' hidden>
+								<select id = 'TradeList' name = 'TradeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($CustTradeAgreements as $CTrade)
+										<option value = 'CUST_{{$CTrade->Customer_ID}}' data-tag ='{{$CTrade->Agreement_ID}}'>
+										{{$CTrade->Customer_ID}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
 							<div id = 'Customer_FNameDiv' hidden>
 								<select id = 'customerList_FName' name = 'customerList_FName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Cust_FName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Cust_FName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										{{$Cdetails->Cust_FName}}
 										</option>
 									@endforeach
@@ -181,7 +194,7 @@
 							<div id = 'Customer_MNameDiv' hidden>
 								<select id = 'customerList_MName' name = 'customerList_MName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Cust_MName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Cust_MName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										{{$Cdetails->Cust_MName}}
 										</option>
 									@endforeach
@@ -191,7 +204,7 @@
 							<div id = 'Customer_LNameDiv' hidden>
 								<select id = 'customerList_LName' name = 'customerList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Cust_LName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Cust_LName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										{{$Cdetails->Cust_LName}}
 										</option>
 									@endforeach
@@ -201,7 +214,7 @@
 							<div id = 'Contact_NumDiv' hidden>
 								<select id = 'Contact_NumList_LName' name = 'Contact_NumList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Contact_Num}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Contact_Num}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Contact_Num}}
 										</option>
 									@endforeach
@@ -211,7 +224,7 @@
 							<div id = 'type_Div' hidden>
 								<select id = 'TypeList' name = 'TypeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Customer_Type}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Customer_Type}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Customer_Type}}
 										</option>
 									@endforeach
@@ -221,7 +234,7 @@
 							<div id = 'Email_AddDiv' hidden>
 								<select id = 'Email_AddList_LName' name = 'Email_AddList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Email_Address}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Email_Address}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Email_Address}}
 										</option>
 									@endforeach
@@ -231,7 +244,7 @@
 							<div id = 'AdressLine_Div' hidden>
 								<select id = 'AdressLineList' name = 'AdressLineList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Address_Line}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Address_Line}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Address_Line}}
 										</option>
 									@endforeach
@@ -239,7 +252,7 @@
 
 								<select id = 'HotelNameList' name = 'HotelNameList' class = 'btn btn-primary btn-md'>
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Hotel_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Hotel_Name}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Hotel_Name}}
 										</option>
 									@endforeach
@@ -247,7 +260,7 @@
 
 								<select id = 'ShopNameList' name = 'ShopNameList' class = 'btn btn-primary btn-md'>
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Shop_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Shop_Name}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Shop_Name}}
 										</option>
 									@endforeach
@@ -255,7 +268,7 @@
 
 								<select id = 'BrgyList' name = 'BrgyList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
 									@foreach($cust as $Cdetails)
-										<option value = '{{$Cdetails->Baranggay}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										<option value = '{{$Cdetails->Baranggay}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
 										 {{$Cdetails->Baranggay}}
 										</option>
 									@endforeach
@@ -264,7 +277,7 @@
 							<div class = 'col-md-6'>
 								<select class="form-control" name ="ProvField" id ="ProvField" >
 									@foreach($cust as $Cdetails)
-										<option value ="{{$Cdetails->Province}}" data-tag = "{{$Cdetails->Cust_ID}}"> {{$Cdetails->Province}} </option>
+										<option value ="{{$Cdetails->Province}}" data-tag = "CUST_{{$Cdetails->Cust_ID}}"> {{$Cdetails->Province}} </option>
 									@endforeach
 								</select>
 							</div>
@@ -272,78 +285,122 @@
 							<div class = 'col-md-6'>
 								<select name="CityField" id="CityField" class="form-control" disabled>
 									@foreach($cust as $Cdetails)
-										<option value ="{{$Cdetails->Town}}" data-tag = "{{$Cdetails->Cust_ID}}"> {{$Cdetails->Town}} </option>
+										<option value ="{{$Cdetails->Town}}" data-tag = "CUST_{{$Cdetails->Cust_ID}}"> {{$Cdetails->Town}} </option>
 									@endforeach
 								</select>
 							</div>
 							</div>
 
+							<div hidden>
+								<input id = 'idfield' name = 'idfield' class = 'form-control'>
+							</div>
 
 							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group label-floating">
+								<div class="col-md-4">
+									<div id = "Fnamedisplaydiv" class="form-group label-floating">
 										<label class="control-label">First Name</label>
-										<input type="email" class="form-control">
+										<input type="email" class="form-control" name="Cust_FNameField" id="Cust_FNameField" disabled required>
 									</div>
 								</div>
-								<div class="col-md-6">
-									<div class="form-group label-floating">
+								<div class="col-md-4">
+									<div id = "Mnamedisplaydiv" class="form-group label-floating">
+										<label class="control-label">Middle Name</label>
+										<input type="text" class="form-control" name="Cust_MNameField" id="Cust_MNameField">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div id = "Lnamedisplaydiv" class="form-group label-floating">
 										<label class="control-label">Last Name</label>
-										<input type="email" class="form-control">
+										<input type="email" class="form-control" name="Cust_LNameField" id="Cust_LNameField" disabled required>
 									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group label-floating">
-										<label class="control-label">Contact No</label>
-										<input type="email" class="form-control">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group label-floating">
-										<label class="control-label">Email Address</label>
-										<input type="email" class="form-control">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group label-floating">
-										<label class="control-label">Address Line</label>
-										<input type="email" class="form-control">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group label-floating">
-										<label class="control-label">Baranggay</label>
-										<input type="email" class="form-control">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
-							    	Province
-							    	<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">...</a></li>
-										<li><a href="#">...</a></li>
-										<li><a href="#">...</a></li>
-									</ul>
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
-							    	City
-							    	<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#">...</a></li>
-										<li><a href="#">...</a></li>
-										<li><a href="#">...</a></li>
-									</ul>
 								</div>
 							</div>
-						<div class="pull-right">
-							<button id = "Cust_Det_NextBtn" type="button" class="btn btn-sm Lemon"> Next</button>
-						</div>
-						</div>
+							<div class = "row">
+                <div class="col-sm-4">
+                    <div id = "Contactdisplaydiv" class="form-group label-floating">
+                      <label class="control-label">Number</label>
+                      <input type="text" class="form-control" name="ContactNum_Field" id="ContactNum_Field" required/>
+                    </div>
+                </div>
 
+                <div class="col-sm-8">
+                    <div id = "emailDisplayDiv" class="form-group label-floating">
+                      <label class="control-label">Email Address</label>
+                      <input type="text" class="form-control" name="email_Field" id="email_Field"  required/>
+                    </div>
+                </div><!--end of column-->
+
+                <div class="form-group col-sm-12">
+                    <label class="control-label">Customer Type:</label>
+                      <select class="form-control" names ="custTypeField" id ="custTypeField">
+                          <option value ="C" > Single </option>
+                          <option value ="S" > Shop </option>
+                          <option value ="H" > Hotel </option>
+                      </select>
+                </div><!--end of column-->
+
+	              <div id = "HotelNamedisplaydiv" class = "row" hidden>
+	                <div  class="form-group col-md-7">
+	                      <label class="control-label">Hotel Name</label>
+	                      <input type="text" class="form-control" name="hotelNameField" id="hotelNameField" disabled/>
+	                </div>
+	              </div><!--end of row-->
+
+	              <div id = "ShopNamedisplaydiv" class = "row" hidden>
+	                <div  class="form-group col-md-7">
+	                      <label class="control-label">Shop Name</label>
+	                      <input type="text" class="form-control" name="shopNameField" id="shopNameField" disabled/>
+	                </div>
+	              </div><!--end of row-->
+
+								<div class = "row">
+	                <div class="col-sm-7">
+	                    <div id = "AdrLinedisplaydiv" class="form-group label-floating">
+	                      <label class="control-label">Address line</label>
+	                      <input type="text" class="form-control" name="Addrs_LineField" id="Addrs_LineField" required/>
+	                    </div>
+	                </div>
+
+	                <div class="col-sm-5">
+	                    <div id = "Brgydisplaydiv" class="form-group label-floating">
+	                      <label class="control-label">Baranggay</label>
+	                      <input type="text" class="form-control" name="brgyField" id="brgyField" required/>
+	                    </div>
+	                </div>
+	              </div><!--end of row-->
+
+								<div class = "row">
+	                <div class = 'col-md-6'>
+	                  <select class="form-control" name ="ProvinceField" id ="ProvinceField">
+	                    @foreach($province as $prov)
+	                      <option value ="{{$prov->id}}" data-tag = "{{$prov->name}}"> {{$prov->name}} </option>
+	                    @endforeach
+	                  </select>
+	                </div>
+
+	                <div class = 'col-md-6'>
+	                  <select name="TownField" id="TownField" class="form-control" disabled>
+	                    @foreach($city as $city)
+	                      <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
+	                    @endforeach
+	                  </select>
+	                </div>
+
+	                <div class = 'col-md-6' hidden>
+	                  <select name="TownField2" id="TownField2" class="form-control">
+	                    @foreach($city2 as $city2)
+	                      <option value ="{{$city2->id}}" data-tag = "{{$city2->province_id}}"> {{$city2->name}} </option>
+	                    @endforeach
+	                  </select>
+	                </div>
+	              </div><!--end of row-->
+
+						<div class="pull-right">
+							<button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</button>
+						</div>
+						</div>
+					 </div>
+				 </form>
 					</div><!--Customer Detais Div-->
 
 					<!-- start of Shipping method div-->
@@ -656,16 +713,405 @@
 
   <script>
   $('document').ready(function(){
-  	$("#Cust_Det_NextBtn").click(function(){
-	  		$("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
-			//resets the radio buttons
-				$("#PickUp_Rdo").attr('checked',false);
-				$('#Delivery_Rdo').attr('checked',false);
-			//close the open forms incase they are open
-				$('#pickUp_Div').hide("fold");
-				$('#Delivery_Div').hide("fold");
-	  		$("#ShippingMethod_Div").show("fold");
-	  	});
+      $('#ProvinceField').change(function(){
+        $("#TownField").removeAttr("disabled");
+        $("#TownField").attr('required', true);
+              var selected = $(this).val();
+              $("#TownField option").each(function(item){
+               // console.log(selected) ;
+                var element =  $(this) ;
+                console.log(element.data("tag")) ;
+                if (element.data("tag") != selected){
+                  element.hide() ;
+                }
+                else{
+                  element.show();
+                }
+              }) ;
+
+            $("#TownField").val($("#TownField option:visible:first").val());
+    });//end of function
+
+   $("#TownField").change(function(){
+          var element =  $(this) ;
+          var CityLine = $("#TownField").val();
+
+        $("#TownField2 option").each(function(item){
+          var element =  $(this) ;
+          if (element.val() != CityLine ){
+            //element.hide() ;
+          }
+          else{
+            $("#TownField2 option[value = "+CityLine+"]").prop('selected',true);
+          }
+        });//end of function
+   });//end of function
+
+
+    var newcust = 'old';
+
+		$("#Cust_FNameField").attr('disabled',true);
+		$("#Cust_MNameField").attr('disabled',true);
+		$("#Cust_LNameField").attr('disabled',true);
+		$("#ContactNum_Field").attr('disabled',true);
+		$("#email_Field").attr('disabled',true);
+		$('#HotelNamedisplaydiv').attr('disabled',true);
+		$('#ShopNamedisplaydiv').attr('disabled',true);
+		$("#custTypeField").attr('disabled',true);
+
+		$('#customerList_Field').change(function(){
+				var CustID = $("#customerList_Field").val();
+				var HaveTrade = 0;
+				$('#TradeList option').each(function(item){
+					if(CustID == $(this).val()){
+						HaveTrade = 1;
+						swal('Note:','This Customer seem to have an active Trade Agreement in the shop, if ypu wish to select this customer the amount of all the items that you set will be decreased by 10% from its current selling price','warning');
+					}
+				});
+				var Found = 0;
+				$('#customerList_ID option').each(function(item){
+				  if(CustID == $(this).val()){
+				    Found = 1;
+				  }
+				});
+
+				if(Found == 1){
+				    //alert('found');
+				    $("#Cust_Det_NextBtn").attr("disabled",false);
+				    var selected = $(this).val();
+				    var OptionFname;
+				    var OptionMname;
+				    var OptionLname;
+				    var OptionEmail;
+				    var OptionContactNum;
+				    var OptionAddrLine;
+				    var OptionBrgyLine;
+				    var OptionProvLine;
+				    var OptionCityLine;
+				    var OptionTypeLine;
+				    var OptionHotelnameLine;
+				    var OptionShopnameLine;
+
+				  //this is for outputing the values of fields so that the labels ae not overlapping to the values
+				    $('#Fnamedisplaydiv').removeClass("form-group label-floating");
+				    $('#Fnamedisplaydiv').addClass("form-group");
+				    $('#Mnamedisplaydiv').removeClass("form-group label-floating");
+				    $('#Mnamedisplaydiv').addClass("form-group");
+				    $('#Lnamedisplaydiv').removeClass("form-group label-floating");
+				    $('#Lnamedisplaydiv').addClass("form-group");
+				    $('#AdrLinedisplaydiv').removeClass("form-group label-floating");
+				    $('#AdrLinedisplaydiv').addClass("form-group");
+				    $('#Brgydisplaydiv').removeClass("form-group label-floating");
+				    $('#Brgydisplaydiv').addClass("form-group");
+				    $('#Contactdisplaydiv').removeClass("form-group label-floating");
+				    $('#Contactdisplaydiv').addClass("form-group");
+				    $('#emailDisplayDiv').removeClass("form-group label-floating");
+				    $('#emailDisplayDiv').addClass("form-group");
+
+
+				    $("#ShopNameList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        //element.hide() ;
+				      }
+				      else{
+				       OptionShopnameLine = element.val();
+
+				        //element.show();
+				        console.log(OptionTypeLine)
+				      }
+				    });//end of function
+
+				    $("#HotelNameList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        //element.hide() ;
+				      }
+				      else{
+				       OptionHotelnameLine = element.val();
+
+				        //element.show();
+				        console.log(OptionTypeLine)
+				      }
+				    });//end of function
+
+				    $("#TypeList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        //element.hide() ;
+				      }
+				      else{
+				       OptionTypeLine = element.val();
+				      }
+				    });//end of function
+
+				    $("#custTypeField option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.val() != OptionTypeLine){
+				        //element.hide() ;
+				      }
+				      else{
+				        $("#custTypeField option[value ="+OptionTypeLine+"]").prop('selected',true);
+				      }
+				    });//end of function
+
+				        if(OptionTypeLine == 'H'){
+				          $('#ShopNamedisplaydiv').slideUp();
+				          $('#HotelNamedisplaydiv').slideDown();
+				        }
+				        else if(OptionTypeLine == 'S'){
+				          $('#HotelNamedisplaydiv').slideUp();
+				          $('#ShopNamedisplaydiv').slideDown();
+				        }
+				        else if(OptionTypeLine == 'C'){
+				          $('#HotelNamedisplaydiv').slideUp();
+				          $('#ShopNamedisplaydiv').slideUp();
+				        }
+
+
+				    $("#CityField option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        //element.hide() ;
+				      }
+				      else{
+				       OptionCityLine = element.val();
+				        //element.show();
+				      }
+				    });//end of function
+
+				    $("#ProvField option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        //element.hide() ;
+				      }
+				      else{
+				       OptionProvLine = element.val();
+				        //element.show();
+				      }
+				    });//end of function
+
+
+				    $("#ProvinceField option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.val() != OptionProvLine){
+				        //element.hide() ;
+				      }
+				      else{
+				        $("#ProvinceField option[value = "+OptionProvLine+"]").prop('selected',true);
+				      }
+				    });//end of function
+
+				    $("#TownField option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.val() != OptionCityLine ){
+				        //element.hide() ;
+				      }
+				      else{
+				        $("#TownField option[value = "+OptionCityLine+"]").prop('selected',true);
+				      }
+				    });//end of function
+
+				    $("#TownField2 option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.val() != OptionCityLine ){
+				        //element.hide() ;
+				      }
+				      else{
+				        $("#TownField2 option[value = "+OptionCityLine+"]").prop('selected',true);
+				      }
+				    });//end of function
+
+
+				    $("#BrgyList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionBrgyLine = element.val();
+				        element.show();
+				      }
+				    });//end of function
+
+				    $("#BrgyList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionBrgyLine = element.val();
+				        element.show();
+				      }
+				    });//end of function
+
+				    $("#AdressLineList option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionAddrLine = element.val();
+				        element.show();
+				      }
+				    });//end of function
+
+				    $("#customerList_FName option").each(function(item){
+				      var element =  $(this) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionFname = element.val();
+				        $("#customerList_FName option[data-tag = "+selected+"]").prop('selected',true);
+				        //element.show();
+				      }
+				    });//end of function
+
+
+				   $("#customerList_MName option").each(function(item){
+				     // console.log(selected) ;
+				      var element =  $(this) ;
+				      //console.log(element.data("tag")) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionMname = element.val();
+				       $("#customerList_MName option[data-tag = "+selected+"]").prop('selected',true);
+				       // element.show();
+				      }
+				    });//end of function
+
+
+
+				   $("#customerList_LName option").each(function(item){
+				     // console.log(selected) ;
+				      var element =  $(this) ;
+				      //console.log(element.data("tag")) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionLname = element.val();
+				       $("#customerList_LName option[data-tag = "+selected+"]").prop('selected',true);
+				        //element.show();
+				      }
+				    });//end of function
+
+				   $("#Contact_NumList_LName option").each(function(item){
+				     // console.log(selected) ;
+				      var element =  $(this) ;
+				      //console.log(element.data("tag")) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionContactNum = element.val();
+				        element.show();
+				      }
+				    });//end of function
+
+				   $("#Email_AddList_LName option").each(function(item){
+				     // console.log(selected) ;
+				      var element =  $(this) ;
+				      //console.log(element.data("tag")) ;
+				      if (element.data("tag") != selected){
+				        element.hide() ;
+				      }
+				      else{
+				       OptionEmail = element.val();
+				        element.show();
+				      }
+				    });//end of function
+
+
+
+				  $("#idfield").val(selected);
+				  $("#Cust_FNameField").val(OptionFname);
+				  $("#Cust_MNameField").val(OptionMname);
+				  $("#Cust_LNameField").val(OptionLname);
+				  $("#ContactNum_Field").val(OptionContactNum);
+				  $("#email_Field").val(OptionEmail);
+				  $("#Addrs_LineField").val(OptionAddrLine);
+				  $("#brgyField").val(OptionBrgyLine);
+				  $("#hotelNameField").val(OptionHotelnameLine);
+				  $("#shopNameField").val(OptionShopnameLine);
+				}
+				else{
+				  swal('Sorry!','The Customer Id or Customer Name that you entered does not exist','warning')
+				  $("#Cust_Det_NextBtn").attr("disabled",true);
+				}
+	});//end of function
+
+
+		$('#OnetimecheckBox').click(function(){
+
+			if($('#OnetimecheckBox').is(':checked') == true){
+
+					swal("take note: ","You will now be required to Enter information about a new customer","warning");
+				$('#Customer_Chooser').slideUp(300);
+				newcust = 'new';
+					$('#customer_stat').val(newcust);
+					$("#Cust_FNameField").attr('disabled',false);
+					$("#Cust_MNameField").attr('disabled',false);
+					$("#Cust_LNameField").attr('disabled',false);
+					$("#ContactNum_Field").attr('disabled',false);
+					$("#email_Field").attr('disabled',false);
+					$("#ProvinceField").attr('disabled',false);
+					$("#custTypeField").attr('disabled',false);
+
+					$("#custTypeField option[value ='C']").prop('selected',true);
+					$("#custTypeField").attr('disabled',true);
+
+					$('#HotelNamedisplaydiv').slideUp();
+					$('#ShopNamedisplaydiv').slideUp();
+
+					$("#idfield").val(' ');
+					$("#Cust_FNameField").val(' ');
+					$("#Cust_MNameField").val(' ');
+					$("#Cust_LNameField").val(' ');
+					$("#ContactNum_Field").val(' ');
+					$("#email_Field").val(' ');
+					$("#Addrs_LineField").val(' ');
+					$("#brgyField").val(' ');
+
+					$("#Cust_FNameField").attr('required',true);
+					$("#Cust_LNameField").attr('required',true);
+					$("#ContactNum_Field").attr('required',true);
+					$("#email_Field").attr('required',true);
+			 }
+			 else{
+				 $('#Customer_Chooser').slideDown(300);
+					newcust = 'old';
+					$('#customer_stat').val(newcust);
+					$("#Cust_FNameField").attr('disabled',true);
+					$("#Cust_MNameField").attr('disabled',true);
+					$("#Cust_LNameField").attr('disabled',true);
+					$("#ContactNum_Field").attr('disabled',true);
+					$("#email_Field").attr('disabled',true);
+					$('#HotelNamedisplaydiv').attr('disabled',true);
+					$('#ShopNamedisplaydiv').attr('disabled',true);
+					$("#custTypeField").attr('disabled',true);
+
+					swal("take note: ","You may choose from the existing customers in the system","info");
+			 }
+		});
+		//end of functionx
+
+			$(function(){
+				 $("#Customer_details_Form").submit(function(event){
+						 event.preventDefault();
+						 $("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
+					 //resets the radio buttons
+						 $("#PickUp_Rdo").attr('checked',false);
+						 $('#Delivery_Rdo').attr('checked',false);
+					 //close the open forms incase they are open
+						 $('#pickUp_Div').hide("fold");
+						 $('#Delivery_Div').hide("fold");
+						 $("#ShippingMethod_Div").show("fold");
+				 });
+		 });//end of form
 //once that you are at the shipping method there are 2 choices:
 //Pickup--------------------------------------------------------------------------------------------------------------
 		$("#PickUp_Rdo").click(function(){

@@ -3,9 +3,9 @@
 @section('content')
        <section class="content-header">
        <?php
-          $AddingAdminSessionValue = Session::get('Adding_newAdminSession'); 
+          $AddingAdminSessionValue = Session::get('Adding_newAdminSession');
           Session::remove('Adding_newAdminSession');//determines the addition of new flower
-          $DeletionAdminSessionValue = Session::get('DeletionSession'); 
+          $DeletionAdminSessionValue = Session::get('DeletionSession');
           Session::remove('DeletionSession');//determines the addition of new flower
        ?>
           <h3><b>Accounts that can Access the Administrator Side</b></h3>
@@ -33,13 +33,13 @@
                             <div class="form-group label-floating">
                               <label class="control-label">First Name</label>
                               <input name = 'Fname' id = 'Fname' type="text" class="form-control">
-                            </div>    
+                            </div>
                           </div>
                           <div class = "col-md-6">
                             <div class="form-group label-floating">
                               <label class="control-label">Last Name</label>
                               <input name = 'Lname' id = 'Lname' type="text" class="form-control">
-                            </div>    
+                            </div>
                           </div>
                         </div>
 
@@ -49,13 +49,13 @@
                               <label class="control-label">email Address</label>
                               <input name = 'email' id = 'email' type="text" class="form-control">
                               <span id = 'Emailavailability'></span>
-                            </div>    
+                            </div>
                           </div>
                           <div class = "col-md-6">
                             <div class="form-group label-floating">
                               <label class="control-label">Contact Number</label>
                               <input name = 'contact_Num' id = 'contact_Num' type="text" class="form-control">
-                            </div>    
+                            </div>
                           </div>
                         </div>
 
@@ -64,7 +64,7 @@
                             <div class="form-group label-floating">
                               <label class="control-label">Username</label>
                               <input name = 'username' id = 'username' type="text" class="form-control">
-                            </div>    
+                            </div>
                           </div>
                         </div>
 
@@ -126,14 +126,14 @@
 
                       <tbody>
                       @foreach($Accts as $Accts)
-                        <tr>  
+                        <tr>
                           <td> ACCT_{{$Accts->Acct_ID}} </td>
                           <td> {{$Accts->Fname}} {{$Accts->LName}}</td>
                           <td> {{$Accts->email}} </td>
                           <td> {{$Accts->contact}} </td>
                           <td> {{$Accts->dateCreated}} </td>
-                          <td align="center"> 
-                                 
+                          <td align="center">
+
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewPrice{{$Accts->Acct_ID}}">View</button>
                                       <!-- line modal -->
                                      <div class="modal fade" id="viewPrice{{$Accts->Acct_ID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -144,15 +144,15 @@
                                                 <h3 class="modal-title" id="lineModalLabel">Account's Details</h3>
                                               </div>
                           <!--form open here-->
-                                                <div class="modal-body"> 
+                                                <div class="modal-body">
                                             <!-- content goes here -->
                                                   <div class = "row">
                                                     <div class = "col-md-6">
                                                       <span class="label" style="font-size: 100%; background-color: #F62459">Account ID:</span>
                                                     </div>
                                                     <div class = "col-md-6">
-                                                        ACCT_{{$Accts->Acct_ID}} 
-                                                    </div>                                                    
+                                                        ACCT_{{$Accts->Acct_ID}}
+                                                    </div>
                                                   </div>
                                                   <br>
                                                   <div class = "row">
@@ -161,7 +161,7 @@
                                                     </div>
                                                     <div class = "col-md-6">
                                                         {{$Accts->Fname}} {{$Accts->LName}}
-                                                    </div>                                                    
+                                                    </div>
                                                   </div>
                                                   <br>
                                                   <div class = "row">
@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div class = "col-md-6">
                                                         {{$Accts->email}}
-                                                    </div>                                                    
+                                                    </div>
                                                   </div>
                                                   <br>
                                                   <div class = "row">
@@ -179,7 +179,7 @@
                                                     </div>
                                                     <div class = "col-md-6">
                                                         {{$Accts->contact}}
-                                                    </div>                                                    
+                                                    </div>
                                                   </div>
                                                   <br>
                                                   <div class = "row">
@@ -188,7 +188,7 @@
                                                     </div>
                                                     <div class = "col-md-6">
                                                         {{$Accts->username}}
-                                                    </div>                                                    
+                                                    </div>
                                                   </div>
                                                   <br>
                                                   <div class = "row">
@@ -197,7 +197,7 @@
                                                     </div>
                                                     <div class = "col-md-6">
                                                         {{$Accts->dateCreated}}
-                                                    </div>                                                    
+                                                    </div>
                                                   </div>
 
                                                 </div>
@@ -208,16 +208,16 @@
                                                     </div>
                                                     <div class="btn-group" role="group">
                                                        <a  type = "button" href = "{{route('editAdminAcct',['id' => $Accts->Acct_ID])}}" name = "AddBtn" class = "btn btn-primary btn-info"><span class = "glyphicon glyphicon-pencil"></span> Edit This Price</a>
-                                          
+
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
-                                   <!--Form close here--> 
+                                   <!--Form close here-->
                                         </div>
 
-                                  <a type = "button" href="{{route('deleteAdminAcct',['id' => $Accts->Admin_ID])}}" class = "btn btn-danger btn-sm" > 
+                                  <a type = "button" href="{{route('deleteAdminAcct',['id' => $Accts->Admin_ID])}}" class = "btn btn-danger btn-sm" >
                                     delete
                                   </a>
 
@@ -228,7 +228,7 @@
                       </tbody>
                     </table>
                   </div>
-                  
+
                 </div>
               </div>
             </div>
@@ -252,7 +252,7 @@ $(document).ready(function(){
 
 
   //var orig_email = $('#email').val();
-  $(function(){   
+  $(function(){
     $('#Acctform').validate({
       rules:{//-------------------------------------------------------------------------rules
         Fname: {
@@ -267,10 +267,10 @@ $(document).ready(function(){
           remote: {
             type: "GET",
             url : typeof(emailURL) != 'undefined' ? emailURL : '',
-            data: { 'orig_email':  typeof(orig_email) != 'undefined' ? orig_email : '', email: function(){ 
+            data: { 'orig_email':  typeof(orig_email) != 'undefined' ? orig_email : '', email: function(){
                 return $('#email').val();
 
-              } 
+              }
             },
             dataType : "json"
           },//end of remote
@@ -281,10 +281,10 @@ $(document).ready(function(){
           remote: {
             type: "GET",
             url : typeof(contactURL) != 'undefined' ? contactURL : '',
-            data: { 
-                Num: function(){ 
+            data: {
+                Num: function(){
                 return $('#contact_Num').val();
-              } 
+              }
             },
             dataType : "json"
           },//end of remote
@@ -295,9 +295,9 @@ $(document).ready(function(){
           remote: {
             type: "GET",
             url : typeof(usernameURL) != 'undefined' ? usernameURL : '',
-            data: { 'orig_username':  typeof(orig_username) != 'undefined' ? orig_username : '', username: function(){ 
+            data: { 'orig_username':  typeof(orig_username) != 'undefined' ? orig_username : '', username: function(){
                 return $('#username').val();
-              } 
+              }
             },
             dataType : "json"
           },//end of remote rule
@@ -353,7 +353,7 @@ $(document).ready(function(){
     "<span style = 'color:red;'>Invalid name</span>"
   );//vai\lidator for names
 
-  jQuery.validator.addMethod("contactvalidation", function(value, element) { 
+  jQuery.validator.addMethod("contactvalidation", function(value, element) {
       if (/^[9]\d{9}$/.test(value)) {
           return /^[9]\d{9}$/.test(value);
       }
