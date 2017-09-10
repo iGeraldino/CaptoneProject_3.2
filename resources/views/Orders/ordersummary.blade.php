@@ -44,12 +44,12 @@
 							    <tr>
 							      <th scope="row">1</th>
 							      <td>{{$Flwr->name}}</td>
-							      <td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}"></td>
+							      	<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}"></td>
 							      <td class = "text-right" style = "color:red;"> Php 	{{number_format($Flwr->price,2)}}</td>
 							      <td class = "text-right"> {{$Flwr->qty}} pcs. </td>
 							      <td class = "text-right" style = "color:red;">Php {{number_format($Flwr->qty*$Flwr->price,2)}}</td>
 							    </tr>
-			                   @endforeach
+			          @endforeach
 							  </tbody>
 							</table>
 						</div>
