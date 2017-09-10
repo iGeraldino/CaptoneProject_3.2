@@ -172,7 +172,7 @@ class ClientController extends Controller
 
         public function bouquetlist(){
           //Cart::instance('tempacccart')->destroy();
-          $bouquetlist = bouquet_details::all();
+          $bouquetlist = db::table('bouquet_details')->where('Type', '=' , 'default')->get();
 
           return view('customer_side.pages.bouquet') ->with('bouquetlist', $bouquetlist);
 
