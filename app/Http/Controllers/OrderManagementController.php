@@ -12,6 +12,17 @@ use Auth;
 class OrderManagementController extends Controller
 {
     //
+
+  public function ViewOrderSummary()
+  {
+    //for showing the checkout options of the order
+    $customers = DB::table('customer_details')
+    ->select('*')
+    ->get();
+    return view('orders/ordersummary')
+    ->with('cust',$customers);
+  }
+
     public function DeleteFlower_per_Order($flower_ID)
 	{
         /*if(auth::check() == false){

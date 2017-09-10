@@ -40,7 +40,7 @@ class Order_Controller extends Controller
             ->select('*')
             ->get();
 
-            
+
 
             //
             return view('Orders.Sales_Order_list')
@@ -102,11 +102,11 @@ class Order_Controller extends Controller
                     $LName = $request->Cust_LNameField;
                     $Contact_Num = $request->ContactNum_Field;
                     $email_Address = $request->email_Field;
-                    $DeliveryAddLine = $request->Addrs_LineField;            
+                    $DeliveryAddLine = $request->Addrs_LineField;
                     $brgy = $request->brgyField;
                     $prov = $request->ProvinceField;
                     $town = $request->TownField;
-                    $type = 'C';    
+                    $type = 'C';
                     $ShopName = 'none';
                     $HotelName = 'none';
                     $transType = $request->Trans_typeField;
@@ -194,7 +194,7 @@ class Order_Controller extends Controller
             $QTN_FLowers = DB::select('CALL salesorder_Flowers(?)',array($id));
             $QTN_Bouquet = DB::select('CALL salesorder_Bouquet(?)',array($id));
             $QTN_Acessories = DB::select('CALL salesorder_Acessories(?)',array($id));
-        
+
             return view('Orders.Specific_SalesOrders')
             ->with('Orders_Details',$QTN_Details)
             ->with('Flowers',$QTN_FLowers)

@@ -2,7 +2,7 @@
 @extends('main')
 
 @section('content')
-   
+
     <!-- Content Header (Page header) -->
   <section class="content-header">
       <h2> List of unconfirmed Orders</h2>
@@ -21,11 +21,11 @@
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <h3 class="modal-title" id="lineModalLabel">Create New Customer Record</h3>
         </div>
-      
+
       <!--form open here-->
   {!! Form::open(array('route' => 'Sales_Qoutation.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
-       {{ csrf_field() }} 
-        <div class="modal-body"> 
+       {{ csrf_field() }}
+        <div class="modal-body">
                 <!-- content goes here -->
               <div class = 'row'>
                 <div class="togglebutton col-md-6">
@@ -33,15 +33,15 @@
                     <input type="checkbox" id = 'OnetimecheckBox' name="OnetimecheckBox">
                     One Time Customer?
                   </label>
-                </div>    
+                </div>
                 <div class="togglebutton col-md-6">
                   <label>
                     <input type="checkbox" id = 'QuickTransCheckBox' name="QuickTransCheckBox">
                     Quick Transaction?
                   </label>
-                </div>    
+                </div>
               </div>
-              
+
                  <div hidden>
                  <input id = "Trans_typeField" name = "Trans_typeField" value = 'process' />
                  <input id = "customer_stat" name = "customer_stat" value = 'old' />
@@ -54,73 +54,73 @@
                     @foreach($cust as $Clist)
                       <option value = '{{$Clist->Cust_ID}}'> CUST-{{$Clist->Cust_ID}} ({{$Clist->Cust_FName}} {{$Clist->Cust_MName}} {{$Clist->Cust_LName}}) </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'Customer_FNameDiv' hidden>
                   <select id = 'customerList_FName' name = 'customerList_FName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Cust_FName}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
-                      {{$Cdetails->Cust_FName}} 
+                      <option value = '{{$Cdetails->Cust_FName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+                      {{$Cdetails->Cust_FName}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'Customer_MNameDiv' hidden>
                   <select id = 'customerList_MName' name = 'customerList_MName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Cust_MName}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Cust_MName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                       {{$Cdetails->Cust_MName}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'Customer_LNameDiv' hidden>
                   <select id = 'customerList_LName' name = 'customerList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Cust_LName}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Cust_LName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                       {{$Cdetails->Cust_LName}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'Contact_NumDiv' hidden>
                   <select id = 'Contact_NumList_LName' name = 'Contact_NumList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Contact_Num}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Contact_Num}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Contact_Num}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'type_Div' hidden>
                   <select id = 'TypeList' name = 'TypeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Customer_Type}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Customer_Type}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Customer_Type}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'Email_AddDiv' hidden>
                   <select id = 'Email_AddList_LName' name = 'Email_AddList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Email_Address}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Email_Address}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Email_Address}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
                 </div>
 
                 <div id = 'AdressLine_Div' hidden>
                   <select id = 'AdressLineList' name = 'AdressLineList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Address_Line}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Address_Line}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Address_Line}}
                       </option>
                     @endforeach
@@ -128,27 +128,27 @@
 
                   <select id = 'HotelNameList' name = 'HotelNameList' class = 'btn btn-primary btn-md'>
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Hotel_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Hotel_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Hotel_Name}}
                       </option>
                     @endforeach
-                  </select> 
+                  </select>
 
                   <select id = 'ShopNameList' name = 'ShopNameList' class = 'btn btn-primary btn-md'>
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Shop_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Shop_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Shop_Name}}
                       </option>
                     @endforeach
-                  </select> 
+                  </select>
 
                   <select id = 'BrgyList' name = 'BrgyList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
                     @foreach($cust as $Cdetails)
-                      <option value = '{{$Cdetails->Baranggay}}' data-tag ='{{$Cdetails->Cust_ID}}'> 
+                      <option value = '{{$Cdetails->Baranggay}}' data-tag ='{{$Cdetails->Cust_ID}}'>
                        {{$Cdetails->Baranggay}}
                       </option>
                     @endforeach
-                  </select>  
+                  </select>
 
                 <div class = 'col-md-6'>
                   <select class="form-control" name ="ProvField" id ="ProvField" >
@@ -169,11 +169,11 @@
 
 
 
-                <div hidden>  
+                <div hidden>
                   <input id = 'idfield' name = 'idfield' class = 'form-control'>
                 </div>
 
-              <div class = "row">  
+              <div class = "row">
                   <div class="col-sm-4">
                     <div  id = "Fnamedisplaydiv" class="form-group label-floating">
                       <label class="control-label">First Name</label>
@@ -219,7 +219,7 @@
                           <option value ="H" > Hotel </option>
                       </select>
                 </div><!--end of row-->
-              
+
               <div id = "HotelNamedisplaydiv" class = "row" hidden>
                 <div  class="form-group col-md-7">
                       <label class="control-label">Hotel Name</label>
@@ -275,7 +275,7 @@
                     @endforeach
                   </select>
                 </div>
-                
+
               </div><!--end of row-->
 
         </div>
@@ -288,12 +288,12 @@
             </div>
             <div class="btn-group" role="group">
                <button type = "submit" name = "AddBtn" class = "btn btn-success btn-simple"><span class = "glyphicon glyphicon-floppy-save"></span> Save and Proceed</button>
-  
+
             </div>
           </div>
         </div>
           {!! Form::close() !!}
-       <!--Form close here--> 
+       <!--Form close here-->
       </div>
       </div>
     </div>
@@ -301,11 +301,11 @@
 
 
 
-  
-    
+
+
         <div class="col-xs-12">
           <div class="box">
-            
+
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
@@ -319,20 +319,20 @@
 
                 <tbody>
 
-              
+
                     @foreach($orders as $Olist)
-                    <tr>  
+                    <tr>
                         <td> {{$Olist->sales_order_ID}}   </td>
                         <td> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
                         <td> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
                         <td>  {{$Olist->Status}} </td>
-                        <td align="center" > 
-                         
-                        
-                               <a id = "manageBtn" type = "button" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span> 
+                        <td align="center" >
+
+
+                               <a id = "manageBtn" type = "button" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span>
                                 Manage Order
                                </a>
-                                                 
+
 
                                     </div>
                                     </div>
@@ -342,20 +342,20 @@
                       </tr>
                       @endforeach
                 </tbody>
-       
+
               </table>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
 
-          
-        
+
+
         <!-- /.col -->
       </div>
 
 
-    
+
   </div>
 @endsection
 
@@ -368,7 +368,7 @@
           swal("Sorry :( ","this function is currently under development","info")
         });
 
-        var date = new Date();      
+        var date = new Date();
         var currentDate = date.toISOString().slice(0,10);
         var currentTime = date.getHours() + ':' + date.getMinutes();
         var newcust = 'old';
@@ -405,7 +405,7 @@
 
               $('#HotelNamedisplaydiv').slideUp();
               $('#ShopNamedisplaydiv').slideUp();
-                
+
               $("#idfield").val(' ');
               $("#Cust_FNameField").val(' ');
               $("#Cust_MNameField").val(' ');
@@ -435,7 +435,7 @@
 
               swal("take note: ","You may choose from the existing customers in the system","info");
            }
-        }); 
+        });
         //end of functionx
 
       $('#QuickTransCheckBox').click(function(){
@@ -447,16 +447,16 @@
             $('#Trans_typeField').val('process');
             swal("take note: ","You have turned off the quick transaction, you can oreder flowers that are not available right now in the system but other conditions may occur","info");
            }
-        }); 
+        });
         //end of functionx
 
-        
+
         $("#FLowerIDfield").change(function(){
           var element =  $(this);
           var price = $('option:selected').attr( "data-tag" );
           $('#origPriceField').val(price);
         });//end of function
-        
+
 
         $('#customerList_ID').change(function(){
             var selected = $(this).val();
@@ -491,9 +491,9 @@
 
 
             $("#ShopNameList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                OptionShopnameLine = element.val();
@@ -504,9 +504,9 @@
             });//end of function
 
             $("#HotelNameList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                OptionHotelnameLine = element.val();
@@ -517,19 +517,19 @@
             });//end of function
 
             $("#TypeList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
-               OptionTypeLine = element.val(); 
+               OptionTypeLine = element.val();
               }
             });//end of function
 
             $("#custTypeField option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.val() != OptionTypeLine){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                 $("#custTypeField option[value ="+OptionTypeLine+"]").prop('selected',true);
@@ -551,32 +551,32 @@
 
 
             $("#CityField option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
-               OptionCityLine = element.val(); 
+               OptionCityLine = element.val();
                 //element.show();
               }
             });//end of function
 
             $("#ProvField option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
-               OptionProvLine = element.val(); 
+               OptionProvLine = element.val();
                 //element.show();
               }
             });//end of function
 
 
             $("#ProvinceField option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.val() != OptionProvLine){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                 $("#ProvinceField option[value = "+OptionProvLine+"]").prop('selected',true);
@@ -584,9 +584,9 @@
             });//end of function
 
             $("#TownField option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.val() != OptionCityLine ){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                 $("#TownField option[value = "+OptionCityLine+"]").prop('selected',true);
@@ -594,9 +594,9 @@
             });//end of function
 
             $("#TownField2 option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.val() != OptionCityLine ){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                 $("#TownField2 option[value = "+OptionCityLine+"]").prop('selected',true);
@@ -605,45 +605,45 @@
 
 
             $("#BrgyList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionBrgyLine = element.val(); 
+               OptionBrgyLine = element.val();
                 element.show();
               }
             });//end of function
 
             $("#BrgyList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionBrgyLine = element.val(); 
+               OptionBrgyLine = element.val();
                 element.show();
               }
             });//end of function
 
             $("#AdressLineList option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionAddrLine = element.val(); 
+               OptionAddrLine = element.val();
                 element.show();
               }
             });//end of function
-            
+
             $("#customerList_FName option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionFname = element.val(); 
+               OptionFname = element.val();
                 $("#customerList_FName option[data-tag = "+selected+"]").prop('selected',true);
                 //element.show();
               }
@@ -651,62 +651,62 @@
 
 
            $("#customerList_MName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionMname = element.val(); 
+               OptionMname = element.val();
                $("#customerList_MName option[data-tag = "+selected+"]").prop('selected',true);
                // element.show();
               }
-            });//end of function 
+            });//end of function
 
 
 
            $("#customerList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionLname = element.val(); 
+               OptionLname = element.val();
                $("#customerList_LName option[data-tag = "+selected+"]").prop('selected',true);
                 //element.show();
               }
             });//end of function
 
            $("#Contact_NumList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionContactNum = element.val(); 
+               OptionContactNum = element.val();
                 element.show();
               }
             });//end of function
 
            $("#Email_AddList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionEmail = element.val(); 
+               OptionEmail = element.val();
                 element.show();
               }
-            });//end of function 
+            });//end of function
 
-           
+
 
           $("#idfield").val(selected);
           $("#Cust_FNameField").val(OptionFname);
@@ -727,28 +727,28 @@
             $("#TownField").attr('required', true);
                   var selected = $(this).val();
                   $("#TownField option").each(function(item){
-                   // console.log(selected) ;  
-                    var element =  $(this) ; 
-                    console.log(element.data("tag")) ; 
+                   // console.log(selected) ;
+                    var element =  $(this) ;
+                    console.log(element.data("tag")) ;
                     if (element.data("tag") != selected){
-                      element.hide() ; 
+                      element.hide() ;
                     }
                     else{
                       element.show();
                     }
-                  }) ; 
-                  
+                  }) ;
+
                 $("#TownField").val($("#TownField option:visible:first").val());
         });//end of function
 
        $("#TownField").change(function(){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               var CityLine = $("#TownField").val();
 
             $("#TownField2 option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.val() != CityLine ){
-                //element.hide() ; 
+                //element.hide() ;
               }
               else{
                 $("#TownField2 option[value = "+CityLine+"]").prop('selected',true);

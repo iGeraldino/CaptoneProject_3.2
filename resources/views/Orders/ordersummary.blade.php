@@ -143,24 +143,142 @@
 					<div id = "Customer_DetailsDiv">
 						<div class="panel-body">
 							<h5 class="text-center">Customer Details</h5>
-							<div class="togglebutton col-md-6">
+							<div class="togglebutton">
 								<label>
-							    	<input type="checkbox" checked="">
+							    	<input type="checkbox" id = 'OnetimecheckBox' name="OnetimecheckBox">
 									One Time Customer?
 								</label>
 							</div>
 
-							<div class="col-md-4 dropdown" style="margin-left: -5%;">
-								<a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
-							    	Choose Customer
-							    	<b class="caret"></b>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">...</a></li>
-									<li><a href="#">...</a></li>
-									<li><a href="#">...</a></li>
-								</ul>
+							<div hidden>
+							<input id = "Trans_typeField" name = "Trans_typeField" value = 'process' />
+							<input id = "customer_stat" name = "customer_stat" value = 'old' />
+							<input id = "current_Date" name = "current_Date" type = "date" />
+							<input id = "current_Time" name = "current_Time" type = "time" />
+						 </div>
+
+							<div id = "Customer_Chooser">
+								<input class = "form-control"  name="customerList_ID" list="customerList_ID" placeholder="Select Existing Customers"/>
+								<datalist id="customerList_ID">
+									<!--Foreach Loop data Here value = "Name" data-tag = "id"-->
+									@foreach($cust as $Cdetails)
+								    <option value="{{$Cdetails->Cust_FName}} {{$Cdetails->Cust_MName}} {{$Cdetails->Cust_LName}}" data-tag = "{{$Cdetails->Cust_ID}}">
+									@endforeach
+									<!--Loop data Here-->
+								</datalist>
 							</div>
+
+							<div id = 'Customer_FNameDiv' hidden>
+								<select id = 'customerList_FName' name = 'customerList_FName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Cust_FName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										{{$Cdetails->Cust_FName}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'Customer_MNameDiv' hidden>
+								<select id = 'customerList_MName' name = 'customerList_MName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Cust_MName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										{{$Cdetails->Cust_MName}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'Customer_LNameDiv' hidden>
+								<select id = 'customerList_LName' name = 'customerList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Cust_LName}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										{{$Cdetails->Cust_LName}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'Contact_NumDiv' hidden>
+								<select id = 'Contact_NumList_LName' name = 'Contact_NumList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Contact_Num}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Contact_Num}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'type_Div' hidden>
+								<select id = 'TypeList' name = 'TypeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Customer_Type}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Customer_Type}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'Email_AddDiv' hidden>
+								<select id = 'Email_AddList_LName' name = 'Email_AddList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Email_Address}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Email_Address}}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div id = 'AdressLine_Div' hidden>
+								<select id = 'AdressLineList' name = 'AdressLineList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Address_Line}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Address_Line}}
+										</option>
+									@endforeach
+								</select>
+
+								<select id = 'HotelNameList' name = 'HotelNameList' class = 'btn btn-primary btn-md'>
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Hotel_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Hotel_Name}}
+										</option>
+									@endforeach
+								</select>
+
+								<select id = 'ShopNameList' name = 'ShopNameList' class = 'btn btn-primary btn-md'>
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Shop_Name}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Shop_Name}}
+										</option>
+									@endforeach
+								</select>
+
+								<select id = 'BrgyList' name = 'BrgyList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+									@foreach($cust as $Cdetails)
+										<option value = '{{$Cdetails->Baranggay}}' data-tag ='{{$Cdetails->Cust_ID}}'>
+										 {{$Cdetails->Baranggay}}
+										</option>
+									@endforeach
+								</select>
+
+							<div class = 'col-md-6'>
+								<select class="form-control" name ="ProvField" id ="ProvField" >
+									@foreach($cust as $Cdetails)
+										<option value ="{{$Cdetails->Province}}" data-tag = "{{$Cdetails->Cust_ID}}"> {{$Cdetails->Province}} </option>
+									@endforeach
+								</select>
+							</div>
+
+							<div class = 'col-md-6'>
+								<select name="CityField" id="CityField" class="form-control" disabled>
+									@foreach($cust as $Cdetails)
+										<option value ="{{$Cdetails->Town}}" data-tag = "{{$Cdetails->Cust_ID}}"> {{$Cdetails->Town}} </option>
+									@endforeach
+								</select>
+							</div>
+							</div>
+
+
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group label-floating">
@@ -358,8 +476,9 @@
 									<a id = "Ship_Delivery_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
 								</div>
 								</div>
-							</div><!-- end of shipping method div-->
-						</div>
+							</div>
+						</div><!-- end of shipping method div-->
+						<!---start of pickup Payment method div-->
 							<div id = "PickUp_Payment_MethodDiv" hidden>
 									<div class="panel-body">
 										Pickup
@@ -368,7 +487,7 @@
 											<label>
 										    	<div class="radio">
 													<label>
-														<input type="radio" name="optionsRadios" checked="true">
+														<input type="radio" name="optionsRadios" checked="true" id = "PickUpCashRdo">
 														Cash
 													</label>
 												</div>
@@ -378,20 +497,39 @@
 											<label>
 										    	<div class="radio">
 													<label>
-														<input type="radio" name="optionsRadios">
+														<input type="radio" name="optionsRadios" id = "PickUpBankRdo">
 														Bank
 													</label>
 												</div>
 											</label>
 										</div>
-										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3"></textarea>
 									</div>
-									<div class="panel-footer">
-										<a href="" type="button" class="btn btn-sm Love"> Back</a>
-										<a data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+									<div id = "Pickup_cashDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">Cash Pickup</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_PickUpCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_PickUpCashBtn"  data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
+									</div>
+									<div id = "Pickup_BankDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">bank Pickup</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_PickUpBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_PickUpBankBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
+									</div>
+									<div id = "Pickup_PayLaterDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">PayLater Pickup</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_PickUpPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_PickUpPayLaterBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
 									</div>
 							</div>
+							<!---start of Delivery Payment method div-->
 							<div id = "Delivery_Payment_MethodDiv" hidden>
 									<div class="panel-body">
 										delivery
@@ -400,7 +538,7 @@
 											<label>
 										    	<div class="radio">
 													<label>
-														<input type="radio" name="optionsRadios" checked="true">
+														<input type="radio" name="optionsRadios" id = "DeliveryCashRdo">
 														Cash
 													</label>
 												</div>
@@ -410,24 +548,40 @@
 											<label>
 										    	<div class="radio">
 													<label>
-														<input type="radio" name="optionsRadios">
+														<input type="radio" name="optionsRadios" id = "DeliveryBankRdo">
 														Bank
 													</label>
 												</div>
 											</label>
 										</div>
-										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3"></textarea>
 									</div>
-									<div class="panel-footer">
-										<a href="" type="button" class="btn btn-sm Love"> Back</a>
-										<a data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+									<div id = "Delivery_cashDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">Cash Delivery</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_DeliveryCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
+									</div>
+									<div id = "Delivery_bankDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">Bank Delivery</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_DeliveryBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
+									</div>
+									<div id = "Delivery_PayLaterDetails_Div" hidden>
+										<h6><b>Method Details</b></h6>
+										<textarea class="form-control" placeholder="Details" rows="3">PayLater Delivery</textarea>
+										<div class="panel-footer">
+											<a id = "paymentMethod_DeliveryPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#payLatermodal" class="btn btn-sm Lemon"> Process</a>
+										</div>
 									</div>
 							</div>
 						</div><!--Payment Method Div-->
 					</div><!--Customer Detais Div-->
-
-
 				</div>
 			</div>
 		</div>
@@ -460,32 +614,158 @@
   <script>
   $('document').ready(function(){
   	$("#Cust_Det_NextBtn").click(function(){
-				//alert('hello');
-	  		$("#Customer_DetailsDiv").hide("fold");
+	  		$("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
+			//resets the radio buttons
+				$("#PickUp_Rdo").attr('checked',false);
+				$('#Delivery_Rdo').attr('checked',false);
+			//close the open forms incase they are open
+				$('#pickUp_Div').hide("fold");
+				$('#Delivery_Div').hide("fold");
 	  		$("#ShippingMethod_Div").show("fold");
 	  	});
-
+//once that you are at the shipping method there are 2 choices:
+//Pickup--------------------------------------------------------------------------------------------------------------
 		$("#PickUp_Rdo").click(function(){
 			$('#pickUp_Div').show("fold");
 			$('#Delivery_Div').hide("fold");
 		});
 
+		//nextButton of pickup
+		$("#Ship_PickUp_NextBtn").click(function(){
+			$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
+		//close the open forms incase they are open
+			$("#Delivery_cashDetails_Div").hide();
+			$("#Delivery_bankDetails_Div").hide();
+			$("#Delivery_PayLaterDetails_Div").hide();
+			$('#Delivery_Payment_MethodDiv').hide("fold");//hides the delivery payment method incase it's open
+		//close the open forms incase they are open
+			$("#Pickup_cashDetails_Div").hide();
+			$("#Pickup_BankDetails_Div").hide();
+			$("#Pickup_PayLaterDetails_Div").hide();
+			$('#PickUp_Payment_MethodDiv').show("fold");
+		});
+
+		//backButton of pickup
+		$("#Shipping_PickUp_BackBtn").click(function(){
+			$("#ShippingMethod_Div").hide("fold");
+			$("#Customer_DetailsDiv").show("fold");
+		});
+
+	//Pickup Payment Method:-----------------------------------------------------------------------------------------------
+		//PickUp Cash method
+				$("#PickUpCashRdo").click(function(){//Cash Radio Button
+					$("#Pickup_BankDetails_Div").hide("fold");
+					$("#Pickup_PayLaterDetails_Div").hide("fold");
+					$("#Pickup_cashDetails_Div").show("fold");
+				});
+
+				$("#paymentMethod_PickUpCashBackBtn").click(function(){
+					$('#PickUp_Payment_MethodDiv').hide("fold");
+					$("#PickUp_Rdo").attr('checked',false);
+					$('#Delivery_Rdo').attr('checked',false);
+					$('#pickUp_Div').hide("fold");
+					$('#Delivery_Div').hide("fold");
+					$('#ShippingMethod_Div').show("fold");
+				});
+
+		//PickUp bank Method
+				$("#PickUpBankRdo").click(function(){//bank Radio Button
+					$("#Pickup_cashDetails_Div").hide("fold");
+					$("#Pickup_PayLaterDetails_Div").hide("fold");
+					$("#Pickup_BankDetails_Div").show("fold");
+				});
+
+				$("#paymentMethod_PickUpBankBackBtn").click(function(){
+					$('#PickUp_Payment_MethodDiv').hide("fold");
+					$("#PickUp_Rdo").attr('checked',false);
+					$('#Delivery_Rdo').attr('checked',false);
+					$('#pickUp_Div').hide("fold");
+					$('#Delivery_Div').hide("fold");
+					$('#ShippingMethod_Div').show("fold");
+				});
+
+		//PickUp Pay Later Method
+		//PayLater Radio Button
+				$("#paymentMethod_PickUpPayLaterBackBtn").click(function(){
+					$('#PickUp_Payment_MethodDiv').hide("fold");
+					$("#PickUp_Rdo").attr('checked',false);
+					$('#Delivery_Rdo').attr('checked',false);
+					$('#pickUp_Div').hide("fold");
+					$('#Delivery_Div').hide("fold");
+					$('#ShippingMethod_Div').show("fold");
+				});
+
+
+//Delivery---------------------------------------------------------------------------------------------------------------
 		$("#Delivery_Rdo").click(function(){
 			$('#pickUp_Div').hide("fold");
 			$('#Delivery_Div').show("fold");
 		});
-
+		//nextButton of pickup
 		$("#Ship_Delivery_NextBtn").click(function(){
-			$("#ShippingMethod_Div").hide("fold");
-			$('#PickUp_Payment_MethodDiv').hide("fold");
+			$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
+		//close the open forms incase they are open
+			$("#Pickup_cashDetails_Div").hide();
+			$("#Pickup_BankDetails_Div").hide();
+			$("#Pickup_PayLaterDetails_Div").hide();
+			$('#PickUp_Payment_MethodDiv').hide("fold");//hides the pickup payment method incase it's open
+		//close the open forms incase they are open
+			$("#Delivery_cashDetails_Div").hide();
+			$("#Delivery_bankDetails_Div").hide();
+			$("#Delivery_PayLaterDetails_Div").hide();
 			$('#Delivery_Payment_MethodDiv').show("fold");
 		});
 
-		$("#Ship_PickUp_NextBtn").click(function(){
+		//backButton of Delivery
+		$("#Shipping_Delivery_BackBtn").click(function(){
 			$("#ShippingMethod_Div").hide("fold");
-			$('#Delivery_Payment_MethodDiv').hide("fold");
-			$('#PickUp_Payment_MethodDiv').show("fold");
+			$("#Customer_DetailsDiv").show("fold");
 		});
+
+
+			//Delivery Payment Method:-----------------------------------------------------------------------------------------------
+				//Delivery Cash method
+						$("#DeliveryCashRdo").click(function(){//Cash Radio Button
+							$("#Delivery_bankDetails_Div").hide("fold");
+							$("#Delivery_PayLaterDetails_Div").hide("fold");
+							$("#Delivery_cashDetails_Div").show("fold");
+						});
+
+						$("#paymentMethod_DeliveryCashBackBtn").click(function(){
+							$('#Delivery_Payment_MethodDiv').hide("fold");
+							$("#PickUp_Rdo").attr('checked',false);
+							$('#Delivery_Rdo').attr('checked',false);
+							$('#pickUp_Div').hide("fold");
+							$('#Delivery_Div').hide("fold");
+							$('#ShippingMethod_Div').show("fold");
+						});
+
+				//Delivery bank Method
+						$("#DeliveryBankRdo").click(function(){//bank Radio Button
+							$("#Delivery_cashDetails_Div").hide("fold");
+							$("#Delivery_PayLaterDetails_Div").hide("fold");
+							$("#Delivery_bankDetails_Div").show("fold");
+						});
+
+						$("#paymentMethod_DeliveryBankBackBtn").click(function(){
+							$('#Delivery_Payment_MethodDiv').hide("fold");
+							$("#PickUp_Rdo").attr('checked',false);
+							$('#Delivery_Rdo').attr('checked',false);
+							$('#pickUp_Div').hide("fold");
+							$('#Delivery_Div').hide("fold");
+							$('#ShippingMethod_Div').show("fold");
+						});
+
+				//Delivery Pay Later Method
+				//PayLater Radio Button
+						$("#paymentMethod_PickUpPayLaterBackBtn").click(function(){
+							$('#Delivery_Payment_MethodDiv').hide("fold");
+							$("#PickUp_Rdo").attr('checked',false);
+							$('#Delivery_Rdo').attr('checked',false);
+							$('#pickUp_Div').hide("fold");
+							$('#Delivery_Div').hide("fold");
+							$('#ShippingMethod_Div').show("fold");
+						});
 
 
 	});//end of document ready

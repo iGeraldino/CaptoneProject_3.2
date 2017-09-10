@@ -56,6 +56,11 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Long_Sales_Order','longorderController');
 
+
+//checkot of longorder
+	Route::get('/LongorderSummary/',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
+
+
 	Route::resource('Sales_Qoutation','Order_Controller');
 
 	Route::resource('Sales_Order','Specific_Order_Controller');

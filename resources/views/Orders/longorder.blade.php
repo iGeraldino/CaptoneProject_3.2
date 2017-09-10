@@ -269,7 +269,7 @@
                     		</div>
                     		<div class="panel-footer">
 
-                    			<a id = "checkoutBtn" href="/ordersummary" type="button" class="btn Lemon btn-sm"> Checkout </a>
+                    			<a id = "checkoutBtn" href="{{route('LongOrder.OrderSummary')}}" type="button" class="btn Lemon btn-sm"> Checkout </a>
                     			<a href="{{route('Order.ClearCart')}}" type="button" class="btn Love btn-sm"> CLEAR CART</a>
                     			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($final_Amt,2)}}
                     			 </h5>
