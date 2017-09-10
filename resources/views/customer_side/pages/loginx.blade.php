@@ -70,6 +70,10 @@
                   $('#error').slideUp();
                   return false;
                 }
+                else if($('#email').val() == ""){
+                  $('#email').css('background','white') ;
+                  $('#error').slideUp();
+                }
                 else{
                   $('#email').css('background','red') ;
                   $('#error').slideDown();
