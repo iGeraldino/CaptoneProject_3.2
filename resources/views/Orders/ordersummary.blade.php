@@ -582,6 +582,49 @@
 							</div>
 						</div><!--Payment Method Div-->
 					</div><!--Customer Detais Div-->
+
+						<!--MODAL-->
+
+						<!-- Modal Core -->
+						<div class="modal fade" id="cashmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						        <h4 class="modal-title" id="myModalLabel">Order Details</h4>
+						      </div>
+						      <div class="modal-body">
+						        <h6>Customer name:</h6>
+						        <h6>Address</h6>
+						        <h6>Contact No:</h6>
+						        <h6>Email Add:</h6>
+						        <h6>Shipping Method:</h6>
+						        <h6>Payment Method:</h6>
+						        <h6>Total Amount:</h6>
+						        <div class="col-md-6">
+									<h6>Date of Pickup</h6>
+									<input class="datepicker form-control" type="text" value="03/12/2016"/>
+								</div>
+								<div class="col-md-6">
+									<h6>Time of Pickup</h6>
+								</div>
+								<div class="col-md-6 col-md-offset-6">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="optionsCheckboxes">
+											<p><b>Note:</b> that if you check this box,you are sure for this order details</p>
+										</label>
+									</div>
+								</div>
+						      </div>
+						      <div class="modal-footer">
+						      <br> <br> <br> <br> <br> <br> <br> <br>
+						        <a type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</a>
+						        <a href="/finalorder" type="button" class="btn btn-info btn-simple">Process Order</a>
+						      </div>
+						    </div>
+						  </div>
+						</div><!--end of modal-->
 				</div>
 			</div>
 		</div>
