@@ -17,9 +17,9 @@
                           <div hidden>
                             <select id = 'existing_UserNames' name = 'existing_UserNames'>
                               @foreach($usernames as $users)
-                                <option value = {{$users->Cust_ID}} data-tag = "{{$users->userName}}">{{$users->userName}}
+                                <option value = {{$users->id}} data-tag = "{{$users->username}}">{{$users->username}}
                                 </option>
-                                <option value={{$users->Cust_ID}} data-tag ="{{$users->email}}">{{ $users->email }}
+                                <option value={{$users->id}} data-tag ="{{$users->email}}">{{ $users->email }}
                                 </option>
                               @endforeach
                             </select>
@@ -57,89 +57,31 @@
         @endsection
 @section('script')
         <script>
-            $(function(){
-            $('.button-checkbox').each(function(){
-                var $widget = $(this),
-                    $button = $widget.find('button'),
-                    $checkbox = $widget.find('input:checkbox'),
-                    color = $button.data('color'),
-                    settings = {
-                            on: {
-                                icon: 'glyphicon glyphicon-check'
-                            },
-                            off: {
-                                icon: 'glyphicon glyphicon-unchecked'
-                            }
-                    };
 
-                $button.on('click', function () {
-                    $checkbox.prop('checked', !$checkbox.is(':checked'));
-                    $checkbox.triggerHandler('change');
-                    updateDisplay();
-                });
 
-                $checkbox.on('change', function () {
-                    updateDisplay();
-                });
+        $(document).ready(function(){
 
-                function updateDisplay() {
-                    var isChecked = $checkbox.is(':checked');
-                    // Set the button's state
-                    $button.data('state', (isChecked) ? "on" : "off");
-
-                    // Set the button's icon
-                    $button.find('.state-icon')
-                        .removeClass()
-                        .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-                    // Update the button's color
-                    if (isChecked) {
-                        $button
-                            .removeClass('btn-default')
-                            .addClass('btn-' + color + ' active');
-                    }
-                    else
-                    {
-                        $button
-                            .removeClass('btn-' + color + ' active')
-                            .addClass('btn-default');
-                    }
+          $('#email').change(function(){
+            $('#existing_UserNames option').each(function(item){
+              var element =  $(this) ;
+              var datatag = element.data("tag");
+                if (element.data("tag") == $('#email').val()){
+                  $('#email').css('background','white') ;
+                  $('#error').slideUp();
+                  return false;
                 }
-                function init() {
-                    updateDisplay();
-                    // Inject the icon if applicable
-                    if ($button.find('.state-icon').length == 0) {
-                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-                    }
+                else{
+                  $('#email').css('background','red') ;
+                  $('#error').slideDown();
                 }
-                init();
-
-                $(document).ready(function(){
-
-                  $('#email').change(function(){
-                    $('#existing_UserNames option').each(function(item){
-                      var element =  $(this) ;
-                      var datatag = element.data("tag");
-                        if (element.data("tag") == $('#email').val()){
-                          $('#email').css('background','white') ;
-                          $('#error').slideUp();
-                          return false;
-                        }
-                        else{
-                          $('#email').css('background','red') ;
-                          $('#error').slideDown();
-                        }
-                });
-
-                });
-
-
-
-
-              });// Document Function
-
-              });
         });
+
+        });
+
+
+
+
+        });// Document Function
 
         </script>
 

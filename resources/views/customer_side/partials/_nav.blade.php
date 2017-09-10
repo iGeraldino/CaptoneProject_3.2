@@ -15,19 +15,28 @@
                          <li class="active"><a href="/home">Home</a></li>
                          <li><a href="/flowers">Flowers</a></li>
                          <li><a href="/bouquets">Bouquets</a></li>
-                         
+
                     </ul>
 
 
                     <ul class="nav navbar-nav navbar-right" style="padding-left: 20px;">
-                      @if(Auth::check())
-                        <li><a href="{{ route('customer_side.pages.logout') }}">Logout</a></li>
-                        <li><a href="{{ route('addtocart.index')}}"><img src = "images/shopping-cart.png" style="width: 23px; height: 23px"></a></li>
-                      @else
-                        <li><a href="{{ route('customer_side.pages.signin')}}">Sign In</a></li>
-                        <li><a href="{{ route('addtocart.index')}}"><img src = "images/shopping-cart.png" style="width: 23px; height: 23px"></a></li>
-                      @endif
-
+                      <li class="active"><a href="#">Link</a></li>
+                        <li><a href="#">Link</a></li>
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+              <b class="caret"></b>
+            </a>
+                              <ul class="dropdown-menu dropdown-menu-right">
+                                  <li class="dropdown-header">Dropdown header</li>
+                                  <li><a href="#">Action</a></li>
+                                  <li><a href="#">Another action</a></li>
+                                  <li><a href="#">Something else here</a></li>
+                                  <li class="divider"></li>
+                                  <li><a href="#">Separated link</a></li>
+                                  <li class="divider"></li>
+                                  <li><a href="#">One more separated link</a></li>
+                              </ul>
+                          </li>
                     </ul>
 
                     <div class="search">
