@@ -58,6 +58,9 @@ class Ordering_with_TradeAgreement_Controller extends Controller
                 'options' => ['count' => $BqttotalCnt]]);
       }//end of order bqt
 
+
+//ahhhaha
+
       $NewFlowerPrice2 = 0;//updates the price
       $NewTAmt2 = 0;//updates the options->TAmnt
       foreach(Cart::instance('Ordered_Flowers')->content() as $row4){
