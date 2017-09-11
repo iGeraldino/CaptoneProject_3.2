@@ -19,7 +19,7 @@ class create_bouquet extends Controller
 
 //      Cart::instance('tempflowercart')->destroy();xx
       return view('customer_side.pages.create_bouquet')
-      ->with('bouqacc', $bouqacc)
+      ->with('bouqacc', $bouqacc) 
       ->with('bouqflower', $bouqflower);
 
     }
@@ -344,6 +344,12 @@ class create_bouquet extends Controller
       Cart::instance('tempacccart')->destroy();
 
       return redirect('addtocart');
+ 
+    }
+
+    public function defaultBouquetAdd(){
+
+     dd("betlog");
 
     }
 

@@ -287,6 +287,8 @@ Route::get('create_bouquet', 'PagesController@getCreateBouquet');
 
 Route::get('Login', 'PagesController@getLoginPage');
 
+Route::post('AddDefaultBouquet', ['uses' => 'create_bouquet@defaultBouquetAdd', 'as' => 'defaultboq']);
+
 
 
 

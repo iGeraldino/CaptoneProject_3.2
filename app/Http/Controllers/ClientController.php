@@ -99,6 +99,7 @@ class ClientController extends Controller
                   'password' => bcrypt($request -> input('password')),
                   'Cust_ID' => $id,
                   'username' => $request -> input('username'),
+                  'type' => "0",
 
               ]);
 
@@ -144,20 +145,24 @@ class ClientController extends Controller
 
           }*/
 
+        
 
 
-          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+          
+          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 
+            'type' => 0])){
 
               return redirect() -> route('homepages');
 
           }
-          else if(Auth::attempt(['username' => $request->input('email'), 'password' => $request->input('password')])){
+          else if(Auth::attempt(['username' => $request->input('email'), 'password' => $request->input('password'),'type' => 0 ])){
 
               return redirect() -> route('homepages');
           }
           else{
             return redirect() -> back();
           }
+          
 
         }
 
@@ -179,5 +184,7 @@ class ClientController extends Controller
 
         }
 
+
+        
 
 }

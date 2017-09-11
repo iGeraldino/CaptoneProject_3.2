@@ -11,7 +11,9 @@
         "intervention/image": "^2.4",
         "maddhatter/laravel-fullcalendar": "^1.2",
         "uxweb/sweet-alert": "^1.4",
-        "gloudemans/shoppingcart": "^2.3"
+        "gloudemans/shoppingcart": "^2.3",
+        "reportico/laravel-reportico": "~5.2",
+        "barryvdh/laravel-dompdf": "^0.8.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
