@@ -11,6 +11,7 @@
 				<div class="title container" style="margin-top: 5%;">
 					<h3><b>WONDERBLOOM FLOWERSHOP ORDERING</b></h3>
 				</div>
+
 				<div class="panel" style="margin-top: 3%">
 					<div class="panel-heading  Sharp">
 						<div class="panel-title">
@@ -152,10 +153,8 @@
 							</div>
 
 							<div hidden>
-							<input id = "Trans_typeField" name = "Trans_typeField" value = 'process' />
-							<input id = "customer_stat" name = "customer_stat" value = 'old' />
-							<input id = "current_Date" name = "current_Date" type = "date" />
-							<input id = "current_Time" name = "current_Time" type = "time" />
+								<input id = "Trans_typeField" name = "Trans_typeField" value = 'process' />
+								<input id = "customer_stat" name = "customer_stat" value = 'old' />
 						 </div>
 
 							<div id = "Customer_Chooser">
@@ -299,7 +298,7 @@
 								<div class="col-md-4">
 									<div id = "Fnamedisplaydiv" class="form-group label-floating">
 										<label class="control-label">First Name</label>
-										<input type="email" class="form-control" name="Cust_FNameField" id="Cust_FNameField" disabled required>
+										<input type="text" class="form-control" name="Cust_FNameField" id="Cust_FNameField" disabled required>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -311,7 +310,7 @@
 								<div class="col-md-4">
 									<div id = "Lnamedisplaydiv" class="form-group label-floating">
 										<label class="control-label">Last Name</label>
-										<input type="email" class="form-control" name="Cust_LNameField" id="Cust_LNameField" disabled required>
+										<input type="text" class="form-control" name="Cust_LNameField" id="Cust_LNameField" disabled required>
 									</div>
 								</div>
 							</div>
@@ -396,7 +395,7 @@
 	              </div><!--end of row-->
 
 						<div class="pull-right">
-							<button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</button>
+							<button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon" disabled> Next</button>
 						</div>
 						</div>
 					 </div>
@@ -433,10 +432,11 @@
 								<div class = "row">
 									<div class="col-md-6">
 										<h5>Date of Pickup</h5>
-										<input class="form-control" type="date"/>
+										<input id = "PickupDate_Field" class="form-control" type="date" min = "<?php  ?>"/>
 									</div>
 									<div class="col-md-6">
 										<h5>Time of Pickup</h5>
+										<input id = "PickupTime_Field" class="form-control" type="time"/>
 									</div>
 								</div>
 								<div class = "pull-right">
@@ -448,7 +448,7 @@
 								<h6><b>Recipient Information</b></h6>
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" name="optionsCheckboxes">
+											<input type="checkbox" name="optionsCheckboxes" id = "UseCust_detBtn">
 											Use Customer's Details
 										</label>
 									</div>
@@ -456,28 +456,34 @@
 
 									</div>
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-4">
 											<div class="form-group label-floating">
 												<label class="control-label">First Name</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_Fname_Field" type="text" class="form-control">
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-4">
+											<div class="form-group label-floating">
+												<label class="control-label">Middle Name</label>
+												<input id = "Dlvry_Mname_Field" type="text" class="form-control">
+											</div>
+										</div>
+										<div class="col-md-4">
 											<div class="form-group label-floating">
 												<label class="control-label">Last Name</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_Lname_Field" type="text" class="form-control">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
 												<label class="control-label">Contact No</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_ContactNum_Field" type="text" class="form-control">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
 												<label class="control-label">Email Address</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_Email_Field" type="email" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -486,46 +492,40 @@
 										<div class="col-md-6">
 											<div class="form-group label-floating">
 												<label class="control-label">Address Line</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_AdrsLine_Field" type="text" class="form-control">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group label-floating">
 												<label class="control-label">Baranggay</label>
-												<input type="email" class="form-control">
+												<input id = "Dlvry_Brgy_Field" type="text" class="form-control">
 											</div>
 										</div>
-										<div class="col-md-6">
-											<a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
-									    	Province
-									    	<b class="caret"></b>
-											</a>
-											<ul class="dropdown-menu">
-												<li><a href="#">...</a></li>
-												<li><a href="#">...</a></li>
-												<li><a href="#">...</a></li>
-											</ul>
-										</div>
-										<div class="col-md-6">
-											<a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
-									    	City
-									    	<b class="caret"></b>
-											</a>
-											<ul class="dropdown-menu">
-												<li><a href="#">...</a></li>
-												<li><a href="#">...</a></li>
-												<li><a href="#">...</a></li>
-											</ul>
-										</div>
+										<div class = 'col-md-6'>
+		                  <select class="form-control" name ="Del_ProvinceField" id ="Del_ProvinceField">
+												@foreach($provinces as $prov)
+		                      <option value ="{{$prov->id}}" data-tag = "{{$prov->name}}"> {{$prov->name}} </option>
+		                    @endforeach
+		                  </select>
+		                </div>
+
+		                <div class = 'col-md-6'>
+		                  <select name="Del_TownField" id="Del_TownField" class="form-control" disabled>
+		                    @foreach($cities as $city)
+		                      <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
+		                    @endforeach
+		                  </select>
+		                </div>
 									</div>
 									<h6><b>Delivery Date</b></h6>
 									<div class="row">
 										<div class="col-md-6">
 											<h5>Date of Pickup</h5>
-											<input class="datepicker form-control" type="text" value="03/12/2016"/>
+											<input id = "DeliveryDate_Field" class="datepicker form-control" type="date" />
 										</div>
 										<div class="col-md-6">
 											<h5>Time of Pickup</h5>
+											<input id = "DeliveryTime_Field" class = "form-control" type="time"/>
 										</div>
 									</div>
 								<div class = "pull-right">
@@ -713,6 +713,25 @@
 
   <script>
   $('document').ready(function(){
+
+			$("#UseCust_detBtn").click(function(){
+				if($("#UseCust_detBtn").is(":checked")){
+					//alert('I was Checked');
+					var Fname = $("#Cust_FNameField").val();
+					var Mname = $("#Cust_MNameField").val();
+					var Lname = $("#Cust_LNameField").val();
+					var ContactNum = $("#ContactNum_Field").val();
+					var Email = $("#email_Field").val();
+					var Fname = $('#HotelNamedisplaydiv').val();
+					$('#ShopNamedisplaydiv').val();
+					$("#custTypeField").val();
+				}
+				else
+				{
+					//alert('I was Unchecked');
+				}
+			});
+
       $('#ProvinceField').change(function(){
         $("#TownField").removeAttr("disabled");
         $("#TownField").attr('required', true);
@@ -759,6 +778,9 @@
 		$('#ShopNamedisplaydiv').attr('disabled',true);
 		$("#custTypeField").attr('disabled',true);
 
+		var TradeApplication_URL = "{{ url('Order.Apply_CustTradeAgreement') }}";
+		var CurrentPrice_URL = "{{ url('Order.Remove_CustTradeAgreement') }}";
+
 		$('#customerList_Field').change(function(){
 				var CustID = $("#customerList_Field").val();
 				var HaveTrade = 0;
@@ -775,7 +797,37 @@
 				  }
 				});
 
+				if(HaveTrade == 1){
+					//pag may trade agreement do this
+					$.ajax({
+							method: 'GET',
+							url: typeof(TradeApplication_URL) != 'undefined' ? TradeApplication_URL : '',
+							contentType: "application/json",
+							success: function(){
+									alert('May Agreements');
+							},
+							error: function(xhr, desc, err){
+									console.log('There is an error:'+ err);
+							}
+					});
+				}
+				else if(HaveTrade != 1){
+					$.ajax({
+							method: 'GET',
+							url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
+							contentType: "application/json",
+							success: function(){
+									alert('Walang Agreements');
+							},
+							error: function(xhr, desc, err){
+									console.log('There is an error:'+ err);
+							}
+					});
+				}
+
 				if(Found == 1){
+						$('#Cust_Det_NextBtn').attr("disabled",false);
+
 				    //alert('found');
 				    $("#Cust_Det_NextBtn").attr("disabled",false);
 				    var selected = $(this).val();
@@ -1046,9 +1098,19 @@
 
 
 		$('#OnetimecheckBox').click(function(){
-
 			if($('#OnetimecheckBox').is(':checked') == true){
-
+				$('#Cust_Det_NextBtn').attr("disabled",false);
+				$.ajax({
+						method: 'GET',
+						url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
+						contentType: "application/json",
+						success: function(){
+								alert('Walang Agreements');
+						},
+						error: function(xhr, desc, err){
+								console.log('There is an error:'+ err);
+						}
+				});
 					swal("take note: ","You will now be required to Enter information about a new customer","warning");
 				$('#Customer_Chooser').slideUp(300);
 				newcust = 'new';
@@ -1067,22 +1129,27 @@
 					$('#HotelNamedisplaydiv').slideUp();
 					$('#ShopNamedisplaydiv').slideUp();
 
-					$("#idfield").val(' ');
-					$("#Cust_FNameField").val(' ');
-					$("#Cust_MNameField").val(' ');
-					$("#Cust_LNameField").val(' ');
-					$("#ContactNum_Field").val(' ');
-					$("#email_Field").val(' ');
-					$("#Addrs_LineField").val(' ');
+					$("#idfield").val(null);
+					$("#Cust_FNameField").val(null);
+					$("#Cust_MNameField").val(null);
+					$("#Cust_LNameField").val(null);
+					$("#ContactNum_Field").val(null);
+					$("#email_Field").val(null);
+					$("#Addrs_LineField").val(null);
 					$("#brgyField").val(' ');
 
 					$("#Cust_FNameField").attr('required',true);
 					$("#Cust_LNameField").attr('required',true);
 					$("#ContactNum_Field").attr('required',true);
 					$("#email_Field").attr('required',true);
+					$("#ContactNum_Field").attr('required',true);
+					$("#Addrs_LineField").attr('required',true);
+					$("#brgyField").attr('required',true);
+
 			 }
 			 else{
 				 $('#Customer_Chooser').slideDown(300);
+				 $('#Cust_Det_NextBtn').attr("disabled",true);
 					newcust = 'old';
 					$('#customer_stat').val(newcust);
 					$("#Cust_FNameField").attr('disabled',true);

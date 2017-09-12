@@ -132,6 +132,11 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::get('Validate_Contact', 'Validator_Controller@Contact_Existence');
 
+	Route::get('Order.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement');
+	Route::get('Order.Remove_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation');
+
+//Route::get('/removeDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation', 'as'=>'Order.Remove_CustTradeAgreement']);//for the view of adding flowers to order from the supplier
+	//Route::get('/AddDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement', 'as'=>'Order.Apply_CustTradeAgreement']);//for the view of adding flowers to order from the supplier
 
 //Route::get('/emailcheck/',['uses' => 'Validator_Controller@CheckEmail_Existence', 'as'=>'Validate_Email']);//for the view of adding flowers to order from the supplier
 //end of validator
@@ -287,13 +292,6 @@ Route::get('create_bouquet', 'PagesController@getCreateBouquet');
 
 Route::get('Login', 'PagesController@getLoginPage');
 
-Route::post('AddDefaultBouquet', ['uses' => 'create_bouquet@defaultBouquetAdd', 'as' => 'defaultboq']);
-
-Route::get('editaccount', 'PagesController@getEditAccount');
-
-Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp');
-
-Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery');
 
 
 

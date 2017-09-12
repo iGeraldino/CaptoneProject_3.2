@@ -33,6 +33,8 @@ class OrderManagementController extends Controller
     ->with('CustTradeAgreements',$CustWith_TradeAgreement)
     ->with('cust',$customers)
     ->with('city',$cities)
+    ->with('cities',$cities)
+    ->with('provinces',$province)
     ->with('city2',$cities)
     ->with('province',$province);
 
