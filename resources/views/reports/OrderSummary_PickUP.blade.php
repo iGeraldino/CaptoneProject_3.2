@@ -1,33 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title> Finalized Order Summary </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{asset('_CSS/index2.css') }}">
-    <link rel="stylesheet" href="{{asset('font-awesome-4.7.0/css/font-awesome.css') }}">
-    <link rel="stylesheet" href="{{asset('admin/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{asset('css/parsley.css')}}">
-    <link rel="stylesheet" href="{{asset('css/sweetalert.css')}}">
-    <link rel="stylesheet" href="{{asset ('fonts/assets.css')}}">
-    <link rel="stylesheet" href="{{asset ('admin/plugins/datepicker/datepicker3.css')}}">
-    <link rel="stylesheet" href="{{asset ('admin/plugins/daterangepicker/daterangepicker.css')}}">
-    <link rel="stylesheet" href="{{asset ('admin/plugins/timepicker/bootstrap-timepicker.min.css')}}">
-    <link rel="stylesheet" href="{{asset ('sweetalert-master/dist/sweetalert.css')}}">
-  </head>
-  <body>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-                  <div id = "pickupSummaryDiv">
+@extends('reports_design')
+@section('title', 'Order Summary(Pickup)')
+@section('css')
+    <link href="_CSS/index2.css" rel="stylesheet">
+@endsection
+@section('content')
+  <div>
+    <div id = "pickupSummaryDiv" style="margin-top: 50px;">
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="panel panel-info">
+                        <div class="panel panel-default">
                           <div class="panel-heading">
-                            <h3 class="panel-title">Order Summary (Pickup)</h3> 
-                            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            <h3 class="panel-title">Order Summary (Pickup)</h3>
                           </div>
                           <div class="panel-body">
                             <div class="col-md-4 ">
@@ -48,7 +31,7 @@
                             <br>
                             <div class="col-md-3 ">
                               <div class="form-group">
-                                            <input type="Number" name="contact" id="contact" class="form-control input-lg" value ="number ng nagorder">
+                                            <input type="number" name="contact" id="contact" class="form-control input-lg" placeholder ="number ng nagorder">
                                         </div> 
                             </div>
                             <div class="col-md-4 ">
@@ -183,5 +166,8 @@
                       </div>
                     </div>
                     </div>
-  </body>
-</html>
+
+  </div>
+
+
+@endsection

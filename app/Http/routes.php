@@ -289,6 +289,11 @@ Route::get('Login', 'PagesController@getLoginPage');
 
 Route::post('AddDefaultBouquet', ['uses' => 'create_bouquet@defaultBouquetAdd', 'as' => 'defaultboq']);
 
+Route::get('editaccount', 'PagesController@getEditAccount');
+
+Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp');
+
+Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery');
 
 
 
