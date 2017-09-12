@@ -218,4 +218,16 @@ class PagesController extends Controller
 	public function getFinalOrder() {
 			return view('orders/finalorder');
 		}
+
+	public function getEditAccount() {
+			return view('customer_side/pages/editaccount');
+		}
+
+	public function getOrderSummaryPickUp() {
+			return view('reports/OrderSummary_PickUP');
+		}
+
+	public function getOrderSummaryDelivery() {
+			return view('reports/OrderSummary_Delivery');
+		}
 }

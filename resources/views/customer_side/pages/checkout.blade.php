@@ -57,7 +57,7 @@
 		                        <div class="row">
                         @if(Auth::check() == 1)
 
-                          <button type="button" class="btn btn-primary next-step">Save and continue</button>
+                          <button type="button" class="btn btn-primary next-step" style="margin-left: 500px;">Save and continue</button>
 
                         @else
 
@@ -1212,15 +1212,19 @@
 
 				        var $active = $('.wizard .nav-tabs li.active');
 				        $active.next().removeClass('disabled');
+				       
+
 				        nextTab($active);
 
 				    });
 				    $(".prev-step").click(function (e) {
 
 				        var $active = $('.wizard .nav-tabs li.active');
+						
 				        prevTab($active);
 
 				    });
+
 
 
 				});

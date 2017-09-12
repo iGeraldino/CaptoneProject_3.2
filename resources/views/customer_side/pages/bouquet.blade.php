@@ -10,14 +10,6 @@
         <div class = "container-fluid" style="margin-top: 80px">
             <div class="col-md-2">
                 <div class=" panel panel-default">
-                    <div class="panel-heading librePanelHeading">
-                        <div class="panel-title">
-                            <b class="pull-right libreMenuIcon"></b>
-                            <a data-toggle="collapse" href="#menuPanelListGroup">
-                                <span>CATEGORIES</span>
-                            </a>
-                        </div>
-                    </div>
                     <ul class="list-group collapse in" id="menuPanelListGroup">
                         <li class="list-group-item colorx librePanelListGroupItem">
                             <a data-toggle="collapse" href="#menuPanelSubListGroup">
@@ -99,7 +91,7 @@
                                     <span class="label label-danger"> {{ $bouq-> count_ofFlowers }} pcs</span>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success" href="/cart">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
+                                    <a class="btn btn-sm btn-success" href="">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
                                 </div>
                             </div>
                         </div>

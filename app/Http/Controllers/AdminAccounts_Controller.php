@@ -107,7 +107,7 @@ class AdminAccounts_Controller extends Controller
                     $acct->email = trim($AdminRec->email_address);
                     $acct->password = trim(bcrypt($request->passField));
                     $acct->username = trim($request->username);
-                    $acct->type = '0';//this means that this is an admin account
+                    $acct->type = '1';//this means that this is an admin account
                     $acct->Admin_ID = $AdminRec->Admin_Id;
                     
                     $acct->save();
@@ -201,12 +201,12 @@ class AdminAccounts_Controller extends Controller
           }
     */
 
-          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'type' => 0])){
+          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'type' => 1])){
 
             return redirect() -> route('dashboard');
 
           }
-          else if(Auth::attempt(['username' => $request->input('email'), 'password' => $request->input('password'), 'type' => 0])){
+          else if(Auth::attempt(['username' => $request->input('email'), 'password' => $request->input('password'), 'type' => 1])){
 
             return redirect() -> route('dashboard');
 

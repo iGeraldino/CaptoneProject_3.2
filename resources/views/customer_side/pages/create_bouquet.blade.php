@@ -10,7 +10,7 @@
 			<div class="col-md-8">
 				<h3>Create Your Own Bouquet</h3>
 
-				<div class="tabbable-panel">
+				<div class="tabbable-panel" >
 					<div class="tabbable-line">
 						<ul class="nav nav-tabs ">
 							<li class="active">
@@ -30,6 +30,7 @@
 
 							<div class="row">
 
+
               @foreach($bouqflower as $bouq)
                 <div class=" col-sm-3" style="margin-top: 10px;">
 									<div class="thumbnail">
@@ -43,7 +44,7 @@
                                 </div>
 			                          <div class="col-md-6">
 			                                <div class="">
-			                                    <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#flowermodal{{ $bouq-> flower_ID }}">
+			                                    <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#flowermodal{{ $bouq-> flower_ID }}" style="width: 70px;">
                                           <span class="glyphicon glyphicon-ok"></span> Select</a>
 
 			                                </div>
@@ -226,7 +227,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4" style="margin-top: 40px">
+			<div class="col-md-4" style="margin-top: 40px;" class="box box-solid">
         <div class = "row">
           <div class = "col-md-6">
             <h3 class="fonts">Bouquet Summary</h3>
