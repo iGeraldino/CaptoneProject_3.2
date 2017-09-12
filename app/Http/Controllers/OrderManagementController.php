@@ -135,7 +135,9 @@ class OrderManagementController extends Controller
 					Session::put('Deleted_AcessoryfromBQT_Order', 'Successful');
 				}
 			}
-	        return redirect()->route('Order.CustomizeaBouquet');
+      return redirect()-> route('Long_Sales_Order.index');
+
+	     //   return redirect()->route('Order.CustomizeaBouquet');
 			//returns to the creation of bouquet*/
     	//}
 	}//end of function

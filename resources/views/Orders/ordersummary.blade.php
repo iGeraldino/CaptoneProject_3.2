@@ -429,22 +429,25 @@
 								</div>
 							</div>
 							<div id = "pickUp_Div" hidden>
+								<!--form here-->
 								<div class = "row">
 									<div class="col-md-6">
 										<h5>Date of Pickup</h5>
-										<input id = "PickupDate_Field" class="form-control" type="date" min = "<?php  ?>"/>
+										<input id = "PickupDate_Field" class="form-control" type="date" min = "<?php  ?>" required/>
 									</div>
 									<div class="col-md-6">
 										<h5>Time of Pickup</h5>
-										<input id = "PickupTime_Field" class="form-control" type="time"/>
+										<input id = "PickupTime_Field" class="form-control" type="time" required/>
 									</div>
 								</div>
 								<div class = "pull-right">
 									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
 									<a id = "Ship_PickUp_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
 								</div>
+								<!--end form here-->
 							</div>
 							<div id = "Delivery_Div" hidden>
+								<!--form here-->
 								<h6><b>Recipient Information</b></h6>
 									<div class="checkbox">
 										<label>
@@ -457,52 +460,54 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_Fname_Div" class="form-group label-floating">
 												<label class="control-label">First Name</label>
-												<input id = "Dlvry_Fname_Field" type="text" class="form-control">
+												<input id = "Dlvry_Fname_Field" type="text" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-md-4">
-											<div class="form-group label-floating">
+											<div  id = "Dlvry_Mname_Div" class="form-group label-floating">
 												<label class="control-label">Middle Name</label>
-												<input id = "Dlvry_Mname_Field" type="text" class="form-control">
+												<input id = "Dlvry_Mname_Field" type="text" class="form-control" >
 											</div>
 										</div>
 										<div class="col-md-4">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_Lname_Div" class="form-group label-floating">
 												<label class="control-label">Last Name</label>
-												<input id = "Dlvry_Lname_Field" type="text" class="form-control">
+												<input id = "Dlvry_Lname_Field" type="text" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_Contact_Div" class="form-group label-floating">
 												<label class="control-label">Contact No</label>
-												<input id = "Dlvry_ContactNum_Field" type="text" class="form-control">
+												<input id = "Dlvry_ContactNum_Field" type="text" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_Email_Div" class="form-group label-floating">
 												<label class="control-label">Email Address</label>
-												<input id = "Dlvry_Email_Field" type="email" class="form-control">
+												<input id = "Dlvry_Email_Field" type="email" class="form-control" required>
 											</div>
 										</div>
 									</div>
 									<h6><b>Delivery Details</b></h6>
 									<div class="row">
 										<div class="col-md-6">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_AdrsLine_Div" class="form-group label-floating">
 												<label class="control-label">Address Line</label>
-												<input id = "Dlvry_AdrsLine_Field" type="text" class="form-control">
+												<input id = "Dlvry_AdrsLine_Field" type="text" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group label-floating">
+											<div id = "Dlvry_Brgy_Div"  class="form-group label-floating">
 												<label class="control-label">Baranggay</label>
-												<input id = "Dlvry_Brgy_Field" type="text" class="form-control">
+												<input id = "Dlvry_Brgy_Field" type="text" class="form-control" required>
 											</div>
 										</div>
+									</div>
+									<div class = "row">
 										<div class = 'col-md-6'>
-		                  <select class="form-control" name ="Del_ProvinceField" id ="Del_ProvinceField">
+		                  <select class="form-control" name ="Del_ProvinceField" id ="Del_ProvinceField" required>
 												@foreach($provinces as $prov)
 		                      <option value ="{{$prov->id}}" data-tag = "{{$prov->name}}"> {{$prov->name}} </option>
 		                    @endforeach
@@ -510,29 +515,31 @@
 		                </div>
 
 		                <div class = 'col-md-6'>
-		                  <select name="Del_TownField" id="Del_TownField" class="form-control" disabled>
+		                  <select  name="Del_TownField" id="Del_TownField" class="form-control" disabled required>
 		                    @foreach($cities as $city)
 		                      <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
 		                    @endforeach
 		                  </select>
 		                </div>
 									</div>
-									<h6><b>Delivery Date</b></h6>
-									<div class="row">
-										<div class="col-md-6">
-											<h5>Date of Pickup</h5>
-											<input id = "DeliveryDate_Field" class="datepicker form-control" type="date" />
+									<div class = "row">
+										<h6><b>Delivery Date</b></h6>
+										<div class="row">
+											<div class="col-md-6">
+												<h5>Date of Pickup</h5>
+												<input id = "DeliveryDate_Field" class="datepicker form-control" type="date" required/>
+											</div>
+											<div class="col-md-6">
+												<h5>Time of Pickup</h5>
+												<input id = "DeliveryTime_Field" class = "form-control" type="time" required/>
+											</div>
 										</div>
-										<div class="col-md-6">
-											<h5>Time of Pickup</h5>
-											<input id = "DeliveryTime_Field" class = "form-control" type="time"/>
+										<div class = "pull-right">
+											<a id = "Shipping_Delivery_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
+											<a id = "Ship_Delivery_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</a><!--upon submission prevent default-->
 										</div>
 									</div>
-								<div class = "pull-right">
-									<a id = "Shipping_Delivery_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
-									<a id = "Ship_Delivery_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
-								</div>
-								</div>
+								</div><!---->
 							</div>
 						</div><!-- end of shipping method div-->
 						<!---start of pickup Payment method div-->
@@ -717,18 +724,68 @@
 			$("#UseCust_detBtn").click(function(){
 				if($("#UseCust_detBtn").is(":checked")){
 					//alert('I was Checked');
+					//customer_stat this is the id of the field that determines whether the customer is new or old
 					var Fname = $("#Cust_FNameField").val();
 					var Mname = $("#Cust_MNameField").val();
 					var Lname = $("#Cust_LNameField").val();
 					var ContactNum = $("#ContactNum_Field").val();
 					var Email = $("#email_Field").val();
-					var Fname = $('#HotelNamedisplaydiv').val();
-					$('#ShopNamedisplaydiv').val();
-					$("#custTypeField").val();
+					var Cust_Type = $("#custTypeField").val();
+					var Adrs_Line = $('#Addrs_LineField').val();
+					var brgy = $('#brgyField').val();
+					var Prov = $('#ProvinceField').val();
+					var Town = $('#TownField').val();
+
+					$("#Dlvry_Fname_Field").val(Fname);
+					$("#Dlvry_Mname_Field").val(Mname);
+					$("#Dlvry_Lname_Field").val(Lname);
+					$("#Dlvry_ContactNum_Field").val(ContactNum);
+					$("#Dlvry_Email_Field").val(Email);
+					$("#Dlvry_AdrsLine_Field").val(Email);
+					$("#Dlvry_Brgy_Field").val(brgy);
+					$("#Del_ProvinceField option[value =" + Prov + "]").prop('selected',true);
+					$("#Del_TownField option[value =" + Town + "]").prop('selected',true);
+
+					$('#Dlvry_Fname_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Fname_Div').addClass("form-group");
+					$('#Dlvry_Mname_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Mname_Div').addClass("form-group");
+					$('#Dlvry_Lname_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Lname_Div').addClass("form-group");
+					$('#Dlvry_Contact_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Contact_Div').addClass("form-group");
+					$('#Dlvry_Email_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Email_Div').addClass("form-group");
+					$('#Dlvry_AdrsLine_Div').removeClass("form-group label-floating");
+					$('#Dlvry_AdrsLine_Div').addClass("form-group");
+					$('#Dlvry_Brgy_Div').removeClass("form-group label-floating");
+					$('#Dlvry_Brgy_Div').addClass("form-group");
+
 				}
 				else
 				{
-					//alert('I was Unchecked');
+					$("#Dlvry_Fname_Field").val(null);
+					$("#Dlvry_Mname_Field").val(null);
+					$("#Dlvry_Lname_Field").val(null);
+					$("#Dlvry_ContactNum_Field").val(null);
+					$("#Dlvry_Email_Field").val(null);
+					$("#Dlvry_AdrsLine_Field").val(null);
+					$("#Dlvry_Brgy_Field").val(null);
+
+					$('#Dlvry_Fname_Div').removeClass("form-group");
+					$('#Dlvry_Fname_Div').addClass("form-group label-floating");
+					$('#Dlvry_Mname_Div').removeClass("form-group");
+					$('#Dlvry_Mname_Div').addClass("form-group label-floating");
+					$('#Dlvry_Lname_Div').removeClass("form-group");
+					$('#Dlvry_Lname_Div').addClass("form-group label-floating");
+					$('#Dlvry_Contact_Div').removeClass("form-group");
+					$('#Dlvry_Contact_Div').addClass("form-group label-floating");
+					$('#Dlvry_Email_Div').removeClass("form-group");
+					$('#Dlvry_Email_Div').addClass("form-group label-floating");
+					$('#Dlvry_AdrsLine_Div').removeClass("form-group");
+					$('#Dlvry_AdrsLine_Div').addClass("form-group label-floating");
+					$('#Dlvry_Brgy_Div').removeClass("form-group");
+					$('#Dlvry_Brgy_Div').addClass("form-group label-floating");
 				}
 			});
 
@@ -1091,6 +1148,31 @@
 				  $("#shopNameField").val(OptionShopnameLine);
 				}
 				else{
+					//this is for outputing the values of fields so that the labels ae not overlapping to the values
+						$('#Fnamedisplaydiv').removeClass("form-group");
+						$('#Fnamedisplaydiv').addClass("form-group label-floating");
+						$('#Mnamedisplaydiv').removeClass("form-group");
+						$('#Mnamedisplaydiv').addClass("form-group label-floating");
+						$('#Lnamedisplaydiv').removeClass("form-group");
+						$('#Lnamedisplaydiv').addClass("form-group label-floating");
+						$('#AdrLinedisplaydiv').removeClass("form-group");
+						$('#AdrLinedisplaydiv').addClass("form-group label-floating");
+						$('#Brgydisplaydiv').removeClass("form-group");
+						$('#Brgydisplaydiv').addClass("form-group label-floating");
+						$('#Contactdisplaydiv').removeClass("form-group");
+						$('#Contactdisplaydiv').addClass("form-group label-floating");
+						$('#emailDisplayDiv').removeClass("form-group");
+						$('#emailDisplayDiv').addClass("form-group label-floating");
+
+						$("#idfield").val(null);
+						$("#Cust_FNameField").val(null);
+						$("#Cust_MNameField").val(null);
+						$("#Cust_LNameField").val(null);
+						$("#ContactNum_Field").val(null);
+						$("#email_Field").val(null);
+						$("#Addrs_LineField").val(null);
+						$("#brgyField").val(null);
+
 				  swal('Sorry!','The Customer Id or Customer Name that you entered does not exist','warning')
 				  $("#Cust_Det_NextBtn").attr("disabled",true);
 				}
@@ -1136,7 +1218,7 @@
 					$("#ContactNum_Field").val(null);
 					$("#email_Field").val(null);
 					$("#Addrs_LineField").val(null);
-					$("#brgyField").val(' ');
+					$("#brgyField").val(null);
 
 					$("#Cust_FNameField").attr('required',true);
 					$("#Cust_LNameField").attr('required',true);
@@ -1145,6 +1227,21 @@
 					$("#ContactNum_Field").attr('required',true);
 					$("#Addrs_LineField").attr('required',true);
 					$("#brgyField").attr('required',true);
+
+					$('#Fnamedisplaydiv').removeClass("form-group");
+					$('#Fnamedisplaydiv').addClass("form-group label-floating");
+					$('#Mnamedisplaydiv').removeClass("form-group");
+					$('#Mnamedisplaydiv').addClass("form-group label-floating");
+					$('#Lnamedisplaydiv').removeClass("form-group");
+					$('#Lnamedisplaydiv').addClass("form-group label-floating");
+					$('#AdrLinedisplaydiv').removeClass("form-group");
+					$('#AdrLinedisplaydiv').addClass("form-group label-floating");
+					$('#Brgydisplaydiv').removeClass("form-group");
+					$('#Brgydisplaydiv').addClass("form-group label-floating");
+					$('#Contactdisplaydiv').removeClass("form-group");
+					$('#Contactdisplaydiv').addClass("form-group label-floating");
+					$('#emailDisplayDiv').removeClass("form-group");
+					$('#emailDisplayDiv').addClass("form-group label-floating");
 
 			 }
 			 else{
