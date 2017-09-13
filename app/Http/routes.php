@@ -314,6 +314,9 @@ Route::get('cashier_inventory_transaction', 'PagesController@getCashierInventory
 
 Route::get('cashier_flower_price_list', 'PagesController@getCashierFlowerPriceList');
 
+Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp'); 
+ 
+Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery'); 
 
 
 
