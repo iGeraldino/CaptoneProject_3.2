@@ -230,4 +230,47 @@ class PagesController extends Controller
 	public function getOrderSummaryDelivery() {
 			return view('reports/OrderSummary_Delivery');
 		}
+
+	public function getCashierPage() {
+			return view('cashier/pages/cashierpage');
+		}
+
+	public function getCashierDashboard() {
+			return view('cashier/pages/cashier_dashboard');
+		}
+
+	public function getCashierSalesOrder() {
+			return view('cashier/pages/cashier_sales_order');
+		}
+
+	public function getCashierQuickOrder() {
+			return view('cashier/pages/cashier_quick_order');
+		}
+
+	public function getCashierLongOrder() {
+			return view('cashier/pages/cashier_long_order');
+		}
+
+	public function getCashierCustomerList() {
+			return view('cashier/pages/cashier_customer_list');
+		}
+
+	public function getCashierCustomerTradeAgreement() {
+			return view('cashier/pages/cashier_customer_trade_agreement');
+		}
+
+	public function getCashierFlowerList() {
+			return view('cashier/pages/cashier_flower_list');
+		}
+
+	public function getCashierInventoryTransaction() {
+			return view('cashier/pages/cashier_inventory_transaction');
+		}
+
+	public function getCashierFlowerPriceList() {
+			return view('cashier/pages/cashier_flower_price_list');
+		}
 }
+
+
+

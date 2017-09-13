@@ -294,6 +294,26 @@ Route::get('Login', 'PagesController@getLoginPage');
 
 
 
+Route::get('cashier', 'PagesController@getCashierPage');
+
+Route::get('cashier_dashboard', 'PagesController@getCashierDashboard');
+
+Route::get('cashier_sales_order', 'PagesController@getCashierSalesOrder');
+
+Route::get('cashier_quick_order', 'PagesController@getCashierQuickOrder');
+
+Route::get('cashier_long_order', 'PagesController@getCashierLongOrder');
+
+Route::get('cashier_customer_list', 'PagesController@getCashierCustomerList');
+
+Route::get('cashier_customer_trade_agreement', 'PagesController@getCashierCustomerTradeAgreement');
+
+Route::get('cashier_flower_list', 'PagesController@getCashierFlowerList');
+
+Route::get('cashier_inventory_transaction', 'PagesController@getCashierInventoryTransaction');
+
+Route::get('cashier_flower_price_list', 'PagesController@getCashierFlowerPriceList');
+
 
 
 
