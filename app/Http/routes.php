@@ -318,6 +318,10 @@ Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp');
  
 Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery'); 
 
+Route::get('OrderSummaryPickUpDesign', 'PagesController@getOrderSummaryPickUpDesign'); 
+ 
+Route::get('OrderSummaryDeliveryDesign', 'PagesController@getOrderSummaryDeliveryDesign'); 
+
 
 
 

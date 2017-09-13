@@ -270,6 +270,14 @@ class PagesController extends Controller
 	public function getCashierFlowerPriceList() {
 			return view('cashier/pages/cashier_flower_price_list');
 		}
+
+	public function getOrderSummaryPickUpDesign() {
+			return view('reports/OrderSummary_PickUP_Design');
+		}
+
+	public function getOrderSummaryDeliveryDesign() {
+			return view('reports/OrderSummary_Delivery_Design');
+		}
 }
 
 
