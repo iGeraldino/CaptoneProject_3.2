@@ -278,6 +278,31 @@ class PagesController extends Controller
 	public function getOrderSummaryDeliveryDesign() {
 			return view('reports/OrderSummary_Delivery_Design');
 		}
+
+	public function getInventoryDashboard() {
+			return view('inventory_side/pages/inventory_dashboard');
+		}
+
+	public function getInventorySalesOrder() {
+			return view('inventory_side/pages/inventory_sales_order');
+		}
+
+	public function getInventoryFlowerList() {
+			return view('inventory_side/pages/inventory_flower_list');
+		}
+
+	public function getInventorySideTransaction() {
+			return view('inventory_side/pages/inventory_side_transaction');
+		}
+
+	public function getInventorySchedule() {
+			return view('inventory_side/pages/inventory_schedule');
+		}
+
+	public function getInventoryFlowerPriceList() {
+			return view('inventory_side/pages/inventory_flower_price_list');
+		}
+
 }
 
 

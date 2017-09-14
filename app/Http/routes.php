@@ -322,6 +322,19 @@ Route::get('OrderSummaryPickUpDesign', 'PagesController@getOrderSummaryPickUpDes
  
 Route::get('OrderSummaryDeliveryDesign', 'PagesController@getOrderSummaryDeliveryDesign'); 
 
+Route::get('inventory_dashboard', 'PagesController@getInventoryDashboard');
+
+Route::get('inventory_sales_order', 'PagesController@getInventorySalesOrder');
+
+Route::get('inventory_flower_list', 'PagesController@getInventoryFlowerList');
+
+Route::get('inventory_side_transaction', 'PagesController@getInventorySideTransaction');
+
+Route::get('inventory_side_schedule', 'PagesController@getInventorySchedule');
+
+Route::get('inventory_flower_price_list', 'PagesController@getInventoryFlowerPriceList');
+
+
 
 
 
