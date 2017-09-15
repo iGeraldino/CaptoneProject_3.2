@@ -13,7 +13,8 @@ use Image;
 use Session;
 use Auth;
 
-class accesscontroller extends Controller
+class accesscontroller extends Controller{
+
 
     /**
      * Display a listing of the resource.
@@ -69,7 +70,7 @@ class accesscontroller extends Controller
         else{
             $this->validate($request, array(
 
-                    'accname' => 'required|max:50',                   
+                    'accname' => 'required|max:50',
                     'price' => 'required',
                    // 'accimg' => 'image|max:8388'
                 ));
@@ -85,7 +86,7 @@ class accesscontroller extends Controller
 
 
             if($request -> hasFile('accimg')){
-            
+
                 $image = $request -> file('accimg');
                 $filename = time(). '.' . $image -> getClientOriginalExtension();
                 $location = public_path('accimage/' . $filename);
@@ -98,7 +99,7 @@ class accesscontroller extends Controller
 
             //makes a new record at accessories table
             $accInventory = new AcessoriesInventory;
-            //gets the id of the newly made record in the accessories table 
+            //gets the id of the newly made record in the accessories table
             $accInventory->accesories_ID = $acc->Accesories_ID;
             $accInventory->qty = 0;
 

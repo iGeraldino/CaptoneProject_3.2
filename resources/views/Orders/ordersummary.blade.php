@@ -142,7 +142,7 @@
               			</div>
 					</div>
 					<div id = "Customer_DetailsDiv">
-						<form id = "Customer_details_Form" name = "Customer_details_Form">
+						<form id = "Customer_details_Form" name = "Customer_details_Form" method = "POST">
 						<div class="panel-body">
 							<h5 class="text-center">Customer Details</h5>
 							<div class="togglebutton">
@@ -399,7 +399,7 @@
 						</div>
 						</div>
 					 </div>
-				 </form>
+				  </form>
 					</div><!--Customer Detais Div-->
 
 					<!-- start of Shipping method div-->
@@ -430,10 +430,11 @@
 							</div>
 							<div id = "pickUp_Div" hidden>
 								<!--form here-->
+								<form id = "PickupOrder_details_Form" name = "PickupOrder_details_Form" method = "POST">
 								<div class = "row">
 									<div class="col-md-6">
 										<h5>Date of Pickup</h5>
-										<input id = "PickupDate_Field" class="form-control" type="date" min = "<?php  ?>" required/>
+										<input id = "PickupDate_Field" class="form-control" type="date" required/>
 									</div>
 									<div class="col-md-6">
 										<h5>Time of Pickup</h5>
@@ -442,12 +443,14 @@
 								</div>
 								<div class = "pull-right">
 									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
-									<a id = "Ship_PickUp_NextBtn" type="button" class="btn btn-sm Lemon"> Next</a>
+									<button id = "Ship_PickUp_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</button>
 								</div>
+							</form>
 								<!--end form here-->
 							</div>
 							<div id = "Delivery_Div" hidden>
 								<!--form here-->
+								<form id = "DeliveryOrder_details_Form" name = "DeliveryOrder_details_Form" method = "POST">
 								<h6><b>Recipient Information</b></h6>
 									<div class="checkbox">
 										<label>
@@ -455,10 +458,11 @@
 											Use Customer's Details
 										</label>
 									</div>
-									<div id = "existing_Cust_Div">
 
-									</div>
 									<div class="row">
+										<div class = "hidden">
+											<input id = 'Descision_Field' name= 'Descision_Field' value = 'no'>
+										</div>
 										<div class="col-md-4">
 											<div id = "Dlvry_Fname_Div" class="form-group label-floating">
 												<label class="control-label">First Name</label>
@@ -521,24 +525,40 @@
 		                    @endforeach
 		                  </select>
 		                </div>
+
+										<div class = 'col-md-6' hidden>
+											<select  name="Del_TownField_2" id="Del_TownField_2" class="form-control" disabled required>
+												@foreach($cities2 as $city2)
+													<option value ="{{$city2->id}}" data-tag = "{{$city2->name}}"> {{$city2->name}} </option>
+												@endforeach
+											</select>
+										</div>
 									</div>
 									<div class = "row">
 										<h6><b>Delivery Date</b></h6>
 										<div class="row">
 											<div class="col-md-6">
-												<h5>Date of Pickup</h5>
-												<input id = "DeliveryDate_Field" class="datepicker form-control" type="date" required/>
+												<h5>Date of Delivery</h5>
+												<input id = "DeliveryDate_Field" class="form-control" type="date"
+													value = "<?php
+														$min = new DateTime();
+														$min->modify("+2 days");
+														$max = new DateTime();
+														echo $min->format("Y-m-d");
+														?>" required/>
 											</div>
+
 											<div class="col-md-6">
-												<h5>Time of Pickup</h5>
+												<h5>Time of Delivery</h5>
 												<input id = "DeliveryTime_Field" class = "form-control" type="time" required/>
 											</div>
 										</div>
 										<div class = "pull-right">
 											<a id = "Shipping_Delivery_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "Ship_Delivery_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</a><!--upon submission prevent default-->
+											<button id = "Ship_Delivery_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</button><!--upon submission prevent default-->
 										</div>
 									</div>
+								</form>
 								</div><!---->
 							</div>
 						</div><!-- end of shipping method div-->
@@ -568,12 +588,13 @@
 											</label>
 										</div>
 									</div>
+
 									<div id = "Pickup_cashDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">Cash Pickup</textarea>
 										<div class="panel-footer">
+										<textarea class="form-control" placeholder="Details" rows="3">Cash Pickup</textarea>
 											<a id = "paymentMethod_PickUpCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_PickUpCashBtn"  data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_PickUpCashBtn"  data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 									<div id = "Pickup_BankDetails_Div" hidden>
@@ -581,7 +602,7 @@
 										<textarea class="form-control" placeholder="Details" rows="3">bank Pickup</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_PickUpBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_PickUpBankBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_PickUpBankBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 									<div id = "Pickup_PayLaterDetails_Div" hidden>
@@ -589,7 +610,7 @@
 										<textarea class="form-control" placeholder="Details" rows="3">PayLater Pickup</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_PickUpPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_PickUpPayLaterBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_PickUpPayLaterBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 							</div>
@@ -624,7 +645,7 @@
 										<textarea class="form-control" placeholder="Details" rows="3">Cash Delivery</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 									<div id = "Delivery_bankDetails_Div" hidden>
@@ -632,7 +653,7 @@
 										<textarea class="form-control" placeholder="Details" rows="3">Bank Delivery</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#cashmodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_DeliveryBankBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 									<div id = "Delivery_PayLaterDetails_Div" hidden>
@@ -640,7 +661,7 @@
 										<textarea class="form-control" placeholder="Details" rows="3">PayLater Delivery</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
-											<a id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#payLatermodal" class="btn btn-sm Lemon"> Process</a>
+											<button id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#payLatermodal" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 							</div>
@@ -650,41 +671,164 @@
 						<!--MODAL-->
 
 						<!-- Modal Core -->
-						<div class="modal fade" id="cashmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="PROCESS_MODAL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						        <h4 class="modal-title" id="myModalLabel">Order Details</h4>
+						        <h4 class="modal-title" id="myModalLabel"><b>Order Details</b></h4>
 						      </div>
-						      <div class="modal-body">
-						        <h6>Customer name:</h6>
-						        <h6>Address</h6>
-						        <h6>Contact No:</h6>
-						        <h6>Email Add:</h6>
-						        <h6>Shipping Method:</h6>
-						        <h6>Payment Method:</h6>
-						        <h6>Total Amount:</h6>
-						        <div class="col-md-6">
-									<h6>Date of Pickup</h6>
-									<input class="datepicker form-control" type="text" value="03/12/2016"/>
-								</div>
-								<div class="col-md-6">
-									<h6>Time of Pickup</h6>
-								</div>
-								<div class="col-md-6 col-md-offset-6">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" name="optionsCheckboxes">
-											<p><b>Note:</b> that if you check this box,you are sure for this order details</p>
-										</label>
+									<div hidden>
+										<div class = 'col-md-6'>
+		                  <select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
+		                    @foreach($provinces2 as $prov2)
+		                      <option value ="{{$prov2->id}}" data-tag = "{{$prov2->name}}"> {{$prov2->name}} </option>
+		                    @endforeach
+		                  </select>
+		                </div>
+
+		                <div class = 'col-md-6'>
+		                  <select name="TownField_Search" id="TownField_Search" class="form-control" disabled>
+		                    @foreach($cities2 as $cities2)
+		                      <option value ="{{$cities2->id}}" data-tag = "{{$cities2->name}}"> {{$cities2->name}} </option>
+		                    @endforeach
+		                  </select>
+		                </div>
 									</div>
-								</div>
+						      <div class="modal-body">
+										<div>
+											<!--for sales order table's attributes-->
+											<input id = "FinalCustomer_ID" name = "FinalCustomer_ID" type = "text"/>
+											<input id = "customerType" name = "customerType" type = "text"/>
+											<input id = "customerStat" name = "customerStat" type = "text"/>
+											<input id = "OrderedCustFname" name = "OrderedCustFname" type = "text"/>
+											<input id = "OrderedCustMname" name = "OrderedCustMname" type = "text"/>
+											<input id = "OrderedCustLname" name = "OrderedCustLname" type = "text"/>
+											<input id = "OrderedCust_ContactNum" name = "OrderedCust_ContactNum" type = "text"/>
+											<input id = "OrderedCust_email" name = "OrderedCust_email" type = "text"/>
+											<!--for order details table's attriubutes if the order is delivery-->
+											<input id = "recipientID" name = "recipientID" type = "text"/>
+											<input id = "recipientFname" name = "recipientFname" type = "text"/>
+											<input id = "recipientMname" name = "recipientMname" type = "text"/>
+											<input id = "recipientLname" name = "recipientLname" type = "text"/>
+											<input id = "recipient_ContactNum" name = "recipient_ContactNum" type = "text"/>
+											<input id = "recipient_email" name = "recipient_email" type = "text"/>
+											<input id = "Adrs_Line" name = "Adrs_Line" type = "text"/>
+											<input id = "Brgy_Line" name = "Brgy_Line" type = "text"/>
+											<input id = "prove_Line" name = "prove_Line" type = "text"/>
+											<input id = "city_Line" name = "city_Line" type = "text"/>
+											<input id = "shipping_methodline" name = "shipping_methodline" type = "text"/>
+											<input id = "Payment_methodline" name = "Payment_methodline" type = "text"/>
+											<!--for order details table's attriubutes if the order is either delivery or pickup-->
+											<input id = "Del_DateLine" name = "Del_DateLine" type = "text"/>
+											<input id = "Del_timeLine" name = "Del_timeLine" type = "text"/>
+										</div>
+
+										<div class = "row">
+											<div id = "nameLabel_Div" class = "col-md-6">
+												<h6><b>Customer name:</b></h6>
+											</div>
+										</div>
+										<div class = "row">
+											<div id = "AddressLabel_Div" class = "col-md-6">
+												<h6><b>Address:</b></h6>
+											</div>
+										</div>
+										<div class = "row">
+											<div id = "ContactLabel_Div" class = "col-md-6">
+												<h6><b>Contact No:</b></h6>
+											</div>
+										</div>
+										<div class = "row">
+											<div id = "emailLabel_Div" class = "col-md-6">
+												<h6><b>Email Add:</b></h6>
+											</div>
+										</div>
+										<div class = "row">
+											<div id = "ShippingLabel_Div" class = "col-md-6">
+												<h6><b>Shipping Method:</b></h6>
+											</div>
+										</div>
+										<div class = "row">
+											<div id = "PaymentLabel_Div" class = "col-md-6">
+												<h6><b>Payment Method:</b></h6>
+											</div>
+										</div>
+										<div hidden id = "pickup_Modal_BodyDiv">
+											<h4 class = "text-center"><b>Pickup Details</b><h4>
+											<div class = "row">
+												<div id = "pickup_dateDiv" class="col-md-6">
+													<h6><b>Date of Pickup:</b></h6>
+												</div>
+											</div>
+											<div class = "row">
+												<div id = "pickup_timeDiv" class="col-md-6">
+													<h6><b>Time of Pickup:</b></h6>
+												</div>
+											</div>
+										</div><!---->
+
+										<div hidden id = "delivery_Modal_BodyDiv">
+									<!--start of contact info-->
+									<h4 class = "text-center"><b>Delivery Details</b><h4>
+											<div class = "row">
+												<div id = "Recipient_nameLabel_Div" class = "col-md-6">
+													<h6><b>Recipient name:</b></h6>
+												</div>
+											</div>
+												<div class = "row">
+													<div id = "Recipient_ContactLabel_Div" class = "col-md-6">
+														<h6><b>Contact No:</b></h6>
+													</div>
+												</div>
+												<div class = "row">
+													<div id = "Recipient_emailLabel_Div" class = "col-md-6">
+														<h6><b>Email Add:</b></h6>
+													</div>
+												</div>
+									<!--end of contact info-->
+											<div class = "row">
+												<div id = "DelAddressLabel_Div" class = "col-md-6">
+													<h6><b>Delivery Address</b></h6>
+												</div>
+											</div>
+
+									<!--Delivery date-->
+												<div class = "row">
+													<div id = "DelDateLabel_Div" class = "col-md-6">
+														<h6><b>Date of delivery:</b></h6>
+													</div>
+												</div>
+												<div class = "row">
+													<div id = "DelTimeLabel_Div" class = "col-md-6">
+														<h6><b>Time of Delivery:</b></h6>
+													</div>
+												</div>
+									<!--end for delivery date-->
+										</div>
+										<div class = "row">
+						        	<div id = "total_Amt_Div" class = "col-md-6">
+												<h6><b>Total Amount:</b></h6>
+											</div>
+											<div id = "total_Amt_value" class = "col-md-6">
+												<h7 style = "color:red"> Php {{number_format($final_Amt,2)}}</h7>
+											</div>
+										</div>
+
+										<div class="col-md-6 col-md-offset-6">
+											<div class="checkbox">
+												<label style = "color:red;">
+													<input type="checkbox" name="importantCheckBox" id = "importantCheckBox"  >
+													<p><b>Note:</b> if you check this box,you are sure for this order details</p>
+												</label>
+											</div>
+										</div>
 						      </div>
 						      <div class="modal-footer">
 						      <br> <br> <br> <br> <br> <br> <br> <br>
 						        <a type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</a>
-						        <a href="/finalorder" type="button" class="btn btn-info btn-simple">Process Order</a>
+										<!--href="/finalorder"-->
+									  <button id = "orderSubmit_Btn" name = "orderSubmit_Btn" type="submit" class="btn btn-info btn-simple" disabled>Process Order</button>
 						      </div>
 						    </div>
 						  </div>
@@ -721,10 +865,608 @@
   <script>
   $('document').ready(function(){
 
+			if($('#importantCheckBox').is(":checked")){
+				$('#orderSubmit_Btn').attr("disabled",false);
+			}
+
+			$('#importantCheckBox').click(function(){
+				if($('#importantCheckBox').is(":checked")){
+					$('#orderSubmit_Btn').attr("disabled",false);
+				}
+				else{
+					$('#orderSubmit_Btn').attr('disabled','disabled');
+				}
+			});
+
+		$('#process_PickUpCashBtn').click(function(){
+			$('#orderSubmit_Btn').attr('disabled','disabled');
+			$('#importantCheckBox').attr('checked',false);
+			var ordered_CustStat = $('#customer_stat').val();
+			var ordered_Fname = $('#Cust_FNameField').val();
+			var ordered_Mname = $('#Cust_MNameField').val();
+			var ordered_Lname = $('#Cust_LNameField').val();
+			var ordered_Contact = $('#ContactNum_Field').val();
+			var ordered_Email = $('#email_Field').val();
+			var ordered_AdrsLine = $('#Addrs_LineField').val();
+			var ordered_brgy = $('#brgyField').val();
+			var ordered_prov = $('#ProvinceField').val();
+			var ordered_town = $('#TownField').val();
+			//---------------------------------
+			var Recpnt_Fname = $('#Dlvry_Fname_Field').val();
+			var Recpnt_Mname = $('#Dlvry_Mname_Field').val();
+			var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
+			var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
+			var Recpnt_Email = $('#Dlvry_Email_Field').val();
+			var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+			var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
+			var Recpnt_Prov = $('#Del_ProvinceField').val();
+			var Recpnt_Town = $('#Del_TownField').val();
+			//---------------------------------
+			$('#customerStat').val(ordered_CustStat);
+			if($('#Descision_Field').val() == 'yes'){
+				if($('#customerStat').val() == 'old'){
+					//
+					var customer_ID = $('#FinalCustomer_ID').val();
+					$('#recipientID').val(customer_ID);
+				}else{
+					var nothing = 'n/a';
+					$('#recipientID').val(nothing);
+				}
+			}else if ($('#Descision_Field').val() == 'no'){
+				var nothing = 'n/a';
+				$('#recipientID').val(nothing);
+			}
+
+			$('#OrderedCustFname').val(ordered_Fname);
+			$('#OrderedCustMname').val(ordered_Mname);
+			$('#OrderedCustLname').val(ordered_Lname);
+			$('#OrderedCust_ContactNum').val(ordered_Contact);
+			$('#OrderedCust_email').val(ordered_Email);
+
+			//-----------------------------------
+			$('#recipientFname').val(Recpnt_Fname);
+			$('#recipientMname').val(Recpnt_Mname);
+			$('#recipientLname').val(Recpnt_Lname);
+			$('#recipient_ContactNum').val(Recpnt_Contact);
+			$('#recipient_email').val(Recpnt_Email);
+			$('#Adrs_Line').val(Recpnt_AdrsLine);
+			$('#Brgy_Line').val(Recpnt_Brgy);
+			$('#prove_Line').val(Recpnt_Prov);
+			$('#city_Line').val(Recpnt_Town);
+
+
+			var provname = "";
+			var cityname = "";
+			var provID = $('#prove_Line').val();
+			var cityID = $('#city_Line').val();
+			var shipMethod = $('#shipping_methodline').val();
+			var payMethod = $('#Payment_methodline').val();
+
+			$("#ProvinceField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != provID){
+					//element.hide() ;
+				}
+				else{
+					provname = element.data("tag");
+				}
+			});//end of function
+
+			$("#TownField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != cityID ){
+					//element.hide() ;
+				}
+				else{
+					cityname = element.data("tag");
+				}
+			});//end of function
+
+			var datetoget = $('#Del_DateLine').val();
+			var timetoget = $('#Del_timeLine').val();
+
+			$('#nameValue_Div').remove();
+			$('#AddressValue_Div').remove();
+			$('#ContactValue_Div').remove();
+			$('#emailValue_Div').remove();
+			$('#ShippingValue_Div').remove();
+			$('#PaymentValue_Div').remove();
+			$('#pickup_dateValue_Div').remove();
+			$('#pickup_timeValue_Div').remove();
+			$('#Recipient_nameValue_Div').remove();
+			$('#Recipient_ContactValue_Div').remove();
+			$('#Recipient_emailValue_Div').remove();
+			$('#DelAddressValue_Div').remove();
+			$('#DelDateValue_Div').remove();
+			$('#DelTimeValue_Div').remove();
+
+			$("#nameLabel_Div").after('<div id = "nameValue_Div" class = "col-md-6">'+ordered_Fname+' '+ordered_Mname+', '+ordered_Lname+'</div>');
+			$("#AddressLabel_Div").after('<div id = "AddressValue_Div" class = "col-md-6">'+ordered_AdrsLine+', '+ordered_brgy+', '+cityname+', '+provname+'</div>');
+			$("#ContactLabel_Div").after('<div id = "ContactValue_Div" class = "col-md-6">'+ordered_Contact+'</div>');
+			$("#emailLabel_Div").after('<div id = "emailValue_Div" class = "col-md-6">'+ordered_Email+'</div>');
+			$("#ShippingLabel_Div").after('<div id = "ShippingValue_Div" class = "col-md-6">'+shipMethod+'</div>');
+			$("#PaymentLabel_Div").after('<div id = "PaymentValue_Div" class = "col-md-6">'+payMethod+'</div>');
+			$("#pickup_dateDiv").after('<div id = "pickup_dateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+			$("#pickup_timeDiv").after('<div id = "pickup_timeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+
+			$("#Recipient_nameLabel_Div").after('<div id = "Recipient_nameValue_Div" class = "col-md-6">'+Recpnt_Fname+' '+Recpnt_Mname+', '+Recpnt_Lname+'</div>');
+			$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
+			$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
+
+			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+			$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+			$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+		});
+
+		$('#process_PickUpBankBtn').click(function(){
+			$('#orderSubmit_Btn').attr('disabled','disabled');
+			$('#importantCheckBox').attr('checked',false);
+			var ordered_CustStat = $('#customer_stat').val();
+			var ordered_Fname = $('#Cust_FNameField').val();
+			var ordered_Mname = $('#Cust_MNameField').val();
+			var ordered_Lname = $('#Cust_LNameField').val();
+			var ordered_Contact = $('#ContactNum_Field').val();
+			var ordered_Email = $('#email_Field').val();
+			var ordered_AdrsLine = $('#Addrs_LineField').val();
+			var ordered_brgy = $('#brgyField').val();
+			var ordered_prov = $('#ProvinceField').val();
+			var ordered_town = $('#TownField').val();
+			//---------------------------------
+			var Recpnt_Fname = $('#Dlvry_Fname_Field').val();
+			var Recpnt_Mname = $('#Dlvry_Mname_Field').val();
+			var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
+			var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
+			var Recpnt_Email = $('#Dlvry_Email_Field').val();
+			var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+			var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
+			var Recpnt_Prov = $('#Del_ProvinceField').val();
+			var Recpnt_Town = $('#Del_TownField').val();
+			//---------------------------------
+			$('#customerStat').val(ordered_CustStat);
+			if($('#Descision_Field').val() == 'yes'){
+				if($('#customerStat').val() == 'old'){
+					//
+					var customer_ID = $('#FinalCustomer_ID').val();
+					$('#recipientID').val(customer_ID);
+				}else{
+					var nothing = 'n/a';
+					$('#recipientID').val(nothing);
+				}
+			}else if ($('#Descision_Field').val() == 'no'){
+				var nothing = 'n/a';
+				$('#recipientID').val(nothing);
+			}
+
+			$('#OrderedCustFname').val(ordered_Fname);
+			$('#OrderedCustMname').val(ordered_Mname);
+			$('#OrderedCustLname').val(ordered_Lname);
+			$('#OrderedCust_ContactNum').val(ordered_Contact);
+			$('#OrderedCust_email').val(ordered_Email);
+
+			//-----------------------------------
+			$('#recipientFname').val(Recpnt_Fname);
+			$('#recipientMname').val(Recpnt_Mname);
+			$('#recipientLname').val(Recpnt_Lname);
+			$('#recipient_ContactNum').val(Recpnt_Contact);
+			$('#recipient_email').val(Recpnt_Email);
+			$('#Adrs_Line').val(Recpnt_AdrsLine);
+			$('#Brgy_Line').val(Recpnt_Brgy);
+			$('#prove_Line').val(Recpnt_Prov);
+			$('#city_Line').val(Recpnt_Town);
+
+
+			var provname = "";
+			var cityname = "";
+			var provID = $('#prove_Line').val();
+			var cityID = $('#city_Line').val();
+			var shipMethod = $('#shipping_methodline').val();
+			var payMethod = $('#Payment_methodline').val();
+
+			$("#ProvinceField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != provID){
+					//element.hide() ;
+				}
+				else{
+					provname = element.data("tag");
+				}
+			});//end of function
+
+			$("#TownField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != cityID ){
+					//element.hide() ;
+				}
+				else{
+					cityname = element.data("tag");
+				}
+			});//end of function
+
+			var datetoget = $('#Del_DateLine').val();
+			var timetoget = $('#Del_timeLine').val();
+
+			$('#nameValue_Div').remove();
+			$('#AddressValue_Div').remove();
+			$('#ContactValue_Div').remove();
+			$('#emailValue_Div').remove();
+			$('#ShippingValue_Div').remove();
+			$('#PaymentValue_Div').remove();
+			$('#pickup_dateValue_Div').remove();
+			$('#pickup_timeValue_Div').remove();
+			$('#Recipient_nameValue_Div').remove();
+			$('#Recipient_ContactValue_Div').remove();
+			$('#Recipient_emailValue_Div').remove();
+			$('#DelAddressValue_Div').remove();
+			$('#DelDateValue_Div').remove();
+			$('#DelTimeValue_Div').remove();
+
+			$("#nameLabel_Div").after('<div id = "nameValue_Div" class = "col-md-6">'+ordered_Fname+' '+ordered_Mname+', '+ordered_Lname+'</div>');
+			$("#AddressLabel_Div").after('<div id = "AddressValue_Div" class = "col-md-6">'+ordered_AdrsLine+', '+ordered_brgy+', '+cityname+', '+provname+'</div>');
+			$("#ContactLabel_Div").after('<div id = "ContactValue_Div" class = "col-md-6">'+ordered_Contact+'</div>');
+			$("#emailLabel_Div").after('<div id = "emailValue_Div" class = "col-md-6">'+ordered_Email+'</div>');
+			$("#ShippingLabel_Div").after('<div id = "ShippingValue_Div" class = "col-md-6">'+shipMethod+'</div>');
+			$("#PaymentLabel_Div").after('<div id = "PaymentValue_Div" class = "col-md-6">'+payMethod+'</div>');
+			$("#pickup_dateDiv").after('<div id = "pickup_dateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+			$("#pickup_timeDiv").after('<div id = "pickup_timeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+
+			$("#Recipient_nameLabel_Div").after('<div id = "Recipient_nameValue_Div" class = "col-md-6">'+Recpnt_Fname+' '+Recpnt_Mname+', '+Recpnt_Lname+'</div>');
+			$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
+			$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
+
+			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+			$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+			$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+		});
+
+//
+			$('#process_DeliveryBankBtn').click(function(){
+				$('#orderSubmit_Btn').attr('disabled','disabled');
+				$('#importantCheckBox').attr('checked',false);
+				var ordered_CustStat = $('#customer_stat').val();
+				var ordered_Fname = $('#Cust_FNameField').val();
+				var ordered_Mname = $('#Cust_MNameField').val();
+				var ordered_Lname = $('#Cust_LNameField').val();
+				var ordered_Contact = $('#ContactNum_Field').val();
+				var ordered_Email = $('#email_Field').val();
+				var ordered_AdrsLine = $('#Addrs_LineField').val();
+				var ordered_brgy = $('#brgyField').val();
+				var ordered_prov = $('#ProvinceField').val();
+				var ordered_town = $('#TownField').val();
+				//---------------------------------
+				var Recpnt_Fname = $('#Dlvry_Fname_Field').val();
+				var Recpnt_Mname = $('#Dlvry_Mname_Field').val();
+				var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
+				var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
+				var Recpnt_Email = $('#Dlvry_Email_Field').val();
+				var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+				var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
+				var Recpnt_Prov = $('#Del_ProvinceField').val();
+				var Recpnt_Town = $('#Del_TownField').val();
+				//---------------------------------
+				$('#customerStat').val(ordered_CustStat);
+				if($('#Descision_Field').val() == 'yes'){
+					if($('#customerStat').val() == 'old'){
+						//
+						var customer_ID = $('#FinalCustomer_ID').val();
+						$('#recipientID').val(customer_ID);
+					}else{
+						var nothing = 'n/a';
+						$('#recipientID').val(nothing);
+					}
+				}else if ($('#Descision_Field').val() == 'no'){
+					var nothing = 'n/a';
+					$('#recipientID').val(nothing);
+				}
+
+				$('#OrderedCustFname').val(ordered_Fname);
+				$('#OrderedCustMname').val(ordered_Mname);
+				$('#OrderedCustLname').val(ordered_Lname);
+				$('#OrderedCust_ContactNum').val(ordered_Contact);
+				$('#OrderedCust_email').val(ordered_Email);
+
+				//-----------------------------------
+				$('#recipientFname').val(Recpnt_Fname);
+				$('#recipientMname').val(Recpnt_Mname);
+				$('#recipientLname').val(Recpnt_Lname);
+				$('#recipient_ContactNum').val(Recpnt_Contact);
+				$('#recipient_email').val(Recpnt_Email);
+				$('#Adrs_Line').val(Recpnt_AdrsLine);
+				$('#Brgy_Line').val(Recpnt_Brgy);
+				$('#prove_Line').val(Recpnt_Prov);
+				$('#city_Line').val(Recpnt_Town);
+
+
+				var provname = "";
+				var cityname = "";
+				var provID = $('#prove_Line').val();
+				var cityID = $('#city_Line').val();
+				var shipMethod = $('#shipping_methodline').val();
+				var payMethod = $('#Payment_methodline').val();
+
+				$("#ProvinceField_Search option").each(function(item){
+					var element =  $(this) ;
+					if (element.val() != provID){
+						//element.hide() ;
+					}
+					else{
+						provname = element.data("tag");
+					}
+				});//end of function
+
+				$("#TownField_Search option").each(function(item){
+					var element =  $(this) ;
+					if (element.val() != cityID ){
+						//element.hide() ;
+					}
+					else{
+						cityname = element.data("tag");
+					}
+				});//end of function
+
+				var datetoget = $('#Del_DateLine').val();
+				var timetoget = $('#Del_timeLine').val();
+
+				$('#nameValue_Div').remove();
+				$('#AddressValue_Div').remove();
+				$('#ContactValue_Div').remove();
+				$('#emailValue_Div').remove();
+				$('#ShippingValue_Div').remove();
+				$('#PaymentValue_Div').remove();
+				$('#pickup_dateValue_Div').remove();
+				$('#pickup_timeValue_Div').remove();
+				$('#Recipient_nameValue_Div').remove();
+				$('#Recipient_ContactValue_Div').remove();
+				$('#Recipient_emailValue_Div').remove();
+				$('#DelAddressValue_Div').remove();
+				$('#DelDateValue_Div').remove();
+				$('#DelTimeValue_Div').remove();
+
+				$("#nameLabel_Div").after('<div id = "nameValue_Div" class = "col-md-6">'+ordered_Fname+' '+ordered_Mname+', '+ordered_Lname+'</div>');
+				$("#AddressLabel_Div").after('<div id = "AddressValue_Div" class = "col-md-6">'+ordered_AdrsLine+', '+ordered_brgy+', '+cityname+', '+provname+'</div>');
+				$("#ContactLabel_Div").after('<div id = "ContactValue_Div" class = "col-md-6">'+ordered_Contact+'</div>');
+				$("#emailLabel_Div").after('<div id = "emailValue_Div" class = "col-md-6">'+ordered_Email+'</div>');
+				$("#ShippingLabel_Div").after('<div id = "ShippingValue_Div" class = "col-md-6">'+shipMethod+'</div>');
+				$("#PaymentLabel_Div").after('<div id = "PaymentValue_Div" class = "col-md-6">'+payMethod+'</div>');
+				$("#pickup_dateDiv").after('<div id = "pickup_dateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+				$("#pickup_timeDiv").after('<div id = "pickup_timeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+
+				$("#Recipient_nameLabel_Div").after('<div id = "Recipient_nameValue_Div" class = "col-md-6">'+Recpnt_Fname+' '+Recpnt_Mname+', '+Recpnt_Lname+'</div>');
+				$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
+				$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
+
+				$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+				$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+				$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+			});
+
+
+				$('#process_DeliveryCashBtn').click(function(){
+					$('#orderSubmit_Btn').attr('disabled','disabled');
+					$('#importantCheckBox').attr('checked',false);
+					var ordered_CustStat = $('#customer_stat').val();
+					var ordered_Fname = $('#Cust_FNameField').val();
+					var ordered_Mname = $('#Cust_MNameField').val();
+					var ordered_Lname = $('#Cust_LNameField').val();
+					var ordered_Contact = $('#ContactNum_Field').val();
+					var ordered_Email = $('#email_Field').val();
+					var ordered_AdrsLine = $('#Addrs_LineField').val();
+					var ordered_brgy = $('#brgyField').val();
+					var ordered_prov = $('#ProvinceField').val();
+					var ordered_town = $('#TownField').val();
+					//---------------------------------
+					var Recpnt_Fname = $('#Dlvry_Fname_Field').val();
+					var Recpnt_Mname = $('#Dlvry_Mname_Field').val();
+					var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
+					var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
+					var Recpnt_Email = $('#Dlvry_Email_Field').val();
+					var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+					var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
+					var Recpnt_Prov = $('#Del_ProvinceField').val();
+					var Recpnt_Town = $('#Del_TownField').val();
+					//---------------------------------
+					$('#customerStat').val(ordered_CustStat);
+					if($('#Descision_Field').val() == 'yes'){
+						if($('#customerStat').val() == 'old'){
+							//
+							var customer_ID = $('#FinalCustomer_ID').val();
+							$('#recipientID').val(customer_ID);
+						}else{
+							var nothing = 'n/a';
+							$('#recipientID').val(nothing);
+						}
+					}else if ($('#Descision_Field').val() == 'no'){
+						var nothing = 'n/a';
+						$('#recipientID').val(nothing);
+					}
+
+					$('#OrderedCustFname').val(ordered_Fname);
+					$('#OrderedCustMname').val(ordered_Mname);
+					$('#OrderedCustLname').val(ordered_Lname);
+					$('#OrderedCust_ContactNum').val(ordered_Contact);
+					$('#OrderedCust_email').val(ordered_Email);
+
+					//-----------------------------------
+					$('#recipientFname').val(Recpnt_Fname);
+					$('#recipientMname').val(Recpnt_Mname);
+					$('#recipientLname').val(Recpnt_Lname);
+					$('#recipient_ContactNum').val(Recpnt_Contact);
+					$('#recipient_email').val(Recpnt_Email);
+					$('#Adrs_Line').val(Recpnt_AdrsLine);
+					$('#Brgy_Line').val(Recpnt_Brgy);
+					$('#prove_Line').val(Recpnt_Prov);
+					$('#city_Line').val(Recpnt_Town);
+
+
+					var provname = "";
+					var cityname = "";
+					var provID = $('#prove_Line').val();
+					var cityID = $('#city_Line').val();
+					var shipMethod = $('#shipping_methodline').val();
+					var payMethod = $('#Payment_methodline').val();
+
+					$("#ProvinceField_Search option").each(function(item){
+						var element =  $(this) ;
+						if (element.val() != provID){
+							//element.hide() ;
+						}
+						else{
+							provname = element.data("tag");
+						}
+					});//end of function
+
+					$("#TownField_Search option").each(function(item){
+						var element =  $(this) ;
+						if (element.val() != cityID ){
+							//element.hide() ;
+						}
+						else{
+							cityname = element.data("tag");
+						}
+					});//end of function
+
+					var datetoget = $('#Del_DateLine').val();
+					var timetoget = $('#Del_timeLine').val();
+
+					$('#nameValue_Div').remove();
+					$('#AddressValue_Div').remove();
+					$('#ContactValue_Div').remove();
+					$('#emailValue_Div').remove();
+					$('#ShippingValue_Div').remove();
+					$('#PaymentValue_Div').remove();
+					$('#pickup_dateValue_Div').remove();
+					$('#pickup_timeValue_Div').remove();
+					$('#Recipient_nameValue_Div').remove();
+					$('#Recipient_ContactValue_Div').remove();
+					$('#Recipient_emailValue_Div').remove();
+					$('#DelAddressValue_Div').remove();
+					$('#DelDateValue_Div').remove();
+					$('#DelTimeValue_Div').remove();
+
+					$("#nameLabel_Div").after('<div id = "nameValue_Div" class = "col-md-6">'+ordered_Fname+' '+ordered_Mname+', '+ordered_Lname+'</div>');
+					$("#AddressLabel_Div").after('<div id = "AddressValue_Div" class = "col-md-6">'+ordered_AdrsLine+', '+ordered_brgy+', '+cityname+', '+provname+'</div>');
+					$("#ContactLabel_Div").after('<div id = "ContactValue_Div" class = "col-md-6">'+ordered_Contact+'</div>');
+					$("#emailLabel_Div").after('<div id = "emailValue_Div" class = "col-md-6">'+ordered_Email+'</div>');
+					$("#ShippingLabel_Div").after('<div id = "ShippingValue_Div" class = "col-md-6">'+shipMethod+'</div>');
+					$("#PaymentLabel_Div").after('<div id = "PaymentValue_Div" class = "col-md-6">'+payMethod+'</div>');
+					$("#pickup_dateDiv").after('<div id = "pickup_dateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+					$("#pickup_timeDiv").after('<div id = "pickup_timeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+
+					$("#Recipient_nameLabel_Div").after('<div id = "Recipient_nameValue_Div" class = "col-md-6">'+Recpnt_Fname+' '+Recpnt_Mname+', '+Recpnt_Lname+'</div>');
+					$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
+					$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
+
+					$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+					$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
+					$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
+				});
+
+
+					$(function(){
+						 $("#PickupOrder_details_Form").submit(function(event){
+								 event.preventDefault();
+								 //alert('pickup');
+								 $('#pickup_Modal_BodyDiv').show();
+								 $('#delivery_Modal_BodyDiv').hide();
+								 //--------------------------------------
+								 var date = $('#PickupDate_Field').val();
+								 var time = $('#PickupTime_Field').val();
+								 //
+								 $('#Del_DateLine').val(date);
+								 $('#Del_timeLine').val(time);
+
+		 							$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
+		 						//close the open forms incase they are open
+		 							$("#Delivery_cashDetails_Div").hide();
+		 							$("#Delivery_bankDetails_Div").hide();
+		 							$("#Delivery_PayLaterDetails_Div").hide();
+		 							$('#Delivery_Payment_MethodDiv').hide("fold");//hides the delivery payment method incase it's open
+		 						//close the open forms incase they are open
+		 							$("#Pickup_cashDetails_Div").hide();
+		 							$("#Pickup_BankDetails_Div").hide();
+		 							$("#Pickup_PayLaterDetails_Div").hide();
+		 							$('#PickUp_Payment_MethodDiv').show("fold");
+
+						 });
+					});//end of form
+
+					$(function(){
+						 $("#DeliveryOrder_details_Form").submit(function(event){
+								event.preventDefault();
+								$('#pickup_Modal_BodyDiv').hide();
+								$('#delivery_Modal_BodyDiv').show();
+								var date = $('#DeliveryDate_Field').val();
+								var time = $('#DeliveryTime_Field').val();
+
+								$('#Del_DateLine').val(date);
+								$('#Del_timeLine').val(time);
+
+					 			$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
+					 	 		//close the open forms incase they are open
+					 	 			$("#Pickup_cashDetails_Div").hide();
+					 	 			$("#Pickup_BankDetails_Div").hide();
+					 	 			$("#Pickup_PayLaterDetails_Div").hide();
+					 	 			$('#PickUp_Payment_MethodDiv').hide("fold");//hides the pickup payment method incase it's open
+					 	 		//close the open forms incase they are open
+					 	 			$("#Delivery_cashDetails_Div").hide();
+					 	 			$("#Delivery_bankDetails_Div").hide();
+					 	 			$("#Delivery_PayLaterDetails_Div").hide();
+					 	 			$('#Delivery_Payment_MethodDiv').show("fold");
+									//alert('gerald');
+						 });
+				 });//end of form
+
+
+				 $(function(){
+						$("#Customer_details_Form").submit(function(event){
+								event.preventDefault();
+								var CustType = $('#custTypeField').val()
+								var CustStatus = $('#customer_stat').val()
+
+								$('#customerType').val(CustType);
+								$('#customerStat').val(CustStatus);
+								$("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
+							//resets the radio buttons
+								$("#PickUp_Rdo").attr('checked',false);
+								$('#Delivery_Rdo').attr('checked',false);
+							//close the open forms incase they are open
+								$('#pickUp_Div').hide("fold");
+								$('#Delivery_Div').hide("fold");
+								$("#ShippingMethod_Div").show("fold");
+						});
+				});//end of form
+
+
+			if($("#UseCust_detBtn").is(":checked")){
+				var descVal = 'yes';
+				$('#Descision_Field').val(descVal);
+				if($('#customer_stat').val() == 'old'){
+					var customer_ID = $('#FinalCustomer_ID').val();
+					$('#recipientID').val(customer_ID);
+				}else if($('#customer_stat').val() == 'new'){
+					var nothing = 'n/a';
+					$('#recipientID').val(nothing);
+				}//
+			}else{
+				var descVal = 'no';
+				$('#Descision_Field').val(descVal);
+				var nothing = 'n/a';
+				$('#recipientID').val(nothing);
+			}//
+
 			$("#UseCust_detBtn").click(function(){
 				if($("#UseCust_detBtn").is(":checked")){
 					//alert('I was Checked');
 					//customer_stat this is the id of the field that determines whether the customer is new or old
+					var descVal = 'yes';
+					$('#Descision_Field').val(descVal);
+					if($('#customer_stat').val() == 'old'){
+						var customer_ID = $('#FinalCustomer_ID').val();
+						$('#recipientID').val(customer_ID);
+					}else if($('#customer_stat').val() == 'new'){
+						var nothing = 'n/a';
+						$('#recipientID').val(nothing);
+					}
+
 					var Fname = $("#Cust_FNameField").val();
 					var Mname = $("#Cust_MNameField").val();
 					var Lname = $("#Cust_LNameField").val();
@@ -736,14 +1478,16 @@
 					var Prov = $('#ProvinceField').val();
 					var Town = $('#TownField').val();
 
+
 					$("#Dlvry_Fname_Field").val(Fname);
 					$("#Dlvry_Mname_Field").val(Mname);
 					$("#Dlvry_Lname_Field").val(Lname);
 					$("#Dlvry_ContactNum_Field").val(ContactNum);
 					$("#Dlvry_Email_Field").val(Email);
-					$("#Dlvry_AdrsLine_Field").val(Email);
+					$("#Dlvry_AdrsLine_Field").val(Adrs_Line);
 					$("#Dlvry_Brgy_Field").val(brgy);
 					$("#Del_ProvinceField option[value =" + Prov + "]").prop('selected',true);
+
 					$("#Del_TownField option[value =" + Town + "]").prop('selected',true);
 
 					$('#Dlvry_Fname_Div').removeClass("form-group label-floating");
@@ -760,10 +1504,14 @@
 					$('#Dlvry_AdrsLine_Div').addClass("form-group");
 					$('#Dlvry_Brgy_Div').removeClass("form-group label-floating");
 					$('#Dlvry_Brgy_Div').addClass("form-group");
-
 				}
 				else
 				{
+					//alert('nothing');
+					var descVal = 'no';
+					$('#Descision_Field').val(descVal);
+					var nothing = 'n/a';
+					$('#recipientID').val(nothing);
 					$("#Dlvry_Fname_Field").val(null);
 					$("#Dlvry_Mname_Field").val(null);
 					$("#Dlvry_Lname_Field").val(null);
@@ -788,6 +1536,25 @@
 					$('#Dlvry_Brgy_Div').addClass("form-group label-floating");
 				}
 			});
+
+			$('#Del_ProvinceField').change(function(){
+        $("#Del_TownField").removeAttr("disabled");
+        $("#Del_TownField").attr('required', true);
+              var selected = $(this).val();
+              $("#TownField option").each(function(item){
+               // console.log(selected) ;
+                var element =  $(this) ;
+                console.log(element.data("tag")) ;
+                if (element.data("tag") != selected){
+                  element.hide() ;
+                }
+                else{
+                  element.show();
+                }
+              }) ;
+
+            $("#Del_TownField").val($("#Del_TownField option:visible:first").val());
+    });//end of function
 
       $('#ProvinceField').change(function(){
         $("#TownField").removeAttr("disabled");
@@ -841,6 +1608,7 @@
 		$('#customerList_Field').change(function(){
 				var CustID = $("#customerList_Field").val();
 				var HaveTrade = 0;
+
 				$('#TradeList option').each(function(item){
 					if(CustID == $(this).val()){
 						HaveTrade = 1;
@@ -861,7 +1629,7 @@
 							url: typeof(TradeApplication_URL) != 'undefined' ? TradeApplication_URL : '',
 							contentType: "application/json",
 							success: function(){
-									alert('May Agreements');
+									//alert('May Agreements');
 							},
 							error: function(xhr, desc, err){
 									console.log('There is an error:'+ err);
@@ -874,7 +1642,7 @@
 							url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
 							contentType: "application/json",
 							success: function(){
-									alert('Walang Agreements');
+									//alert('Walang Agreements');
 							},
 							error: function(xhr, desc, err){
 									console.log('There is an error:'+ err);
@@ -900,6 +1668,9 @@
 				    var OptionTypeLine;
 				    var OptionHotelnameLine;
 				    var OptionShopnameLine;
+
+						$('#FinalCustomer_ID').val(selected);
+						console.log($('#FinalCustomer_ID').val());
 
 				  //this is for outputing the values of fields so that the labels ae not overlapping to the values
 				    $('#Fnamedisplaydiv').removeClass("form-group label-floating");
@@ -1148,6 +1919,7 @@
 				  $("#shopNameField").val(OptionShopnameLine);
 				}
 				else{
+					$('#FinalCustomer_ID').val(null);
 					//this is for outputing the values of fields so that the labels ae not overlapping to the values
 						$('#Fnamedisplaydiv').removeClass("form-group");
 						$('#Fnamedisplaydiv').addClass("form-group label-floating");
@@ -1181,13 +1953,14 @@
 
 		$('#OnetimecheckBox').click(function(){
 			if($('#OnetimecheckBox').is(':checked') == true){
+				$('#FinalCustomer_ID').val(null);
 				$('#Cust_Det_NextBtn').attr("disabled",false);
 				$.ajax({
 						method: 'GET',
 						url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
 						contentType: "application/json",
 						success: function(){
-								alert('Walang Agreements');
+								//alert('Walang Agreements');
 						},
 						error: function(xhr, desc, err){
 								console.log('There is an error:'+ err);
@@ -1242,9 +2015,11 @@
 					$('#Contactdisplaydiv').addClass("form-group label-floating");
 					$('#emailDisplayDiv').removeClass("form-group");
 					$('#emailDisplayDiv').addClass("form-group label-floating");
-
 			 }
 			 else{
+				 var CustID = $("#customerList_Field").val();
+				 $('#FinalCustomer_ID').val(CustID);//for checking again
+				 $('#FinalCustomer_ID').val(null);
 				 $('#Customer_Chooser').slideDown(300);
 				 $('#Cust_Det_NextBtn').attr("disabled",true);
 					newcust = 'old';
@@ -1263,40 +2038,16 @@
 		});
 		//end of functionx
 
-			$(function(){
-				 $("#Customer_details_Form").submit(function(event){
-						 event.preventDefault();
-						 $("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
-					 //resets the radio buttons
-						 $("#PickUp_Rdo").attr('checked',false);
-						 $('#Delivery_Rdo').attr('checked',false);
-					 //close the open forms incase they are open
-						 $('#pickUp_Div').hide("fold");
-						 $('#Delivery_Div').hide("fold");
-						 $("#ShippingMethod_Div").show("fold");
-				 });
-		 });//end of form
 //once that you are at the shipping method there are 2 choices:
 //Pickup--------------------------------------------------------------------------------------------------------------
 		$("#PickUp_Rdo").click(function(){
+			var shippingValue = "pickup";
+			$('#shipping_methodline').val(shippingValue);
 			$('#pickUp_Div').show("fold");
 			$('#Delivery_Div').hide("fold");
 		});
 
-		//nextButton of pickup
-		$("#Ship_PickUp_NextBtn").click(function(){
-			$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
-		//close the open forms incase they are open
-			$("#Delivery_cashDetails_Div").hide();
-			$("#Delivery_bankDetails_Div").hide();
-			$("#Delivery_PayLaterDetails_Div").hide();
-			$('#Delivery_Payment_MethodDiv').hide("fold");//hides the delivery payment method incase it's open
-		//close the open forms incase they are open
-			$("#Pickup_cashDetails_Div").hide();
-			$("#Pickup_BankDetails_Div").hide();
-			$("#Pickup_PayLaterDetails_Div").hide();
-			$('#PickUp_Payment_MethodDiv').show("fold");
-		});
+
 
 		//backButton of pickup
 		$("#Shipping_PickUp_BackBtn").click(function(){
@@ -1307,6 +2058,9 @@
 	//Pickup Payment Method:-----------------------------------------------------------------------------------------------
 		//PickUp Cash method
 				$("#PickUpCashRdo").click(function(){//Cash Radio Button
+					//alert('cash pickup');
+					var paymentValue = "cash";
+					$('#Payment_methodline').val(paymentValue);
 					$("#Pickup_BankDetails_Div").hide("fold");
 					$("#Pickup_PayLaterDetails_Div").hide("fold");
 					$("#Pickup_cashDetails_Div").show("fold");
@@ -1323,6 +2077,8 @@
 
 		//PickUp bank Method
 				$("#PickUpBankRdo").click(function(){//bank Radio Button
+					var paymentValue = "bank";
+					$('#Payment_methodline').val(paymentValue);
 					$("#Pickup_cashDetails_Div").hide("fold");
 					$("#Pickup_PayLaterDetails_Div").hide("fold");
 					$("#Pickup_BankDetails_Div").show("fold");
@@ -1351,23 +2107,13 @@
 
 //Delivery---------------------------------------------------------------------------------------------------------------
 		$("#Delivery_Rdo").click(function(){
+			var shippingValue = "delivery";
+			$('#shipping_methodline').val(shippingValue);
 			$('#pickUp_Div').hide("fold");
 			$('#Delivery_Div').show("fold");
 		});
 		//nextButton of pickup
-		$("#Ship_Delivery_NextBtn").click(function(){
-			$("#ShippingMethod_Div").hide("fold");//close this step then proceeds to the next step
-		//close the open forms incase they are open
-			$("#Pickup_cashDetails_Div").hide();
-			$("#Pickup_BankDetails_Div").hide();
-			$("#Pickup_PayLaterDetails_Div").hide();
-			$('#PickUp_Payment_MethodDiv').hide("fold");//hides the pickup payment method incase it's open
-		//close the open forms incase they are open
-			$("#Delivery_cashDetails_Div").hide();
-			$("#Delivery_bankDetails_Div").hide();
-			$("#Delivery_PayLaterDetails_Div").hide();
-			$('#Delivery_Payment_MethodDiv').show("fold");
-		});
+
 
 		//backButton of Delivery
 		$("#Shipping_Delivery_BackBtn").click(function(){
@@ -1379,6 +2125,8 @@
 			//Delivery Payment Method:-----------------------------------------------------------------------------------------------
 				//Delivery Cash method
 						$("#DeliveryCashRdo").click(function(){//Cash Radio Button
+							var paymentValue = "cash";
+							$('#Payment_methodline').val(paymentValue);
 							$("#Delivery_bankDetails_Div").hide("fold");
 							$("#Delivery_PayLaterDetails_Div").hide("fold");
 							$("#Delivery_cashDetails_Div").show("fold");
@@ -1395,6 +2143,8 @@
 
 				//Delivery bank Method
 						$("#DeliveryBankRdo").click(function(){//bank Radio Button
+							var paymentValue = "bank";
+							$('#Payment_methodline').val(paymentValue);
 							$("#Delivery_cashDetails_Div").hide("fold");
 							$("#Delivery_PayLaterDetails_Div").hide("fold");
 							$("#Delivery_bankDetails_Div").show("fold");
@@ -1419,7 +2169,6 @@
 							$('#Delivery_Div').hide("fold");
 							$('#ShippingMethod_Div').show("fold");
 						});
-
 
 	});//end of document ready
   </script>

@@ -245,7 +245,7 @@
 			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
 			                          <h7>Php {{number_format($Bqt->price,2)}} <span class="text-muted"><b> x</b></span></h7>
 			                        </div>
-			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+			                        <div class="col-md-2 " style = "margin-top:3%;">
 			                          <label>{{$Bqt->qty}} pcs.</label>
 			                        </div>
 			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
@@ -253,13 +253,13 @@
 			                        </div>
 			                        <div class="col-xs-1">
 			                        	<a class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
-											<i class="material-icons">mode_edit</i>
-										</a>
+											            <i class="material-icons">mode_edit</i>
+                                </a>
 			                        </div>
 			                        <div class="col-xs-1">
 			                        	<button class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
-											<i class="material-icons">delete</i>
-										</button>
+											           <i class="material-icons">delete</i>
+										            </button>
 			                        </div>
                       			</div>
 			                    @endforeach

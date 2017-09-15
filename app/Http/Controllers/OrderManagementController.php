@@ -34,7 +34,9 @@ class OrderManagementController extends Controller
     ->with('cust',$customers)
     ->with('city',$cities)
     ->with('cities',$cities)
+    ->with('cities2',$cities)
     ->with('provinces',$province)
+    ->with('provinces2',$province)
     ->with('city2',$cities)
     ->with('province',$province);
 
