@@ -828,7 +828,8 @@
 						      <br> <br> <br> <br> <br> <br> <br> <br>
 						        <a type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</a>
 										<!--href="/finalorder"-->
-									  <button id = "orderSubmit_Btn" name = "orderSubmit_Btn" type="submit" class="btn btn-info btn-simple" disabled>Process Order</button>
+									  <button id = "orderSubmit_Btn" name = "orderSubmit_Btn"
+										type="submit" class="btn btn-info btn-simple" disabled>Process Order</button>
 						      </div>
 						    </div>
 						  </div>
@@ -897,10 +898,33 @@
 			var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
 			var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
 			var Recpnt_Email = $('#Dlvry_Email_Field').val();
-			var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+			var Recpnt_AdrsLine = $('#Dlvry_AdrsLine_Field').val();
 			var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
-			var Recpnt_Prov = $('#Del_ProvinceField').val();
-			var Recpnt_Town = $('#Del_TownField').val();
+
+			var Recpnt_ProvID = $('#Del_ProvinceField').val();
+			var Recpnt_TownID = $('#Del_TownField').val();
+			var Recpnt_Prov = null;
+			var Recpnt_Town = null;
+			$("#ProvinceField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != Recpnt_ProvID){
+					//element.hide() ;
+				}
+				else{
+					Recpnt_Prov = element.data("tag");
+				}
+			});//end of function
+
+			$("#TownField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != Recpnt_TownID ){
+					//element.hide() ;
+				}
+				else{
+					Recpnt_Town = element.data("tag");
+				}
+			});//end of function
+
 			//---------------------------------
 			$('#customerStat').val(ordered_CustStat);
 			if($('#Descision_Field').val() == 'yes'){
@@ -993,7 +1017,7 @@
 			$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
 			$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
 
-			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+Recpnt_Town+', '+Recpnt_Prov+'</div>');
 			$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
 			$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
 		});
@@ -1017,10 +1041,33 @@
 			var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
 			var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
 			var Recpnt_Email = $('#Dlvry_Email_Field').val();
-			var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+			var Recpnt_AdrsLine = $('#Dlvry_AdrsLine_Field').val();
 			var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
-			var Recpnt_Prov = $('#Del_ProvinceField').val();
-			var Recpnt_Town = $('#Del_TownField').val();
+
+			var Recpnt_ProvID = $('#Del_ProvinceField').val();
+			var Recpnt_TownID = $('#Del_TownField').val();
+			var Recpnt_Prov = null;
+			var Recpnt_Town = null;
+			$("#ProvinceField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != Recpnt_ProvID){
+					//element.hide() ;
+				}
+				else{
+					Recpnt_Prov = element.data("tag");
+				}
+			});//end of function
+
+			$("#TownField_Search option").each(function(item){
+				var element =  $(this) ;
+				if (element.val() != Recpnt_TownID ){
+					//element.hide() ;
+				}
+				else{
+					Recpnt_Town = element.data("tag");
+				}
+			});//end of function
+
 			//---------------------------------
 			$('#customerStat').val(ordered_CustStat);
 			if($('#Descision_Field').val() == 'yes'){
@@ -1113,7 +1160,7 @@
 			$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
 			$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
 
-			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+			$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+Recpnt_Town+', '+Recpnt_Prov+'</div>');
 			$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
 			$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
 		});
@@ -1138,10 +1185,33 @@
 				var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
 				var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
 				var Recpnt_Email = $('#Dlvry_Email_Field').val();
-				var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+				var Recpnt_AdrsLine = $('#Dlvry_AdrsLine_Field').val();
 				var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
-				var Recpnt_Prov = $('#Del_ProvinceField').val();
-				var Recpnt_Town = $('#Del_TownField').val();
+
+				var Recpnt_ProvID = $('#Del_ProvinceField').val();
+				var Recpnt_TownID = $('#Del_TownField').val();
+				var Recpnt_Prov = null;
+				var Recpnt_Town = null;
+				$("#ProvinceField_Search option").each(function(item){
+					var element =  $(this) ;
+					if (element.val() != Recpnt_ProvID){
+						//element.hide() ;
+					}
+					else{
+						Recpnt_Prov = element.data("tag");
+					}
+				});//end of function
+
+				$("#TownField_Search option").each(function(item){
+					var element =  $(this) ;
+					if (element.val() != Recpnt_TownID ){
+						//element.hide() ;
+					}
+					else{
+						Recpnt_Town = element.data("tag");
+					}
+				});//end of function
+
 				//---------------------------------
 				$('#customerStat').val(ordered_CustStat);
 				if($('#Descision_Field').val() == 'yes'){
@@ -1234,7 +1304,7 @@
 				$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
 				$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
 
-				$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+				$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+Recpnt_Town+', '+Recpnt_Prov+'</div>');
 				$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
 				$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
 			});
@@ -1259,10 +1329,33 @@
 					var Recpnt_Lname = $('#Dlvry_Lname_Field').val();
 					var Recpnt_Contact = $('#Dlvry_ContactNum_Field').val();
 					var Recpnt_Email = $('#Dlvry_Email_Field').val();
-					var Recpnt_AdrsLine = $('#Dlvry_Email_Field').val();
+					var Recpnt_AdrsLine = $('#Dlvry_AdrsLine_Field').val();
 					var Recpnt_Brgy = $('#Dlvry_Brgy_Field').val();
-					var Recpnt_Prov = $('#Del_ProvinceField').val();
-					var Recpnt_Town = $('#Del_TownField').val();
+
+					var Recpnt_ProvID = $('#Del_ProvinceField').val();
+					var Recpnt_TownID = $('#Del_TownField').val();
+					var Recpnt_Prov = null;
+					var Recpnt_Town = null;
+					$("#ProvinceField_Search option").each(function(item){
+						var element =  $(this) ;
+						if (element.val() != Recpnt_ProvID){
+							//element.hide() ;
+						}
+						else{
+							Recpnt_Prov = element.data("tag");
+						}
+					});//end of function
+
+					$("#TownField_Search option").each(function(item){
+						var element =  $(this) ;
+						if (element.val() != Recpnt_TownID ){
+							//element.hide() ;
+						}
+						else{
+							Recpnt_Town = element.data("tag");
+						}
+					});//end of function
+
 					//---------------------------------
 					$('#customerStat').val(ordered_CustStat);
 					if($('#Descision_Field').val() == 'yes'){
@@ -1355,11 +1448,10 @@
 					$("#Recipient_ContactLabel_Div").after('<div id = "Recipient_ContactValue_Div" class = "col-md-6">'+Recpnt_Contact+'</div>');
 					$("#Recipient_emailLabel_Div").after('<div id = "Recipient_emailValue_Div" class = "col-md-6">'+Recpnt_Email+'</div>');
 
-					$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+cityname+', '+provname+'</div>');
+					$("#DelAddressLabel_Div").after('<div id = "DelAddressValue_Div" class = "col-md-6">'+Recpnt_AdrsLine+', '+Recpnt_Brgy+', '+Recpnt_Town+', '+Recpnt_Prov+'</div>');
 					$("#DelDateLabel_Div").after('<div id = "DelDateValue_Div" class = "col-md-6">'+datetoget+'</div>');
 					$("#DelTimeLabel_Div").after('<div id = "DelTimeValue_Div" class = "col-md-6">'+timetoget+'</div>');
 				});
-
 
 					$(function(){
 						 $("#PickupOrder_details_Form").submit(function(event){
