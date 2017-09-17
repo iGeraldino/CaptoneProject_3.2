@@ -65,31 +65,77 @@ class Orderlong_orderingController extends Controller
         $Del_DateLine = $request->Del_DateLine;//date
         $Del_timeLine = $request->Del_timeLine;//Time
 
-        $creatOrder = new sales_order;
+
+//create a new Sales order first
+        $createOrder = new sales_order;
 
         if($Existing_CustID == ""){
-          $creatOrder->customer_ID = NULL;
+          $createOrder->customer_ID = NULL;
         }else {
-          $creatOrder->customer_ID = $Existing_CustID;
+          $createOrder->customer_ID = $Existing_CustID;
         }
-        $creatOrder->Customer_Fname = $Ordered_Fname;
-        $creatOrder->Customer_Mname = $Ordered_Mname;
-        $creatOrder->Customer_Lname = $Ordered_Lname;
-        $creatOrder->Contact_Num = $Ordered_Contact;
-        $creatOrder->email_Address = $Ordered_Email;
-        $creatOrder->Status = 'PENDING';
-        $creatOrder->Type = 'WALK-IN';
-        $creatOrder->save();
+        $createOrder->Customer_Fname = $Ordered_Fname;
+        $createOrder->Customer_Mname = $Ordered_Mname;
+        $createOrder->Customer_Lname = $Ordered_Lname;
+        $createOrder->Contact_Num = $Ordered_Contact;
+        $createOrder->email_Address = $Ordered_Email;
+        $createOrder->Status = 'PENDING';
+        $createOrder->Type = 'WALK-IN';
+        $createOrder->save();
 
+
+
+//then insert the items under that sales order using its primary key
+  //insert the flowers under that orderinto the database
         foreach(Cart::instance('TobeSubmitted_Flowers')->content() as $Ordered_Flowers){
               $FLowers_toOrder = DB::select('CALL insert_Flowers_ofSales_Order(?,?,?,?,?)',
-              array($creatOrder->sales_order_ID,$Ordered_Flowers->id,$Ordered_Flowers->qty,
+              array($createOrder->sales_order_ID,$Ordered_Flowers->id,$Ordered_Flowers->qty,
               $Ordered_Flowers->price,$Ordered_Flowers->options['T_Amt']));
         }
 
-        foreach(Cart::instance('TobeSubmitted_Bqt')->content()){
+//create a bouquet under that sales order
+      foreach(Cart::instance('TobeSubmitted_Bqt')->content() as $bqt){
+          $BqttotalAmt = 0;
+          $BqttotalCnt = 0;
+          //compute the total amount flowers and accessories under that bouquet
+          foreach(Cart::instance('TobeSubmitted_Bqt_Flowers')->content() as $row3){
+              if($bqt->id == $row3->options['bqt_ID']){
+                $BqttotalCnt += $row3->qty;//compute the total count of flowers under that bouquet
+                $BqttotalAmt += $row3->options['T_Amt'];//computes the total amount of flowers
+              }
+          }
+          foreach(Cart::instance('FinalBqt_Acessories')->content() as $row3_1){
+              if($bqt->id == $row3_1->options['bqt_ID']){
+                $BqttotalAmt += $row3_1->options['T_Amt'];//computes the total amount of flowers
+              }
+          }
+
           $createBouquet = new bouquet_details;
-          $FLowers_toOrder = DB::select("CALL add_Flower_to_Bouquet(?, ?, ?)", array());
+          $createBouquet->price = $BqttotalAmt;
+          $createBouquet->count_ofFlowers = $BqttotalCnt;
+          $createBouquet->Type = 'custom';//
+          $createBouquet->Order_ID = $createOrder->sales_order_ID;//submits the primary key of the newly created Salesorder
+          $createBouquet->save();
+
+          $PassBqt_toSalesOrder = DB::select('CALL insert_BqtToSales_orderBqt(?,?,?,?)'
+          ,array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$BqttotalAmt,$bqt->qty))
+
+          foreach(Cart::instance('TobeSubmitted_Bqt_Flowers')->content() as $flwr){
+            if($bqt->id == $flwr->options['bqt_ID']){
+              $BqtFLowers_toOrder = DB::select("CALL add_Flower_to_Bouquet(?, ?, ?)", array($createBouquet->bouquet_ID,$flwr->id,$flwr->price));
+              //
+              $bqtFlowers_toSalesOrder = DB::select("CALL add_flowers_to_sales_OrderBqtFlowers(?,?,?,?,?)",
+              array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$flwr->id,$flwr->price,$flwr->qty));//inserts the flowers into the salesorderbqt_flowers table
+            }
+          }//end of adding flowers to bqt
+          foreach(Cart::instance('FinalBqt_Acessories')->content() as $Acrs){
+            if($bqt->id == $Acrs->options['bqt_ID']){
+              $BqtAcrs_toOrder = DB::select("CALL add_Acessories_to_Bouquet(BQT_ID, ACSRS_ID, QTY)", array($createBouquet->bouquet_ID,$Acrs->id,$Acrs->price));
+              //
+              $bqtAccessories_toSalesOrder = DB::select("CALL add_accessories_to_sales_Order_Accessories(?,?,?,?,?)",
+              array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$Acrs->id,$Acrs->price,$Acrs->qty));//inserts the flowers into the salesorderbqt_accessories table
+            }
+          }//end of adding flowers to bqt
         }
 
 //to be continued...
