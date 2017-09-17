@@ -695,6 +695,7 @@
 		                  </select>
 		                </div>
 									</div>
+	           {!! Form::open(array('route' => 'Orders_Submit_LongOrder.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
 						      <div class="modal-body">
 										<div>
 											<!--for sales order table's attributes-->
@@ -825,12 +826,13 @@
 										</div>
 						      </div>
 						      <div class="modal-footer">
-						      <br> <br> <br> <br> <br> <br> <br> <br>
+						      	<br> <br> <br> <br> <br> <br> <br> <br>
 						        <a type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</a>
 										<!--href="/finalorder"-->
 									  <button id = "orderSubmit_Btn" name = "orderSubmit_Btn"
 										type="submit" class="btn btn-info btn-simple" disabled>Process Order</button>
 						      </div>
+							{!! Form::close() !!}
 						    </div>
 						  </div>
 						</div><!--end of modal-->
@@ -955,8 +957,8 @@
 			$('#recipient_email').val(Recpnt_Email);
 			$('#Adrs_Line').val(Recpnt_AdrsLine);
 			$('#Brgy_Line').val(Recpnt_Brgy);
-			$('#prove_Line').val(Recpnt_Prov);
-			$('#city_Line').val(Recpnt_Town);
+			$('#prove_Line').val(Recpnt_ProvID);
+			$('#city_Line').val(Recpnt_TownID);
 
 
 			var provname = "";
@@ -1098,8 +1100,8 @@
 			$('#recipient_email').val(Recpnt_Email);
 			$('#Adrs_Line').val(Recpnt_AdrsLine);
 			$('#Brgy_Line').val(Recpnt_Brgy);
-			$('#prove_Line').val(Recpnt_Prov);
-			$('#city_Line').val(Recpnt_Town);
+			$('#prove_Line').val(Recpnt_ProvID);
+			$('#city_Line').val(Recpnt_TownID);
 
 
 			var provname = "";
@@ -1242,8 +1244,8 @@
 				$('#recipient_email').val(Recpnt_Email);
 				$('#Adrs_Line').val(Recpnt_AdrsLine);
 				$('#Brgy_Line').val(Recpnt_Brgy);
-				$('#prove_Line').val(Recpnt_Prov);
-				$('#city_Line').val(Recpnt_Town);
+				$('#prove_Line').val(Recpnt_ProvID);
+				$('#city_Line').val(Recpnt_TownID);
 
 
 				var provname = "";
