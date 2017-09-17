@@ -97,6 +97,7 @@
                 <li><a href="/inventory_flower_price_list"><i class="fa fa-circle-o"></i> Flower Price List</a></li>
               </ul>
             </li>
+            <li><a href="/acc"><i class="fa fa-circle-o"></i> Other Items</a></li>
           </ul>
         </li>
       </ul>
