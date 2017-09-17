@@ -8,6 +8,7 @@ use App\Http\Requests;
 use \Cart;
 use App\bouquet_details;
 use Session;
+
 use Auth;
 class OrderManagementController extends Controller
 {

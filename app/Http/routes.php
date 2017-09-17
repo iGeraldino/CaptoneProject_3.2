@@ -124,6 +124,9 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::resource('Orders_BouquetAcessories','AddingAcessoriesto_OrderedBouquet_Controller');
 
+	Route::resource('Orders_Submit_LongOrder','Orderlong_orderingController');
+
+
 
 //validator
 	Route::get('Validate_Email', 'Validator_Controller@CheckEmail_Existence');
@@ -314,13 +317,13 @@ Route::get('cashier_inventory_transaction', 'PagesController@getCashierInventory
 
 Route::get('cashier_flower_price_list', 'PagesController@getCashierFlowerPriceList');
 
-Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp'); 
- 
-Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery'); 
+Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp');
 
-Route::get('OrderSummaryPickUpDesign', 'PagesController@getOrderSummaryPickUpDesign'); 
- 
-Route::get('OrderSummaryDeliveryDesign', 'PagesController@getOrderSummaryDeliveryDesign'); 
+Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery');
+
+Route::get('OrderSummaryPickUpDesign', 'PagesController@getOrderSummaryPickUpDesign');
+
+Route::get('OrderSummaryDeliveryDesign', 'PagesController@getOrderSummaryDeliveryDesign');
 
 Route::get('inventory_dashboard', 'PagesController@getInventoryDashboard');
 
