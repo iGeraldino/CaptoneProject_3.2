@@ -215,6 +215,7 @@ class Orderlong_orderingController extends Controller
         Cart::instance('TobeSubmitted_Bqt')->destroy();
         Cart::instance('TobeSubmitted_Bqt_Flowers')->destroy();
 
+       Session::put('newOrderMade_Session','Successful');
        return redirect()->route("Orders_Submit_LongOrder.show", $createOrder->sales_order_ID);
     }
 
@@ -227,6 +228,7 @@ class Orderlong_orderingController extends Controller
     public function show($id)
     {
         //
+
         $cities = DB::table('cities')
           ->select('*')
           ->get();

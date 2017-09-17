@@ -2,6 +2,11 @@
 
 @section('content')
 
+<?php
+	$Successession = Session::get('newOrderMade_Session');
+	Session::remove('newOrderMade_Session');
+
+?>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-" style="margin-left: -7px;">
@@ -57,6 +62,7 @@
 					<input type = "text" id = "prov_ID" name = "prov_ID" value = "{{$NewSalesOrder_details->Delivery_Province}}">
 					<input type = "text" id = "city_ID" name = "city_ID" value = "{{$NewSalesOrder_details->Delivery_City}}">
 					<input type = "text" id = "ship_method" name = "ship_method" value ="{{$NewSalesOrder_details->shipping_method}}">
+					<input type = "text" id = "NewOrderSession_Value" name = "NewOrderSession_Value" value ="{{$Successession}}">
 
 					<select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
 						@foreach($provinces as $prov2)
@@ -225,6 +231,11 @@
 @section('scripts')
 	<script>
 		$('document').ready(function(){
+
+			if($("#NewOrderSession_Value").val() == "Successful"){
+				swal('Congratulations',"The order was successfully Submitted!","success");
+			}
+
 			if($("#ship_method").val() == "delivery"){
 				$("#pickup_dateDIV").hide();
 				$("#delivery_det_DIV").show();
