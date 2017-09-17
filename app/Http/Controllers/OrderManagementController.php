@@ -14,6 +14,10 @@ class OrderManagementController extends Controller
 {
     //
 
+  public function printReciept($id){
+    
+  }
+
   public function ViewOrderSummary()
   {
     //for showing the checkout options of the order
