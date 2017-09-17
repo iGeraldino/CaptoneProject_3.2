@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\accessories;
 use App\flower_details;
 use Cart;
+use PDF;
+use App;
 
 class create_bouquet extends Controller
 {
@@ -350,6 +352,15 @@ class create_bouquet extends Controller
     public function defaultBouquetAdd(){
 
      dd("betlog");
+
+    }
+
+    public function pickupreports(){
+
+ 
+
+
+
 
     }
 

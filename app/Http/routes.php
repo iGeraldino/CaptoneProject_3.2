@@ -295,7 +295,9 @@ Route::get('create_bouquet', 'PagesController@getCreateBouquet');
 
 Route::get('Login', 'PagesController@getLoginPage');
 
+Route::get('summarypickup', 'PagesController@getOrderSummaryPickUp');
 
+Route::get('editacc', 'PagesController@getEditAccount');
 
 Route::get('cashier', 'PagesController@getCashierPage');
 
@@ -337,6 +339,11 @@ Route::get('inventory_side_schedule', 'PagesController@getInventorySchedule');
 
 Route::get('inventory_flower_price_list', 'PagesController@getInventoryFlowerPriceList');
 
+Route::get('ViewAccountDetails', ['uses' => 'ClientController@getEditAccount', 'as' => 'geteditaccount']);
+
+Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccount', 'as' => 'posteditaccount']);
+
+Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
 
 

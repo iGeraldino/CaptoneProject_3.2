@@ -617,7 +617,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<button type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
+				                        			<a href="{{ route('summarypickup') }}" type="submit" class="btn btn-success btn-lg" class="disabled"> Submit My Order</a><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
 				                        	</div>
@@ -837,7 +837,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<button type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
+				                        			<button disabled href="{{ route('summarypickup') }}" type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
                                   </div>

@@ -13,7 +13,8 @@
         "uxweb/sweet-alert": "^1.4",
         "gloudemans/shoppingcart": "^2.3",
         "reportico/laravel-reportico": "~5.2",
-        "barryvdh/laravel-dompdf": "^0.8.1"
+        "barryvdh/laravel-dompdf": "^0.8.1",
+        "barryvdh/laravel-ide-helper": "v2.4.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

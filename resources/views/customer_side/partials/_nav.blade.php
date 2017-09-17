@@ -30,7 +30,7 @@
                               <b class="caret"></b>
                             </a>
                               <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="{{ route('customer_side.pages.logout') }}">Account Details</a></li>
+                                <li><a href="{{ route('geteditaccount') }}">Account Details</a></li>
                                 <li><a href="{{ route('customer_side.pages.logout') }}">Logout</a></li>
                               </ul>
                           </li>
