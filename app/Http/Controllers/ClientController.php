@@ -199,13 +199,7 @@ class ClientController extends Controller
 
 
           $id = Auth::user() -> Cust_ID ;
-<<<<<<< HEAD
           $email = Auth::user() -> email;
-           
-=======
-
-
->>>>>>> master
 
           $details = db::table('customer_details')->where('Cust_ID', '=' , $id)->get();
           $account = db::table('users')->where('Cust_ID', '=' , $id)->get();

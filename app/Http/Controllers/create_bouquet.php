@@ -357,7 +357,8 @@ class create_bouquet extends Controller
 
     public function pickupreports(){
 
-      echo "wala parin laman??";
+
+        return redirect('home');
 
     }
 
