@@ -43,6 +43,19 @@ class OrderManagementController extends Controller
 
             $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
+            $cityName = "";
+            $provName = "";
+            foreach($cities as $city){
+              if($NewSalesOrder_details->Delivery_City == $city->id){
+                $cityName = $city->name;
+              }
+            }
+            foreach($province as $prov){
+              if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                $provName = $prov->name;
+              }
+            }
+
             //dd($NewOrder_SchedDetails);
             /*return view('Orders/finalorder')
             ->with('cities',$cities)
@@ -55,13 +68,12 @@ class OrderManagementController extends Controller
             ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
             ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
 */
-            if($NewSalesOrder_details->shipping_method == "delivery"){
-              $pdf = \PDF::loadView("reports\sample");
+              $pdf = \PDF::loadView("reports\Order_Delivery_SimpleSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+
               return $pdf->download('sampleDelivery.pdf');
-            }else if($NewSalesOrder_details->shipping_method == "pickup"){
-              $pdf = \PDF::loadView("reports\sample");
-              return $pdf->download('samplepickup.pdf');
-            }
+              return $pdf->download('sampleDelivery.pdf');
 
             //
 
