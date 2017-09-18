@@ -199,11 +199,18 @@ class ClientController extends Controller
 
 
           $id = Auth::user() -> Cust_ID ;
+<<<<<<< HEAD
+          $email = Auth::user() -> email;
+           
+=======
 
 
+>>>>>>> master
 
           $details = db::table('customer_details')->where('Cust_ID', '=' , $id)->get();
           $account = db::table('users')->where('Cust_ID', '=' , $id)->get();
+
+        
 
           //dd($details);
           return view('customer_side.pages.editaccount')
@@ -231,50 +238,56 @@ class ClientController extends Controller
             //user account
 
             $email = trim($request->email);
-            $username = trim($request->email);
+            $username = trim($request->username);
 
-            $cust = customer_details::find($id);
-
-
-
-            $existingEmail = db::table('customer_details')->where('Email_Address', '!=' , $email)->select('Email_Address as email')->get();
-
-            foreach($existingEmail as $exist){
-                if($cust -> Email_Address = $email and $exist != $email){
-
-                    $cust -> Cust_FName = $firstname;
-                    $cust -> Cust_MName = $middlename;
-                    $cust -> Cust_LName = $lastname;
-                    $cust -> Contact_Num = $contact;
-                    $cust -> Email_Address = $email;
-                    $cust -> Address_Line = $addrline;
-                    $cust -> Baranggay = $brgy;
-                    $cust -> Town = $town;
-                    $cust -> Province = $prov;
+           
 
 
+            //Succession
 
-                    //$cust ->save();
-
-
-
-                    $user -> email = $email;
-                    $user -> username = $username;
-
-                    $user->save();
+        if( count (User::where('email', '=', $email)->where('id','!=',Auth::user()->id) ->get()) <= 0) {
 
 
-                    dd('Nasave na po. Pakicheck nalang.');
+            db::table('customer_details')
+                ->where('Cust_ID', $id)
+                ->update([
 
-                }
-                else{
+                    'Cust_FName' => $firstname,
+                    'Cust_MName' => $middlename,
+                    'Cust_LName' => $lastname,
+                    'Contact_Num' => $contact,
+                    'Email_Address' => $email,
+                    'Address_Line' => $addrline,
+                    'Baranggay' => $brgy,
+                    'Town' => $town,
+                    'Province' => $prov,
 
-                    dd('Hindi Nasave');
+                ]);
 
-                }
+            db::table('users')
+                ->where('Cust_ID', $id)
+                ->update([
+
+                    'email' => $email,
+                    'username' => $username,
+                ]);
+
+            return redirect() -> route('geteditaccount');
 
 
-            }
+
+        }
+
+        else{
+
+
+            return redirect() -> route('geteditaccount');
+
+
+        }
+
+
+           
 
 
 

@@ -334,6 +334,10 @@ Route::get('OrderSummaryPickUpDesign', 'PagesController@getOrderSummaryPickUpDes
 
 Route::get('OrderSummaryDeliveryDesign', 'PagesController@getOrderSummaryDeliveryDesign');
 
+Route::get('OrderSummaryPickUpSimple', 'PagesController@getOrderSummaryPickUpSimple');
+
+Route::get('OrderSummaryDeliverySimple', 'PagesController@getOrderSummaryDeliverySimple');
+
 Route::get('inventory_dashboard', 'PagesController@getInventoryDashboard');
 
 Route::get('inventory_sales_order', 'PagesController@getInventorySalesOrder');

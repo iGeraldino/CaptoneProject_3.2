@@ -14,21 +14,12 @@
 
                     <form role="form" method="post" action="{{ route('customer_side.pages.signin')}}" data-parsley-validate="">
                         <fieldset>
-                          <div hidden>
-                            <select id = 'existing_UserNames' name = 'existing_UserNames'>
-                              @foreach($usernames as $users)
-                                <option value = {{$users->id}} data-tag = "{{$users->username}}">{{$users->username}}
-                                </option>
-                                <option value={{$users->id}} data-tag ="{{$users->email}}">{{ $users->email }}
-                                </option>
-                              @endforeach
-                            </select>
-                          </div>
+                          
                             <h2 class="text-center fontx">Sign In</h2>
                             <hr class="colorgraph">
                             <div class="form-group">
                                 <input type="text" name="email" id="email" class="form-control input-lg fontxx" placeholder="Username / Email">
-                                <h5 hidden id="error" style="color: Red;">Invalid Username</h5>
+                                
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" id="password" class="form-control input-lg fontxx" placeholder="Password">
