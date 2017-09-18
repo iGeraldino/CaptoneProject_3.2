@@ -137,7 +137,9 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::get('Validate_Contact', 'Validator_Controller@Contact_Existence');
 
-	Route::get('New_Notification', 'CheckingNotification_Controller@New_Notification');
+	//Route::get('/New_Notification', 'CheckingNotification_Controller@New_Notification');
+	Route::get('Admin.Check_Notification', 'CheckingNotificationController@New_Notification');
+  //to be continued
 
 	Route::get('Order.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement');
 
