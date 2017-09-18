@@ -271,7 +271,7 @@
                 </div>
                 @foreach($account as $account)
                 <div class="form-group">
-                  <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Change Email Address" tabindex="6" value="{{ $account -> email }}">
+                  <input type="email" name="email" id="email2" class="form-control input-lg" placeholder="Change Email Address" tabindex="6" value="{{ $account -> email }}">
                 </div>
                 <div class="form-group">
                   <input type="text" name="username" id="display_name" class="form-control input-lg" placeholder="New Username" tabindex="4" value="{{ $account -> username}}">
@@ -282,7 +282,7 @@
                   <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
                 </div>
                   {!! Form::close() !!}
-
+x
               </div>
           </div>
    
@@ -344,6 +344,7 @@
             $('#' + target).show();
         });
 
+        
 
 
 
