@@ -25,11 +25,11 @@
   $('document').ready(function(){
 		//alert('hello gerald');
 
-		var Notification_URL = "{{ url('New_Notification') }}";
+		var Notification_URL = "{{ url('Admin.Check_Notification') }}";
     var notification = new Array();
     var num_ofNotification = 0;
-
-		$.ajax({
+		var notif_UL = "";
+	$.ajax({
 			type:'get',
 			url: Notification_URL,
 			dataType: 'json',
@@ -43,6 +43,7 @@
 				$('#notifications').append(notif_UL);
 			}
 		});
+
   });
 </script>
 </html>
