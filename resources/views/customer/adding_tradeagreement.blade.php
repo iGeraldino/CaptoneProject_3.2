@@ -85,9 +85,34 @@
   </div>
   
         <div class="col-md-12">
-          <div class="box">
-            <h3 class="container">Active Agreements</h3>  
-            
+      <!-- Tabs with icons on Card -->
+      <div class="card card-nav-tabs">
+        <div class="header Sharp">
+          <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+          <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+              <ul class="nav nav-tabs" data-tabs="tabs">
+                <li class="active">
+                  <a href="#active" data-toggle="tab">
+                    <i class="material-icons">assignment_return</i>
+                    Active
+                  </a>
+                </li>
+                <li>
+                  <a href="#expired" data-toggle="tab">
+                    <i class="material-icons">assignment_turned_in</i>
+                    Expired
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="tab-content text-center">
+            <div class="tab-pane active" id="active">
+              <div class="col-xs-12">
+                <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
@@ -194,9 +219,12 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
-          <div class="box">
-            <h3 class="container">Expired Agreements</h3>  
+              <!-- /.col -->
+              </div>
+            </div>
+            <div class="tab-pane" id="expired">
+              <div class="col-xs-12">
+                <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
@@ -246,8 +274,15 @@
             </div>
             <!-- /.box-body -->
           </div>
-
+              <!-- /.col -->
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+      <!-- End Tabs with icons on Card -->
+      
+    </div>
 
        
 @endsection
