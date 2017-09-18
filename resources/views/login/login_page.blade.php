@@ -23,7 +23,7 @@
 				<div class="card card-signup">
 					<form class="form" method="POST" action=" {{ route('adminsignin') }} ">
 						<div class="header header-primary text-center">
-							<h4>Login</h4>
+							<h4>LOGIN</h4>
 						</div>
 						<br>
 						<br>

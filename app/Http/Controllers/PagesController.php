@@ -303,6 +303,14 @@ class PagesController extends Controller
 			return view('inventory_side/pages/inventory_flower_price_list');
 		}
 
+	public function getOrderSummaryPickUpSimple() {
+			return view('reports/OrderSummary_PickUp_Simple');
+		}
+
+	public function getOrderSummaryDeliverySimple() {
+			return view('reports/OrderSummary_Delivery_Simple');
+		}
+
 }
 
 
