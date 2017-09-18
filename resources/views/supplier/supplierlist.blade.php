@@ -7,8 +7,6 @@
       <h2>List of Suppliers</h2>
       <div class="row container">
         <button class="btn btn-primary btn-sm col-xs-offset-2" data-toggle="modal" data-target="#AddModal"> <i class="material-icons" style="padding-right: 5px;">add_circle</i>Add New Supplier </button>
-        <button class="btn btn-primary btn-sm col-xs-offset-2"> <i class="material-icons" style="padding-right: 5px;">compare</i> Compare Suppliers</button>
-        <button class="btn btn-primary btn-sm col-xs-offset-2""> <i class="material-icons" style="padding-right: 5px;">list</i> Show prices per flower </button>
 
         <!-- Start of Modal -->
 
