@@ -22,6 +22,7 @@ class customerListController extends Controller
      */
     public function index()
     {
+      $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
       if(auth::check() == false){
         Session::put('loginSession','fail');
@@ -39,7 +40,7 @@ class customerListController extends Controller
           ->get();
 
         $customerDetails = CustomerDetails::all();
-        
+
         return view('customer/customerlist')
         ->with('customers',$customerDetails)
         ->with('city',$cities)
@@ -55,6 +56,8 @@ class customerListController extends Controller
     public function create()
     {
         //
+        $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
+
           if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -73,13 +76,15 @@ class customerListController extends Controller
      */
     public function store(Request $request)
     {
+      $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
+
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
           $customerDetails = new CustomerDetails;
- 
+
           $customerDetails->Cust_FName = $request->Cust_FNameField;
           $customerDetails->Cust_MName = $request->Cust_MNameField;
           $customerDetails->Cust_LName = $request->Cust_LNameField;
@@ -92,7 +97,7 @@ class customerListController extends Controller
           $customerDetails->Hotel_Name = $request->HotelNameField;
           $customerDetails->Shop_Name = $request->ShopNameField;
           $customerDetails->Customer_Type = $request->custTypeField;
-          
+
           $customerDetails->save();
 
           //echo $customerDetails->Cust_ID;
@@ -109,6 +114,8 @@ class customerListController extends Controller
      */
     public function show($id)
     {
+      $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
+
         //
       if(auth::check() == false){
             Session::put('loginSession','fail');
@@ -137,6 +144,8 @@ class customerListController extends Controller
      */
     public function edit($id)
     {
+      $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
+
         //
         if(auth::check() == false){
             Session::put('loginSession','fail');
@@ -153,7 +162,7 @@ class customerListController extends Controller
 
         $customerDetails = CustomerDetails::find($id);
         return view('customer.EditCustomerDetails')->with('customerDetails',$customerDetails)->with('city',$cities)
-        ->with('province',$province); 
+        ->with('province',$province);
       }
     }
 
@@ -166,6 +175,8 @@ class customerListController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
+
         //
         if(auth::check() == false){
             Session::put('loginSession','fail');
@@ -188,7 +199,7 @@ class customerListController extends Controller
           $updatecustomerDetails->Customer_Type = $request->input('custTypeField2');
 
           $updatecustomerDetails->save();
-          
+
           return redirect()->route('customers.show',$updatecustomerDetails->Cust_ID);
         }
     }

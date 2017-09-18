@@ -58,7 +58,9 @@ Route::group(['middleware' => ['web']], function() {
 
 
 //checkot of longorder
-	Route::get('/LongorderSummary/',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
+  Route::get('/LongorderSummary/',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
+
+	Route::get('/Receipt/{id}',['uses' => 'OrderManagementController@PrintReciept', 'as'=>'LongOrder.GenerateReceipt']);
 
 
 	Route::resource('Sales_Qoutation','Order_Controller');
@@ -135,7 +137,10 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::get('Validate_Contact', 'Validator_Controller@Contact_Existence');
 
+	Route::get('New_Notification', 'CheckingNotification_Controller@New_Notification');
+
 	Route::get('Order.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement');
+
 	Route::get('Order.Remove_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation');
 
 //Route::get('/removeDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation', 'as'=>'Order.Remove_CustTradeAgreement']);//for the view of adding flowers to order from the supplier

@@ -1,7 +1,7 @@
 @extends('reports_design')
 @section('title', 'Order Summary(Pickup)')
 @section('css')
-    <link href="_CSS/index1.css" rel="stylesheet">
+  <link href="_CSS/index1.css" rel="stylesheet">
 @endsection
 @section('content')
   <div>
@@ -16,33 +16,33 @@
                             <div class="col-md-4 ">
                               <div class="form-group">
                                             <input type="text" name="orderid" id="orderid" class="form-control input-lg" placeholder="Order ID" tabindex="2">
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-offset-2 col-md-4">
                               <div class="form-group">
                                             <input type="text" name="status" id="status" class="form-control input-lg" value ="Pending">
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-8">
                               <div class="form-group">
                                             <input type="text" name="fullname1" id="fullname1" class="form-control input-lg" value = "laman dapat nito yung fullname ng nagorder">
-                                        </div> 
+                                        </div>
                             </div>
                             <br>
                             <div class="col-md-3 ">
                               <div class="form-group">
                                             <input type="number" name="contact" id="contact" class="form-control input-lg" placeholder ="number ng nagorder">
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-4 ">
                               <div class="form-group">
                                             <input type="text" name="mode" id="mode" class="form-control input-lg" value = "piniling payment method" tabindex="2">
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-3 ">
                               <div class="form-group">
                                             <input type="textr" name="email" id="email" class="form-control input-lg" value ="Email Address ng nagorder">
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-5">
                               <p> <b> Note: Please send a picture of your Deposit Slip through our email-address. <a href="#"> See example!</a> </b></p>

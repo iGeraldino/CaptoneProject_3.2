@@ -36,7 +36,7 @@ class ClientController extends Controller
               $province = DB::table('provinces')
               ->select('*')
                   ->get();
-              
+
               return view('customer_side.pages.register')
               ->with('city',$cities)
               ->with('province',$province);
@@ -146,11 +146,11 @@ class ClientController extends Controller
 
           }*/
 
-        
 
 
-          
-          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 
+
+
+          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'),
             'type' => 0])){
 
               return redirect() -> route('homepages');
@@ -163,7 +163,7 @@ class ClientController extends Controller
           else{
             return redirect() -> back();
           }
-          
+
 
         }
 
@@ -195,12 +195,17 @@ class ClientController extends Controller
           $province = DB::table('provinces')
               ->select('*')
                   ->get();
-              
+
 
 
           $id = Auth::user() -> Cust_ID ;
+<<<<<<< HEAD
           $email = Auth::user() -> email;
            
+=======
+
+
+>>>>>>> master
 
           $details = db::table('customer_details')->where('Cust_ID', '=' , $id)->get();
           $account = db::table('users')->where('Cust_ID', '=' , $id)->get();
@@ -290,6 +295,6 @@ class ClientController extends Controller
         }
 
 
-        
+
 
 }

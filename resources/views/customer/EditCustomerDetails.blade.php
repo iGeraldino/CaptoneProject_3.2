@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('content')
-   
+
     <!-- Content Header (Page header) -->
   <section class="content-header">
 
@@ -15,32 +15,32 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body" style = "width: 100%;">
-           {!! Form::model($customerDetails,['route'=>['customers.update', $customerDetails->Cust_ID],'method'=>'PUT'])!!} 
+           {!! Form::model($customerDetails,['route'=>['customers.update', $customerDetails->Cust_ID],'method'=>'PUT'])!!}
               <label>Name: </label>
               <div class="input-group">
-                
+
                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                
+
                 <input type="text" class="form-control" name="Cust_FNameField2" id="Cust_FNameField2"  placeholder="First Name..." Value = "{{$customerDetails->Cust_FName}}"  required/>
-                
+
                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                
+
                 <input type="text" class="form-control" name="Cust_MNameField2" id="Cust_MNameField2" Value = "{{$customerDetails->Cust_MName}}"  placeholder="Middle Name..."/>
-                
+
                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                
+
                 <input type="text" class="form-control" name="Cust_LNameField2" id="Cust_LNameField2" Value = "{{$customerDetails->Cust_LName}}" placeholder="Last Name..." required/>
               </div>
 
               <div class = "row">
                 <div class = "col-md-4">
-                  <label>Type: </label>     
-                  <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden></input>                
+                  <label>Type: </label>
+                  <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden></input>
                 </div>
 
                 <div class = "col-md-4">
                   <label>Contact NUmber: </label>
-                </div>              
+                </div>
               </div>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -79,18 +79,18 @@
               </div>
 
                 <div class = "form-group">
-                  <label>Baranggay: </label>                
+                  <label>Baranggay: </label>
                   <input type="text" class="form-control" name="BaranggayField2" id="BaranggayField2"  placeholder="Baranggay here..." Value = "{{$customerDetails->Baranggay}}" required/>
                 </div>
-                
+
                <div class = "row">
                 <div class = "col-md-4">
                   <label>Town: </label>
-                </div>              
+                </div>
 
                 <div class = "col-md-4">
                   <label>Province: </label>
-                </div>              
+                </div>
               </div>
               <div hidden>
                   <input type="text" class="form-control" name="provinceID" id="provinceID" Value = "{{$customerDetails->Province}}"/>
@@ -133,7 +133,7 @@
       </div>
 
 
-		
+
 	</div>
 @endsection
 
@@ -142,14 +142,14 @@
 <script>
   $(document).ready(function(){
   //  $("#TownField2").attr("disabled", "disabled");
-    var provID = $('#provinceID').val();  
+    var provID = $('#provinceID').val();//eto yung galing sa database na value
     $('#ProvinceField2 option').each(function(){
       if ($(this).val() == provID){
         $(this).parent().val($(this).val());
       }
     });// end of function
-   
-    var cityID = $('#townID').val();  
+
+    var cityID = $('#townID').val();
     $('#TownField2 option').each(function(){
       if ($(this).val() == cityID){
         $(this).parent().val($(this).val());
@@ -160,25 +160,25 @@
             var selected = $(this).val();
             //$("#TownField").removeAttr("disabled");
             $("#TownField option").each(function(item){
-              // console.log(selected) ;   
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+              // console.log(selecte d) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
                 element.show();
               }
-            }) ; 
+            }) ;
            $("#TownField2").val($("#TownField option:visible:first").val());
            $("#TownField2").attr('required', true);
-        });//end of function           
-        
+        });//end of function
+
         if( $('#custTypeLbl').val() == 'H' ){
           $('#custTypeField2 option[value=H]').prop('selected', true);
             $("#hotelnameDiv2").show();
             $("#HotelNameField2").attr('required', true);
-            $("#shopnameDiv2").hide(); 
+            $("#shopnameDiv2").hide();
             $("#ShopNameField2").attr('required', false);
 
         }
@@ -186,7 +186,7 @@
           $('#custTypeField2 option[value=S]').prop('selected', true);
             $("#hotelnameDiv2").hide();
             $("#HotelNameField2").attr('required', false);
-            $("#shopnameDiv2").show(); 
+            $("#shopnameDiv2").show();
             $("#ShopNameField2").attr('required', true);
 
         }
@@ -194,10 +194,10 @@
           $('#custTypeField2 option[value=C]').prop('selected', true);
             $("#hotelnameDiv2").hide();
             $("#HotelNameField2").attr('required', false);
-            $("#shopnameDiv2").hide(); 
+            $("#shopnameDiv2").hide();
             $("#ShopNameField2").attr('required', false);
         }
-        
+
 
         $("#custTypeField2").change(function(){
           if($('#custTypeField2').val() == 'H') {
@@ -206,24 +206,24 @@
               $("#shopnameDiv2").slideUp();
               $("#ShopNameField2").attr('required', false);
 
-            } 
+            }
           else if ($('#custTypeField2').val() == 'S'){
               $("#hotelnameDiv2").slideUp();
               $("#HotelNameField2").attr('required', false);
-              $("#shopnameDiv2").slideDown(); 
+              $("#shopnameDiv2").slideDown();
               $("#ShopNameField2").attr('required', true);
-            } 
+            }
           else {
             var clear = '';
               $("#hotelnameDiv2").slideUp();
-              $("#shopnameDiv2").slideUp(); 
+              $("#shopnameDiv2").slideUp();
               $("#HotelNameField2").attr('required', false);
               $("#ShopNameField2").attr('required', false);
               $("#HotelNameField2").val(clear);
-              $("#ShopNameField2").val(clear);              
-            } 
+              $("#ShopNameField2").val(clear);
+            }
         });//end of function
-        
+
       });
     </script>
 @endsection

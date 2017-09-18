@@ -33,7 +33,7 @@
 
 		                        <td class="col-md-6">
 		                        <div class="media">
-		                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{ asset('full/'. $cart1 -> options -> image)}}" style="width: 72px; height: 72px;"> </a>
+		                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{ asset('flowerimage/'. $cart1 -> options -> image)}}" style="width: 72px; height: 72px;"> </a>
 		                            <div class="media-body">
 		                                <h4 class="media-heading"><a href="#">{{ $cart1 -> name}}</a></h4>
 		                            </div>
@@ -67,7 +67,7 @@
 
 		                        <td class="col-md-6">
 		                        <div class="media">
-		                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{ asset('full/'. $cart1 -> options -> image)}}" style="width: 72px; height: 72px;"> </a>
+		                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{ asset('full/'.'default_Bqt.jpg')}}" onerror="{{ asset('full/'.'default_Bqt.jpg')}}" style="width: 72px; height: 72px;"> </a>
 		                            <div class="media-body">
 		                                <h4 class="media-heading"><a href="#">{{ $cart1 -> name}}</a></h4>
 		                            </div>

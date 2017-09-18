@@ -374,7 +374,7 @@
 								                	</div>
 							                	</div>
 							                	<div class="row">
-							                		<div class="col-xs-12 col-sm-6 col-md-6"> 
+							                		<div class="col-xs-12 col-sm-6 col-md-6">
 							                			<label for="" class="text-center fontx">Province</label>
 							                		</div>
 							                		<div class="col-xs-12 col-sm-6 col-md-6">
@@ -868,7 +868,7 @@
 									            </div>
 														</div>
 														<div class="col-md-4 ">
-                              <h5><b>Customer Mode:</b></h5>
+                              <h5><b>Customer Mode of Payment:</b></h5>
 															<div class="form-group">
 									                      		<input type="text" name="cust_mode" id="cust_mode" class="form-control input-lg"  disabled>
 									            </div>
@@ -1212,7 +1212,7 @@
 
 				        var $active = $('.wizard .nav-tabs li.active');
 				        $active.next().removeClass('disabled');
-				       
+
 
 				        nextTab($active);
 
@@ -1220,7 +1220,7 @@
 				    $(".prev-step").click(function (e) {
 
 				        var $active = $('.wizard .nav-tabs li.active');
-						
+
 				        prevTab($active);
 
 				    });
@@ -1484,7 +1484,7 @@
 
                         document.getElementById('cust_type').value = "user";
                         document.getElementById('customer_ID').value = "";
-                     
+
                         document.getElementById('finalCustomer_FName').value = firstName;
                         document.getElementById('finalCustomer_MName').value = middlename;
                         document.getElementById('finalCustomer_LName').value = lastname;
@@ -1523,7 +1523,7 @@
 
                           document.getElementById('cust_type').value = "user";
                           document.getElementById('customer_ID').value = "";
-                        
+
                         document.getElementById('finalCustomer_FName').value = firstName;
                         document.getElementById('finalCustomer_MName').value = middlename;
                         document.getElementById('finalCustomer_LName').value = lastname;

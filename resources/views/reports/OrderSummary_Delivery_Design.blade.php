@@ -6,7 +6,7 @@
 @section('content')
   <div>
     <div id = "deliverySummaryDiv" style="margin-top: 50px;">
-                     
+
                     <div class="row">
                       <div class="col-md-12">
                         <div class="panel panel-default">
@@ -17,22 +17,22 @@
                             <div class="col-md-8">
                               <div class="form-group">
                                             <input type="text" name="fullname" id="fullname" class="form-control input-lg" Value = "laman dapat nito yung full name ng nagorder" disabled>
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-3">
                               <div class="form-group">
                                             <input type="text" name="contact" id="contact" class="form-control input-lg" value="number ng nagorder" disabled>
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-4 ">
                               <div class="form-group">
                                             <input type="text" name="mode" id="mode" class="form-control input-lg" value="piniling payment method" disabled>
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-3 ">
                               <div class="form-group">
                                             <input type="textr" name="email" id="email" class="form-control input-lg" value ="Email Address ng nagorder" disabled>
-                                        </div> 
+                                        </div>
                             </div>
                             <div class="col-md-5">
                               <p> <b> Note: Please send a picture of your Deposit Slip through our email-address. <a href="#"> See example!</a> </b></p>
@@ -61,14 +61,14 @@
                                   <h5><b>Time:</b></h5>
                                   <input type="text" name="SummarydeliveryTime" id="Summarydeliverytime" class="form-control input-lg" value="lagay time ng delivery" disabled>
                                 </div>
-                              </div>  
+                              </div>
                               <div class = "row">
                                 <div class = "col-md-12">
                                   <h5><b>Delivery Address:</b></h5>
                                   <input type="text" name="Summarydeliverydate" id="Summarydeliverydate" class="form-control input-lg" value="Complete delivery address dito" disabled>
                                 </div>
 
-                              </div>                                                            
+                              </div>
                             </div>
                             <div class="col-md-12" style="margin-top: 40px;overflow-x:auto;">
                               <h3 class="fontx text-center">Flower Summary</h3>
@@ -187,7 +187,7 @@
                           <br>
                           <p class="col-md-offset-1" style="color: red;"><b>Take Note: You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</b></p>
                           <p class="col-md-offset-1"><b>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</b>
-                            
+
                           </p>
                           <br>
                           <br>
@@ -197,7 +197,7 @@
                     </div>
         <div>
           <p>
-            Visit us 1234 Dangwa St. Manila 
+            Visit us 1234 Dangwa St. Manila
           </p>
           <p>
             Call us at 0907647389

@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use \Cart;
-use App\sales_order;
+use App\newSales_order;
 use App\bouquet_details;
+use App\Newshop_Schedule;
+use App\Neworder_details;
 use Session;
 use Auth;
+use Carbon\Carbon;
+
 class Orderlong_orderingController extends Controller
 {
     /**
@@ -50,6 +54,7 @@ class Orderlong_orderingController extends Controller
         $Ordered_Lname = $request->OrderedCustLname;//name who ordered
         $Ordered_Contact = $request->OrderedCust_ContactNum;//number who ordered
         $Ordered_Email = $request->OrderedCust_email;//email who ordered
+
         $recipientID = $request->recipientID;//name who ordered
         $recipientFname = $request->recipientFname;//name who ordered
         $recipientMname = $request->recipientMname;//name who ordered
@@ -64,35 +69,162 @@ class Orderlong_orderingController extends Controller
         $Payment_methodline = $request->Payment_methodline;//payment Method
         $Del_DateLine = $request->Del_DateLine;//date
         $Del_timeLine = $request->Del_timeLine;//Time
+/*
+        echo "<b>Existing_CustID =</b> ".$Existing_CustID."</br>";
+        echo "<b>Existing_CustType =</b> ".$Existing_CustType."</br>";
+        echo "<b>Existing_CustStat =</b> ".$Existing_CustStat."</br>";
+        echo "<b>Ordered_Fname =</b> ".$Ordered_Fname."</br>";
+        echo "<b>Ordered_Mname =</b> ".$Ordered_Mname."</br>";
+        echo "<b>Ordered_Lname =</b> ".$Ordered_Lname."</br>";
+        echo "<b>Ordered_Contact =</b> ".$Ordered_Contact."</br>";
+        echo "<b>Ordered_Email =</b> ".$Ordered_Email."</br>";
 
-        $creatOrder = new sales_order;
+        echo "<b>recipientID =</b> ".$recipientID."</br>";
+        echo "<b>recipientFname =</b> ".$recipientFname."</br>";
+        echo "<b>recipientMname =</b> ".$recipientMname."</br>";
+        echo "<b>recipientLname =</b> ".$recipientLname."</br>";
+        echo "<b>recipient_Contact =</b> ".$recipient_Contact."</br>";
+        echo "<b>recipient_email =</b> ".$recipient_email."</br>";
+        echo "<b>Adrs_Line =</b> ".$Adrs_Line."</br>";
+        echo "<b>Brgy_Line =</b> ".$Brgy_Line."</br>";
+        echo "<b>prove_Line =</b> ".$prove_Line."</br>";
+        echo "<b>city_Line =</b> ".$city_Line."</br>";
+        echo "<b>shipping_methodline =</b> ".$shipping_methodline."</br>";
+        echo "<b>Payment_methodline =</b> ".$Payment_methodline."</br>";
+        echo "<b>Del_DateLine =</b> ".$Del_DateLine."</br>";
+        echo "<b>Del_timeLine =</b> ".$Del_timeLine."</br>";
+*/
+        $combined_date = $Del_DateLine." ".$Del_timeLine;
+        $dateTime_to_beOut = date('Y-m-d h:i:s', strtotime($combined_date));
+        //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+        $current = Carbon::now('Asia/Manila');
+
+//create a new Sales order first
+       $createOrder = new newSales_order;
 
         if($Existing_CustID == ""){
-          $creatOrder->customer_ID = NULL;
+          $createOrder->customer_ID = NULL;
         }else {
-          $creatOrder->customer_ID = $Existing_CustID;
+          $createOrder->customer_ID = $Existing_CustID;
         }
-        $creatOrder->Customer_Fname = $Ordered_Fname;
-        $creatOrder->Customer_Mname = $Ordered_Mname;
-        $creatOrder->Customer_Lname = $Ordered_Lname;
-        $creatOrder->Contact_Num = $Ordered_Contact;
-        $creatOrder->email_Address = $Ordered_Email;
-        $creatOrder->Status = 'PENDING';
-        $creatOrder->Type = 'WALK-IN';
-        $creatOrder->save();
+        $createOrder->Customer_Fname = $Ordered_Fname;
+        $createOrder->Customer_Mname = $Ordered_Mname;
+        $createOrder->Customer_Lname = $Ordered_Lname;
+        $createOrder->Contact_Num = $Ordered_Contact;
+        $createOrder->email_Address = $Ordered_Email;
+        $createOrder->created_at = $current;
+        $createOrder->updated_at = $current;
+        $createOrder->Status = 'PENDING';
+        $createOrder->Type = 'WALK-IN';
+        $createOrder->save();
+//to be continued...
 
+//then insert the items under that sales order using its primary key
+  //insert the flowers under that orderinto the database
         foreach(Cart::instance('TobeSubmitted_Flowers')->content() as $Ordered_Flowers){
               $FLowers_toOrder = DB::select('CALL insert_Flowers_ofSales_Order(?,?,?,?,?)',
-              array($creatOrder->sales_order_ID,$Ordered_Flowers->id,$Ordered_Flowers->qty,
+              array($createOrder->sales_order_ID,$Ordered_Flowers->id,$Ordered_Flowers->qty,
               $Ordered_Flowers->price,$Ordered_Flowers->options['T_Amt']));
         }
 
-        foreach(Cart::instance('TobeSubmitted_Bqt')->content()){
+//create a bouquet under that sales order
+      foreach(Cart::instance('TobeSubmitted_Bqt')->content() as $bqt){
+          $BqttotalAmt = 0;
+          $BqttotalCnt = 0;
+          //compute the total amount flowers and accessories under that bouquet
+          foreach(Cart::instance('TobeSubmitted_Bqt_Flowers')->content() as $row3){
+              if($bqt->id == $row3->options['bqt_ID']){
+                $BqttotalCnt += $row3->qty;//compute the total count of flowers under that bouquet
+                $BqttotalAmt += $row3->options['T_Amt'];//computes the total amount of flowers
+              }
+          }
+          foreach(Cart::instance('FinalBqt_Acessories')->content() as $row3_1){
+              if($bqt->id == $row3_1->options['bqt_ID']){
+                $BqttotalAmt += $row3_1->options['T_Amt'];//computes the total amount of flowers
+              }
+          }
+
           $createBouquet = new bouquet_details;
-          $FLowers_toOrder = DB::select("CALL add_Flower_to_Bouquet(?, ?, ?)", array());
+          $createBouquet->price = $BqttotalAmt;
+          $createBouquet->count_ofFlowers = $BqttotalCnt;
+          $createBouquet->Type = 'custom';//
+          $createBouquet->Order_ID = $createOrder->sales_order_ID;//submits the primary key of the newly created Salesorder
+          $createBouquet->save();
+
+          $PassBqt_toSalesOrder = DB::select('CALL insert_BqtToSales_orderBqt(?,?,?,?)'
+          ,array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$BqttotalAmt,$bqt->qty));
+
+          foreach(Cart::instance('TobeSubmitted_Bqt_Flowers')->content() as $flwr){
+            if($bqt->id == $flwr->options['bqt_ID']){
+              $BqtFLowers_toOrder = DB::select("CALL add_Flower_to_Bouquet(?, ?, ?)", array($createBouquet->bouquet_ID,$flwr->id,$flwr->price));
+              //
+              $bqtFlowers_toSalesOrder = DB::select("CALL add_flowers_to_sales_OrderBqtFlowers(?,?,?,?,?)",
+              array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$flwr->id,$flwr->price,$flwr->qty));//inserts the flowers into the salesorderbqt_flowers table
+            }
+          }//end of adding flowers to bqt
+          foreach(Cart::instance('FinalBqt_Acessories')->content() as $Acrs){
+            if($bqt->id == $Acrs->options['bqt_ID']){
+              $BqtAcrs_toOrder = DB::select("CALL add_Acessories_to_Bouquet(?, ?, ?)", array($createBouquet->bouquet_ID,$Acrs->id,$Acrs->price));
+              //
+              $bqtAccessories_toSalesOrder = DB::select("CALL add_accessories_to_sales_Order_Accessories(?,?,?,?,?)",
+              array($createOrder->sales_order_ID,$createBouquet->bouquet_ID,$Acrs->id,$Acrs->price,$Acrs->qty));//inserts the flowers into the salesorderbqt_accessories table
+            }
+          }//end of adding flowers to bqt
         }
 
-//to be continued...
+      $F_tamt = 0;
+      $B_tamt = 0;
+      $OrderTotal_Amt = 0;
+      $F_tamt = str_replace(array(','), array(''), Cart::instance('TobeSubmitted_Flowers')->subtotal());
+      $B_tamt = str_replace(array(','), array(''), Cart::instance('TobeSubmitted_Bqt')->subtotal());
+
+      $OrderTotal_Amt = $F_tamt + $B_tamt;
+
+      $create_Order_Details = new Neworder_details;
+      $create_Order_Details->Order_ID = $createOrder->sales_order_ID;
+      $create_Order_Details->Delivery_Address = $Adrs_Line;
+      $create_Order_Details->Delivery_Baranggay = $Brgy_Line;
+      $create_Order_Details->Delivery_City = $city_Line;
+      $create_Order_Details->Delivery_Province = $prove_Line;
+      $create_Order_Details->Customer_ID = $recipientID;
+      $create_Order_Details->Recipient_Fname = $recipientFname;
+      $create_Order_Details->Recipient_Mname = $recipientMname;
+      $create_Order_Details->Recipient_Lname = $recipientLname;
+      $create_Order_Details->Status = 'PENDING';
+      $create_Order_Details->Payment_Mode = $Payment_methodline;
+      $create_Order_Details->shipping_method = $shipping_methodline;
+      $create_Order_Details->Subtotal = $OrderTotal_Amt;
+      $create_Order_Details->email_Addresss = $recipient_email;
+      $create_Order_Details->Contact_Num = $recipient_Contact;
+      $create_Order_Details->created_at = $current;
+      $create_Order_Details->updated_at = $current;
+      $create_Order_Details->save();
+
+
+      $add_toShopSchedule = new Newshop_Schedule;
+      $add_toShopSchedule->Order_ID = $createOrder->sales_order_ID;
+      $add_toShopSchedule->Customer_fname = $Ordered_Fname;
+      $add_toShopSchedule->Customer_lname = $Ordered_Lname;
+
+      $add_toShopSchedule->Date_of_Event = $dateTime_to_beOut;
+      $add_toShopSchedule->Time = $dateTime_to_beOut;
+      $add_toShopSchedule->Schedule_Type = $shipping_methodline;
+      $add_toShopSchedule->shedule_status = 'PENDING';
+      $add_toShopSchedule->created_at = $current;
+      $add_toShopSchedule->updated_at = $current;
+      $add_toShopSchedule->save();
+
+        Cart::instance('FinalBqt_Flowers')->destroy();
+        Cart::instance('FinalBqt_Acessories')->destroy();
+        Cart::instance('Ordered_Flowers')->destroy();
+        Cart::instance('Ordered_Bqt')->destroy();
+
+        Cart::instance('TobeSubmitted_Flowers')->destroy();
+        Cart::instance('TobeSubmitted_Bqt')->destroy();
+        Cart::instance('TobeSubmitted_Bqt_Flowers')->destroy();
+
+       Session::put('newOrderMade_Session','Successful');
+       return redirect()->route("Orders_Submit_LongOrder.show", $createOrder->sales_order_ID);
     }
 
     /**
@@ -104,6 +236,43 @@ class Orderlong_orderingController extends Controller
     public function show($id)
     {
         //
+
+        $cities = DB::table('cities')
+          ->select('*')
+          ->get();
+
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+
+        $NewSalesOrder = newSales_order::find($id);
+        $NewSalesOrder_details = Neworder_details::find($id);
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                   ->where('Order_ID', $id)
+                                   ->first();
+
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                    ->where('Order_ID', $id)
+                                    ->get();
+
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+       //dd($NewOrder_SchedDetails);
+        return view('Orders/finalorder')
+        ->with('cities',$cities)
+        ->with('provinces',$province)
+        ->with('NewSalesOrder',$NewSalesOrder)
+        ->with('NewSalesOrder_details',$NewSalesOrder_details)
+        ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+        ->with('SalesOrder_flowers',$SalesOrder_flowers)
+        ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+        ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+        ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+
     }
 
     /**

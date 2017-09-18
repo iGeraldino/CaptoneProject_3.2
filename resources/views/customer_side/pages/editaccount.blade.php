@@ -5,9 +5,9 @@
     <link href="_CSS/register1.css" rel="stylesheet">
 @endsection
 @section('content')
-	
+
 	<div class="container" style="margin-top: 80px;">
-  
+
         <div class="row">
             @foreach($details as $details)
 
@@ -86,14 +86,29 @@
 						                      		<input type="text" name="brgy" id="brgy" class="form-control input-lg" placeholder="Baranggay" tabindex="3" disabled="true" value="{{ $details -> Baranggay }}">
 						                    	</div>
 						                    </div>
+                                <div hidden>
+                                  <input id = "prov_ID" name = "prov_ID" value = "{{ $details -> Province }}">
+                                  <input id = "town_ID" name = "town_ID" value = "{{ $details -> Town }}">
+                                  <select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
+                                    @foreach($province as $prov2)
+                                      <option value ="{{$prov2->id}}" data-tag = "{{$prov2->name}}"> {{$prov2->name}} </option>
+                                    @endforeach
+                                  </select>
+
+                                  <select name="TownField_Search" id="TownField_Search" class="form-control" disabled>
+                                    @foreach($cities as $cities2)
+                                      <option value ="{{$cities2->id}}" data-tag = "{{$cities2->name}}"> {{$cities2->name}} </option>
+                                    @endforeach
+                                  </select>
+                                </div>
 						                    <div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-						                      		<input type="text" name="ProvinceField" id="ProvinceField" class="form-control input-lg" placeholder="Province" tabindex="2" >
+                                    <input type="text" name="TownField" id="TownField" class="form-control input-lg" placeholder="City" tabindex="2">
 						                    	</div>
 						                    </div>
 						                  	<div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-						                      		<input type="text" name="TownField" id="TownField" class="form-control input-lg" placeholder="City" tabindex="2">
+                                    <input type="text" name="ProvinceField" id="ProvinceField" class="form-control input-lg" placeholder="Province" tabindex="2" >
 						                    	</div>
 						                    </div>
 						                </div>
@@ -125,14 +140,14 @@
 						                      		<input type="text" name="brgy" id="brgy" class="form-control input-lg" placeholder="Baranggay" tabindex="3" disabled="true" value="{{ $details -> Baranggay }}">
 						                    	</div>
 						                    </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                  <div class="form-group">
+                                    <input type="text" name="TownField2" id="TownField2" class="form-control input-lg" placeholder="City" tabindex="2">
+                                  </div>
+                                </div>
 						                    <div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-						                      		<input type="text" name="ProvinceField" id="ProvinceField" class="form-control input-lg" placeholder="Province" tabindex="2">
-						                    	</div>
-						                    </div>
-						                  	<div class="col-xs-12 col-sm-6 col-md-6">
-						                    	<div class="form-group">
-						                      		<input type="text" name="TownField" id="TownField" class="form-control input-lg" placeholder="City" tabindex="2">
+						                      		<input type="text" name="ProvinceField2" id="ProvinceField2" class="form-control input-lg" placeholder="Province" tabindex="2">
 						                    	</div>
 						                    </div>
 						                </div>
@@ -186,7 +201,7 @@
                 	</div>
                 </div>
             </div>
-        
+
             @endforeach
         </div>
 	</div>
@@ -285,26 +300,73 @@
 x
               </div>
           </div>
-   
+
         </div>
         <!-- CREATE END -->
 
 	      </div>
-	      
+
 	    </div>
 
 	  </div>
 	</div>
-	
+
 @endsection
 
 @section('script')
 
 	<script type="text/javascript">
-		
-         $(document).ready(function()
+
+      $(document).ready(function()
       {
-        
+        var Acct_ProvID = $('#prov_ID').val();
+        var Acct_TownID = $('#town_ID').val();
+//for setting the province and the city's select tag into the id that were obtained from the database---------------------
+      $('#prov option').each(function(item){
+          var element = $(this);
+          if(element.val() == Acct_ProvID){
+            $(this).parent().val($(this).val());
+          }
+      });
+
+      $('#Town option').each(function(item){
+          var element = $(this);
+          if(element.val() == Acct_TownID){
+            $(this).parent().val($(this).val());
+          }
+      });
+
+
+//for getting the name of the province and town---------------------------------------------------------------------------
+
+        var Prov_Name = "";
+        var Town_Name = "";
+
+        $("#ProvinceField_Search option").each(function(item){
+          var element =  $(this) ;
+          if (element.val() != Acct_ProvID){
+            //element.hide() ;
+          }
+          else{
+            Prov_Name = element.data("tag");
+          }
+        });//end of function
+
+        $("#TownField_Search option").each(function(item){
+          var element =  $(this) ;
+          if (element.val() != Acct_TownID ){
+            //element.hide() ;
+          }
+          else{
+            Town_Name = element.data("tag");
+          }
+        });//end of function\
+
+        $("#TownField").val(Town_Name);
+        $("#ProvinceField").val(Prov_Name);
+        $("#ProvinceField2").val(Prov_Name);
+        $("#TownField2").val(Town_Name);
+
           $("#Town").attr('disabled',true);
 
         $('#Prov').change(function(){
@@ -351,7 +413,7 @@ x
 
         }); // Document Function
 
-   
+
 	</script>
 
 @endsection
