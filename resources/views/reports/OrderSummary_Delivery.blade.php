@@ -50,19 +50,19 @@
       <table class="table table-bordered" style="width:100%">
         <tr>
           <th>Flower ID</th>
-          <th>Name</th> 
+          <th>Name</th>
           <th>Price</th>
           <th>Quantity</th>
           <th>Total Amount</th>
         </tr>
         <tr>
           <td>Jill</td>
-          <td>Smith</td> 
+          <td>Smith</td>
           <td>50</td>
-          <td>Jackson</td> 
+          <td>Jackson</td>
           <td>94</td>
         </tr>
-      </table>    
+      </table>
     </div>
     <br> <br><br> <br>
     <h3 class="text-center">BOUQUET SUMMARY</h3>
@@ -140,7 +140,7 @@
     </div>
     <br> <br>
     <p><b>Take Note: You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</b></p>
-    <p><b>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</b></p> 
-  </div>      
+    <p><b>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</b></p>
+  </div>
 <br> <br>
 @endsection

@@ -20,7 +20,7 @@
 				</div>
 				<div class="col-md-3 col-md-offset-3">
 					<a href="/Long_Sales_Order" type="button" class="btn btn-sm Lemon"> Done</a>
-					<a href="#" type="button" class="btn btn-sm Beach"> Print</a>
+					<a href="{{route('LongOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print</a>
 				</div>
 			</div>
 		</div>

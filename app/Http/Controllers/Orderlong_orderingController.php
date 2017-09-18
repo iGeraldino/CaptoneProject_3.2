@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use \Cart;
-use App\sales_order;
+use App\newSales_order;
 use App\bouquet_details;
 use App\Newshop_Schedule;
 use App\Neworder_details;
 use Session;
 use Auth;
+use Carbon\Carbon;
+
 class Orderlong_orderingController extends Controller
 {
     /**
@@ -95,10 +97,10 @@ class Orderlong_orderingController extends Controller
         $combined_date = $Del_DateLine." ".$Del_timeLine;
         $dateTime_to_beOut = date('Y-m-d h:i:s', strtotime($combined_date));
         //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
-
+        $current = Carbon::now('Asia/Manila');
 
 //create a new Sales order first
-       $createOrder = new sales_order;
+       $createOrder = new newSales_order;
 
         if($Existing_CustID == ""){
           $createOrder->customer_ID = NULL;
@@ -110,6 +112,8 @@ class Orderlong_orderingController extends Controller
         $createOrder->Customer_Lname = $Ordered_Lname;
         $createOrder->Contact_Num = $Ordered_Contact;
         $createOrder->email_Address = $Ordered_Email;
+        $createOrder->created_at = $current;
+        $createOrder->updated_at = $current;
         $createOrder->Status = 'PENDING';
         $createOrder->Type = 'WALK-IN';
         $createOrder->save();
@@ -192,6 +196,8 @@ class Orderlong_orderingController extends Controller
       $create_Order_Details->Subtotal = $OrderTotal_Amt;
       $create_Order_Details->email_Addresss = $recipient_email;
       $create_Order_Details->Contact_Num = $recipient_Contact;
+      $create_Order_Details->created_at = $current;
+      $create_Order_Details->updated_at = $current;
       $create_Order_Details->save();
 
 
@@ -204,6 +210,8 @@ class Orderlong_orderingController extends Controller
       $add_toShopSchedule->Time = $dateTime_to_beOut;
       $add_toShopSchedule->Schedule_Type = $shipping_methodline;
       $add_toShopSchedule->shedule_status = 'PENDING';
+      $add_toShopSchedule->created_at = $current;
+      $add_toShopSchedule->updated_at = $current;
       $add_toShopSchedule->save();
 
         Cart::instance('FinalBqt_Flowers')->destroy();
@@ -237,7 +245,7 @@ class Orderlong_orderingController extends Controller
           ->select('*')
           ->get();
 
-        $NewSalesOrder = sales_order::find($id);
+        $NewSalesOrder = newSales_order::find($id);
         $NewSalesOrder_details = Neworder_details::find($id);
         $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
 
@@ -253,7 +261,7 @@ class Orderlong_orderingController extends Controller
 
         $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
-        //dd($NewOrder_SchedDetails);
+       //dd($NewOrder_SchedDetails);
         return view('Orders/finalorder')
         ->with('cities',$cities)
         ->with('provinces',$province)

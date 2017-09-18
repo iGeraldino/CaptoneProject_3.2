@@ -8,6 +8,6 @@ class Newshop_Schedule extends Model
 {
     //
     protected $primaryKey = 'Schedule_ID';
-    public $timestamps = true;
+    public $timestamps = false;
     protected $table = 'shop_schedule';
 }

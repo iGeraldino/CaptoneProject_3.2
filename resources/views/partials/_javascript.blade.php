@@ -45,5 +45,3 @@
 <script src="{{asset('admin/plugins/knob/jquery.knob.js')}}"></script>
 
 <script src="{{asset('sweetalert-master/dist/sweetalert.min.js') }} "></script>
-
-
