@@ -72,6 +72,8 @@ Route::group(['middleware' => ['web']], function() {
 	Route::resource('product', 'productcontroller');
 
 
+	Route::get('deletePrice_Markup/{id}', ['uses' => 'Pricelist_Controller@destroy',
+	 'as' => 'Price.delete']);
 
 	Route::resource('addtocart', 'addtocart');
 

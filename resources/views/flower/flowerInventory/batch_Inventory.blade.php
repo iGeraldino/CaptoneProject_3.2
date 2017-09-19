@@ -12,9 +12,9 @@
 			<div class="col-md-3">
           	  <div class="col-sm-offset-1">
 	 		    <img src="{{ asset('flowerimage/'. $flowerDet->Image)}}" alt="Circle Image" class="img-rounded img-raised img-responsive" style="min-width: 200px; max-height: 200px;">
-	          </div>		
+	          </div>
           	</div><!--end of column-->
-            
+
             <div class="col-md-3">
               <div class="form-group">
                 <div>
@@ -34,7 +34,7 @@
 	                <label class="control-label">Default Price: </label>
 	                <span class="label" style="font-size: 100%; background-color: #F62459">
 	                Php {{number_format($flowerDet->Initial_Price,2)}}</span>
-	            </div>              
+	            </div>
 	           </div>
             </div><!--End of column-->
             <div class = "col-md-4">
@@ -43,10 +43,10 @@
 	                <textarea class = "form-control" rows="4" cols="50" disabled style = "color: white; background-color: #F62459;">
                     {{$flowerDet->Description}}
                   </textarea>
-	            </div>  
+	            </div>
             </div>
           </div>
-            
+
           </div>
         </div>
   </div>
@@ -54,7 +54,7 @@
   <div class = "row">
     <div class = "col-md-9">
     <br>
-      <span class="label" style="font-size: 120%; background-color: #F62459; margin-left: 10px;">Inventory Per Batch</span>    
+      <span class="label" style="font-size: 120%; background-color: #F62459; margin-left: 10px;">Inventory Per Batch</span>
     </div>
     <div class = "col-md-3">
       <a href=" {{ route ('floweradd.index') }} " class="btn btn-md btn-danger"><span class = "glyphicon glyphicon-return"></span> Return to Flowerlist </a>
@@ -66,7 +66,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table">
+              <table id="batch_Tbl" class="table table-hover table-bordered table-striped">
                 <thead>
                     <th> Batch ID </th>
                     <th> Unit Cost </th>
@@ -77,26 +77,30 @@
                     <th> QTY Sold</th>
                     <th> Supplier Name</th>
                     <th> Date Recieved</th>
+                    <th> Spoilage Date</th>
+                    <th> Life Span</th>
                     <th> Action </th>
                 </thead>
 
                 <tbody>
                  @foreach($flowers as $flowersRow)
-                    <tr>  
+                    <tr>
                       <th> BATCH-{{$flowersRow->Batch}}  </th>
-                      <th> {{$flowersRow->UnitCost}}     </th>
-                      <th> original Selling price here </th>
-                      <th> {{$flowersRow->SellingPrice}} </th>
-                      <th> {{$flowersRow->QTYRecieved}}</th>
-                      <th> {{$flowersRow->QTYRemaining}} </th>
-                      <th> {{$flowersRow->QTYSold}} </th>
-                      <th> {{$flowersRow->FName}} {{$flowersRow->MName}}, {{$flowersRow->LName}}  </th>
-                      <th> {{$flowersRow->Date_Recieved}} </th>
-                      <th align="center"> 
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-info btn-xs"> 
+                      <td style = "color:red;"> {{$flowersRow->UnitCost}} </td>
+                      <td style = "color:red;"> Php {{number_format($flowersRow->O_SellingPrice,2)}} </td>
+                      <td style = "color:red;"> {{$flowersRow->SellingPrice}} </td>
+                      <td> {{$flowersRow->QTYRecieved}} pcs.</td>
+                      <td> {{$flowersRow->QTYRemaining}} </td>
+                      <td> {{$flowersRow->QTYSold}} </td>
+                      <td> {{$flowersRow->FName}} {{$flowersRow->MName}}, {{$flowersRow->LName}}  </td>
+                      <td> {{$flowersRow->Date_Recieved}} </td>
+                      <td> {{$flowersRow->Spoil_date}} </td>
+                      <td> {{$flowersRow->Life_Span}} days </td>
+                      <td align="center">
+                        <button type="button" rel="tooltip" title="view" class="btn btn-info btn-xs">
                           <i class="glyphicon glyphicon-edit"></i>
                         </button>
-                      </th>
+                      </td>
                     </tr>
                   @endforeach
                   </tbody>
@@ -111,9 +115,10 @@
 
 @section('scripts')
 <script>
+  $('#batch_Tbl').DataTable();
+
  $(document).ready(function(){
-    
+
  });
 </script>
 @endsection
-

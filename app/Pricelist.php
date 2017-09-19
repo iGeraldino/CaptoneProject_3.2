@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pricelist extends Model
 {
     //
-	public $timestamps = false;
-    protected $primary_key = 'Price_ID';
+		protected $primary_key = 'Price_ID';
+		public $timestamps = false;
     protected $table = 'wb_dated_price';
 }

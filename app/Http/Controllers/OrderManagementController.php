@@ -57,17 +57,6 @@ class OrderManagementController extends Controller
             }
 
             //dd($NewOrder_SchedDetails);
-            /*return view('Orders/finalorder')
-            ->with('cities',$cities)
-            ->with('provinces',$province)
-            ->with('NewSalesOrder',$NewSalesOrder)
-            ->with('NewSalesOrder_details',$NewSalesOrder_details)
-            ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
-            ->with('SalesOrder_flowers',$SalesOrder_flowers)
-            ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
-            ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
-            ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
-*/
               $pdf = \PDF::loadView("reports\Order_Delivery_SimpleSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
               'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
@@ -76,7 +65,6 @@ class OrderManagementController extends Controller
               return $pdf->download('sampleDelivery.pdf');
 
             //
-
   }
 
   public function ViewOrderSummary()

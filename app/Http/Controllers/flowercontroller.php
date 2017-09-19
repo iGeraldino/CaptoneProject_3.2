@@ -61,8 +61,8 @@ class flowercontroller extends Controller
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{ 
-                    //       
+        else{
+                    //
                     // get the current time  - 2015-12-19 10:10:54
                     $current = Carbon::now();
                     //$current = new Carbon();
@@ -81,7 +81,7 @@ class flowercontroller extends Controller
 
                     //set a specific timezone - 2016-01-01 00:00:00
                     //$newYearPST = new Carbon('first day of January 2016', 'America\Pacific');
-                    
+
                     //store
                         $flower = new flower_details;
 
@@ -112,8 +112,8 @@ class flowercontroller extends Controller
                     //redirect
                             Session::flash('success','The flower has been Succesfully Created!');
 
-                        return redirect()->route('floweradd.index');   
-        }       
+                        return redirect()->route('floweradd.index');
+        }
 
     }
 
@@ -143,14 +143,14 @@ class flowercontroller extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {        
+    {
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
             $flower = flower_details::find($id);
-            
+
             //dd($flower);
             return view('flower.editflower') -> with('flower', $flower);
         }
@@ -178,6 +178,7 @@ class flowercontroller extends Controller
                         //'life' => 'required',
                         //'retail' => 'required'
                     ));
+
             $flower = flower_details::find($id);
 
             $flower->flower_name = $request->input('flowername');

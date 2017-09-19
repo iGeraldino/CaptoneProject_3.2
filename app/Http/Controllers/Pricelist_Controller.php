@@ -60,13 +60,13 @@ class Pricelist_Controller extends Controller
         else{
             $endDate =  $request->Enddatepicker.' 23:59:59';
             $NewPrice = new Pricelist;
-            $NewPrice->markUp_Percentage = $request->markUp;    
+            $NewPrice->markUp_Percentage = $request->markUp;
             $NewPrice->Start_Date = $request->Startdatepicker;
             $NewPrice->End_Date = $endDate;
             //echo 'ana maganda';
              //dd($NewPrice);
             $NewPrice->save();
-           Session::put('Adding_newMarkUpSession', 'Successful');  
+           Session::put('Adding_newMarkUpSession', 'Successful');
            return redirect()->route('Shop_Pricelist.index');
         }
     }
@@ -102,7 +102,12 @@ class Pricelist_Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Price_ID = $request->Agrmt_ID;
+        $Price = DB::select("CALL edit_Markup(?,?,?,?)"
+        ,array($Price_ID,$request->Sdate_Field,$request->Edate_Field,$request->upValue_Field));
+
+        Session::put('Editing_MarkUpSession', 'Successful');
+        return redirect()->route('Shop_Pricelist.index');
     }
 
     /**
@@ -114,5 +119,8 @@ class Pricelist_Controller extends Controller
     public function destroy($id)
     {
         //
+        $delete = DB::select("CALL delete_markup_record(?)",array($id));
+        Session::put('Delete_MarkUpSession', 'Successful');
+        return redirect()->route('Shop_Pricelist.index');
     }
 }
