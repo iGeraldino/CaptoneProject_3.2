@@ -31,12 +31,11 @@
           <!-- Menu Footer-->
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a  id = "notifications" class = 'dropdown-toggle' data-toggle="dropdown">
-              <span class="label label-pill label-danger count">
+            <a   class = 'dropdown-toggle' data-toggle="dropdown">
+              <span id = "countOfNotification" class="label label-pill label-danger count">
               </span><i class="material-icons md-48">notifications</i>
             </a>
-            <ul class = "dropdown-menu">
-              <a href = "#">hello </a>
+            <ul id = "notifications" class = "dropdown-menu">
             </ul>
           </li>
 

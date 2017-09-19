@@ -89,10 +89,10 @@ class checkoutcontroller extends Controller
           'Cust_ID' => $id,
       ]);
 
-      
+
       $user -> save();
-      
-     
+
+
       Auth::login($user);
 
       return redirect()-> route('checkingregistration');

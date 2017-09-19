@@ -5,17 +5,17 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <section class="content-header">
-  <?php 
-  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder'); 
+  <?php
+  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder');
   Session::remove('Save_Bouqet_To_myOrder');//determines the addition of new flower
 
-  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder'); 
+  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder');
   Session::remove('AddFlower_To_myOrder');//determines the addition of new flower
 
-  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer'); 
+  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer');
   Session::remove('Add_Order_ofCustomer');//determines the addition of new flower
 
-  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation'); 
+  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation');
   Session::remove('Buquet_Cancelation');//determines the addition of new flower
 
     $Flower_Total_Amt = 0;
@@ -33,7 +33,7 @@
 <!-- Tabs with icons on Card -->
                 @foreach($TAmount_flowers as $TAmount_flowers)
                   <div hidden>
-                    {{$TAmount_flowers->T_Amt }} 
+                    {{$TAmount_flowers->T_Amt }}
                     {{$Flower_Total_Amt = $TAmount_flowers->T_Amt }}
                   </div>
                 @endforeach
@@ -41,7 +41,7 @@
 
                 @foreach($TAmount_bouquet as $TAmount_bouquet)
                   <div hidden>
-                    {{$TAmount_bouquet->T_Amt }} 
+                    {{$TAmount_bouquet->T_Amt }}
                     {{$Bqt_Total_Amt = $TAmount_bouquet->T_Amt }}
                   </div>
                 @endforeach
@@ -72,12 +72,12 @@
 <!--Start of Adding Modal Fade-->
 
                 <div class = 'pull-right'>
-                      <a id = 'ReturnBTN' href = "{{ route ('Sales_Qoutation.index') }}" name = 'ReturnBTN' class="btn btn-danger btn-tooltip btn-sm col-xs-offset-2"  data-toggle="tooltip" data-placement="bottom" title="This will bring you back to the list of orders" data-container="body"> <i class="material-icons" 
+                      <a id = 'ReturnBTN' href = "{{ route ('Sales_Qoutation.index') }}" name = 'ReturnBTN' class="btn btn-danger btn-tooltip btn-sm col-xs-offset-2"  data-toggle="tooltip" data-placement="bottom" title="This will bring you back to the list of orders" data-container="body"> <i class="material-icons"
                       style="padding-right: 5px;">
                       compare</i> Return to Bouquet List
                       </a>
 
-                      <a id = 'CheckOutBTN' href = "{{ route ('order.ConfirmOrder',['order_ID'=>$order_ID]) }}" name = 'CheckOutBTN' class="btn btn-success btn-tooltip btn-sm col-xs-offset-2"  data-toggle="tooltip" data-placement="bottom" title="Click this button to checkout all the items that you have listed" data-container="body"> <i class="glyphicon glyphicon-ok-sign" 
+                      <a id = 'CheckOutBTN' href = "{{ route ('order.ConfirmOrder',['order_ID'=>$order_ID]) }}" name = 'CheckOutBTN' class="btn btn-success btn-tooltip btn-sm col-xs-offset-2"  data-toggle="tooltip" data-placement="bottom" title="Click this button to checkout all the items that you have listed" data-container="body"> <i class="glyphicon glyphicon-ok-sign"
                       style="padding-right: 2px;">
                       compare</i> Proceed to checkout
                       </a>
@@ -93,19 +93,19 @@
                       <h3 class="modal-title" id="lineModalLabel">Add Flower for this Order</h3>
                     </div>
                   <!--form open here-->
-              
-                            <div class="modal-body"> 
+
+                            <div class="modal-body">
                                     <!-- content goes here -->
                                     <div id = 'FLower_ListDiv' class = "row">
                                       <div class = "col-md-7">
                                         <select id = 'FLowerList' name = 'FLowerList' class = 'btn btn-primary btn-md'>
                                         <option value = "-1" disabled selected = ''>Please Choose 1 flower</option>
                                           @foreach($FlowerList as $Fdetails)
-                                            <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->Final_SellingPrice}}'> 
+                                            <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->Final_SellingPrice}}'>
                                             {{$Fdetails->flower_name}}
                                             </option>
-                                          @endforeach  
-                                         </select>  
+                                          @endforeach
+                                         </select>
                                            <img src= "" id="imageBox" name="imageBox" class = "img-rounded img-raised img-responsive" style="max-width: 300px; max-height: 300px;" />
                                       </div>
                                       <div class = 'col-md-4'>
@@ -122,15 +122,15 @@
 
                                             <label>The decision</label>
                                             <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
-                                          </div>      <!--end of hidden input field-->                      
+                                          </div>      <!--end of hidden input field-->
                                         </div>
-                                        
+
                                         <!--<div id = 'agreement_Div' hidden>
                                            <div class="input-group">
                                            <label>Agreement Price:</label>
                                             <input type="number" class="form-control" name="AgreementPrice_Field" id="AgreementPrice_Field"  placeholder="" disabled/>
-                                          </div>                            
-                                        </div> -->                 
+                                          </div>
+                                        </div> -->
 
                                         <div id = "divToggleBtn" class="togglebutton" hidden>
                                               <label>
@@ -144,21 +144,21 @@
                                            <div class="form-group label-floating">
                                             <label class = 'control-label'>New Price:</label>
                                             <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field" value = '1.00' step = "0.01"/>
-                                           </div>                            
+                                           </div>
                                          </div>
 
                                           <div id = 'QTY_Div'>
                                            <div class="form-group label-floating">
                                             <label class = 'control-label'>Quantity:</label>
                                             <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
-                                          </div>                            
+                                          </div>
                                          </div>
 
                                         </div>
                                       </div>
                                     <div class = "row">
                                         <div class = "col-md-7">
-                                          
+
                                         </div>
                                         <div class = "col-md-4">
                                             <div class="input-group">
@@ -180,7 +180,7 @@
                             </div>
                           </div>
                   {!! Form::close() !!}
-                           <!--Form close here--> 
+                           <!--Form close here-->
 
                         </div>
                       </div>
@@ -223,7 +223,7 @@
                     <div class = 'pull-left'>
                       <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#AddflowerModal">
                         Add flowers
-                      </button>                       
+                      </button>
                     </div>
                     <div class="box-body">
                       <table id="flowersTable" class="table table-bordered table-striped">
@@ -233,28 +233,28 @@
                             <th> Unit Price </th>
                             <th> Quantity </th>
                             <th> Amount </th>
-                            <th> Action </th> 
+                            <th> Action </th>
 
                         </thead>
                         <tbody>
                           @foreach($Flowers as $flower)
-                            <tr>  
+                            <tr>
                               <td> {{$flower->Flower_ID}} </td>
                               <td> {{$flower->Flower_Name}} </td>
                               <td> Php {{$flower->unit_price}}     </td>
                               <td> {{$flower->QTY}} Pcs.      </td>
                               <td> Php {{$flower->Amt}}     </td>
-                              <td align="center" > 
+                              <td align="center" >
                                <?php
                                   $joined_ID = $order_ID.'_'.$flower->Flower_ID;
                                   //gets the order_ID and Flower_ID then joins it then it to the edit function of the routes
                                ?>
-                                <a type = "button" href="{{ route ('Sales_Order.edit', $joined_ID ) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span> 
+                                <a type = "button" href="{{ route ('Sales_Order.edit', $joined_ID ) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span>
                                    Manage Order
-                                </a> 
+                                </a>
 
-                                <a type = "button" href="{{ route('Flowerorder.DelOrderFlowers',['order_ID'=>$order_ID,'flower_ID'=>$flower->Flower_ID,'QTY'=>$flower->QTY,'T_PRICE'=>$flower->Amt]) }}" name = "deleteBTN" id = "deleteBTN" class = "btn btn-danger btn-sm" > 
-                                  <span class = "glyphicon glyphicon-trash"></span> 
+                                <a type = "button" href="{{ route('Flowerorder.DelOrderFlowers',['order_ID'=>$order_ID,'flower_ID'=>$flower->Flower_ID,'QTY'=>$flower->QTY,'T_PRICE'=>$flower->Amt]) }}" name = "deleteBTN" id = "deleteBTN" class = "btn btn-danger btn-sm" >
+                                  <span class = "glyphicon glyphicon-trash"></span>
                                    Delete
                                 </a>
 
@@ -271,7 +271,7 @@
                     <div class = 'pull-left'>
                       <a type="button" href = "{{route('Order.CreateaBouquet',['Order_id'=>$order_ID])}}" class="btn btn-primary btn-sm"  >
                         Create Bouquet
-                      </a>                       
+                      </a>
                     </div>
                     <div class="box-body">
                       <table id="BouqTable" class="table table-bordered table-striped">
@@ -284,12 +284,12 @@
                         </thead>
                         <tbody>
                             @foreach($Bouquets as $Bqts)
-                              <tr>  
+                              <tr>
                                   <td> BQT_{{$Bqts->Bqt_ID}} </td>
                                   <td> Php {{number_format($Bqts->Unit_Price,2)}} </td>
                                   <td> {{$Bqts->QTY}} pcs.</td>
                                   <td> Php {{number_format($Bqts->Amt,2)}} </td>
-                                  <td align="center" > 
+                                  <td align="center" >
                                     <button class="btn btn-info btn-sm"> View </button></a>
                                     <button class="btn btn-danger btn-sm"> Delete </button></a>
                                   </td>
@@ -332,7 +332,7 @@
 
   <script>
   $('document').ready(function(){
-   
+
       if($('#Cancel_BQTSessionValue').val()=='Successful'){
          //Show popup
          swal("Take Note:","Creation of bouquet was cancelled the progress of ceation will be reset","success");
@@ -365,7 +365,7 @@
         $('#CancelPrice_Btn').click(function(){
           $('#newPrice_Btn').slideDown();
           $('#NewPrice_Div').slideUp();
-        }); 
+        });
         //end of functionx
 
         if($("#FLowerList option").val() == '-1'){
@@ -434,7 +434,7 @@
                Descision = 'O';
               $('#NewPrice_Field').attr('required',false);
               $('#Decision_Field').val(Descision);
-  
+
               $('#OrigInputPrice_Field').change(function(){
                var NewTAmt =  $('#OrigInputPrice_Field').val() * $("#QTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
@@ -448,7 +448,7 @@
               });
            }
         }); //end of functionx
-        
+
   });
   </script>
 

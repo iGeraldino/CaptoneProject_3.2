@@ -114,7 +114,7 @@
         </div>
       </div>
       <!-- End Tabs with icons on Card -->
-      
+
     </div>
   </section>
 
@@ -123,6 +123,6 @@
 
 @section('scripts')
     <script>
-      
+
     </script>
 @endsection\

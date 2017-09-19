@@ -5,7 +5,7 @@
 
     <!-- Content Header (Page header) -->
   <section class="content-header">
-      <h2> List of unconfirmed Orders</h2>
+      <h2 class="container"> LIST OF ORDERS</h2>
       <div class="col-md-8">
    <br>
   </section>
@@ -132,7 +132,7 @@
         </div>
       </div>
       <!-- End Tabs with icons on Card -->
-      
+
     </div>
 
 @endsection

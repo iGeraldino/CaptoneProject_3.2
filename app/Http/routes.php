@@ -115,7 +115,7 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::post('checkoutfinal', ['uses'=>'checkoutcontroller@userfinalCheckout', 'as' => 'checkoutfinal']);
 
-	Route::post('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
+	Route::get('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
 
 
 	Route::resource('Orders_Flowers','Manage_Flowers_on_Session_Order_Controller');

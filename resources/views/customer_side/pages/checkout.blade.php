@@ -581,7 +581,7 @@
 			                        <br>
 			                        <div id = "pickupSummaryDiv">
 											<!--Form() open dito-->
-                      <form method="post" action="{{ route('checkoutfinalpickup')}}">
+                      <form method="post" action="{{ route('checkoutfinalpickup') }}">
 											<div class="row pull-right">
 												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
@@ -617,7 +617,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<a href="{{ route('summarypickup') }}" type="submit" class="btn btn-success btn-lg"> Submit My Order</a><!-- call a route that saves order for delivery only,
+				                        			<a href="" type="submit" class="btn btn-success btn-lg"> Submit My Order</a><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
 				                        	</div>
@@ -837,7 +837,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<button disabled href="{{ route('summarypickup') }}" type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
+				                        			<button href="" type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
                                   </div>

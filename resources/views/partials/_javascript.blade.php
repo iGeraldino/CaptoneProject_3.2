@@ -45,3 +45,33 @@
 <script src="{{asset('admin/plugins/knob/jquery.knob.js')}}"></script>
 
 <script src="{{asset('sweetalert-master/dist/sweetalert.min.js') }} "></script>
+
+
+
+<script>
+$('#notification').html("")
+  $(document).ready(function(){
+
+    var Notification_URL = "{{ url('Admin.Check_Notification') }}";
+    var notification = new Array();
+    var num_ofNotification = 0;
+    var notif_UL = "";
+  $.ajax({
+      type:'get',
+      url: Notification_URL,
+      dataType: 'json',
+      success: function(response){
+        notif_UL = "";
+        for(ctr = 0; ctr < response.data.length; ctr++)
+        {
+          notif_UL += '<li><a href = "#">'+response.data[ctr].Customer_Fname +' ' +response.data[ctr].Customer_MName + ', '+response.data[ctr].Customer_MName +' made an order</a></li>';
+        }
+
+        $('#notifications').html("");
+        $("#countOfNotification").text(response.data.length);
+        $('#notifications').append(notif_UL);
+      }
+    });
+
+  });
+</script>

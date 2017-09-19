@@ -697,7 +697,7 @@
 									</div>
 	           {!! Form::open(array('route' => 'Orders_Submit_LongOrder.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
 						      <div class="modal-body">
-										<div>
+										<div hidden>
 											<!--for sales order table's attributes-->
 											<input id = "FinalCustomer_ID" name = "FinalCustomer_ID" type = "text"/>
 											<input id = "customerType" name = "customerType" type = "text"/>
@@ -866,7 +866,7 @@
   </script>
 
   <script>
-  $('document').ready(function(){
+  $(document).ready(function(){
 
 			if($('#importantCheckBox').is(":checked")){
 				$('#orderSubmit_Btn').attr("disabled",false);
