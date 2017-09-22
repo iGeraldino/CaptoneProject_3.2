@@ -56,6 +56,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Long_Sales_Order','longorderController');
 
+	Route::resource('Quick_Sales_Order','quickorderController');
+
 
 //checkot of longorder
   Route::get('/LongorderSummary/',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
@@ -119,6 +121,8 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 
 	Route::resource('Orders_Flowers','Manage_Flowers_on_Session_Order_Controller');
+
+	Route::resource('QuickOrders_Flowers','Manage_Flowers_on_Session_QuickOrder_Controller');
 
 	Route::resource('Orders_Bouquet','AddingFlowersto_OrderedBouquet_Controller');
 

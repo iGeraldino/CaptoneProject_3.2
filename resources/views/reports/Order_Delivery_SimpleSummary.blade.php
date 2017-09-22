@@ -93,6 +93,10 @@
 		</style>
 	</head>
 	<body>
+		<?php
+			$totalAmt_Bqt = 0;
+			$Total_AmtFlwr = 0;
+		?>
 		<div class="container">
 			<div class="row">
 
@@ -149,8 +153,8 @@
 
 					<div class = "row">
 						<div class="receipt-header receipt-header-mid">
-							<hr>
 							@if($SalesOrder_flowers != NULL)
+							<hr>
 								<h4 class="fontx text-center">Flower Summary</h4>
 								<table class="table table-hover table-bordered">
 										<thead>

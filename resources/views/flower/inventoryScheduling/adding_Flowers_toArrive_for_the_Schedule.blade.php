@@ -2,22 +2,22 @@
 @extends('main')
 
 @section('content')
-   <?php Session::start(); 
-     $deleteSessionValue = Session::get('Deleted_FlowerfromSession_Supply'); 
+   <?php Session::start();
+     $deleteSessionValue = Session::get('Deleted_FlowerfromSession_Supply');
      Session::remove('Deleted_FlowerfromSession_Supply');//determines the deletion of requested flowers
 
-     $AddSessionValue = Session::get('Add_Flower_ToSession_Supply'); 
+     $AddSessionValue = Session::get('Add_Flower_ToSession_Supply');
      Session::remove('Add_Flower_ToSession_Supply');//determines the Addition of requested flowers
 
    ?>
     <!-- Content Header (Page header) -->
   <section class="content-header">
       <h2> List of Flowers to Order</h2>
-        
+
         <div hidden>
             <input id = "AddFlower_result" value = "{{$AddSessionValue}}">
-            <input id = "DelFlower_result" value = "{{$deleteSessionValue}}">  
-        </div> 
+            <input id = "DelFlower_result" value = "{{$deleteSessionValue}}">
+        </div>
 
 
        <div class="container" style="margin-top: 50px;">
@@ -73,28 +73,28 @@
                   <!--form open here-->
                       {!! Form::open(array('route' => 'InventoryScheduling_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
 
-                            <div class="modal-body"> 
+                            <div class="modal-body">
                                     <!-- content goes here -->
                                     <div id = 'FLower_ListDiv' class = "row">
                                       <div class = "col-md-7">
                                         <select id = 'FLowerList' name = 'FLowerList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID" required>
                                             <option value = '-1' data-tag ='-1' disabled selected>Please Choose one Flower </option>
                                           @foreach($FlowerList as $Fdetails)
-                                            <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->F_Image}}'> 
+                                            <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->F_Image}}'>
                                             {{$Fdetails->Flwr_Name}}
                                             </option>
-                                          @endforeach  
+                                          @endforeach
                                         </select>
-                                         <img class="img-responsive" height="70%" width="70%" alt="" src="http://placehold.it/320x320" />  
+                                         <img class="img-responsive" height="70%" width="70%" alt="" src="http://placehold.it/320x320" />
                                       </div>
                                       <div class = 'col-md-4'>
                                         <div class="form-group label-floating">
-                                          
-                                        </div> 
+
+                                        </div>
                                         <div class="form-group label-floating">
                                             <label for = "QTY_Field" class="control-label">Desired Quantity:</label>
                                             <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" required/>
-                                        </div>  
+                                        </div>
                                       </div>
                                       <div hidden>
                                         <input id = "SchedID_field" name = "SchedID_field" value = "">
@@ -108,13 +108,13 @@
                                 </div>
                                 <div class="btn-group" role="group">
                                    <button type = "submit" name = "AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add to list</button>
-                      
+
                                 </div>
                               </div>
                             </div>
                             </div>
                               {!! Form::close() !!}
-                           <!--Form close here--> 
+                           <!--Form close here-->
                           </div>
                           </div>
   </section>
@@ -125,7 +125,7 @@
     <div class="row" >
         <div class="col-xs-12">
           <div class="box">
-            
+
             <!-- /.box-header -->
             <div class="box-body">
               <table id="flowersTable" class="table table-bordered table-striped">
@@ -140,19 +140,19 @@
 
               <!--foreach here-->
               @foreach(Cart::instance('Schedule_Flowers')->content() as $FlowersRow)
-                    <tr>  
+                    <tr>
                         <td> FLWR-{{$FlowersRow->id}}  </td>
                         <td> {{$FlowersRow->name}}</td>
-                        <td>  
+                        <td>
                           <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$FlowersRow->options['image'])}}">
                         </td>
                         <td> {{$FlowersRow->qty}} stems </td>
-                        <td align="center" > 
-                               <a type = "button" href="{{route('InventoryScheduling_Flowers.edit',['id' => $FlowersRow->id])}}" class = "btn btn-info btn-sm" ><span class = "glyphicon glyphicon-pencil"></span> 
+                        <td align="center" >
+                               <a type = "button" href="{{route('InventoryScheduling_Flowers.edit',['id' => $FlowersRow->id])}}" class = "btn btn-info btn-sm" ><span class = "glyphicon glyphicon-pencil"></span>
                                 edit Qty
-                               </a>                                                
+                               </a>
                             <a type = "button" href="{{route('InventorySched.RemoveFlower',['flower_Id'=>$FlowersRow->id])}}" name = "deleteBTN" id = "deleteBTN"
-                             class = "btn btn-danger btn-sm" > 
+                             class = "btn btn-danger btn-sm" >
                              Delete
                             </a>
 
@@ -167,7 +167,7 @@
 
 
                 </tbody>
-       
+
               </table>
             </div>
             <!-- /.box-body -->
@@ -180,7 +180,7 @@
       </div>
 
 
-    
+
   </div>
 @endsection
 

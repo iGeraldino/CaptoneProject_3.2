@@ -23,7 +23,7 @@
 	          		<!-- /.box-header -->
 	          		<div class="box-body">
 	            		<table id="example2" class="table">
-	              			<thead> 
+	              			<thead>
 			                    <th class="text-center"> Bouquet ID </th>
 			                    <th class="text-center"> Image</th>
 			                    <th class="text-center"> Count of Flower</th>
@@ -32,46 +32,46 @@
 				            </thead>
 
 	                	<tbody>
-	                  		<tr>  
+	                  		<tr>
 		                    	<td> 1     </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
-	                    		<td align="center"> 
+	                    		<td align="center">
 	                      			<button type="button" rel="tooltip" title="Manage" class="btn btn-simple btn-success btn-lg">
 	                        			<i class="glyphicon glyphicon-edit"></i>
 	                      			</button></a>
-	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg"> 
+	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg">
 	                        			<i class="glyphicon glyphicon-remove"></i>
 	                      			</button></a>
 	                    		</td>
 		                  	</tr>
 
-		                  	<tr>  
+		                  	<tr>
 		                    	<td> 2     </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
-	                    		<td align="center"> 
+	                    		<td align="center">
 	                      			<button type="button" rel="tooltip" title="Manage" class="btn btn-simple btn-success btn-lg">
 	                        			<i class="glyphicon glyphicon-edit"></i>
 	                      			</button></a>
-	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg"> 
+	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg">
 	                        			<i class="glyphicon glyphicon-remove"></i>
 	                      			</button></a>
 	                    		</td>
 		                  	</tr>
 
-	                  		<tr>  
+	                  		<tr>
 		                    	<td> 3     </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
 		                    	<td>       </td>
-	                    		<td align="center"> 
+	                    		<td align="center">
 	                      			<button type="button" rel="tooltip" title="Manage" class="btn btn-simple btn-success btn-lg">
 	                        			<i class="glyphicon glyphicon-edit"></i>
 	                      			</button></a>
-	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg"> 
+	                      			<button type="button" rel="tooltip" title="Edit Customer" class="btn btn-simple btn-danger btn-lg">
 	                        			<i class="glyphicon glyphicon-remove"></i>
 	                      			</button></a>
 	                    		</td>

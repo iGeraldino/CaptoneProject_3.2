@@ -31,7 +31,7 @@ class InventoryMonitoringController extends Controller
 	}//end of function
 
 	public function View_AddingFlowers_for_Arrival()
-	{ 
+	{
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -49,13 +49,13 @@ class InventoryMonitoringController extends Controller
 				 return view('flower.inventoryScheduling.adding_Flowers_toArrive_for_the_Schedule')
 				 ->with('Schedule_details',$Schedule_details)
 				 ->with('FlowerList',$Flowers)
-				 ->with('SuppDet',$SupplierDet);			
+				 ->with('SuppDet',$SupplierDet);
 			}
 		}
 	}//end of function
 
 	public function Delete_requestedflower_insession_toarrive($flower_Id)
-	{ 
+	{
 		if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -81,7 +81,7 @@ class InventoryMonitoringController extends Controller
 
 
 	public function Cancel_requestTo_Supplier()
-	{ 
+	{
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -97,7 +97,7 @@ class InventoryMonitoringController extends Controller
 
 
 	public function save_requestFrom_Supplier()
-	{ 
+	{
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -125,7 +125,7 @@ class InventoryMonitoringController extends Controller
 	          //echo $NewSched->Schedule_ID;
 				Cart::instance('Schedule_Flowers')->destroy();
 	          	Session::remove('newScheduleSession');
-				
+
 				Session::put('Save_requestOrder_Session','Successful');
 
 			 return redirect()->route('InventoryScheduling.index');

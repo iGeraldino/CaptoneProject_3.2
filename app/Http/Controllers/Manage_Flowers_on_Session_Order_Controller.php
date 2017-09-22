@@ -250,8 +250,8 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
           }
           Session::put('update_O_FlowerQty_Session','Successful');
           return redirect()->route('Orders_Flowers.edit',$id);
-  //}
-}
+            //}
+    }
 
     /**
      * Remove the specified resource from storage.

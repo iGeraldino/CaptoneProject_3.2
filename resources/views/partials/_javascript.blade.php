@@ -64,7 +64,7 @@ $('#notification').html("")
         notif_UL = "";
         for(ctr = 0; ctr < response.data.length; ctr++)
         {
-          notif_UL += '<li><a href = "#">'+response.data[ctr].Customer_Fname +' ' +response.data[ctr].Customer_MName + ', '+response.data[ctr].Customer_MName +' made an order</a></li>';
+          notif_UL += '<li><a href = "#"><i class = "glyphicon glyphicon-plus-sign"></i>'+response.data[ctr].Customer_Fname +' ' +response.data[ctr].Customer_MName + ', '+response.data[ctr].Customer_MName +' made an order</a><h7 class = "pull-right" style = "color:red;">'+response.data[ctr].created_at +'</h7></li>';
         }
 
         $('#notifications').html("");

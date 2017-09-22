@@ -12,7 +12,7 @@ class CheckingNotificationController extends Controller
     //
    public function New_Notification(Request $request){
      //$haha = "";
-      if($request->ajax())2
+      if($request->ajax())
       {
         return json_encode([
           'data' => DB::table('sales_order')

@@ -2,7 +2,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="/" class="logo">
+    <a href="/dashboard" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>Wonderbloom</b></span>
@@ -78,7 +78,7 @@
         </ul>
         <ul class="treeview-menu">
           <li>
-            <a href="/quickorder"><i class="fa fa-circle-o"></i> Make Quick Order
+            <a href="/Quick_Sales_Order"><i class="fa fa-circle-o"></i> Make Quick Order
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

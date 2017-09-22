@@ -10,7 +10,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabel"> Adding Flower </h5>
-		       
+
 		      </div>
 		      <div class="modal-body">
 
@@ -36,19 +36,19 @@
                         <label class = "control-label" for = "desc">Flower Description: </label>
                         <input type="text" class="form-control" name="desc" id="desc" maxlength = '255'/>
                       </div>
-                    
-                    
+
+
                     <div class = "row">
                       <div class = "col-md-4">
                         <div class="form-group label-floating">
-                          <label class = "control-label" for="WholesaleQTY">Whole Sale QTY:</label> 
-                          <input type='number' name ="WholesaleQTY" id ="WholesaleQTY" class = "form-control " step='1'  min = '12' required/>    
+                          <label class = "control-label" for="WholesaleQTY">Whole Sale QTY:</label>
+                          <input type='number' name ="WholesaleQTY" id ="WholesaleQTY" class = "form-control " step='1'  min = '12' required/>
                         </div>
                       </div>
                       <div class = "col-md-4">
                           <div class="form-group label-floating">
                             <label class = "control-label" for="life">Default Price:</label>
-                            <input type='number' name ="initialprice" id ="initialprice" class = "form-control " step='0.1' min = '10.00' required/>    
+                            <input type='number' name ="initialprice" id ="initialprice" class = "form-control " step='0.1' min = '10.00' required/>
                           </div>
                       </div>
                     </div><!--end of row-->
@@ -67,7 +67,7 @@
 
 
 		      </div>
-		    
+
 		    </div>
 		  </div>
 		</div>
@@ -107,7 +107,7 @@
            			@foreach ($flower as $flow)
 
            				<tr>
-           					
+
            					<th>FLWR-{{ $flow -> flower_ID }}</th>
            					<th>{{ $flow -> flower_name }}</th>
                     <th align="center"><img src="{{ asset('flowerimage/'. $flow -> IMG)}}" class ="img-rounded img-raised img-responsive" style="min-width: 80px; max-height: 50px;">
@@ -150,7 +150,7 @@
 	    });
 	  });
 
-    function preview_image(event)
+  function preview_image(event)
   {
    var reader = new FileReader();
    reader.onload = function()
@@ -161,9 +161,10 @@
    reader.readAsDataURL(event.target.files[0]);
   }
 
-  $(document).ready(function{
+  $(document).ready(function(){
 
-    var session=var data = '@Session["success"]';
+    var session = ""
+		var data = '@Session["success"]';
     console.log('session is = '+session);
    if(session!=null){
     //Show popup

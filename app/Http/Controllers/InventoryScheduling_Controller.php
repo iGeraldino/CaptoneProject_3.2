@@ -38,7 +38,7 @@ class InventoryScheduling_Controller extends Controller
             $schedule = DB::select('call inventory_Schedules()');
             $doneschedule = DB::select('call doneinventory_Schedules()');
             $canceledschedule = DB::select('call canceledinventory_Schedules()');
-            
+
 
            return view('flower.inventoryScheduling.schedule_Inventory')
            ->with('schedInv',$schedule)
@@ -147,7 +147,7 @@ class InventoryScheduling_Controller extends Controller
     public function edit($id)
     {
         //
-        
+
     }
 
     /**

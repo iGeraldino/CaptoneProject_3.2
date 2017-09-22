@@ -22,6 +22,7 @@ class customerListController extends Controller
      */
     public function index()
     {
+      //$turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = OFF;");
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
       if(auth::check() == false){

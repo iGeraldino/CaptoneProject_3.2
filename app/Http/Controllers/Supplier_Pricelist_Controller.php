@@ -52,7 +52,7 @@ class Supplier_Pricelist_Controller extends Controller
 
             $newPrice->supplier_ID = $request->Supp_IDField;
             $newPrice->flower_ID = $request->FlowersField;
-            $newPrice->price = $request->PriceField;
+            //$newPrice->price = $request->PriceField;
             //$newPrice->start_Date = $request->SDateField;
             //$newPrice->end_Date = $request->EDateField;
 
@@ -77,11 +77,10 @@ class Supplier_Pricelist_Controller extends Controller
         }
         else{
                 //
-                $flowerlist = DB::table('flower_details')
-                ->select('*')
-                ->get();
+                $flowerlist = DB::select('CALL Flowers_NotIn_Spplier(?)',array($id));
+
                 $Prices = DB::select('call Pricelist_PerSupplier(?)',array($id));
-                
+
                 $supplier = DB::table('supplier_details')
                 ->where('supplier_ID','=',$id)
                 ->first();
