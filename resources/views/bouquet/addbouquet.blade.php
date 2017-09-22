@@ -5,11 +5,7 @@
 
 	<section class="content-header">
   <br>
-  <br>
-  <h2>List of Bouquets in the shop</h2>
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddModal">
-  Add Bouquet
-		</button>
+	
 
 		<!-- Modal -->
 		<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,12 +71,19 @@
 
 	</section>
 
-	<section class="content">X
+	<section class="content">
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Bouquet List</h3>
+              <div class="col-md-6">
+                <h3>LIST OF BOUQUETS IN THE SHOP</h3>
+              </div>
+              <div class="col-md-offset-6">
+                <button type="button" class="btn btn-round btn-md twitch pull-right" data-toggle="modal" data-target="#AddModal">
+                Add Bouquet <i class="material-icons">add_circle</i>
+              </button>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -109,7 +112,7 @@
                     
                     <td align="center">
                     
-                    <a href=" {{ route ('bouqAddFlower.show', $bouq -> bouquet_ID ) }} " class="btn btn-md btn-primary"> More Details</a>
+                    <a href=" {{ route ('bouqAddFlower.show', $bouq -> bouquet_ID ) }} " class="btn btn-just-icon Subu" rel="tooltip" title="MORE DETAILS"> <i class="material-icons">more_horiz</i></a>
 
                     </td>
                     

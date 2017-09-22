@@ -48,26 +48,25 @@
 
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-striped">
-                <thead style = 'color:darkviolet;'>
-                    <th> Order ID </th>
-                    <th> Customer_Name </th>
-                    <th> Date Created</th>
-                    <th> Status</th>
-                    <th> Action </th>
+              <table id="example2" class="table table-bordered table-striped table-hover">
+                <thead style="color: #6e48aa">
+                    <th class="text-center"> ORDER ID </th>
+                    <th class="text-center"> CUSTOMER NAME </th>
+                    <th class="text-center"> DATE CREATED</th>
+                    <th class="text-center"> STATUS</th>
+                    <th class="text-center"> ACTION </th>
                 </thead>
 
                 <tbody>
                     @foreach($orders as $Olist)
                     <tr>
-                        <td> {{$Olist->sales_order_ID}}   </td>
-                        <td> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
-                        <td> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
-                        <td>  {{$Olist->Status}} </td>
+                        <td class="text-center"> {{$Olist->sales_order_ID}}   </td>
+                        <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
+                        <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
+                        <td class="text-center" style="text-transform: uppercase;">  {{$Olist->Status}} </td>
                         <td align="center" >
 
-                               <a id = "manageBtn" type = "button" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span>
-                                Manage Order
+                               <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
                                </a>
                         </td>
 

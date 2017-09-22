@@ -3,12 +3,6 @@
 
 @section('content')
 	<section class="content-header">
-<br>
-<h2><b>Flowers that are being offered by the shop</b></h2>
-<br>
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddModal">
-  Add Flower
-		</button>
 
 		<!-- Modal -->
 		<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -85,7 +79,14 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Flower List</h3>
+              <div class="col-md-10">
+                <h3>FLOWERS THAT ARE BEING OFFERED BY THE SHOP</h3>
+              </div>
+              <div class="col-md-offset-5">
+                <button type="button" class="btn btn-round btn-md twitch" data-toggle="modal" data-target="#AddModal">
+              Add Flower <i class="material-icons">add_circle</i>
+                </button>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -114,8 +115,8 @@
            					<th>Php {{ number_format($flow -> Final_SellingPrice,2) }}/pc</th>
            					<th>{{ $flow -> QTY }} PCS.</th>
            					<td align="center">
-                        <a href=" {{ route ('floweradd.edit', $flow -> flower_ID ) }} " class="btn btn-xs btn-info"> View </a>
-           					    <a href=" {{ route('inv.viewFlowerInventory',['flower_ID'=>$flow -> flower_ID]) }}" class="btn btn-xs btn-info" style="background-color: #F62459"> See Inventory </a>
+                        <a href=" {{ route ('floweradd.edit', $flow -> flower_ID ) }} " class="btn btn-just-icon Subu" rel="tooltip" title="VIEW"> <i class="material-icons">search</i> </a>
+           					    <a href=" {{ route('inv.viewFlowerInventory',['flower_ID'=>$flow -> flower_ID]) }}" class="btn btn-just-icon btn-info" rel="tooltip" title="SEE INVENTORY"> <i class="material-icons">more_horiz</i> </a>
            					</td>
 
            				</tr>

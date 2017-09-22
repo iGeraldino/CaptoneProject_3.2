@@ -12,14 +12,12 @@
           $EditingPriceSessionValue = Session::get('Editing_MarkUpSession');
           Session::remove('Editing_MarkUpSession');//determines the addition of new flower
        ?>
-          <h3><b>Markup percentage of Wonderbloom's prices for flowers</b></h3>
+          
 
           <input type = "text" class = "hidden" id = "deleteSessionField" value = "{{$deletingPriceSessionValue}}">
           <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$SavingPriceSessionValue}}">
           <input type = "text" class = "hidden" id = "editSessionField" value = "{{$EditingPriceSessionValue}}">
-              <button class="btn btn-primary" data-toggle="modal" data-target="#addingModal">
-                Add new weekly Markup
-              </button>
+              
               <!-- Sart Modal -->
                 <div class="modal fade" id="addingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
@@ -65,8 +63,18 @@
                   </div>
                 </div>
                 <!--  End Modal -->
-            <div class="card card-nav-tabs card-plain">
-              <div class="header header-danger">
+            <div class="panel" style="margin-top: 2%">
+              <div class="panel-body">
+                <div class="col-md-6">
+                  <h3>MARKUP PERCENTAGE OF WONDERBLOOM'S PRICES FROM FLOWERS</h3>
+                </div>
+                <div class="col-md-offset-9">
+                  <button class="btn btn-round twitch" data-toggle="modal" data-target="#addingModal">
+                    Add new weekly Markup <i class="material-icons">add_circle</i>
+                  </button>
+                </div>
+                <div class="card card-nav-tabs">
+              <div class="header Sharp">
                 <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
                 <div class="nav-tabs-navigation">
                   <div class="nav-tabs-wrapper">
@@ -77,7 +85,7 @@
                   </div>
                 </div>
               </div>
-              <div class="content">
+              <div class="content-header">
                 <div class="tab-content text-center">
                   <div class="tab-pane active" id="activePrice">
                     <table id="example2" class="table table-bordered table-striped">
@@ -106,9 +114,9 @@
                           <td> {{date('M d, Y @ h:s a',strtotime($Active->End_Date))  }} </td>
                           <td> {{ $Active->Status }} </td>
                           <td align="center">
-                            <button type="button" class="btn btn-info btn-sm Agrmt_btn" data-toggle="modal" data-target="#viewPrice">View</button>
-                              <a type = "button" href="{{route('Price.delete',['id'=>$Active->Price_ID])}}" class = "btn btn-danger btn-sm" >
-                                delete
+                            <button type="button" class="btn btn-just-icon Subu Agrmt_btn" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#viewPrice"><i class="material-icons">search</i></button>
+                              <a type = "button" href="{{route('Price.delete',['id'=>$Active->Price_ID])}}" class = "btn btn-just-icon Shalala" rel="tooltip" title="DELETE" >
+                                <i class="material-icons">delete</i>
                               </a>
                           </td>
                         </tr>
@@ -202,7 +210,7 @@
                                   <td> {{ $Inactive->Status }} </td>
                                   <td align="center" >
 
-                                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCust">View</button>
+                                  <button type="button" class="btn btn-just-icon Subu" data-toggle="modal" data-target="#viewCust" rel="tooltip" title="VIEW" ><i class="material-icons">search</i></button>
                                         <!-- line modal -->
                                   </td>
 
@@ -215,6 +223,9 @@
                 </div>
               </div>
             </div>
+              </div>
+            </div>
+            
 </section>
 @endsection
 

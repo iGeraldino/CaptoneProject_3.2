@@ -1,50 +1,54 @@
-.Amy {
+.Amy { 
 	background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
-}
+} /*pinkviolet*/
 
 
 .Sharp {
 	
 	background-image: linear-gradient(to top, #c79081 0%, #dfa579 100%);
-}
+} /*brown*/
 
 .Love {
 	background: linear-gradient(to right, #e53935, #e35d5b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+} /* red*/
 
 .Lemon {
 	background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
-}
+} /* green */
 
 .Kind {
 	background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
-} 
+} /* white */
 
 
 .Soft {
 	background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
-}
+} /* peach*/
 
 .Beach {
 	background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
-}
+} /* indigo*/
 
 .twitch {
 	background: linear-gradient(to right, #9d50bb, #6e48aa);
-}
+} /* violet*/
 
 .Subu {
   	background: linear-gradient(to right, #02aab0, #00cdac);
-}
+} /*bluegreen */
 
 .Lush {
 	background: linear-gradient(to right, #76b852, #8dc26f);
-}
+} /* light green*/
 
 .Sulfur {
 	background: linear-gradient(to right, #cac531, #f3f9a7);
-}
+} /*yellow */
 
 .Shalala {
 	background: linear-gradient(to right, #d66d75, #e29587);
+} /* red*/
+
+.Inbox {
+	background: linear-gradient(to right, #457fca, #5691c8);
 }

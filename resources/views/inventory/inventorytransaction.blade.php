@@ -1,32 +1,34 @@
-@extends('main')
+ @extends('main')
 
 @section('content')
 
 	<div class="container" style="">
-	  <div class = "row">
-      <h1><b>Inventory Transactions</b></h1>
-      <h2><b>Check everything that is happenning inside your inventory</b></h2>
-    </div>
-
-    <div class="row">
-    	<div class="col-md-8">
-    	    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flower"> <i class="material-icons" style="padding-right: 5px;">local_florist</i>
-    	  		Show  per Flower
-    	  	</button>
-    	</div>
-
-      <div class="col-md--8">
-          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#date"> <i class="material-icons" style="padding-right: 5px;">date_range</i>
-            Show per Date
-          </button>
-          <br>
-          <br>
-      </div>
-    </div>
+	  
 <!-- TABLE-->
     </div>
         <div class="col-md-12">
           <div class="box">
+            <div class="box-header">
+                <h2 class="container">INVENTORY TRANSACTION</h2>
+                <label class="container">CHECK EVERYTHING THAT IS HAPPENING INSIDE YOUR INVENTORY</label>
+              
+
+              <div class="row">
+                <div class="col-md-3 col-md-offset-6">
+                    <button type="button" class="btn btn-round btn-md Subu" data-toggle="modal" data-target="#flower"> <i class="material-icons">filter_vintage</i>
+                      Show  per Flower
+                    </button>
+                </div>
+
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-round btn-md Inbox" data-toggle="modal" data-target="#date"> <i class="material-icons" >date_range</i>
+                      Show per Date
+                    </button>
+                    <br>
+                    <br>
+                </div>
+              </div>
+            </div>
           <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
@@ -108,7 +110,7 @@
     <div class="modal fade" id="flower" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header" style="background-color: #FFB3A7">
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h5 class="modal-title" id="myModalLabel" style="padding-bottom: 10px;">Show by Flower</h5>
           </div>
@@ -194,7 +196,7 @@
     <div class="modal fade" id="date" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header" style="background-color: #FFB3A7">
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h5 class="modal-title" id="myModalLabel" style="padding-bottom: 10px;">Add Agreement</h5>
           </div>

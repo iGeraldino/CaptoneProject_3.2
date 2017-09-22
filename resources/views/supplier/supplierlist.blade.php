@@ -3,10 +3,9 @@
 
 @section('content')
 
-   <div class="container">
-      <h2>List of Suppliers</h2>
+   <div class="container" style="margin-top: 1%;">
+      
       <div class="row container">
-        <button class="btn btn-primary btn-sm col-xs-offset-2" data-toggle="modal" data-target="#AddModal"> <i class="material-icons" style="padding-right: 5px;">add_circle</i>Add New Supplier </button>
 
         <!-- Start of Modal -->
 
@@ -175,20 +174,27 @@
       
         <div class="col-xs-12">
           <div class="box">
-            
+            <div class="box-header"> 
+              <div class="col-md-9">
+                <h2>LIST OF SUPPLIERS</h2>
+              </div>
+              <div class="col-md-3" style="margin-bottom: -1%;">
+                <button class="btn btn-round btn-md twitch col-xs-offset-2" data-toggle="modal" data-target="#AddModal"> <i class="material-icons" style="padding-right: 5px;">add_circle</i>Add New Supplier </button>
+              </div>
+            </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="sam" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                       
-                    <th> Supplier ID </th>
-                    <th> Name</th>
-                    <th> Phone Number</th>
-                    <th> Tel Number </th>
-                    <th> Email Address</th>
-                    <th> Address</th>
-                    <th> Action </th>
+                    <th class="text-center"> SUPPLIER ID </th>
+                    <th class="text-center"> NAME</th>
+                    <th class="text-center"> PHONE NUMBER</th>
+                    <th class="text-center"> TEL NUMBER </th>
+                    <th class="text-center"> EMAIL</th>
+                    <th class="text-center"> ADDRESS</th>
+                    <th class="text-center"> ACTION </th>
 
                 </tr>
                 </thead>
@@ -203,7 +209,7 @@
                           <td> {{ $sup -> supplier_AddressLine . ' ' . $sup -> Baranggay . ' ' . $sup -> Town . ',' . $sup -> Province }}</td>
                           <td align="center">
                              <!--<a href=" {{ route ('supplieradd.edit', $sup -> supplier_ID ) }} " class="btn btn-xs btn-info"> View </a>-->
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewSPLR{{$sup -> supplier_ID}}">View</button>
+                                <button type="button" class="btn Subu btn-just-icon btn-sm" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#viewSPLR{{$sup -> supplier_ID}}"><i class="material-icons">search</i></button>
                               <!-- line modal -->
                                 <div class="modal fade" id="viewSPLR{{$sup -> supplier_ID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -217,86 +223,67 @@
                                       <div class="modal-body" id = "infoBodyDiv">  
                                         <!-- content goes here -->
                                           <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-2">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Supplier ID</span>
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>SUPPLIER ID:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>SUPLR-{{ $sup -> supplier_ID }}</b></h5>
+                                            </div>  
                                           </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>SUPLR-{{ $sup -> supplier_ID }}</b>
-                                          </div>  
-                                        </div> <!--end of row-->
-                                        
-                                        <br>
 
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-2">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Supplier Name</span>
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>SUPPLIER NAME:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5 style="text-transform: uppercase;"><b>{{ $sup -> supplier_LName . ',' . $sup -> supplier_FName . ' ' . $sup -> supplier_MName }}</b></h5>
+                                            </div>  
                                           </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> supplier_LName . ',' . $sup -> supplier_FName . ' ' . $sup -> supplier_MName }}</b>
-                                          </div>  
-                                        </div> <!--end of row-->
-                                        
-                                        <br>
-                                        
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-2">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Contact No</span>
-                                          </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> supplier_contactNum }}</b>
-                                          </div>  
-                                        </div> <!--end of row-->
-                                        
-                                        <br>
 
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-2">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Telephone No</span>
-                                          </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> supplier_telNum }}</b>
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>CONTACT NUMBER:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>{{ $sup -> supplier_contactNum }}</b></h5>
+                                            </div>  
                                           </div> 
-                                        </div> <!--end of row-->
-
-                                        <br>
-
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-3">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Email Address</span>
-                                          </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> supplier_emailadd }}</b>
+                                        
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>TELEPHONE NUMBER:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>{{ $sup -> supplier_telNum }}</b></h5>
+                                            </div>  
                                           </div> 
-                                        </div> <!--end of row-->
 
-                                        <br>
-
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-3">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Type</span>
-                                          </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> Type }} Supplier</b>
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>EMAIL ADDRESS:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>{{ $sup -> supplier_emailadd }}</b></h5>
+                                            </div>  
                                           </div> 
-                                        </div> <!--end of row-->                                        
 
-                                        <br>
-
-                                        <div class = "row">
-                                          <div class = "col-xs-1"></div>
-                                          <div class = "col-md-3">
-                                            <span class="label" style="font-size: 100%; background-color: #26a69a">Address</span>
-                                          </div>
-                                          <div class = "col-md-7" style = "font-size: 18px; ">
-                                           <b>{{ $sup -> supplier_AddressLine . ' ' . $sup -> Baranggay . ' ' . $sup -> Town . ',' . $sup -> Province }}</b>
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>TYPE:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>{{ $sup -> Type }} Supplier</b></h5>
+                                            </div>  
                                           </div> 
-                                        </div> <!--end of row-->                                        
+
+                                          <div class = "row">
+                                            <div class = "col-md-4">
+                                              <h4 style="font-size: 100%;"><b>ADDRESS:</b></h4>
+                                            </div>
+                                            <div class = "col-md-8">
+                                             <h5><b>{{ $sup -> supplier_AddressLine . ' ' . $sup -> Baranggay . ' ' . $sup -> Town . ',' . $sup -> Province }}</b></h5>
+                                            </div>  
+                                          </div>                                      
 
                                       </div>
 
@@ -318,8 +305,7 @@
                                     </div>
                                     </div>
                                 </div>
-                                 <a type = "button" href="{{ route('supplierMoreDetails.show',$sup -> supplier_ID) }}" class = "btn btn-success btn-sm" >
-                                  More
+                                 <a type = "button" href="{{ route('supplierMoreDetails.show',$sup -> supplier_ID) }}" class = "btn btn-just-icon btn-sm Inbox" rel="tooltip" title="MORE"><i class="material-icons">more_horiz</i>
                                 </a>
                           </td>
                         </tr>

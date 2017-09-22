@@ -5,10 +5,10 @@
 
 
 	<section class="content">
-	<div class="container" style="margin-top: 50px;">
+	<div class="col-xs-12" style="margin-top: 50px;">
 			<div class="panel panel-primary">
-					  <div class="panel-heading" style="background-color: #C93756">
-			            <h3 class="panel-title">Update Acessories Details</h3>
+					  <div class="panel-heading Subu">
+			            <h3 class="panel-title">Update Flower Details</h3>
 			          </div>
             		<br>
 			         {!! Form::model($flower, ['route'=>['floweradd.update', $flower->flower_ID],'method'=>'PUT','data-parsley-validate'=>''])!!} 

@@ -19,10 +19,7 @@
   </div>
 <section class="content-header">
 
-<h2><b>Make Schedule of arrival of flowers in your inventory</b></h2>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddModal">
-    Schedule an Order
-    </button>
+    
   <!--  <a href=" {{ route ('floweradd.create') }} " class="btn btn-primary btn-lg"> Schedule an Order </a>
 
 -->
@@ -69,119 +66,132 @@
       </div>
     </div>
     <!--  End Modal -->
-      <div class="container">
-            <!-- Tabs with icons on Card -->
-            <div class="card card-nav-tabs">
-              <div class="header" style = 'background-color:darkviolet;'>
-                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-                <div class="nav-tabs-navigation">
-                  <div class="nav-tabs-wrapper">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
-                      <li class="active">
-                        <a href="#pending" data-toggle="tab">
-                          <i class="material-icons">face</i>
-                          Pending
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#done" data-toggle="tab">
-                          <i class="material-icons">chat</i>
-                          Done
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="content-header">
-                <div class="tab-content text-center">
-                  <div class="tab-pane active" id="pending">                 
-                    <div class="box">
-                      <!-- /.box-header -->
-                      <div class="box-body">
-                        <table id="pendingtable" class="table table-bordered table-striped">
-                          <thead>
-                          <tr>
-                            <th>Schedule ID </th>
-                            <th>Date to Recieve </th>
-                            <th>Date Requested</th>
-                            <th>Supp_ID</th>
-                            <th>Supplier_Name </th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                          </tr>
-                          </thead>
-                        <tbody>
-                         <!--foreach here -->    
-                        @foreach($schedInv as $sched)   
-                            <tr>
-                              <th> SCHED-{{$sched->Sched_Id}} </th>
-                              <th>{{$sched->Date}}</th>
-                              <th>{{$sched->date_ordered}}</th>
-                              <th>SUPP-{{$sched->Supplier_ID}}</th>
-                              <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
-                              <th>{{$sched->Status}}</th>
-                              <td align="center"> 
-                                 <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-list-alt"></span> 
-                                 More
-                                 </a>
-                              </td>
-                            </tr>
-                        @endforeach
-                      <!--end foreach here-->
-                        </tbody>
-                       </table>
-                      </div>
-                      <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                  </div>
-                      <!-- end of tab pain -->
-                  <div class="tab-pane" id="done">
-                    <div class="box">
-                      <!-- /.box-header -->
-                      <div class="box-body">
-                        <table id="donetable" class="table table-bordered table-striped">
-                          <thead>
-                          <tr>
-                            <th>Schedule ID </th>
-                            <th>Date to Recieve </th>
-                            <th>Date Requested</th>
-                            <th>Supp_ID</th>
-                            <th>Supplier_Name </th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                          </tr>
-                          </thead>
-                        <tbody>
-                         <!--foreach here -->    
-                        @foreach($doneschedInv as $donesched)   
-                            <tr>
-                              <th> SCHED-{{$donesched->Sched_Id}} </th>
-                              <th>{{$donesched->Date}}</th>
-                              <th>{{$donesched->date_ordered}}</th>
-                              <th>SUPP-{{$donesched->Supplier_ID}}</th>
-                              <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
-                              <th>{{$donesched->Status}}</th>
-                              <td align="center"> 
-                                 <a type = "button" href="{{ route('InventoryScheduling.show',$donesched->Sched_Id) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-list-alt"></span> 
-                                 View
-                                 </a>
-                              </td>
-                            </tr>
-                        @endforeach
-                      <!--end foreach here-->
-                        </tbody>
-                       </table>
-                      </div>
-                      <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                  </div>
-                </div>
+
+      <div class="panel" style="margin-top: 2%">
+        <div class="panel-body">
+          <div class="col-md-6">
+            <h3>MAKE SCHEDULE OF ARRIVAL OF FLOWERS IN YOUR INVENTORY</h3>
+          </div>
+          <div class="col-md-offset-9">
+            <button type="button" class="btn btn-round btn-md twitch" data-toggle="modal" data-target="#AddModal">
+              Schedule an Order <i class="material-icons">add_circle</i>
+            </button>
+          </div>
+
+          <!-- Tabs with icons on Card -->
+          <div class="card card-nav-tabs">
+          <div class="header Sharp">
+            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="active">
+                    <a href="#pending" data-toggle="tab">
+                      <i class="material-icons">face</i>
+                      Pending
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#done" data-toggle="tab">
+                      <i class="material-icons">chat</i>
+                      Done
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
+          </div>
+          <div class="content-header">
+            <div class="tab-content text-center">
+              <div class="tab-pane active" id="pending">                 
+                <div class="box">
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <table id="pendingtable" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Schedule ID </th>
+                        <th>Date to Recieve </th>
+                        <th>Date Requested</th>
+                        <th>Supp_ID</th>
+                        <th>Supplier_Name </th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                    <tbody>
+                     <!--foreach here -->    
+                    @foreach($schedInv as $sched)   
+                        <tr>
+                          <th> SCHED-{{$sched->Sched_Id}} </th>
+                          <th>{{$sched->Date}}</th>
+                          <th>{{$sched->date_ordered}}</th>
+                          <th>SUPP-{{$sched->Supplier_ID}}</th>
+                          <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
+                          <th>{{$sched->Status}}</th>
+                          <td align="center"> 
+                             <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="MORE"> <i class="material-icons">more_horiz</i>
+                             
+                             </a>
+                          </td>
+                        </tr>
+                    @endforeach
+                  <!--end foreach here-->
+                    </tbody>
+                   </table>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+              </div>
+                  <!-- end of tab pain -->
+              <div class="tab-pane" id="done">
+                <div class="box">
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <table id="donetable" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Schedule ID </th>
+                        <th>Date to Recieve </th>
+                        <th>Date Requested</th>
+                        <th>Supp_ID</th>
+                        <th>Supplier_Name </th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                    <tbody>
+                     <!--foreach here -->    
+                    @foreach($doneschedInv as $donesched)   
+                        <tr>
+                          <th> SCHED-{{$donesched->Sched_Id}} </th>
+                          <th>{{$donesched->Date}}</th>
+                          <th>{{$donesched->date_ordered}}</th>
+                          <th>SUPP-{{$donesched->Supplier_ID}}</th>
+                          <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
+                          <th>{{$donesched->Status}}</th>
+                          <td align="center"> 
+                             <a type = "button" href="{{ route('InventoryScheduling.show',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
+                             </a>
+                          </td>
+                        </tr>
+                    @endforeach
+                  <!--end foreach here-->
+                    </tbody>
+                   </table>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+              </div>
+            </div>
+          </div>
+          </div>
+
         </div>
+      </div>
+      
   </section>
     <!-- End Section Tabs -->
 @endsection

@@ -5,146 +5,123 @@
    
     <!-- Content Header (Page header) -->
   <section class="content-header">
-      <h2><b>List of Flowers that you have requested to from the supplier</b></h2>
       
-       <div class="container" style="margin-top: 50px;">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="background-color: #C93756">
-            <h3 class="panel-title">Scheduled Inventory Delivery</h3>
+       <div class="col-xs-12" style="margin-top: 2%;">
+        <div class="panel">
+          <div class="panel-heading Subu">
+            <h3 class="panel-title" style="color: white;">LIST OF FLOWERS THAT YOU REQUESTED FROM THE SUPPLIERS</h3>
           </div>
           <div class="panel-body">
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Schedule ID: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">CUST-{{$schedInfo->Sched_Id}}</span>
+                <label class="control-label"><b>SCHEDULE ID:</b></label>
+                <span><b>CUST-{{$schedInfo->Sched_Id}}</b></span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Supplier Name: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$schedInfo->FName}} {{$schedInfo->MName}}, {{$schedInfo->LName}}</span>
+                <label class="control-label"><b>SUPPLIER NAME:</b></label>
+                <span><b>{{$schedInfo->FName}} {{$schedInfo->MName}}, {{$schedInfo->LName}}</b></span>
               </div>
             </div>
-
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Date to be Delivered</label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{date('M d,Y', strtotime($schedInfo->Date))}}</span>
+                <label class="control-label"><b>DATE ORDERED:</b></label>
+                <span><b>{{date('M d,Y', strtotime($schedInfo->date_ordered))}}</b></span>
               </div>
             </div>
-
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Date Ordered: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{date('M d,Y', strtotime($schedInfo->date_ordered))}}</span>
+                <label class="control-label"><b>DATE TO BE DELIVERED:</b></label>
+                <span><b>{{date('M d,Y', strtotime($schedInfo->Date))}}</span></b></span>
               </div>
             </div>
+            <div class="col-md-offset-8">
+              <a id = "returnBtn" type="button" href = "{{route('InventoryScheduling.index')}}" class="pull-right btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button redirect you to the list of flower requests from the supplier" data-container="body">
+                RETURN TO REQUEST LIST
+              </a>
+            </div>
+          <div class="row" >
+            <div class="col-xs-12">
+              <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table id="flowersTable" class="table table-bordered table-striped">
+                    <thead>
+                        <th class="text-center"> Flower ID </th>
+                        <th class="text-center"> Flower Name </th>
+                        <th class="text-center"> Flower Image </th>
+                        <th class="text-center"> Expected Quantity</th>
+                        <th class="text-center"> Action </th>
+                    </thead>
+                    <tbody>
+                    <!--foreach here-->
+                    @foreach($SchedFlowers as $FlowersRow)
+                      <tr>  
+                          <td class="text-center"> FLWR-{{$FlowersRow->flower_ID}}  </td>
+                          <td class="text-center"> {{$FlowersRow->flowerName}} </td>
+                          <td align="center"> <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}"></td>
+                          <td class="text-center"> {{$FlowersRow->QTY_Expected}} pcs </td>
+                          <td align="center" > 
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#ViewDetModal{{$FlowersRow->flower_ID}}">
+                                View
+                              </button>
+                          </td>
 
-          </div>
-        </div>
-  </div>
-
-  <div class = "row">
-      <div class = "col-md-6"></div>
-      <div class="col-md-6 ">
-        <a id = "returnBtn" type="button" href = "{{route('InventoryScheduling.index')}}" class="pull-right btn btn-danger btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button redirect you to the list of flower requests from the supplier" data-container="body">
-          return to request lists
-        </a>
-        <br>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-  <div class="container">
-    <div class="row" >
-        <div class="col-xs-12">
-          <div class="box">
-            
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="flowersTable" class="table table-bordered table-striped">
-                <thead>
-                    <th class="text-center"> Flower ID </th>
-                    <th class="text-center"> Flower Name </th>
-                    <th class="text-center"> Flower Image </th>
-                    <th class="text-center"> Expected Quantity</th>
-                    <th class="text-center"> Action </th>
-                </thead>
-                <tbody>
-
-              <!--foreach here-->
-              @foreach($SchedFlowers as $FlowersRow)
-                    <tr>  
-                        <td class="text-center"> FLWR-{{$FlowersRow->flower_ID}}  </td>
-                        <td class="text-center"> {{$FlowersRow->flowerName}} </td>
-                        <td align="center"> <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}"></td>
-                        <td class="text-center"> {{$FlowersRow->QTY_Expected}} pcs </td>
-                        <td align="center" > 
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#ViewDetModal{{$FlowersRow->flower_ID}}">
-                              View
-                            </button>
-                        </td>
-
-                          <!-- Modal Core -->
-                          <div class="modal fade" id="ViewDetModal{{$FlowersRow->flower_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                  <h4 class="modal-title" id="myModalLabel" style = "color:darkviolet;"><b>Details of Requested flower</b></h4>
-                                </div>
-                                <div class="modal-body">
-                                  <div class = "row">
-                                    <div class = "col-md-6">
-                                      <!---->
-                                      <img class="img-rounded img-raised img-responsive" style="min-width: 250px; max-height: 250px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}">
-                                    </div>
-                                    <div class = "col-md-6">
-                                      <!---->
-                                      <h4><b>Flower ID: </b>FLWR-{{$FlowersRow->flower_ID}} </h4>
-                                      <h4><b>Flower Name:</b> {{$FlowersRow->flowerName}} </h4>
-                                      <h4><b>Expected Quantity:</b> {{$FlowersRow->QTY_Expected}} pcs </h4>
-                                      <hr>
-                                      <h4><b>Expected Date of Arrival:</b></h4>                           
-                                      <h4 style = "color:darkviolet;"><b>{{date('M d,Y', strtotime($schedInfo->Date))}}<b></h4>
+                            <!-- Modal Core -->
+                            <div class="modal fade" id="ViewDetModal{{$FlowersRow->flower_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel" style = "color:darkviolet;"><b>Details of Requested flower</b></h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class = "row">
+                                      <div class = "col-md-6">
+                                        <!---->
+                                        <img class="img-rounded img-raised img-responsive" style="min-width: 250px; max-height: 250px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}">
+                                      </div>
+                                      <div class = "col-md-6">
+                                        <!---->
+                                        <h4><b>Flower ID: </b>FLWR-{{$FlowersRow->flower_ID}} </h4>
+                                        <h4><b>Flower Name:</b> {{$FlowersRow->flowerName}} </h4>
+                                        <h4><b>Expected Quantity:</b> {{$FlowersRow->QTY_Expected}} pcs </h4>
+                                        <hr>
+                                        <h4><b>Expected Date of Arrival:</b></h4>                           
+                                        <h4 style = "color:darkviolet;"><b>{{date('M d,Y', strtotime($schedInfo->Date))}}<b></h4>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button style = "color:darkviolet;" type="button" class="btn btn-simple btn-primary" data-dismiss="modal">  Close
-                                  </button>
+                                  <div class="modal-footer">
+                                    <button style = "color:darkviolet;" type="button" class="btn btn-simple btn-primary" data-dismiss="modal">  Close
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                                
-                      </tr>
-                  @endforeach
-                    <!--end of foreach-->
+                                  
+                        </tr>
+                        @endforeach
+                          <!--end of foreach-->
+
+
+                      </tbody>
+             
+                    </table>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+                </div>
               </div>
-            </div>
-          </div>
-
-
-                </tbody>
-       
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
+              <!-- /.col -->
           </div>
         </div>
-        <!-- /.col -->
-      </div>
-
-
-    
   </div>
+  </section>
+
 @endsection
 
 

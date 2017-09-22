@@ -2,139 +2,106 @@
 
 @section('content')
 
-    <!-- Content Header (Page header) -->
-  <section class="content-header">
+<div class="container" style="margin-top: 3%;">
+	<div class="row" >
+    <div class="col-xs-11">
+      <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
+          {!! Form::model($customerDetails,['route'=>['customers.update', $customerDetails->Cust_ID],'method'=>'PUT'])!!}
+          <label>Name: </label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="Cust_FNameField2" id="Cust_FNameField2"  placeholder="First Name..." Value = "{{$customerDetails->Cust_FName}}"  required/>
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="Cust_MNameField2" id="Cust_MNameField2" Value = "{{$customerDetails->Cust_MName}}"  placeholder="Middle Name..."/>
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="Cust_LNameField2" id="Cust_LNameField2" Value = "{{$customerDetails->Cust_LName}}" placeholder="Last Name..." required/>
+          </div>
+          <div class = "row">
+            <div class = "col-md-4">
+              <label>Type: </label>
+              <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden></input>
+            </div>
+            <div class = "col-md-4">
+              <label>Contact Number: </label>
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+            <select class="form-control" name ="custTypeField2" id ="custTypeField2" >
+                <option value ="C" > Single </option>
+                <option value ="S" > Shop </option>
+                <option value ="H" > Hotel </option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" name="ContactNumField2" id="ContactNumField2"  placeholder="+639..." Value = "{{$customerDetails->Contact_Num}}" required/>
+          </div>
+          <div class="form-group" id = "hotelnameDiv2" hidden>
+            <label for="HotelNameField">Hotel Name (for hotel customers):</label>
+            <input type="text" class="form-control" id="HotelNameField2" name="HotelNameField2" Value = "{{$customerDetails->Hotel_Name}}" placeholder="Hotel Name here...">
+          </div>
+          <div class="form-group" id = "shopnameDiv2" hidden>
+            <label for="ShopNameField">Shop Name (for shop customers):</label>
+            <input type="text" class="form-control" id="ShopNameField2" name="ShopNameField2" Value = "{{$customerDetails->Shop_Name}}" placeholder="Shop Name here...">
+          </div>
+          <div class="form-group">
+            <label for="emailField">Email address</label>
+            <input type="email" class="form-control" id="emailField2" name="emailField2" Value = "{{$customerDetails->Email_Address}}" placeholder="Email here...">
+          </div>
 
-  </section>
-
-
-
-	<div class="container">
-		<div class="row" >
-        <div class="col-xs-11">
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body" style = "width: 100%;">
-           {!! Form::model($customerDetails,['route'=>['customers.update', $customerDetails->Cust_ID],'method'=>'PUT'])!!}
-              <label>Name: </label>
-              <div class="input-group">
-
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-
-                <input type="text" class="form-control" name="Cust_FNameField2" id="Cust_FNameField2"  placeholder="First Name..." Value = "{{$customerDetails->Cust_FName}}"  required/>
-
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-
-                <input type="text" class="form-control" name="Cust_MNameField2" id="Cust_MNameField2" Value = "{{$customerDetails->Cust_MName}}"  placeholder="Middle Name..."/>
-
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-
-                <input type="text" class="form-control" name="Cust_LNameField2" id="Cust_LNameField2" Value = "{{$customerDetails->Cust_LName}}" placeholder="Last Name..." required/>
-              </div>
-
-              <div class = "row">
-                <div class = "col-md-4">
-                  <label>Type: </label>
-                  <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden></input>
-                </div>
-
-                <div class = "col-md-4">
-                  <label>Contact NUmber: </label>
-                </div>
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                <select class="form-control" name ="custTypeField2" id ="custTypeField2" >
-                    <option value ="C" > Single </option>
-                    <option value ="S" > Shop </option>
-                    <option value ="H" > Hotel </option>
-                </select>
-
-
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" name="ContactNumField2" id="ContactNumField2"  placeholder="+639..." Value = "{{$customerDetails->Contact_Num}}" required/>
-              </div>
-
-
-              <div class="form-group" id = "hotelnameDiv2" hidden>
-                <label for="HotelNameField">Hotel Name (for hotel customers):</label>
-                <input type="text" class="form-control" id="HotelNameField2" name="HotelNameField2" Value = "{{$customerDetails->Hotel_Name}}" placeholder="Hotel Name here...">
-              </div>
-
-
-              <div class="form-group" id = "shopnameDiv2" hidden>
-                <label for="ShopNameField">Shop Name (for shop customers):</label>
-                <input type="text" class="form-control" id="ShopNameField2" name="ShopNameField2" Value = "{{$customerDetails->Shop_Name}}" placeholder="Shop Name here...">
-              </div>
-
-
-              <div class="form-group">
-                <label for="emailField">Email address</label>
-                <input type="email" class="form-control" id="emailField2" name="emailField2" Value = "{{$customerDetails->Email_Address}}" placeholder="Email here...">
-              </div>
-
-              <div class="form-group">
-                <label for="addressField">Address Line</label>
-                <input type="text" class="form-control" id="addressField2" name="addressField2" placeholder="Unit No. or House No.\Street\Baranggay\Town\Porvince" Value = "{{$customerDetails->Address_Line}}" required>
-              </div>
-
-                <div class = "form-group">
-                  <label>Baranggay: </label>
-                  <input type="text" class="form-control" name="BaranggayField2" id="BaranggayField2"  placeholder="Baranggay here..." Value = "{{$customerDetails->Baranggay}}" required/>
-                </div>
-
-               <div class = "row">
-                <div class = "col-md-4">
-                  <label>Town: </label>
-                </div>
-
-                <div class = "col-md-4">
-                  <label>Province: </label>
-                </div>
-              </div>
-              <div hidden>
-                  <input type="text" class="form-control" name="provinceID" id="provinceID" Value = "{{$customerDetails->Province}}"/>
-                  <input type="text" class="form-control" name="townID" id="townID" Value = "{{$customerDetails->Town}}"/>
-              </div>
-              <div class="input-group" id = "AdrsDiv">
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                 <select class="form-control" name ="ProvinceField2" id ="ProvinceField2" >
-                      @foreach($province as $prov)
-                        <option value ="{{$prov->id}}" > {{$prov->name}} </option>
-                      @endforeach
-                  </select>
-                  <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                  <select class="form-control" name ="TownField2" id ="TownField2" >
-                      @foreach($city as $city)
-                        <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
-                      @endforeach
-                  </select>
-              </div>
+          <div class="form-group">
+            <label for="addressField">Address Line</label>
+            <input type="text" class="form-control" id="addressField2" name="addressField2" placeholder="Unit No. or House No.\Street\Baranggay\Town\Porvince" Value = "{{$customerDetails->Address_Line}}" required>
+          </div>
+          <div class = "form-group">
+            <label>Baranggay: </label>
+            <input type="text" class="form-control" name="BaranggayField2" id="BaranggayField2"  placeholder="Baranggay here..." Value = "{{$customerDetails->Baranggay}}" required/>
+          </div>
+          <div class = "row">
+            <div class = "col-md-4">
+              <label>Town: </label>
             </div>
 
-            <!--Hidden for edit only-->
-            <div class="modal-footer" id = "editFooter">
-              <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-                <div class="btn-group" role="group">
-                  <a type="button" href = "http://localhost:8000/customers" name = "cancelEditBtn" id = "cancelEditBtn" class="btn btn-default"  role="button">Cancel</a>
-                </div>
-                <div class="btn-group" role="group">
-                   <button type = "submit" name = "saveChangesBtn" id = "saveChangesBtn" class = "btn btn-success btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Save Changes</button>
-                </div>
+            <div class = "col-md-4">
+              <label>Province: </label>
+            </div>
+          </div>
+          <div hidden>
+              <input type="text" class="form-control" name="provinceID" id="provinceID" Value = "{{$customerDetails->Province}}"/>
+              <input type="text" class="form-control" name="townID" id="townID" Value = "{{$customerDetails->Town}}"/>
+          </div>
+          <div class="input-group" id = "AdrsDiv">
+            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+             <select class="form-control" name ="ProvinceField2" id ="ProvinceField2" >
+                  @foreach($province as $prov)
+                    <option value ="{{$prov->id}}" > {{$prov->name}} </option>
+                  @endforeach
+              </select>
+              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+              <select class="form-control" name ="TownField2" id ="TownField2" >
+                  @foreach($city as $city)
+                    <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
+                  @endforeach
+              </select>
+          </div>
+          <!--Hidden for edit only-->
+          <div class="modal-footer" id = "editFooter">
+            <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+              <div class="btn-group" role="group">
+                <a type="button" href = "http://localhost:8000/customers" name = "cancelEditBtn" id = "cancelEditBtn" class="btn btn-default"  role="button">Cancel</a>
+              </div>
+              <div class="btn-group" role="group">
+                 <button type = "submit" name = "saveChangesBtn" id = "saveChangesBtn" class = "btn btn-success Lush"><span class = "glyphicon glyphicon-floppy-save"></span> Save Changes</button>
               </div>
             </div>
-
+          </div>
             {!! Form::close() !!}
             <!-- /.box-body -->
-          </div>
-          </div>
         </div>
-        <!-- /.col -->
       </div>
-
-
-
-	</div>
+    </div>
+  </div>
 @endsection
 
 

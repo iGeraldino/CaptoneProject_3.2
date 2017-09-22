@@ -2,61 +2,103 @@
 
 @section('content')
 
-  <div class="container" style="margin-top: 50px;">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="background-color: #C93756">
+  <div class="" style="margin-top: 50px;">
+    <div class="col-xs-12">
+      <div class="panel">
+          <div class="panel-heading Subu">
             <h3 class="panel-title">Supplier More Details</h3>
           </div>
           <div class="panel-body">
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Supplier ID: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">CUST-{{$supp->supplier_ID}}</span>
+                <label class="control-label"><B>SUPPLIER ID:</B> </label>
+                <span><b>CUST-{{$supp->supplier_ID}}</b></span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Name: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$supp->supplier_FName}} {{$supp->supplier_MName}}, {{$supp->supplier_LName}}</span>
+                <label class="control-label"><b>FULL NAME: </b></label>
+                <span style="font-size: 100%; text-transform: uppercase;"><b>{{$supp->supplier_FName}} {{$supp->supplier_MName}}, {{$supp->supplier_LName}}</b></span>
               </div>
             </div>
 
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Email Address</label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$supp->supplier_emailadd}}</span>
+                <label class="control-label"><b>EMAIL ADDRESS: </b></label>
+                <span style="font-size: 100%;"><b>{{$supp->supplier_emailadd}}</b></span>
               </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Contact No: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$supp->supplier_contactNum}}</span>
+                <label class="control-label"><b>CONTACT NUMBER:</b></label>
+                <span style="font-size: 100%;"><b>{{$supp->supplier_contactNum}}</b></span>
               </div>
             </div>
 
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Tel Number: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$supp->supplier_telNum}}</span>
+                <label class="control-label"><b>TELEPHONE NUMBER:</b></label>
+                <span style="font-size: 100%;"><b>{{$supp->supplier_telNum}}</b></span>
               </div>
             </div>
 
             <div class = "row">
-              <div class="col-sm-5">
-              x<div class="form-group">
-                <label class="control-label">Address</label>
+              <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label"><b>ADDRESS: </b></label>
               </div>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$supp->supplier_AddressLine}}, <br>{{$supp->Baranggay}}, {{$supp->Town}}, {{$supp->Province}}</span>
+                <span style="font-size: 100%;"><b>{{$supp->supplier_AddressLine}}, <br>{{$supp->Baranggay}}, {{$supp->Town}}, {{$supp->Province}}</b></span>
               </div>
             </div>
+            <br>
+            <div class="col-md-offset-9">
+             <button class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Price <i class="material-icons">add_circle</i></button>
+            </div>
+            <!-- Start of Table-->
+        <div class="col-xs-12">
+          <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table">
+                <thead>
+                    <th class="text-center"> PRICE ID </th>
+                    <th class="text-center"> FLOWER NAME </th>
+                    <th class="text-center"> IMAGE</th>
+                    <th class="text-center"> PRICE </th>
+                    <th class="text-center"> ACTION </th>
+                </thead>
+
+                <tbody>
+                 @foreach($PriceList as $price)
+                    <tr>  
+                      <th class="text-center"> {{$price->Price_ID}}     </th>
+                      <th class="text-center"> {{$price->flower_name}}  </th>
+                      <th class="text-center" align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
+                      </th>
+                      <th> Php {{number_format($price->price,2)}}  </th>
+                      <th  class="text-center"> 
+                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon twitch"> 
+                          <i class="material-icons">mode_edit</i>
+                        </button>
+                      </th>
+                    </tr>
+                  @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
           </div>
         </div>
+    </div>
   </div>
 
         <div class="row container">
-        <button class="btn btn-primary btn-md col-md-offset-1"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Price</button>        
+                  
        
         <!-- Start of Modal -->
 
@@ -113,42 +155,7 @@
       </div>
 
 
-    <!-- Start of Table-->
-        <div class="col-xs-12">
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example2" class="table">
-                <thead>
-                    <th> Price ID </th>
-                    <th> Flower Name </th>
-                    <th> Image</th>
-                    <th> Price </th>
-                    <th> Action </th>
-                </thead>
-
-                <tbody>
-                 @foreach($PriceList as $price)
-                    <tr>  
-                      <th> {{$price->Price_ID}}     </th>
-                      <th> {{$price->flower_name}}  </th>
-                      <th align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
-                      </th>
-                      <th> Php {{number_format($price->price,2)}}  </th>\
-                      <th align="center"> 
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-info btn-xs"> 
-                          <i class="glyphicon glyphicon-edit"></i>
-                        </button>
-                      </th>
-                    </tr>
-                  @endforeach
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-          </div>
+    
   </div>
 @endsection
 

@@ -13,78 +13,31 @@
           <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingTradeSessionValue}}">
           <input type = "text" class = "hidden" id = "deletingSessionField" value = "{{$DeletingTradeSessionValue}}">
 
-      <div class="panel panel-primary" style="margin-top: 25px;">
-        <div class="panel-heading" style="background-color: #26A69A">
-          <h3 class="panel-title">Specific Customer's Agreement</h3>
+      <div class="panel" style="margin-top: 25px; padding-bottom: 43%;">
+        <div class="panel-heading Subu">
+          <h3 class="panel-title" style="color: white;">Specific Customer's Agreement</h3>
         </div>
-        <h4 style="padding-left: 15px;"> Customer ID: CUST-{{$CustomerDet->Cust_ID}}</h4>
-        <h4 style="padding-left: 15px; padding-bottom: 10px;"> Customer Name: {{$CustomerDet->Cust_FName}} {{$CustomerDet->Cust_MName}}, {{$CustomerDet->Cust_LName}} </h4>
-      </div>
-    
-    
-      <div class="col-md-3">
-      <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addprice">
-        Add New Agreement
-      <span class = "glyphicon glyphicon-book"></span>
-      </button>
-      <br>
-      <br>
-     </div>
-
-     <div class="col-md-3">
-      <a href="http://localhost:8000/TradeAgreements">
-        <button type="button" class="btn btn-info btn-pressure pull-right"> 
-            Return to the Customer List
-          <span class = "glyphicon glyphicon-user"></span>
-        </button>
-      </a>
-      <br>
-      <br>
-     </div>
-  </section>
-
-  <!-- Modal -->
-    <div class="modal fade" id="addprice" tabindex="
-    -1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add New Agreement</h4>
-          </div>
-           {!! Form::open(array('route' => 'customersTradeAgreement.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
-        <div class="modal-body">
-              <input class = "hidden" id = "typeCust" name = "typeCust" value = "{{$CustomerDet->Customer_Type}}">
-              <input class = "hidden" id = "custID" name = "custID" value = "{{$CustomerDet->Cust_ID}}">
-            <div class = "row">
-              <div class="form-group col-md-5">
-                <label for="SDateField">Start Date:</label>
-                <input type='date' name ="SDateField" id ="SDateField" class = "form-control"  required/>
-              </div>
-              <div class="form-group col-xs-5">
-                <label for="EDateField">Due Date</label>
-                <input type='date' name ="EDateField" id ="EDateField" class = "form-control" required/>
-              </div>
-            </div>
-            
-            <br>
-           <div class="modal-footer" id = "editFooter">
-            <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-              <div class="btn-group" role="group">
-                <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" class="btn btn-default"  role="button">Cancel</button>
-              </div>
-              <div class="btn-group" role="group">
-                 <button type = "submit" name = "AddBtn" id = "AddBtn" class = "btn btn-success btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add Agreement</button>
-              </div>
-            </div>
-          </div>
+        <div class="col-md-6">
+          <h4 style="padding-left: 15px;"> Customer ID: CUST-{{$CustomerDet->Cust_ID}}</h4>
         </div>
-     {!! Form::close() !!}
-      </div>
-    </div>
-  </div>
-  
-        <div class="col-md-12">
+        <div class="col-md-3" style="margin-top: 1%;">
+          <button type="button" class="btn btn-md btn-round twitch" data-toggle="modal" data-target="#addprice">
+            Add New Agreement
+          <i class="material-icons">crop_square</i>
+          </button>
+        </div>
+        <div class="col-md-3" style="margin-top: 1%;">
+          <a href="http://localhost:8000/TradeAgreements">
+            <button type="button" class="btn btn-round btn-pressure pull-right Inbox"> 
+                Return to the Customer List
+              <i class="material-icons">account_circle</i>
+            </button>
+          </a>
+        </div>
+        <div class="col-md-6" style="margin-top: -3%;">
+          <h4 style="padding-left: 15px; padding-bottom: 10px;"> Customer Name: {{$CustomerDet->Cust_FName}} {{$CustomerDet->Cust_MName}}, {{$CustomerDet->Cust_LName}} </h4>
+        </div>
+          <div class="col-md-12">
       <!-- Tabs with icons on Card -->
       <div class="card card-nav-tabs">
         <div class="header Sharp">
@@ -134,9 +87,9 @@
                         <td>    {{$agreement->Status}}   </td>
 
                         <td align="center" > 
-                          <a data-toggle="modal" href="#betaModal{{$agreement->Agreement_ID}}"> <button class="btn btn-info btn-md"> View </button></a>
+                          <a data-toggle="modal" href="#betaModal{{$agreement->Agreement_ID}}"> <button class="btn btn-just-icon Subu btn-md" rel="tooltip" title="VIEW"> <i class="material-icons">search</i></button></a>
                            {!! Form::open(['route' => ['TradeAgreements.destroy',$agreement->Agreement_ID],'method'=>'DELETE']) !!}
-                          <button type = "submit" name = "YesBtn" class="btn btn-danger btn-md"> Delete</button>
+                          <button type = "submit" name = "YesBtn" class="btn btn-just-icon btn-md Shalala" rel="tooltip" title="DELETE" > <i class="material-icons">delete</i></button>
                           {!! Form::close() !!}
                         </td> 
 
@@ -283,6 +236,56 @@
       <!-- End Tabs with icons on Card -->
       
     </div>
+        
+      </div>
+    
+
+
+     
+  </section>
+
+  <!-- Modal -->
+    <div class="modal fade" id="addprice" tabindex="
+    -1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add New Agreement</h4>
+          </div>
+           {!! Form::open(array('route' => 'customersTradeAgreement.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+        <div class="modal-body">
+              <input class = "hidden" id = "typeCust" name = "typeCust" value = "{{$CustomerDet->Customer_Type}}">
+              <input class = "hidden" id = "custID" name = "custID" value = "{{$CustomerDet->Cust_ID}}">
+            <div class = "row">
+              <div class="form-group col-md-5">
+                <label for="SDateField">Start Date:</label>
+                <input type='date' name ="SDateField" id ="SDateField" class = "form-control"  required/>
+              </div>
+              <div class="form-group col-xs-5">
+                <label for="EDateField">Due Date</label>
+                <input type='date' name ="EDateField" id ="EDateField" class = "form-control" required/>
+              </div>
+            </div>
+            
+            <br>
+           <div class="modal-footer" id = "editFooter">
+            <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+              <div class="btn-group" role="group">
+                <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" class="btn btn-default"  role="button">Cancel</button>
+              </div>
+              <div class="btn-group" role="group">
+                 <button type = "submit" name = "AddBtn" id = "AddBtn" class = "btn btn-success btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add Agreement</button>
+              </div>
+            </div>
+          </div>
+        </div>
+     {!! Form::close() !!}
+      </div>
+    </div>
+  </div>
+  
+      
 
        
 @endsection

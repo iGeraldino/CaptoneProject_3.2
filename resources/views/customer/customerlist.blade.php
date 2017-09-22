@@ -3,14 +3,8 @@
 @section('content')
    
     <!-- Content Header (Page header) -->
-  <section class="content-header">
-      <h2> List of Customers</h2>
-    	<div class="col-md-8">
-      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#newCust"> 
-        <i class="material-icons md-24"> add_circle_outline</i> Add New Customer 
-      </button>
-	  	<br>
-	 <br>
+  <section class="content-header" style="margin-top: 2%;">
+	  	
 
     <!-- line modal -->
     <div class="modal fade" id="newCust" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -132,18 +126,28 @@
 	
         <div class="col-xs-12">
           <div class="box">
+            <div class="box-header">
+              <div class="col-md-9">
+                <h3>LIST OF CUSTOMERS</h3>
+              </div>
+              <div class="col-md-offset-5">
+                <button type="button" class="btn btn-primary btn-md btn-round col-md-offset-6 twitch" data-toggle="modal" data-target="#newCust"> 
+                  <i class="material-icons md-24"> add_circle_outline</i> Add New Customer 
+                </button>
+              </div>
+            </div>
             
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
-                <thead>
-                    <th> ID </th>
-                    <th> Name </th>
-                    <th> Type </th>
-                    <th> Phone Number</th>
-                    <th> Email Address</th>
-                    <th> Address</th>
-                    <th> Action </th>
+                <thead style="color: #6e48aa">
+                    <th class="text-center"> ID </th>
+                    <th class="text-center"> NAME </th>
+                    <th class="text-center"> TYPE </th>
+                    <th class="text-center"> PHONE NUMBER</th>
+                    <th class="text-center"> EMAIL ADDRESS</th>
+                    <th class="text-center"> ADDRESS</th>
+                    <th class="text-center"> ACTION</th>
                 </thead>
 
                 <tbody>
@@ -173,7 +177,7 @@
                         <td>    {{$customerDetailsrow->Address_Line}}  </td>
                         <td align="center" > 
                          
-                        <button type="button" rel="tooltip" title="View" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCust{{$customerDetailsrow->Cust_ID}}"><i class="material-icons">find_in_page</i></button>
+                        <button type="button" rel="tooltip" title="VIEW" class="btn Subu btn-sm btn-just-icon" data-toggle="modal" data-target="#viewCust{{$customerDetailsrow->Cust_ID}}"><i class="material-icons">search</i></button>
                               <!-- line modal -->
                                 <div class="modal fade" id="viewCust{{$customerDetailsrow->Cust_ID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -261,7 +265,7 @@
                                             <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal"  role="button">Close</button>
                                           </div>
                                           <div class="btn-group" role="group">
-                                             <a type = "button" href="{{ route('customers.edit',$customerDetailsrow->Cust_ID) }}" class = "btn   btn-success btn-simple" ><span class = "glyphicon glyphicon-pencil"></span> 
+                                             <a type = "button" href="{{ route('customers.edit',$customerDetailsrow->Cust_ID) }}" class = "btn   btn-success btn-simple">
                                                 Edit Details
                                               </a>
                                                  
@@ -279,7 +283,7 @@
                                     </div>
                                 </div>
 
-                          <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm btn-success" rel="tooltip" title="Add Trade Agreement" > 
+                          <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" > 
                            <i class="material-icons">add_circle</i>
                           </a>
 
