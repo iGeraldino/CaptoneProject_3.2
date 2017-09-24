@@ -2,10 +2,10 @@
 @extends('main')
 
 @section('content')
-   
+
     <!-- Content Header (Page header) -->
   <section class="content-header">
-      
+
        <div class="col-xs-12" style="margin-top: 2%;">
         <div class="panel">
           <div class="panel-heading Subu">
@@ -15,7 +15,7 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label"><b>SCHEDULE ID:</b></label>
-                <span><b>CUST-{{$schedInfo->Sched_Id}}</b></span>
+                <span><b>SUPLR-{{$schedInfo->Sched_Id}}</b></span>
               </div>
             </div>
             <div class="col-sm-4">
@@ -57,12 +57,12 @@
                     <tbody>
                     <!--foreach here-->
                     @foreach($SchedFlowers as $FlowersRow)
-                      <tr>  
+                      <tr>
                           <td class="text-center"> FLWR-{{$FlowersRow->flower_ID}}  </td>
                           <td class="text-center"> {{$FlowersRow->flowerName}} </td>
                           <td align="center"> <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}"></td>
                           <td class="text-center"> {{$FlowersRow->QTY_Expected}} pcs </td>
-                          <td align="center" > 
+                          <td align="center" >
                               <button class="btn btn-primary" data-toggle="modal" data-target="#ViewDetModal{{$FlowersRow->flower_ID}}">
                                 View
                               </button>
@@ -88,7 +88,7 @@
                                         <h4><b>Flower Name:</b> {{$FlowersRow->flowerName}} </h4>
                                         <h4><b>Expected Quantity:</b> {{$FlowersRow->QTY_Expected}} pcs </h4>
                                         <hr>
-                                        <h4><b>Expected Date of Arrival:</b></h4>                           
+                                        <h4><b>Expected Date of Arrival:</b></h4>
                                         <h4 style = "color:darkviolet;"><b>{{date('M d,Y', strtotime($schedInfo->Date))}}<b></h4>
                                       </div>
                                     </div>
@@ -100,14 +100,14 @@
                                 </div>
                               </div>
                             </div>
-                                  
+
                         </tr>
                         @endforeach
                           <!--end of foreach-->
 
 
                       </tbody>
-             
+
                     </table>
                   </div>
                   <!-- /.box-body -->
@@ -139,7 +139,7 @@
     <script>
       $(document).ready(function(){
 
-        var date = new Date();      
+        var date = new Date();
         var currentDate = date.toISOString().slice(0,10);
         var currentTime = date.getHours() + ':' + date.getMinutes();
 
@@ -183,16 +183,16 @@
               $("#email_Field").attr('placeholder','email address here...');
 
            }
-        }); 
+        });
         //end of functionx
 
-        
+
         $("#FLowerIDfield").change(function(){
           var element =  $(this);
           var price = $('option:selected').attr( "data-tag" );
           $('#origPriceField').val(price);
         });//end of function
-        
+
 
         $('#customerList_ID').change(function(){
             var selected = $(this).val();
@@ -201,72 +201,72 @@
             var OptionLname;
             var OptionEmail;
             var OptionContactNum;
-            
+
             $("#customerList_FName option").each(function(item){
-              var element =  $(this) ; 
+              var element =  $(this) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionFname = element.val(); 
+               OptionFname = element.val();
                 element.show();
               }
             });//end of function
 
 
            $("#customerList_MName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionMname = element.val(); 
+               OptionMname = element.val();
                 element.show();
               }
-            });//end of function 
+            });//end of function
 
            $("#customerList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionLname = element.val(); 
+               OptionLname = element.val();
                 element.show();
               }
             });//end of function
 
            $("#Contact_NumList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionContactNum = element.val(); 
+               OptionContactNum = element.val();
                 element.show();
               }
             });//end of function
 
            $("#Email_AddList_LName option").each(function(item){
-             // console.log(selected) ;  
-              var element =  $(this) ; 
-              //console.log(element.data("tag")) ; 
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
               if (element.data("tag") != selected){
-                element.hide() ; 
+                element.hide() ;
               }
               else{
-               OptionEmail = element.val(); 
+               OptionEmail = element.val();
                 element.show();
               }
-            });//end of function 
+            });//end of function
 
-           
+
 
           $("#idfield").val(selected);
           $("#Cust_FNameField").val(OptionFname);

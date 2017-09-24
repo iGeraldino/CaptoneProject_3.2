@@ -3,7 +3,7 @@
 
 @section('content')
 <?php
-     $UpdtSessionValue = Session::get('Update_FlowerfromSession_Supply'); 
+     $UpdtSessionValue = Session::get('Update_FlowerfromSession_Supply');
      Session::remove('Update_FlowerfromSession_Supply');//determines the Addition of requested flowers
 ?>
 
@@ -21,11 +21,11 @@
 		              <div  Style = "margin-left: 32%;">
 
                       </div>
-                      
+
 		              <div hidden>
 		              	<input id = "imageName"  name = "imageName" value = "">
 		              </div>
-	                  
+
 	                    <div class = "row" style = "margin-left: 5%;">
 	                      <div class = "col-md-5">
                             <div class="form-group label-floating">
@@ -40,25 +40,25 @@
     	                          <label class="control-label">Flower Name</label>
 	                              <input type="text" class="form-control" value = "{{$flower->name}}" name="Flowername" id="Flowername" maxlength = '50' required disabled>
                              </div>
-                            
+
 	                          <div class="form-group label-floating">
 		                        <label class="control-label">Current Quantity:</label>
 		                        <input type="text" class="form-control" value = " {{$flower->qty}} pcs." name="Qty" id="Qty" disabled required>
 		                     </div>
-	                        
+
 	                      </div>
-	                      
+
 	                   </div>
 
 	                     <div class = "row control-label" style="color: #C93756; margin-left: 7%;">
 		                     <div class = "col-md-3">
-		                    	<span class="label" style="font-size: 100%; background-color: #F62459"><input id = "UpdateCheckbox" name = "UpdateCheckbox" type = "checkbox"/>Want to update the Qty?</span> 	
+		                    	<span class="label" style="font-size: 100%; background-color: #F62459"><input id = "UpdateCheckbox" name = "UpdateCheckbox" type = "checkbox"/>Want to update the Qty?</span>
 		                     </div>
 		                     <div class = "col-md-1"></div>
 		                     <div class = "col-md-7">
 		                     	<div id = "QTY_Update_Div" hidden>
 		                     	<!--form open here-->
-                     		{!! Form::model($flower, ['route'=>['InventoryScheduling_Flowers.update', $flower->id],'method'=>'PUT','data-parsley-validate' => ''])!!} 
+                     		{!! Form::model($flower, ['route'=>['InventoryScheduling_Flowers.update', $flower->id],'method'=>'PUT','data-parsley-validate' => ''])!!}
 	                					<span class="label" style="margin-left: 5%; font-size: 100%; background-color: darkviolet">Enter New qty for this item</span>
 
 											<div class = "row" style = "margin-left: 5%;">
@@ -74,12 +74,12 @@
 		                     						<button type="submit" name = "updateQtyBtn" id = "updateQtyBtn" class="btn btn-default btn-sm" style="background-color: darkviolet;"  role="button">Update Qty</button>
 		                     					</div>
 		                     				</div><!--end of row-->
-		                    {!! Form::close() !!} 
-				       				<!--form close here-->		                   	 
+		                    {!! Form::close() !!}
+				       				<!--form close here-->
 							    </div>
 							 <div id = "editFooterdiv" >
 	                        <div class="btn-group" role="group">
-	                        <a type = "button" href="{{ route ('Inventory.ScheduleArrival') }}" class = "btn btn-default btn-default" > 
+	                        <a type = "button" href="{{ route ('Inventory.ScheduleArrival') }}" class = "btn btn-default btn-default" >
                             Return to Bouquet's Contents
                       		</a>
 	                        </div>
@@ -111,13 +111,13 @@
     	//console.log('pasok');
       if($('#UpdateCheckbox').is(":checked")){
       	$('#editFooterdiv').slideUp();
-	    $('#QTY_Update_Div').slideDown();	
+	    $('#QTY_Update_Div').slideDown();
       }
       else{
       	$('#editFooterdiv').slideDown();
       	$('#QTY_Update_Div').slideUp();
       }
-      
+
     });//end of function
 
  });

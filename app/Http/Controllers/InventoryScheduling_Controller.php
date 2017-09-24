@@ -61,7 +61,7 @@ class InventoryScheduling_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-        return view('flower.inventoryScheduling.Create_Schedule');
+         return view('flower.inventoryScheduling.Create_Schedule');
         }
     }
 
@@ -81,13 +81,15 @@ class InventoryScheduling_Controller extends Controller
                     //
                     //Cart::instance('Schedule_Arrival');
                       $Date_of_Event = $request->datetoArriveField;
-                      $supplier_ID = $request->supplierField;
+                      $suplr_ID = explode("_", $request->supplierField_Input);
+                      //echo $suplr_ID[1];
+                      $supplier_ID = $suplr_ID[1];
                       $Schedule_Type = "I";
 
 
                      $NewScheduleDetails = collect([$Date_of_Event,$supplier_ID,$Schedule_Type]);
 
-                     Session::put('newScheduleSession', $NewScheduleDetails);
+                    Session::put('newScheduleSession', $NewScheduleDetails);
                     /*$NewSched = new  Shop_ScheduleModel;
                       $NewSched->Date_of_Event = $request->datetoArriveField;
                       $NewSched->supplier_ID = $request->supplierField;
@@ -95,7 +97,7 @@ class InventoryScheduling_Controller extends Controller
                     */
                    //echo $request->supplierField;
                       // dd($NewScheduleDetails);
-                    //Session::put('AddingFlower_ArrivalSession','Successful');
+                    Session::put('AddingFlower_ArrivalSession','Successful');
                     return redirect()->route('Inventory.ScheduleArrival');
             }
     }

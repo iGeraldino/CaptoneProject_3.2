@@ -37,21 +37,21 @@ class InventoryMonitoringController extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-			$Schedule_details = Session::get('newScheduleSession');
-			if($Schedule_details == null){
-				Session::put('requestOrder_Session','failure');
-				return redirect()->route('InventoryScheduling.index');
-			}else{
-				$SupplierDet = supplier_details::find($Schedule_details[1]);
-				//dd($SupplierDet);
-				//dd($Schedule_details[1]);
-				$Flowers = DB::select('Call call_flowers_in_Supplier_PriceList(?)', array($Schedule_details[1]));
-				 return view('flower.inventoryScheduling.adding_Flowers_toArrive_for_the_Schedule')
-				 ->with('Schedule_details',$Schedule_details)
-				 ->with('FlowerList',$Flowers)
-				 ->with('SuppDet',$SupplierDet);
-			}
-		}
+    			$Schedule_details = Session::get('newScheduleSession');
+    			if($Schedule_details == null){
+    				Session::put('requestOrder_Session','failure');
+    				return redirect()->route('InventoryScheduling.index');
+    			}else{
+    				$SupplierDet = supplier_details::find($Schedule_details[1]);
+    				//dd($SupplierDet);
+    				//dd($Schedule_details[1]);
+    				$Flowers = DB::select('Call call_flowers_in_Supplier_PriceList(?)', array($Schedule_details[1]));
+    				 return view('flower.inventoryScheduling.adding_Flowers_toArrive_for_the_Schedule')
+    				 ->with('Schedule_details',$Schedule_details)
+    				 ->with('FlowerList',$Flowers)
+    				 ->with('SuppDet',$SupplierDet);
+    			}
+		     }
 	}//end of function
 
 	public function Delete_requestedflower_insession_toarrive($flower_Id)

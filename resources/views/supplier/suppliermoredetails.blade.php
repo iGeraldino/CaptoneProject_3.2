@@ -54,7 +54,8 @@
             </div>
             <br>
             <div class="col-md-offset-9">
-             <button class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Price <i class="material-icons">add_circle</i></button>
+              <button class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Price <i class="material-icons">add_circle</i></button>
+              <a href= "{{route('supplieradd.index')}}" class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;"> Return <i class="material-icons">add_circle</i></a>
             </div>
             <!-- Start of Table-->
         <div class="col-xs-12">
@@ -63,23 +64,21 @@
             <div class="box-body">
               <table id="example2" class="table">
                 <thead>
-                    <th class="text-center"> PRICE ID </th>
+                    <th class="text-center"> Flower ID </th>
                     <th class="text-center"> FLOWER NAME </th>
                     <th class="text-center"> IMAGE</th>
-                    <th class="text-center"> PRICE </th>
                     <th class="text-center"> ACTION </th>
                 </thead>
 
                 <tbody>
                  @foreach($PriceList as $price)
-                    <tr>  
-                      <th class="text-center"> {{$price->Price_ID}}     </th>
+                    <tr>
+                      <th class="text-center"> {{$price->flower_ID}}     </th>
                       <th class="text-center"> {{$price->flower_name}}  </th>
                       <th class="text-center" align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
                       </th>
-                      <th> Php {{number_format($price->price,2)}}  </th>
-                      <th  class="text-center"> 
-                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon twitch"> 
+                      <th  class="text-center">
+                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon twitch">
                           <i class="material-icons">mode_edit</i>
                         </button>
                       </th>
@@ -96,15 +95,6 @@
         </div>
     </div>
   </div>
-
-        <div class="row container">
-<<<<<<< Updated upstream
-                  
-       
-=======
-        <button class="btn btn-primary btn-md col-md-offset-1"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Set Flower</button>
-
->>>>>>> Stashed changes
         <!-- Start of Modal -->
 
           <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,46 +148,6 @@
 
         <!-- End of Modal -->
       </div>
-
-
-<<<<<<< Updated upstream
-    
-=======
-    <!-- Start of Table-->
-        <div class="col-xs-12">
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example2" class="table">
-                <thead>
-                    <th> Flower ID </th>
-                    <th> Flower Name </th>
-                    <th> Image</th>
-                    <th> Action </th>
-                </thead>
-
-                <tbody>
-                 @foreach($PriceList as $price)
-                    <tr>
-                      <th> FLWR-{{$price->flower_ID}}     </th>
-                      <th> {{$price->flower_name}}  </th>
-                      <th align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
-                      </th>
-                      <th align="center">
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-info btn-xs">
-                          <i class="glyphicon glyphicon-edit"></i>
-                        </button>
-                      </th>
-                    </tr>
-                  @endforeach
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-          </div>
->>>>>>> Stashed changes
   </div>
 @endsection
 

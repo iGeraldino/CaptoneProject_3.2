@@ -545,7 +545,12 @@
 														$min->modify("+2 days");
 														$max = new DateTime();
 														echo $min->format("Y-m-d");
-														?>" required/>
+														?>" min ="<?php
+															$min = new DateTime();
+															$min->modify("+2 days");
+															$max = new DateTime();
+															echo $min->format("Y-m-d");
+															?>"  required/>
 											</div>
 
 											<div class="col-md-6">

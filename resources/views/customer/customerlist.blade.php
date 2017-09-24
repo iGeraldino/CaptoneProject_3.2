@@ -1,10 +1,10 @@
 @extends('main')
 
 @section('content')
-   
+
     <!-- Content Header (Page header) -->
   <section class="content-header" style="margin-top: 2%;">
-	  	
+
 
     <!-- line modal -->
     <div class="modal fade" id="newCust" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -14,7 +14,7 @@
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <h3 class="modal-title" id="lineModalLabel">Create New Customer Record</h3>
         </div>
-      
+
       {!! Form::open(array('route' => 'customers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
         <div class="modal-body">
                 <!-- content goes here -->
@@ -30,12 +30,12 @@
 
                 <div class = "row">
                   <div class = "col-md-4">
-                    <label>Type: </label>                
+                    <label>Type: </label>
                   </div>
 
                   <div class = "col-md-4">
                     <label>Contact NUmber: </label>
-                  </div>              
+                  </div>
                 </div>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
@@ -72,19 +72,19 @@
                 </div>
 
                   <div class = "form-group">
-                    <label>Baranggay: </label>                
+                    <label>Baranggay: </label>
                   <input type="text" class="form-control" name="BaranggayField" id="BaranggayField"  placeholder="Baranggay here..." required/>
                   </div>
 
                  <div class = "row">
                   <div class = "col-md-6">
                     <label>Province: </label>
-                  </div>              
+                  </div>
 
                   <div class = "col-md-6">
                     <label>Town: </label>
-                  </div>              
-                  
+                  </div>
+
 
                 </div>
                 <div class="input-group" id = "AdrsDiv">
@@ -123,7 +123,7 @@
 
 
 
-	
+
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
@@ -131,12 +131,12 @@
                 <h3>LIST OF CUSTOMERS</h3>
               </div>
               <div class="col-md-offset-5">
-                <button type="button" class="btn btn-primary btn-md btn-round col-md-offset-6 twitch" data-toggle="modal" data-target="#newCust"> 
-                  <i class="material-icons md-24"> add_circle_outline</i> Add New Customer 
+                <button type="button" class="btn btn-primary btn-md btn-round col-md-offset-6 twitch" data-toggle="modal" data-target="#newCust">
+                  <i class="material-icons md-24"> add_circle_outline</i> Add New Customer
                 </button>
               </div>
             </div>
-            
+
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
@@ -153,11 +153,11 @@
                 <tbody>
 
                 @foreach($customers as $customerDetailsrow)
-                    <tr>  
+                    <tr>
                         <td> CUST-{{$customerDetailsrow->Cust_ID}}     </td>
                         <td> {{$customerDetailsrow->Cust_FName}} {{$customerDetailsrow->Cust_MName}}, {{$customerDetailsrow->Cust_LName}} </td>
-                        <td> 
-                          <?php 
+                        <td>
+                          <?php
                             if($customerDetailsrow->Customer_Type == 'C'){
                               echo 'Single';
                             }
@@ -175,33 +175,33 @@
                         <td> {{$customerDetailsrow->Contact_Num}}       </td>
                         <td> {{$customerDetailsrow->Email_Address}}       </td>
                         <td>    {{$customerDetailsrow->Address_Line}}  </td>
-                        <td align="center" > 
-                         
+                        <td align="center" >
+
                         <button type="button" rel="tooltip" title="VIEW" class="btn Subu btn-sm btn-just-icon" data-toggle="modal" data-target="#viewCust{{$customerDetailsrow->Cust_ID}}"><i class="material-icons">search</i></button>
                               <!-- line modal -->
                                 <div class="modal fade" id="viewCust{{$customerDetailsrow->Cust_ID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header">
-                                        <button type="button" class="close" rel="tooltip" title="close" 
+                                        <button type="button" class="close" rel="tooltip" title="close"
                                         id = "closeXBtn" name = "closeXBtn" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only"><i class="material-icons">delete</i></span></button>
                                         <h3 class="modal-title" id="lineModalLabel">Customer's Details</h3>
                                       </div>
-                                        
-                                      <div class="modal-body" id = "infoBodyDiv">  
+
+                                      <div class="modal-body" id = "infoBodyDiv">
                                         <!-- content goes here -->
                                             <h5>
-                                                <bold>Customer ID:</bold> 
-                                                CUST-{{$customerDetailsrow->Cust_ID}} 
-                                              </h5>
-                                              
-                                              <h5>
-                                                <bold>Customer Name:</bold> 
-                                                {{$customerDetailsrow->Cust_FName}} {{$customerDetailsrow->Cust_MName}}, {{$customerDetailsrow->Cust_LName}} 
+                                                <bold>Customer ID:</bold>
+                                                CUST-{{$customerDetailsrow->Cust_ID}}
                                               </h5>
 
                                               <h5>
-                                               Type: <?php 
+                                                <bold>Customer Name:</bold>
+                                                {{$customerDetailsrow->Cust_FName}} {{$customerDetailsrow->Cust_MName}}, {{$customerDetailsrow->Cust_LName}}
+                                              </h5>
+
+                                              <h5>
+                                               Type: <?php
                                                         if($customerDetailsrow->Customer_Type == 'C'){
                                                           echo 'Single';
                                                         }
@@ -215,23 +215,23 @@
                                                           echo 'n\a';
                                                         }
                                                       ?>
-                                              </h5> 
+                                              </h5>
 
                                               <h5>
-                                               Contact Number: {{$customerDetailsrow->Contact_Num}} 
-                                              </h5>                                                      
+                                               Contact Number: {{$customerDetailsrow->Contact_Num}}
+                                              </h5>
 
                                               <h5>
-                                               Email Address: {{$customerDetailsrow->Email_Address}} 
-                                              </h5>        
+                                               Email Address: {{$customerDetailsrow->Email_Address}}
+                                              </h5>
 
                                               <h5>
-                                               Address: {{$customerDetailsrow->Address_Line}} 
-                                              </h5>        
+                                               Address: {{$customerDetailsrow->Address_Line}}
+                                              </h5>
 
                                               <h5>
-                                               Hotel Name: 
-                                               <?php 
+                                               Hotel Name:
+                                               <?php
                                                 if($customerDetailsrow->Hotel_Name == " " or $customerDetailsrow->Hotel_Name == NULL){
                                                   echo 'Not aviailable';
                                                 }
@@ -239,12 +239,12 @@
                                                   echo $customerDetailsrow->Hotel_Name;
                                                 }
                                                ?>
-                                              </h5>      
+                                              </h5>
 
 
                                               <h5>
-                                               Shop Name: 
-                                               <?php 
+                                               Shop Name:
+                                               <?php
                                                 if($customerDetailsrow->Shop_Name == " " or $customerDetailsrow->Shop_Name == NULL){
                                                   echo 'Not aviailable';
                                                 }
@@ -253,12 +253,12 @@
                                                 }
                                                ?>
 
-                                              </h5>          
+                                              </h5>
 
-                                            
+
                                       </div>
 
-                                 
+
                                       <div class="modal-footer" id = "infoFooter">
                                         <div class="btn-group " role="group" aria-label="group button">
                                           <div class="btn-group" role="group">
@@ -268,7 +268,7 @@
                                              <a type = "button" href="{{ route('customers.edit',$customerDetailsrow->Cust_ID) }}" class = "btn   btn-success btn-simple">
                                                 Edit Details
                                               </a>
-                                                 
+
                                           </div>
                                         </div>
                                       </div>
@@ -283,7 +283,7 @@
                                     </div>
                                 </div>
 
-                          <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" > 
+                          <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" >
                            <i class="material-icons">add_circle</i>
                           </a>
 
@@ -292,7 +292,7 @@
                       </tr>
                   @endforeach
                 </tbody>
-       
+
               </table>
             </div>
             <!-- /.box-body -->
@@ -303,7 +303,7 @@
       </div>
 
 
-		
+
 	</div>
 @endsection
 
@@ -320,22 +320,22 @@
               $("#HotelNameField").attr('required', true);
               $("#shopnameDiv").slideUp();
               $("#ShopNameField").attr('required', false);
-            } 
+            }
 
           else if ($('#custTypeField').val() == 'S'){
               $("#hotelnameDiv").slideUp();
               $("#HotelNameField").attr('required', false);
-              $("#shopnameDiv").slideDown(); 
+              $("#shopnameDiv").slideDown();
               $("#ShopNameField").attr('required', true);
 
-            } 
+            }
           else {
               $("#hotelnameDiv").slideUp();
-              $("#shopnameDiv").slideUp(); 
+              $("#shopnameDiv").slideUp();
               $("#HotelNameField").attr('required', false);
               $("#ShopNameField").attr('required', false);
 
-            } 
+            }
         });//end of function
 
 
@@ -343,7 +343,7 @@
           var clearValue = " ";
               $("#HotelNameField2").val(clearValue);
               $("#ShopNameField2").val(clearValue);
-              
+
 
           if($('#custTypeField2').val() == 'H') {
               $("#hotelnameDiv2").slideDown();
@@ -353,24 +353,24 @@
               $("#ShopNameField2").attr('required', false);
               $("#ShopNameField2").val(' ');
 
-            } 
+            }
           else if ($('#custTypeField2').val() == 'S'){
               $("#hotelnameDiv2").slideUp();
               $("#HotelNameField2").attr('required', false);
               $("#hotelnameDiv2").val(' ');
-              $("#shopnameDiv2").slideDown(); 
+              $("#shopnameDiv2").slideDown();
               $("#ShopNameField2").attr('required', true);
               $("#ShopNameField2").val(' ');
 
-            } 
+            }
           else {
               $("#hotelnameDiv2").slideUp();
-              $("#shopnameDiv2").slideUp(); 
+              $("#shopnameDiv2").slideUp();
               $("#hotelnameDiv2").attr('required', false);
               $("#hotelnameDiv2").val(' ');
               $("#shopnameDiv2").attr('required', false);
               $("#shopnameDiv2").val(' ');
-            } 
+            }
         });//end of function
 
         $('#ProvinceField').change(function(){
@@ -378,19 +378,19 @@
           $("#TownField").attr('required', true);
                   var selected = $(this).val();
                   $("#TownField option").each(function(item){
-                   // console.log(selected) ;  
-                    var element =  $(this) ; 
-                    //console.log(element.data("tag")) ; 
+                   // console.log(selected) ;
+                    var element =  $(this) ;
+                    //console.log(element.data("tag")) ;
                     if (element.data("tag") != selected){
-                      element.hide() ; 
+                      element.hide() ;
                     }
                     else{
                       element.show();
                     }
-                  }) ; 
-                  
+                  }) ;
+
                 $("#TownField").val($("#TownField option:visible:first").val());
-    
+
         });//end of function
       });
     </script>

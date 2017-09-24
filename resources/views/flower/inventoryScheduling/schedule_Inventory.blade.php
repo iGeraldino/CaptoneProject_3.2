@@ -4,13 +4,13 @@
 @section('content')
 
 <?php
-  $sessionOrderrequetValue = Session::get('requestOrder_Session'); 
+  $sessionOrderrequetValue = Session::get('requestOrder_Session');
   Session::remove('requestOrder_Session');//determines the deletion of Acessory
 
-  $sessionSaveOrderRequestValue = Session::get('Save_requestOrder_Session'); 
+  $sessionSaveOrderRequestValue = Session::get('Save_requestOrder_Session');
   Session::remove('Save_requestOrder_Session');//determines the deletion of Acessory
 
-  
+
 ?>
 
  <div hidden>
@@ -19,7 +19,7 @@
   </div>
 <section class="content-header">
 
-    
+
   <!--  <a href=" {{ route ('floweradd.create') }} " class="btn btn-primary btn-lg"> Schedule an Order </a>
 
 -->
@@ -40,26 +40,44 @@
               <div class="col-md-6">
                 <div class="form-group label-static">
                   <label class="control-label">What date Dou you want it to arrive?</label>
-                  <input type="date" id = "datetoArriveField" name = "datetoArriveField" class="form-control">
+                  <input type="date" id = "datetoArriveField" name = "datetoArriveField" class="form-control"
+                  value = "<?php
+                    $min = new DateTime();
+                    $min->modify("+3 days");
+                    //$max = new DateTime();
+                    echo $min->format("Y-m-d");
+                    ?>"
+                  min = "<?php
+                    $min = new DateTime();
+                    $min->modify("+3 days");
+                    //$max = new DateTime();
+                    echo $min->format("Y-m-d");
+                    ?>"
+                   required>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-static">
-                  <label class="control-label">What date Dou you want it to arrive?</label>
-                  <select  id = 'supplierField' name = 'supplierField' class="btn btn-primary btn-md" >
-                    <option value = '-1'>Please Choose One Supplier</option>
-                  @foreach($supp as $supp)
-                    <option value="{{$supp->supplier_ID}}">{{$supp->supplier_ID}} - ({{$supp->supplier_FName}} {{$supp->supplier_MName}},{{$supp->supplier_LName}})</option>
-                  @endforeach
-                   </select>
+                  <label class="control-label">Please choose a supplier to order From:</label>
+                     <input id = "supplierField_Input" class = "form-control"  name="supplierField_Input" list="supplierField" placeholder="Enter supplier id or name..." required/>
+                     <datalist id="supplierField">
+                       <!--Foreach Loop data here-->
+                       @foreach($supp as $supp)
+                         <option value="SUPLR_{{$supp->supplier_ID}}" data-id = "{{$supp->supplier_ID}}">
+                           {{$supp->supplier_FName}} {{$supp->supplier_MName}},{{$supp->supplier_LName}}
+                         </option>
+                         @endforeach
+                       <!--Loop data Here-->
+                     </datalist>
+                     <span id = "Suplr_validator" style = "color:red;"></span>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-simple btn-success">Proceed to Choosing Flowers</button>
+            <button id = "submitBtn" type="submit" class="btn btn-simple btn-success">Proceed to Choosing Flowers</button>
           </div>
  {!! Form::close() !!}
         </div>
@@ -92,6 +110,12 @@
                     </a>
                   </li>
                   <li>
+                    <a href="#Arriving" data-toggle="tab">
+                      <i class="material-icons">chat</i>
+                      Arriving
+                    </a>
+                  </li>
+                  <li>
                     <a href="#done" data-toggle="tab">
                       <i class="material-icons">chat</i>
                       Done
@@ -103,7 +127,7 @@
           </div>
           <div class="content-header">
             <div class="tab-content text-center">
-              <div class="tab-pane active" id="pending">                 
+              <div class="tab-pane active" id="pending">
                 <div class="box">
                   <!-- /.box-header -->
                   <div class="box-body">
@@ -120,8 +144,8 @@
                       </tr>
                       </thead>
                     <tbody>
-                     <!--foreach here -->    
-                    @foreach($schedInv as $sched)   
+                     <!--foreach here -->
+                    @foreach($schedInv as $sched)
                         <tr>
                           <th> SCHED-{{$sched->Sched_Id}} </th>
                           <th>{{$sched->Date}}</th>
@@ -129,9 +153,9 @@
                           <th>SUPP-{{$sched->Supplier_ID}}</th>
                           <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
                           <th>{{$sched->Status}}</th>
-                          <td align="center"> 
+                          <td align="center">
                              <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="MORE"> <i class="material-icons">more_horiz</i>
-                             
+
                              </a>
                           </td>
                         </tr>
@@ -145,6 +169,44 @@
                 <!-- /.box -->
               </div>
                   <!-- end of tab pain -->
+                  <div class="tab-pane" id="Arriving">
+                    <div class="box">
+                      <!-- /.box-header -->
+                      <div class="box-body">
+                        <table id="Arrivingtable" class="table table-bordered table-striped">
+                          <thead>
+                          <tr>
+                            <th>Schedule ID </th>
+                            <th>Date to Recieve </th>
+                            <th>Date Requested</th>
+                            <th>Supp_ID</th>
+                            <th>Supplier_Name </th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                          </tr>
+                          </thead>
+                        <tbody>
+                         <!--foreach here -->
+                            <tr>
+                              <th> </th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <td align="center">
+                                 <a type = "button" href="#" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
+                                 </a>
+                              </td>
+                            </tr>
+                      <!--end foreach here-->
+                        </tbody>
+                       </table>
+                      </div>
+                      <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                  </div>
               <div class="tab-pane" id="done">
                 <div class="box">
                   <!-- /.box-header -->
@@ -162,8 +224,8 @@
                       </tr>
                       </thead>
                     <tbody>
-                     <!--foreach here -->    
-                    @foreach($doneschedInv as $donesched)   
+                     <!--foreach here -->
+                    @foreach($doneschedInv as $donesched)
                         <tr>
                           <th> SCHED-{{$donesched->Sched_Id}} </th>
                           <th>{{$donesched->Date}}</th>
@@ -171,7 +233,7 @@
                           <th>SUPP-{{$donesched->Supplier_ID}}</th>
                           <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
                           <th>{{$donesched->Status}}</th>
-                          <td align="center"> 
+                          <td align="center">
                              <a type = "button" href="{{ route('InventoryScheduling.show',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
                              </a>
                           </td>
@@ -191,7 +253,7 @@
 
         </div>
       </div>
-      
+
   </section>
     <!-- End Section Tabs -->
 @endsection
@@ -220,7 +282,7 @@
   </script>
 
   <script>
- $('document').ready(function(){
+ $(document).ready(function(){
 
 
   if($('#requestSessionfield').val()=='failure'){
@@ -233,6 +295,32 @@
     swal("Success!","The request was succesfully made and added to the list of scheduled request of flowers from suppliers","success");
    }
 
+   $('#submitBtn').attr("disabled",true);
+
+   $('#supplierField_Input').change(function(){
+      var supplierID = $('#supplierField_Input').val();
+      var found = 0;
+     $('#supplierField option').each(function(item){
+       var option_ID = $(this).val();
+       if(supplierID == option_ID){
+         found = 1;
+       }
+     });
+
+     if(found == 1){
+       $('#Suplr_validator').text(" ");
+       $('#submitBtn').attr("disabled",false);
+     }
+     else if(found != 1){
+       console.log('pasok');
+       $('#submitBtn').attr("disabled",true);
+       if($('#supplierField_Input').val() == null || $('#supplierField_Input').val() == ""){
+         $('#Suplr_validator').text('this field is required!');
+       }else{
+         $('#Suplr_validator').text('inputed name or ID does not exist!');
+       }
+     }
+   });
 
 
 
@@ -245,7 +333,7 @@
 
         for(ctr = 0; ctr < response.data.length; ctr++)
         {
-          option += `<option value="`+ response.data[ctr].supplier_ID +`">`+ response.data[ctr].supplier_ID +`</option>`; 
+          option += `<option value="`+ response.data[ctr].supplier_ID +`">`+ response.data[ctr].supplier_ID +`</option>`;
           console.log(option);
         }
 
