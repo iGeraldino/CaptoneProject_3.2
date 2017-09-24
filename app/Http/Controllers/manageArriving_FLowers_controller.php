@@ -11,42 +11,16 @@ use Session;
 use \Cart;
 use Auth;
 
-class InventoryScheduling_Controller extends Controller
+class manageArriving_FLowers_controller extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\m_responsekeys(conn, identifier)
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
-        if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-           /* if(Request::ajax())
-            {
-                return json_encode([
-                    'data' => supplier_details::all()
-                ]);
-            }*/
-            Cart::instance('Flowers_to_Arrive')->destroy();
-            $supplierdata = supplier_details::all();
-
-            $schedule = DB::select('CALL inventory_Schedules()');
-            $doneschedule = DB::select('CALL doneinventory_Schedules()');
-            $canceledschedule = DB::select('CALL canceledinventory_Schedules()');
-            $arriving = DB::select('CALL view_Arriving_Inventory()');
-
-           return view('flower.inventoryScheduling.schedule_Inventory')
-           ->with('arriving',$arriving)
-           ->with('schedInv',$schedule)
-           ->with('doneschedInv',$doneschedule)
-           ->with('canceledschedInv',$canceledschedule)
-           ->with('supp',$supplierdata);
-       }
     }
 
     /**
@@ -57,13 +31,6 @@ class InventoryScheduling_Controller extends Controller
     public function create()
     {
         //
-        if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-         return view('flower.inventoryScheduling.Create_Schedule');
-        }
     }
 
     /**
@@ -74,33 +41,7 @@ class InventoryScheduling_Controller extends Controller
      */
     public function store(Request $request)
     {
-        if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-                    //
-                    //Cart::instance('Schedule_Arrival');
-                      $Date_of_Event = $request->datetoArriveField;
-                      $suplr_ID = explode("_", $request->supplierField_Input);
-                      //echo $suplr_ID[1];
-                      $supplier_ID = $suplr_ID[1];
-                      $Schedule_Type = "I";
-
-
-                    $NewScheduleDetails = collect([$Date_of_Event,$supplier_ID,$Schedule_Type]);
-
-                    Session::put('newScheduleSession', $NewScheduleDetails);
-                    /*$NewSched = new  Shop_ScheduleModel;
-                      $NewSched->Date_of_Event = $request->datetoArriveField;
-                      $NewSched->supplier_ID = $request->supplierField;
-                      $NewSched->Schedule_Type = "I";
-                    */
-                   //echo $request->supplierField;
-                      // dd($NewScheduleDetails);
-                    Session::put('AddingFlower_ArrivalSession','Successful');
-                    return redirect()->route('Inventory.ScheduleArrival');
-            }
+        //
     }
 
     /**
@@ -111,6 +52,7 @@ class InventoryScheduling_Controller extends Controller
      */
     public function show($id)
     {
+        //
         if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -134,7 +76,7 @@ class InventoryScheduling_Controller extends Controller
 
             $flowersPersched = DB::select('call viewFlowers_PerSched(?)',array($id));
 
-            return view('flower.inventoryScheduling.setting_flowersToArrive')
+            return view('flower.inventoryScheduling.ManageFlowers_toArrive')
             ->with('FlowerList',$Flowers)
             ->with('SchedFlowers',$flowersPersched)
             ->with('schedInfo',$Sched_Info);

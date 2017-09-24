@@ -47,7 +47,7 @@ class AddFlowers_to_session_BQT extends Controller
             return redirect() -> route('adminsignin');
             Cart::instance('OrderedBqt_Flowers')->destroy();
         }
-        else{     */   
+        else{     */
              Cart::instance('OrderedBqt_Flowers')->count();
 
             $Flower_ID = $request->BqtFlwrID_Field;
@@ -67,13 +67,13 @@ class AddFlowers_to_session_BQT extends Controller
                     $derived_Sellingprice = 0;
                     if($descision == 'O'){
                         if($Qty>=$flower_details->QTY_of_Wholesale){
-                          $derived_Sellingprice = 
+                          $derived_Sellingprice =
                             $Original_Price - (($Original_Price * $flower_details->WholeSalePrice_Decrease)/100);
                           //computes for the selling price that reached the required qty for wholesale pricing
                           $final_total_Amount = $derived_Sellingprice * $Qty;
                         }//checks if the qty reached the Limit of the needed qty for wholesale
                         else{
-                          $derived_Sellingprice = $Original_Price; 
+                          $derived_Sellingprice = $Original_Price;
                           $final_total_Amount = $derived_Sellingprice * $Qty;
                         }//end of inner else
                     }//end of if
@@ -83,7 +83,7 @@ class AddFlowers_to_session_BQT extends Controller
                     }//end of outer else(this is automatically understood that it is newPrice)
 
                     Cart::instance('OrderedBqt_Flowers')
-                    ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice, 
+                    ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                     'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
             }
             else{
@@ -98,13 +98,13 @@ class AddFlowers_to_session_BQT extends Controller
                     $derived_Sellingprice = 0;
                     if($descision == 'O'){
                         if($TotalQty>=$flower_details->QTY_of_Wholesale){
-                          $derived_Sellingprice = 
+                          $derived_Sellingprice =
                             $Original_Price - (($Original_Price * $flower_details->WholeSalePrice_Decrease)/100);
                           //computes for the selling price that reached the required qty for wholesale pricing
                           $final_total_Amount = $derived_Sellingprice * $TotalQty;
                         }//checks if the qty reached the Limit of the needed qty for wholesale
                         else{
-                          $derived_Sellingprice = $Original_Price; 
+                          $derived_Sellingprice = $Original_Price;
                           $final_total_Amount = $derived_Sellingprice * $TotalQty;
                         }//end of inner else
                     }//end of if
@@ -112,14 +112,14 @@ class AddFlowers_to_session_BQT extends Controller
                           $derived_Sellingprice = $New_Price;
                           $final_total_Amount = $New_Price * $TotalQty;
                     }//end of outer else(this is automatically understood that it is newPrice)
-                    
+
                     Cart::instance('OrderedBqt_Flowers')->update($row->rowId,['qty' => $TotalQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
                     $Insertion = 0;
                     break;
                 }//end of if
                 else{
                     //for none existing item in the cart create a new record
-                    $Insertion = 1;//this indicates that there will be an insertion of new data 
+                    $Insertion = 1;//this indicates that there will be an insertion of new data
                 }//end of else
             }//end of foreach
                 if($Insertion == 1){
@@ -128,13 +128,13 @@ class AddFlowers_to_session_BQT extends Controller
                         $derived_Sellingprice = 0;
                         if($descision == 'O'){
                             if($Qty>=$flower_details->QTY_of_Wholesale){
-                              $derived_Sellingprice = 
+                              $derived_Sellingprice =
                                 $Original_Price - (($Original_Price * $flower_details->WholeSalePrice_Decrease)/100);
                               //computes for the selling price that reached the required qty for wholesale pricing
                               $final_total_Amount = $derived_Sellingprice * $Qty;
                             }//checks if the qty reached the Limit of the needed qty for wholesale
                             else{
-                              $derived_Sellingprice = $Original_Price; 
+                              $derived_Sellingprice = $Original_Price;
                               $final_total_Amount = $derived_Sellingprice * $Qty;
                             }//end of inner else
                         }//end of if
@@ -144,16 +144,16 @@ class AddFlowers_to_session_BQT extends Controller
                         }//end of outer else(this is automatically understood that it is newPrice)
 
                         Cart::instance('OrderedBqt_Flowers')
-                        ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice, 
+                        ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                         'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
                 }
         }//end of outer else
 
             Session::put('Added_FlowerToBQT_Order', 'Successful');
               return redirect()-> route('Long_Sales_Order.index');
-            
+
             //return redirect()->route('Order.CustomizeaBouquet');
-     // }//END OF MAIN ELSE         
+     // }//END OF MAIN ELSE
 
     }
 
@@ -195,9 +195,9 @@ class AddFlowers_to_session_BQT extends Controller
             return redirect() -> route('adminsignin');
             Cart::instance('OrderedBqt_Flowers')->destroy();
         }
-        else{  */      
+        else{  */
           $newQty = $request->QuantityField;
-          $order_ID = $request->ID_Field;    
+          $order_ID = $request->ID_Field;
           $descision = $request->Decision_Field;
           $flower_details = flower_details::find($id);
 
@@ -211,13 +211,13 @@ class AddFlowers_to_session_BQT extends Controller
 
                   if($descision == 'O'){
                       if($newQty>=$flower_details->QTY_of_Wholesale){
-                        $derived_Sellingprice = 
+                        $derived_Sellingprice =
                           $row->options['orig_price'] - (($row->options['orig_price'] * $flower_details->WholeSalePrice_Decrease)/100);
                         //computes for the selling price that reached the required qty for wholesale pricing
                         $final_total_Amount = $derived_Sellingprice * $newQty;
                       }//checks if the qty reached the Limit of the needed qty for wholesale
                       else{
-                        $derived_Sellingprice = $row->options['orig_price']; 
+                        $derived_Sellingprice = $row->options['orig_price'];
                         $final_total_Amount = $derived_Sellingprice * $newQty;
                       }//end of inner else
                   }//end of if
@@ -225,20 +225,20 @@ class AddFlowers_to_session_BQT extends Controller
                         $derived_Sellingprice = $row->price;
                         $final_total_Amount = $row->price * $newQty;
                   }//end of outer else(this is automatically understood that it is newPrice)
-                  
+
                   Cart::instance('OrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision]]);
                   $Insertion = 0;
                   break;
               }//end of if
               else{
                   //for none existing item in the cart create a new record
-                  $Insertion = 1;//this indicates that there will be an insertion of new data 
+                  $Insertion = 1;//this indicates that there will be an insertion of new data
               }//end of else
           }//end of foreach*/
-          
+
           Session::put('Update_FlowerToBQT_Order', 'Successful');
               return redirect()-> route('Long_Sales_Order.index');
-          
+
           //return redirect()->route('Order.CustomizeaBouquet');
         //}//
     }

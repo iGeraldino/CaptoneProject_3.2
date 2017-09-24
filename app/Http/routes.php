@@ -38,6 +38,16 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('InventoryScheduling_Flowers', 'SchedulingFLowers_of_Inventory_Controller');
 
+	Route::resource('InventoryArriving_Flowers', 'manageArriving_Flowers_controller');
+
+	Route::get('/Cancel_ManagingRequests',['uses' => 'InventorySchedulingMaintenance_Controller@cancelmanaging_RequestedFlowers', 'as'=>'Requests.Cancelmanaging']);//shows the specific scheduled flower to be managed
+
+	Route::get('/Specific_FlowersTobe_Managed/{Sched_id},{Flwr_id}',['uses' => 'InventorySchedulingMaintenance_Controller@Manage_FlowerTo_Submit', 'as'=>'Scheduled.SpecificFlower']);//shows the specific scheduled flower to be managed
+
+	Route::get('/Save_Managed_Flowers/{Sched_id}',['uses' => 'InventorySchedulingMaintenance_Controller@Save_FlowerTo_Inventory', 'as'=>'Save.managedRequests']);//saves the contents of the managed flower requests into the database
+
+	Route::resource('Inventory_Flowers_toSession', 'Add_Flwr_toSessionInventory_Cart_Controller');
+
 	Route::resource('Admins', 'AdminAccounts_Controller');
 
 	Route::get('deleteAdminAcct/{id}', ['uses' => 'AdminAccounts_Controller@destroy', 'as' => 'deleteAdminAcct']);
@@ -60,7 +70,7 @@ Route::group(['middleware' => ['web']], function() {
 
 
 //checkot of longorder
-  Route::get('/LongorderSummary/',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
+  Route::get('/LongorderSummary',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
 
 	Route::get('/Receipt/{id}',['uses' => 'OrderManagementController@PrintReciept', 'as'=>'LongOrder.GenerateReceipt']);
 
@@ -157,25 +167,25 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 //Route::get('/emailcheck/',['uses' => 'Validator_Controller@CheckEmail_Existence', 'as'=>'Validate_Email']);//for the view of adding flowers to order from the supplier
 //end of validator
 
-Route::get('/Save_Created_Flower_request/',['uses' => 'InventoryMonitoringController@save_requestFrom_Supplier', 'as'=>'InventorySched.Save_requestCreated']);//for the view of adding flowers to order from the supplier
+Route::get('/Save_Created_Flower_request',['uses' => 'InventoryMonitoringController@save_requestFrom_Supplier', 'as'=>'InventorySched.Save_requestCreated']);//for the view of adding flowers to order from the supplier
 
 
-Route::get('/Cancelrequest_Creation/',['uses' => 'InventoryMonitoringController@Cancel_requestTo_Supplier', 'as'=>'InventorySched.Cancel_requestCreation']);//for the view of adding flowers to order from the supplier
+Route::get('/Cancelrequest_Creation',['uses' => 'InventoryMonitoringController@Cancel_requestTo_Supplier', 'as'=>'InventorySched.Cancel_requestCreation']);//for the view of adding flowers to order from the supplier
 
 
 
 Route::get('/ChooseFlowersForArrival/{flower_Id}',['uses' => 'InventoryMonitoringController@Delete_requestedflower_insession_toarrive', 'as'=>'InventorySched.RemoveFlower']);//for the view of adding flowers to order from the supplier
 
 
-Route::get('/ChooseFlowersForArrival/',['uses' => 'InventoryMonitoringController@View_AddingFlowers_for_Arrival', 'as'=>'Inventory.ScheduleArrival']);//for the view of adding flowers to order from the supplier
+Route::get('/ChooseFlowersForArrival',['uses' => 'InventoryMonitoringController@View_AddingFlowers_for_Arrival', 'as'=>'Inventory.ScheduleArrival']);//for the view of adding flowers to order from the supplier
 
-Route::get('/cancelCustomiztationOf_BQT/',['uses' => 'OrderManagementController@Cancel_and_Clear_Bqt_Order', 'as'=>'Order.CancelBouquet']);
+Route::get('/cancelCustomiztationOf_BQT',['uses' => 'OrderManagementController@Cancel_and_Clear_Bqt_Order', 'as'=>'Order.CancelBouquet']);
 
 //'Flowerorder.DelOrderFlowers'
 Route::get('/cancelCustomiztationOf_Bouquet/{order_ID}',['uses' => 'OrderManagementController@Cancel_and_ClearFlower_per_Bqt_Order', 'as'=>'Order.CancelCreateaBouquet']);
 
 
-Route::get('/cancelCustomiztationOf_SessionBouquet/',['uses' => 'OrderManagementController@Cancel_and_Clear_BqtSession_Order', 'as'=>'Order.CancelBouquetCreation']);
+Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementController@Cancel_and_Clear_BqtSession_Order', 'as'=>'Order.CancelBouquetCreation']);
 
 
 

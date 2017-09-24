@@ -10,12 +10,16 @@
   $sessionSaveOrderRequestValue = Session::get('Save_requestOrder_Session');
   Session::remove('Save_requestOrder_Session');//determines the deletion of Acessory
 
+  $sessionManage_RequestValue = Session::get('Manage_Session');
+  Session::remove('Manage_Session');//determines if there are flowers the have been managed
 
 ?>
 
  <div hidden>
     <input id = "requestSessionfield" value = "{{$sessionOrderrequetValue}}">
     <input id = "requestSessionDone" value = "{{$sessionSaveOrderRequestValue}}">
+    <input id = "requestSessionManaged" value = "{{$sessionManage_RequestValue}}">
+
   </div>
 <section class="content-header">
 
@@ -62,7 +66,7 @@
                      <input id = "supplierField_Input" class = "form-control"  name="supplierField_Input" list="supplierField" placeholder="Enter supplier id or name..." required/>
                      <datalist id="supplierField">
                        <!--Foreach Loop data here-->
-                       @foreach($supp as $supp)
+                        @foreach($supp as $supp)
                          <option value="SUPLR_{{$supp->supplier_ID}}" data-id = "{{$supp->supplier_ID}}">
                            {{$supp->supplier_FName}} {{$supp->supplier_MName}},{{$supp->supplier_LName}}
                          </option>
@@ -135,8 +139,8 @@
                       <thead>
                       <tr>
                         <th>Schedule ID </th>
-                        <th>Date to Recieve </th>
                         <th>Date Requested</th>
+                        <th>Date to Recieve </th>
                         <th>Supp_ID</th>
                         <th>Supplier_Name </th>
                         <th>Status</th>
@@ -148,8 +152,8 @@
                     @foreach($schedInv as $sched)
                         <tr>
                           <th> SCHED-{{$sched->Sched_Id}} </th>
-                          <th>{{$sched->Date}}</th>
-                          <th>{{$sched->date_ordered}}</th>
+                          <th>{{date('M d, Y (h:i a)',strtotime($sched->date_ordered))}}</th>
+                          <th>{{date('M d, Y',strtotime($sched->Date))}}</th>
                           <th>SUPP-{{$sched->Supplier_ID}}</th>
                           <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
                           <th>{{$sched->Status}}</th>
@@ -177,8 +181,8 @@
                           <thead>
                           <tr>
                             <th>Schedule ID </th>
-                            <th>Date to Recieve </th>
                             <th>Date Requested</th>
+                            <th>Date to Recieve </th>
                             <th>Supp_ID</th>
                             <th>Supplier_Name </th>
                             <th>Status</th>
@@ -186,19 +190,30 @@
                           </tr>
                           </thead>
                         <tbody>
+                          <?php
+                            use Carbon\Carbon;
+                            $current = Carbon::now('Asia/Manila');
+                            $current2 = date('M d, Y',strtotime($current));
+                          ?>
                          <!--foreach here -->
+                         @foreach($arriving as $arriving)
                             <tr>
-                              <th> </th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
+                              <th> SCHED-{{$arriving->Sched_Id}} </th>
+                              <th>{{date('M d, Y (h:i a)',strtotime($arriving->date_ordered))}}</th>
+                              <th>{{date('M d, Y',strtotime($arriving->Date))}}</th>
+                              <th>SUPP-{{$arriving->Supplier_ID}}</th>
+                              <th>{{$arriving->FName}} {{$arriving->MName}},{{$arriving->LName}} </th>
+                              @if($current2 != $arriving->Date)
+                               <th>Late</th>
+                              @else if($current2 == $arriving->Date)
+                               <th>To be recieved</th>
+                              @endif
                               <td align="center">
-                                 <a type = "button" href="#" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
+                                 <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">search</i>
                                  </a>
                               </td>
                             </tr>
+                          @endforeach
                       <!--end foreach here-->
                         </tbody>
                        </table>
@@ -283,6 +298,13 @@
 
   <script>
  $(document).ready(function(){
+
+
+
+  if($('#requestSessionManaged').val()=='none'){
+    //Show popup
+    swal("Plese take note:","The Expected flowers to arrive today have not been managed yet. This means that there were no updated in the inventory yet please manage the arriving request immediately","info");
+   }
 
 
   if($('#requestSessionfield').val()=='failure'){

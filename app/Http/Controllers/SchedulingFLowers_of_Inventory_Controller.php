@@ -61,7 +61,7 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
                     echo 'wala pang laman';
 
                     Cart::instance('Schedule_Flowers')
-                    ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $defaultprice, 
+                    ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $defaultprice,
                     'options' => ['image'=>$image]]);
                     Session::put('Add_Flower_ToSession_Supply', 'Successful1');
                 }
@@ -80,13 +80,13 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
                         }//end of if
                         else{
                             //for none existing item in the cart create a new record
-                            $Insertion = 1;//this indicates that there will be an insertion of new data 
+                            $Insertion = 1;//this indicates that there will be an insertion of new data
                         }//end of else
                     }//end of foreach
                 if($Insertion == 1){
                         echo 'wala pang kamuka';
                             Cart::instance('Schedule_Flowers')
-                            ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $defaultprice, 
+                            ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $defaultprice,
                             'options' => ['image'=>$image]]);
                             Session::put('Add_Flower_ToSession_Supply', 'Successful1');
                     }//
@@ -129,7 +129,7 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
                 Session::put('requestOrder_Session','failure');
                 return redirect()->route('InventoryScheduling.index');
             }else{
-                $flower = array();   
+                $flower = array();
                 foreach(Cart::instance('Schedule_Flowers')->content() as $row){
                         if($row->id == $id){
                          $flower = Cart::instance('Schedule_Flowers')->get($row->rowId);
