@@ -165,6 +165,16 @@
                     <!--foreach here-->
 
                   @foreach($SchedFlowers as $FlowersRow)
+                    <?php
+                    $EXIST = 0;
+                      foreach(Cart::instance('Flowers_to_Arrive')->content() as $processed){
+                        if($FlowersRow->flower_ID == $processed->id){
+                          $EXIST = 1;
+                        }
+                      }
+                      ?>
+                      @if($EXIST == 1)
+                      @else
                       <tr>
                           <td class="text-center"> FLWR-{{$FlowersRow->flower_ID}}  </td>
                           <td class="text-center"> {{$FlowersRow->flowerName}} </td>
@@ -211,8 +221,8 @@
                                 </div>
                               </div>
                             </div>
-
                         </tr>
+                        @endif
                       @endforeach
                           <!--end of foreach-->
 
