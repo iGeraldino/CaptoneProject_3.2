@@ -70,19 +70,9 @@ class InventorySchedulingMaintenance_Controller extends Controller
 			}
 	}//end of function
 
-	public function Save_FlowerTo_Inventory($Sched_id)
+	public function Save_FlowerTo_Inventory(Request $request,$id)
 	{
-		if(auth::check() == false){
-						Session::put('loginSession','fail');
-						return redirect() -> route('adminsignin');
-				}
-				else{
 
-
-					echo $Sched_id;
-					//return view('flower.inventoryScheduling.managing_SpecificFlower_PerOrder')
-					//->with('Flower',$Flower);
-			}
 	}//end of function
 
 

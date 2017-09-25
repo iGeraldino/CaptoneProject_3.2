@@ -300,10 +300,15 @@
  $(document).ready(function(){
 
 
+   if($('#requestSessionManaged').val()=='done'){
+     //Show popup
+     swal("Congratulations!:","The Expected flowers to arrive today have been successfully processed and was already added to your inventory.","success");
+    }
+
 
   if($('#requestSessionManaged').val()=='none'){
     //Show popup
-    swal("Plese take note:","The Expected flowers to arrive today have not been managed yet. This means that there were no updated in the inventory yet please manage the arriving request immediately","info");
+    swal("Please take note:","The Expected flowers to arrive today have not been managed yet. This means that there were no updated in the inventory yet please manage the arriving request immediately","info");
    }
 
 

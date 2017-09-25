@@ -123,7 +123,7 @@ class InventoryMonitoringController extends Controller
 	          }
 
 	          //echo $NewSched->Schedule_ID;
-				Cart::instance('Schedule_Flowers')->destroy();
+				     Cart::instance('Schedule_Flowers')->destroy();
 	          	Session::remove('newScheduleSession');
 
 				Session::put('Save_requestOrder_Session','Successful');

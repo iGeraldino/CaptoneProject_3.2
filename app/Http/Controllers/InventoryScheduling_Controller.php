@@ -163,6 +163,47 @@ class InventoryScheduling_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(auth::check() == false){
+                Session::put('loginSession','fail');
+                return redirect() -> route('adminsignin');
+            }
+            else{
+              //$current = Carbon::now('Asia/Manila');
+              $updateShopSchedule = DB::select('CALL update_Scheduled_Inventory(?)',array($id));
+
+              $dateArrived = date('Y-m-d', strtotime($request->DateRecieved_Field));
+              $timeArrived = date('H:i:s', strtotime($request->TimeRecieved_Field));
+
+              $datetime = $dateArrived.' '.$timeArrived;
+
+              foreach(CART::instance('Flowers_to_Arrive')->content() as $row){
+                $update_Scheduled_flowers =DB::select('CALL update_ScheduledFlowers_From_suppliers(?, ?, ?, ?, ?, ?)',
+                array($row->id,$id,$row->qty,$row->options->spoiledQty,$row->options->goodQty,$datetime));//to be continued
+
+                $insertbatchFlowers = DB::select("CALL add_newBatch_Flowers(?,?,?,?,?,?,?,?)"
+                ,array($id,$datetime,$row->options->Life_Span,$row->id,$row->qty,
+                $row->options->goodQty,$row->options->spoiledQty,$row->price));
+
+                  if($row->options->spoiledQty > 0){//determines if there are initially spoiled quantity in upon arrival
+                    $addtransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
+                    array($id,$row->id,$row->options->goodQty,$row->price,$datetime,'I','Flower'));
+
+                    $negativeQty = '-'.$row->options->spoiledQty;//for negative qty only
+
+                    $addNegativetransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
+                    array($id,$row->id,$negativeQty,$row->price,$datetime,'I','Flower'));
+                  }else if($row->options->spoiledQty == 0){//means that there are no initially spoiled quantity in upon arrival
+                    $addtransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
+                    array($id,$row->id,$row->options->goodQty,$row->price,$datetime,'I','Flower'));
+
+                    $addNegativetransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
+                    array($id,$row->id,$row->options->spoiledQty,$row->price,$datetime,'I','Flower'));
+                  }//end of else if
+              }
+              CART::instance('Flowers_to_Arrive')->destroy();
+              Session::put("Manage_Session","done");
+              return redirect()->route('InventoryScheduling.index');
+          }
     }
 
     /**

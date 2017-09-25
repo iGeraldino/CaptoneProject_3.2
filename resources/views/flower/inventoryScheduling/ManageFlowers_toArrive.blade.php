@@ -67,9 +67,82 @@
               </div>
             </div>
             <div class="col-md-offset-8">
-              <a id = "SaveBtn" type="button" href = "{{route('Save.managedRequests',['$Sched_id'=>$schedInfo->Sched_Id])}}" class="pull-right btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button save all the progress that you've made in this session and add all the flowers in the inventory" data-container="body" disabled>
-                Save Flowers
+              <a id = "SaveBtn" type="button" data-target="#FinalModal" class="pull-right btn btn-round twitch btn-md"  data-toggle="modal" data-placement="bottom" title="This Button save all the progress that you've made in this session and add all the flowers in the inventory" data-container="body" disabled>
+                Process Request
               </a>
+
+
+              <!-- Modal Core -->
+              <div class="modal fade" id="FinalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="myModalLabel" style = "color:darkviolet;"><b>Summary of request</b></h4>
+                    </div>
+                    <div class="modal-body">
+                      <div id = "summaryDiv" hidden>
+                        <table id="finalSummary_Tbl" class="table table-bordered table-striped">
+                          <thead>
+                              <th class="text-center"> ID </th>
+                              <th class="text-center"> Name </th>
+                              <th class="text-center"> Expected</th>
+                              <th class="text-center"> Recieved</th>
+                              <th class="text-center"> Good Qty</th>
+                              <th class="text-center"> Spoiled Qty</th>
+                              <th class="text-center"> Cost</th>
+                          </thead>
+                          <tbody>
+                          <!--foreach here-->
+                          @foreach(Cart::instance('Flowers_to_Arrive')->content() as $processed)
+                                <tr>
+                                  <td class="text-center"> FLWR-{{$processed->id}}  </td>
+                                  <td class="text-center"> {{$processed->name}} </td>
+                                  <td class="text-center">  {{$processed->options->expected}} pcs </td>
+                                  <td class="text-center">  {{$processed->qty}} pcs </td>
+                                  <td class="text-center">  {{$processed->options->goodQty}} pcs </td>
+                                  <td class="text-center">  {{$processed->options->spoiledQty}} pcs </td>
+                                  <td class="text-center"> Php {{number_format($processed->price,2)}}</td>
+                                 </tr>
+                            @endforeach
+                                <!--end of foreach-->
+                            </tbody>
+                          </table>
+                          <button id = "hidetbl_BTN" type="button" class="pull-left btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button will hide the summary of the requests in for the inventory" data-container="body">
+                            Hide Summary
+                          </button>
+                      </div>
+                        <div id = "showBtn_Div" class = "col-md-6">
+                          <button id = "showtbl_BTN" type="button" class="pull-right btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button will show the summary of the requests in for the inventory" data-container="body">
+                            Show Summary
+                          </button>
+                        </div>
+          {!! Form::model($schedInfo, ['route'=>['InventoryScheduling.update', $schedInfo->Sched_Id],'method'=>'PUT','data-parsley-validate' => ''])!!}
+                        <div class = "row col-md-12">
+                          <div class="form-group col-md-6">
+                            <label class="control-label" for = "DateRecieved_Field">Date recieved: </label>
+                            <input id = "DateRecieved_Field" name = "DateRecieved_Field" type="date" class="form-control"
+                            min = "{{date('Y-m-d', strtotime($schedInfo->Date))}}"
+                            value = "{{date('Y-m-d', strtotime($schedInfo->Date))}}" required/>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label class="control-label" for = "TimeRecieved_Field">Time recieved: </label>
+                            <input id = "TimeRecieved_Field" name = "TimeRecieved_Field" type="time" class="form-control" required/>
+                          </div>
+                        </div>
+                    </div>
+                    <div class = "row"></div>
+                    <div class="modal-footer">
+                      <button style = "color:darkviolet;" type="button" class="btn btn-simple btn-primary" data-dismiss="modal">  Close
+                      </button>
+                      <button type="submit" class="btn btn-simple btn-success">  Save Flowers to Inventory</button>
+                    </div>
+        {!! Form::close() !!}
+                  </div>
+                </div>
+              </div>
+
+
               <a id = "returnBtn" type="button" href = "{{route('Requests.Cancelmanaging')}}" class="pull-right btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button redirect you to the list of flower requests from the supplier and will remove your progress" data-container="body">
                 RETURN TO REQUEST LIST
               </a>
@@ -211,8 +284,10 @@
 
 @section('scripts')
   <script type="text/javascript">
-          $(function () {
+    $(function () {
+        $("#finalSummary_Tbl").DataTable();
         $("#flowersTable").DataTable();
+
         $("#flowersToSaveTable").DataTable();
 
         $('#pendingtable').DataTable({
@@ -224,6 +299,22 @@
   </script>
     <script>
       $(document).ready(function(){
+
+        $('#SaveBtn').click(function(){
+          $('#summaryDiv').hide("fold");
+          $('#showBtn_Div').show("fold");
+        });
+        $('#showtbl_BTN').click(function(){
+          $('#showBtn_Div').hide("fold");
+          $('#summaryDiv').show("fold");
+        });
+
+        $('#hidetbl_BTN').click(function(){
+          $('#summaryDiv').hide("fold");
+          $('#showBtn_Div').show("fold");
+        });
+
+
         var count_toManage = $('#countToReach').val();
         var count_Done = $('#countDone').val();
         if(count_toManage == count_Done){
