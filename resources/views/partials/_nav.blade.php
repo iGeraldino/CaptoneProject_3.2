@@ -165,9 +165,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href=""><i class="fa fa-circle-o"></i> Overall Inventory Transactions</a></li>
-                <li><a href="/FlowerInventory_Transactions"><i class="fa fa-circle-o"></i> Flower Inventory Transaction</a></li>
+                <li><a href="{{route('FlowerInventory_Transactions')}}"><i class="fa fa-circle-o"></i> Flower Inventory Transaction</a></li>
                 <!--<li><a href="#"><i class="fa fa-circle-o"></i> Reserved Flowers</a></li>-->
-                <li><a href=""><i class="fa fa-circle-o"></i> Accessories Invetory Transactions</a></li>
+                <li><a href="{{route('AcrsInventory_Transactions')}}"><i class="fa fa-circle-o"></i> Accessories Invetory Transactions</a></li>
               </ul>
             </li>
           </ul>

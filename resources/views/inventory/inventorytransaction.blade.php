@@ -11,7 +11,7 @@
             <div class="box-header">
                 <h2 class="container">INVENTORY TRANSACTION</h2>
                 <label class="container">CHECK EVERYTHING THAT IS HAPPENING INSIDE YOUR INVENTORY</label>
-              
+
 
               <div class="row">
                 <div class="col-md-3 col-md-offset-6">
@@ -50,9 +50,13 @@
                 @foreach($transactions as $trans)
                   <tr>
                     <td class="text-center"> TRSCTN-{{ $trans->Trans_ID }} </td>
-                    <td class="text-center"> {{ $trans->Flower_Name }} </td>
+                    <td class="text-center"> {{ $trans->Name }} </td>
                     <td class="text-center">
+                      @if($trans->TypeOfItem == 'Acessories')
+                      <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('accimage/'.$trans->img)}}">
+                      @else
                       <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$trans->img)}}">
+                      @endif
                      </td>
                     <td class="text-center">
                     <?php
@@ -70,7 +74,12 @@
                       }
                     ?>
                     </td>
+                    @if($trans->TypeOfItem == 'Acessories')
+                    <td class="text-center"> N/A </td>
+                    @else
                     <td class="text-center"> BATCH-{{ $trans->Batch_ID }} </td>
+                    @endif
+
                     <td class="text-center">
                     <?php
                       if ($trans->order_ID == NULL){
@@ -79,7 +88,15 @@
                         echo 'ORDR'.$trans->order_ID;
                       }
                     ?>  </td>
-                    <td class="text-center"> {{ $trans->QTY }} pcs. </td>
+                    @if($trans->QTY < 0)
+                      <td class="text-right" style = "color:red;">
+                        <b> {{ $trans->QTY }} pcs. </b>
+                      </td>
+                    @else
+                      <td class="text-right">
+                        <b> {{ $trans->QTY }} pcs. </b>
+                      </td>
+                    @endif
                     <td class="text-center"> Php {{ number_format($trans->Unit_Cost,2) }} </td>
                     <td class="text-center">
                       <?php
@@ -91,8 +108,12 @@
                         }
                       ?>
                     </td>
+                    @if($trans->T_Amt < 0)
+                    <td class="text-center" style = "color:red;"> Php {{ number_format($trans->T_Amt,2) }} </td>
+                    @else
                     <td class="text-center"> Php {{ number_format($trans->T_Amt,2) }} </td>
-                    <td class="text-center"> {{ $trans->Date }} </td>
+                    @endif
+                    <td class="text-center"> {{ date('M d,Y (H:i a)',strtotime($trans->Date)) }} </td>
                   </tr>
               @endforeach
                 </tbody>

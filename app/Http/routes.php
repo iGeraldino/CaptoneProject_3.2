@@ -32,7 +32,9 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Acessory_ADD_Qty', 'AcessoriesTransaction_Controller');
 
-	Route::resource('FlowerInventory_Transactions', 'FlowerInventory_Transaction_Controller');
+	//Route::resource('FlowerInventory_Transactions', 'FlowerInventory_Transaction_Controller');
+
+	//Route::resource('AcrsInventory_Transactions', 'Inventory_Transaction_Controller');
 
 	Route::resource('InventoryScheduling', 'InventoryScheduling_Controller');
 
@@ -53,6 +55,11 @@ Route::group(['middleware' => ['web']], function() {
 	Route::get('deleteAdminAcct/{id}', ['uses' => 'AdminAccounts_Controller@destroy', 'as' => 'deleteAdminAcct']);
 
 	Route::get('ShowAdminAcct/{id}', ['uses' => 'AdminAccounts_Controller@edit', 'as' => 'editAdminAcct']);
+
+	Route::get('/inventoryTransactionFlowers', ['uses' => 'Inventory_Transaction_Controller@FlowerInventory_Trans', 'as' => 'FlowerInventory_Transactions']);
+
+	Route::get('/inventoryTransactionAcrs', ['uses' => 'Inventory_Transaction_Controller@AcrsInventory_Trans', 'as' => 'AcrsInventory_Transactions']);
+
 
 // Store
 

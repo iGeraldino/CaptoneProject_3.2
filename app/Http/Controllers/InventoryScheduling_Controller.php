@@ -191,7 +191,7 @@ class InventoryScheduling_Controller extends Controller
                     $negativeQty = '-'.$row->options->spoiledQty;//for negative qty only
 
                     $addNegativetransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
-                    array($id,$row->id,$negativeQty,$row->price,$datetime,'I','Flower'));
+                    array($id,$row->id,$negativeQty,$row->price,$datetime,'S','Flower'));
                   }else if($row->options->spoiledQty == 0){//means that there are no initially spoiled quantity in upon arrival
                     $addtransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
                     array($id,$row->id,$row->options->goodQty,$row->price,$datetime,'I','Flower'));
