@@ -70,6 +70,47 @@ class InventorySchedulingMaintenance_Controller extends Controller
 			}
 	}//end of function
 
+	public function Manage_FlowerTo_Adjust($Sched_id,$Flwr_id)
+	{
+		if(auth::check() == false){
+						Session::put('loginSession','fail');
+						return redirect() -> route('adminsignin');
+				}
+				else{
+					$Flower = DB::select('CALL viewSpecificFlower_PerSched(?,?);',array($Sched_id,$Flwr_id));
+					$Rqst_ID = "";
+					$Flower_ID = "";
+					$Img = "";
+					$Name = "";
+					$D_Recieved = "";
+					$D_Expected = "";
+					$Qty_Expected = "";
+					$Qty_Recieved = "";
+					$Qty_Good = "";
+					$Qty_Spoiled = "";
+
+					foreach($Flower as $Flower1){
+						$Rqst_ID = $Flower1->Sched_ID;
+						$Flower_ID = $Flower1->flower_ID;
+						$Img = $Flower1->Img;
+						$Name = $Flower1->flowerName;
+						$D_Recieved = $Flower1->Date_Obtained;
+						$D_Expected = $Flower1->Date_To_Recieve;
+						$Qty_Expected = $Flower1->QTY_Expected;
+						$Qty_Recieved = $Flower1->Recieved_QTY;
+						$Qty_Good = $Flower1->Good_QTY;
+						$Qty_Spoiled = $Flower1->Spoiled_QTY;
+					}
+
+					$FlowerDet = collect([$Rqst_ID ,$Flower_ID ,$Img ,$Name ,
+					$D_Recieved ,$D_Expected ,$Qty_Expected ,$Qty_Recieved ,
+					$Qty_Good ,$Qty_Spoiled]);
+
+					return view('flower.inventoryScheduling.Make_Adjustments')
+					->with('FlowerDet',$FlowerDet);
+			}
+	}//end of function
+
 	public function Save_FlowerTo_Inventory(Request $request,$id)
 	{
 

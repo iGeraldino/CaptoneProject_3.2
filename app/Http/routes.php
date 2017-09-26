@@ -46,9 +46,14 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::get('/Specific_FlowersTobe_Managed/{Sched_id},{Flwr_id}',['uses' => 'InventorySchedulingMaintenance_Controller@Manage_FlowerTo_Submit', 'as'=>'Scheduled.SpecificFlower']);//shows the specific scheduled flower to be managed
 
+	Route::get('/Specific_FlowersTobe_Adjusted/{Sched_id},{Flwr_id}',['uses' => 'InventorySchedulingMaintenance_Controller@Manage_FlowerTo_Adjust', 'as'=>'Adjust.SpecificFlower']);//shows the specific scheduled flower to be adjusted
+
 	//Route::get('/Save_Managed_Flowers/{Sched_id}',['uses' => 'InventorySchedulingMaintenance_Controller@Save_FlowerTo_Inventory', 'as'=>'Save.managedRequests']);//saves the contents of the managed flower requests into the database
 
 	Route::resource('Inventory_Flowers_toSession', 'Add_Flwr_toSessionInventory_Cart_Controller');
+
+	Route::resource('Inventory_Flowers_toAdjustments', 'inventoryAdjustment_Controller');
+
 
 	Route::resource('Admins', 'AdminAccounts_Controller');
 

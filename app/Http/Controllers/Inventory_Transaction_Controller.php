@@ -25,7 +25,7 @@ class Inventory_Transaction_Controller extends Controller
     }
 
     //
-    public function FlowerInventory_Trans(){
+    public function Inventory_Trans(){
       if(auth::check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');

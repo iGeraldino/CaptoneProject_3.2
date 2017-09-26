@@ -249,7 +249,7 @@
                           <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
                           <th>{{$donesched->Status}}</th>
                           <td align="center">
-                             <a type = "button" href="{{ route('InventoryScheduling.show',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
+                             <a type = "button" href="{{ route('InventoryScheduling.edit',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
                              </a>
                           </td>
                         </tr>

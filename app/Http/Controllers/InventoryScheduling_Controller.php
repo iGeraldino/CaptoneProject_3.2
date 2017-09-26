@@ -150,6 +150,34 @@ class InventoryScheduling_Controller extends Controller
     public function edit($id)
     {
         //
+        if(auth::check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{
+            //
+            //$Sched_Info = DB::select('call specific_inventory_schedule_Info(?)',array($id));
+            $Sched_Info = DB::table('shop_schedule')
+            ->select('shop_schedule.Schedule_ID as Sched_Id','shop_schedule.Date_of_Event as Date',
+                        'shop_schedule.Schedule_Type as type', 'shop_schedule.shedule_status as Status',
+                        'shop_schedule.supplier_ID as Supplier_ID','shop_schedule.created_at as date_ordered',
+                        'supplier_details.supplier_FName as FName','supplier_details.supplier_MName as MName',
+                        'supplier_details.supplier_LName as LName')
+            ->join('supplier_details', 'supplier_details.supplier_ID', '=', 'shop_schedule.supplier_ID')
+            ->where('shop_schedule.Schedule_ID','=',$id)
+            ->first();
+
+            $Flowers = DB::table('flower_details')
+            ->select('*')
+            ->get();
+
+            $flowersPersched = DB::select('call viewFlowers_PerSched(?)',array($id));
+
+            return view('flower.inventoryScheduling.ViewFlowers_ToAdjust')
+            ->with('FlowerList',$Flowers)
+            ->with('SchedFlowers',$flowersPersched)
+            ->with('schedInfo',$Sched_Info);
+        }
 
     }
 
