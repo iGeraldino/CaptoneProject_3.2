@@ -3,7 +3,7 @@
 @section('content')
 
 	<div class="container" style="">
-	  
+
 <!-- TABLE-->
     </div>
         <div class="col-md-12">
@@ -48,13 +48,13 @@
 
                 <tbody>
                 @foreach($transactions as $trans)
-                  <tr>  
+                  <tr>
                     <td class="text-center"> TRSCTN-{{ $trans->Trans_ID }} </td>
                     <td class="text-center"> {{ $trans->Flower_Name }} </td>
-                    <td class="text-center"> 
+                    <td class="text-center">
                       <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$trans->img)}}">
                      </td>
-                    <td class="text-center"> 
+                    <td class="text-center">
                     <?php
                       if($trans->TypeOfChange == 'I'){
                         echo 'Inventory';
@@ -71,17 +71,17 @@
                     ?>
                     </td>
                     <td class="text-center"> BATCH-{{ $trans->Batch_ID }} </td>
-                    <td class="text-center"> 
-                    <?php 
+                    <td class="text-center">
+                    <?php
                       if ($trans->order_ID == NULL){
                         echo 'N/A';
                       }else{
-                        echo 'ORDR'.$trans->order_ID;  
+                        echo 'ORDR'.$trans->order_ID;
                       }
                     ?>  </td>
                     <td class="text-center"> {{ $trans->QTY }} pcs. </td>
                     <td class="text-center"> Php {{ number_format($trans->Unit_Cost,2) }} </td>
-                    <td class="text-center"> 
+                    <td class="text-center">
                       <?php
                         if($trans->Selling_Price == NULL){
                           echo 'N/A';
@@ -147,15 +147,15 @@
                       </thead>
 
                       <tbody>
-                        <tr>  
+                        <tr>
                           <td> 1     </td>
                           <td>       </td>
                           <td>       </td>
                           <td>       </td>
                           <td>       </td>
                         </tr>
-                        
-                        <tr>    
+
+                        <tr>
                           <td> 2     </td>
                           <td>       </td>
                           <td>       </td>
@@ -163,7 +163,7 @@
                           <td>       </td>
                         </tr>
 
-                        <tr>  
+                        <tr>
                           <td> 3     </td>
                           <td>       </td>
                           <td>       </td>
@@ -227,15 +227,15 @@
                       </thead>
 
                       <tbody>
-                        <tr>  
+                        <tr>
                           <td> 1     </td>
                           <td>       </td>
                           <td>       </td>
                           <td>       </td>
                           <td>       </td>
                         </tr>
-                        
-                        <tr>    
+
+                        <tr>
                           <td> 2     </td>
                           <td>       </td>
                           <td>       </td>
@@ -243,7 +243,7 @@
                           <td>       </td>
                         </tr>
 
-                        <tr>  
+                        <tr>
                           <td> 3     </td>
                           <td>       </td>
                           <td>       </td>
@@ -257,7 +257,7 @@
                 </div>
               <!-- /.box -->
               </div>
-            
+
             <!-- /.col -->
           </div>
           <br>
@@ -268,7 +268,7 @@
           </div>
         </div>
       </div>
-    </div>  
+    </div>
 
 @endsection
 
