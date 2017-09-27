@@ -14,19 +14,19 @@
 
 
               <div class="row">
-                <div class="col-md-3 col-md-offset-6">
-                    <button type="button" class="btn btn-round btn-md Subu" data-toggle="modal" data-target="#flower"> <i class="material-icons">filter_vintage</i>
-                      Show  per Flower
+                <div class="pull-right col-md-3 col-md-offset-6">
+                    <button type="button" class="btn btn-round btn-md Subu" data-toggle="modal" data-target="#DateRange_Modal"> <i class="material-icons">filter_vintage</i>
+                      Generate Report
                     </button>
                 </div>
 
-                <div class="col-md-1">
+                <!--<div class="col-md-1">
                     <button type="button" class="btn btn-round btn-md Inbox" data-toggle="modal" data-target="#date"> <i class="material-icons" >date_range</i>
                       Show per Date
                     </button>
                     <br>
                     <br>
-                </div>
+                </div>-->
               </div>
             </div>
           <!-- /.box-header -->
@@ -58,21 +58,23 @@
                       <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$trans->img)}}">
                       @endif
                      </td>
-                    <td class="text-center">
-                    <?php
-                      if($trans->TypeOfChange == 'I'){
-                        echo 'Inventory';
-                      }
-                      else if($trans->TypeOfChange == 'A'){
-                        echo 'Adjustments';
-                      }
-                      else if($trans->TypeOfChange == 'O'){
-                        echo 'Order';
-                      }
-                      else if($trans->TypeOfChange == 'S'){
-                        echo 'Spoilage';
-                      }
-                    ?>
+                      @if($trans->TypeOfChange == 'I')
+                        <td class="text-center">
+                          Inventory
+                        </td>
+                      @elseif($trans->TypeOfChange == 'A')
+                        <td class="text-center">
+                          Adjustments
+                        </td>
+                      @elseif($trans->TypeOfChange == 'O')
+                        <td class="text-center">
+                          Order
+                        </td>
+                      @elseif($trans->TypeOfChange == 'S')
+                        <td class="text-center" style = "color:red">
+                          <b>Spoilage</b>
+                        </td>
+                      @endif
                     </td>
                     @if($trans->TypeOfItem == 'Acessories')
                     <td class="text-center"> N/A </td>
@@ -93,9 +95,15 @@
                         <b> {{ $trans->QTY }} pcs. </b>
                       </td>
                     @else
-                      <td class="text-right">
-                        <b> {{ $trans->QTY }} pcs. </b>
-                      </td>
+                      @if($trans->TypeOfChange == 'S')
+                        <td class="text-right" style = "color:red;">
+                          <b> {{ $trans->QTY }} pcs. </b>
+                        </td>
+                      @else
+                        <td class="text-right">
+                          <b> {{ $trans->QTY }} pcs. </b>
+                        </td>
+                      @endif
                     @endif
                     <td class="text-center"> Php {{ number_format($trans->Unit_Cost,2) }} </td>
                     <td class="text-center">
@@ -111,7 +119,11 @@
                     @if($trans->T_Amt < 0)
                     <td class="text-center" style = "color:red;"> Php {{ number_format($trans->T_Amt,2) }} </td>
                     @else
-                    <td class="text-center"> Php {{ number_format($trans->T_Amt,2) }} </td>
+                     @if($trans->TypeOfChange == 'S')
+                      <td class="text-center" style = "color:red;"><b> Php {{ number_format($trans->T_Amt,2) }} </b></td>
+                     @else
+                      <td class="text-center"><b> Php {{ number_format($trans->T_Amt,2) }} </b></td>
+                     @endif
                     @endif
                     <td class="text-center"> {{ date('M d,Y (H:i a)',strtotime($trans->Date)) }} </td>
                   </tr>
@@ -128,71 +140,28 @@
 
     <!--MODAL FLOWER-->
 
-    <div class="modal fade" id="flower" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="DateRange_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h5 class="modal-title" id="myModalLabel" style="padding-bottom: 10px;">Show by Flower</h5>
+            <h5 class="modal-title" id="myModalLabel" style="padding-bottom: 10px;">Choose Type of Report</h5>
           </div>
           <div class="modal-body">
-            <div class="col-sm-4">
-              <div class="form-group label-floating">
-                <label class="control-label">Flower ID</label>
-                <input type="email" class="form-control">
-              </div>
-            </div>
-            <div class="dropdown col-sm-4" style="margin-top: 25px;">
-              <button class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">Flower Name
-              <span class="caret" ></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Mary</a></li>
-                <li><a href="#">Rose</a></li>
-                <li><a href="#">Dasiy</a></li>
-              </ul>
-            </div>
-
-
             <div class="row" >
               <div class="col-xs-12">
                 <div class="box">
                 <!-- /.box-header -->
                   <div class="box-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                      <thead>
-                          <th class="text-center"> Transaction ID </th>
-                          <th class="text-center"> Flower ID </th>
-                          <th class="text-center"> Name</th>
-                          <th class="text-center"> Quantity </th>
-                          <th class="text-center"> Date</th>
-                      </thead>
+                      <!--contents here please-->
+                      <div class = "row">
 
-                      <tbody>
-                        <tr>
-                          <td> 1     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-
-                        <tr>
-                          <td> 2     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-
-                        <tr>
-                          <td> 3     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                      </div>
+                      <div class="pull-right col-md-3 col-md-offset-6">
+                          <button type="button" class="btn btn-round btn-md Subu" data-toggle="modal" data-target="#DateRange_Modal"> <i class="material-icons">filter_vintage</i>
+                            Generate Report
+                          </button>
+                      </div>
                   </div>
                   <!-- /.box-body -->
                 </div>
@@ -210,87 +179,6 @@
         </div>
       </div>
     </div>
-
-
-    <!--MODAL DATE-->
-
-    <div class="modal fade" id="date" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h5 class="modal-title" id="myModalLabel" style="padding-bottom: 10px;">Add Agreement</h5>
-          </div>
-          <div class="modal-body">
-            <div class="dropdown col-sm-4" style="margin-top: 25px;">
-              <button class="btn btn-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">List of Dates
-              <span class="caret" ></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">...</a></li>
-                <li><a href="#">...</a></li>
-                <li><a href="#">...</a></li>
-              </ul>
-            </div>
-
-
-            <div class="row" >
-              <div class="col-xs-12">
-                <div class="box">
-                <!-- /.box-header -->
-                  <div class="box-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                      <thead>
-                          <th class="text-center"> Transaction ID </th>
-                          <th class="text-center"> Flower ID </th>
-                          <th class="text-center"> Flower Name</th>
-                          <th class="text-center"> Quantity </th>
-                          <th class="text-center"> Date</th>
-                      </thead>
-
-                      <tbody>
-                        <tr>
-                          <td> 1     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-
-                        <tr>
-                          <td> 2     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-
-                        <tr>
-                          <td> 3     </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                          <td>       </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.box-body -->
-                </div>
-              <!-- /.box -->
-              </div>
-
-            <!-- /.col -->
-          </div>
-          <br>
-          <br>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-info btn-simple">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
 @endsection
 
 @section('scripts')

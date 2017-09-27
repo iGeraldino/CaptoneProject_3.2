@@ -139,10 +139,9 @@
                       <thead>
                       <tr>
                         <th>Schedule ID </th>
-                        <th>Date Requested</th>
-                        <th>Date to Recieve </th>
-                        <th>Supp_ID</th>
                         <th>Supplier_Name </th>
+                        <th>Date Requested</th>
+                        <th>Date Expected to Arrive </th>
                         <th>Status</th>
                         <th>Actions</th>
                       </tr>
@@ -152,14 +151,14 @@
                     @foreach($schedInv as $sched)
                         <tr>
                           <th> SCHED-{{$sched->Sched_Id}} </th>
+                          <th>(SUPLR-{{$sched->Supplier_ID}}) {{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
                           <th>{{date('M d, Y (h:i a)',strtotime($sched->date_ordered))}}</th>
                           <th>{{date('M d, Y',strtotime($sched->Date))}}</th>
-                          <th>SUPP-{{$sched->Supplier_ID}}</th>
-                          <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
-                          <th>{{$sched->Status}}</th>
+                          @if($sched->Status == 'P')
+                           <th class = "text-center"><span class = "btn-sm btn-warning">Pending</span></th>
+                          @endif
                           <td align="center">
-                             <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="MORE"> <i class="material-icons">more_horiz</i>
-
+                             <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW CONTENTS"> <i class="material-icons">search</i>
                              </a>
                           </td>
                         </tr>
@@ -181,10 +180,9 @@
                           <thead>
                           <tr>
                             <th>Schedule ID </th>
-                            <th>Date Requested</th>
-                            <th>Date to Recieve </th>
-                            <th>Supp_ID</th>
                             <th>Supplier_Name </th>
+                            <th>Date Requested</th>
+                            <th>Date Expected to Arrive</th>
                             <th>Status</th>
                             <th>Actions</th>
                           </tr>
@@ -201,15 +199,14 @@
                               <th> SCHED-{{$arriving->Sched_Id}} </th>
                               <th>{{date('M d, Y (h:i a)',strtotime($arriving->date_ordered))}}</th>
                               <th>{{date('M d, Y',strtotime($arriving->Date))}}</th>
-                              <th>SUPP-{{$arriving->Supplier_ID}}</th>
-                              <th>{{$arriving->FName}} {{$arriving->MName}},{{$arriving->LName}} </th>
-                              @if($current2 != $arriving->Date)
-                               <th>Late</th>
-                              @else if($current2 == $arriving->Date)
-                               <th>To be recieved</th>
+                              <th>(SUPLR-{{$arriving->Supplier_ID}}) {{$arriving->FName}} {{$arriving->MName}},{{$arriving->LName}} </th>
+                              @if($current2 != date('M d, Y',strtotime($arriving->Date)))
+                               <th class = "text-center"><span class = "btn-sm btn-danger">Late</span></th>
+                              @elseif($current2 == date('M d, Y',strtotime($arriving->Date)))
+                               <th class = "text-center"><span class = "btn-sm btn-primary">Arriving</span></th>
                               @endif
                               <td align="center">
-                                 <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">search</i>
+                                 <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">more_horiz</i>
                                  </a>
                               </td>
                             </tr>
@@ -230,10 +227,11 @@
                       <thead>
                       <tr>
                         <th>Schedule ID </th>
-                        <th>Date to Recieve </th>
-                        <th>Date Requested</th>
-                        <th>Supp_ID</th>
                         <th>Supplier_Name </th>
+                        <th>Date Requested</th>
+                        <th>Date Expected to Arrive</th>
+                        <th>Date Recieved </th>
+                        <th>Date Accomplished </th>
                         <th>Status</th>
                         <th>Actions</th>
                       </tr>
@@ -243,13 +241,18 @@
                     @foreach($doneschedInv as $donesched)
                         <tr>
                           <th> SCHED-{{$donesched->Sched_Id}} </th>
-                          <th>{{$donesched->Date}}</th>
-                          <th>{{$donesched->date_ordered}}</th>
-                          <th>SUPP-{{$donesched->Supplier_ID}}</th>
-                          <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
-                          <th>{{$donesched->Status}}</th>
+                          <th>(SUPLR-{{$donesched->Supplier_ID}}) {{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
+                          <th>{{date("M d,Y (H:i a)",strtotime($donesched->date_ordered))}}</th>
+                          <th >{{date("M d,Y",strtotime($donesched->Date))}}</th>
+                          <th style = "color:blue;">{{date("M d,Y (H:i a)",strtotime($donesched->DateRecieved))}}</th>
+                          <th style = "color:blue;">{{date("M d,Y (H:i a)",strtotime($donesched->DateDone))}}</th>
+                        @if(date("M d,Y",strtotime($donesched->DateRecieved)) != date("M d,Y",strtotime($donesched->Date)))
+                          <th class = "text-center"><span class = "btn-sm btn-danger">Done Late</span></th>
+                        @else
+                          <th class = "text-center"><span class = "btn-sm btn-success">Done on Time</span></th>
+                        @endif
                           <td align="center">
-                             <a type = "button" href="{{ route('InventoryScheduling.edit',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
+                             <a type = "button" href="{{ route('InventoryScheduling.edit',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="MORE DETAILS"><i class="material-icons">more_horiz</i>
                              </a>
                           </td>
                         </tr>

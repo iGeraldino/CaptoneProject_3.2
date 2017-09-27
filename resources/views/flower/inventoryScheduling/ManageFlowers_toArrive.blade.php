@@ -50,20 +50,29 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label"><b>DATE ORDERED:</b></label>
+                <label class="control-label"><b>DATE REQUESTED:</b></label>
                 <span><b>{{date('M d,Y', strtotime($schedInfo->date_ordered))}}</b></span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label"><b>DATE TO BE DELIVERED:</b></label>
+                <label class="control-label"><b>DATE EXPECTED TO ARRIVE:</b></label>
                 <span><b>{{date('M d,Y', strtotime($schedInfo->Date))}}</span></b></span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label"><b>Status:</b></label>
-                <span><b>Arriving Now</span></b></span>
+                <?php
+                  use Carbon\Carbon;
+                  $current = Carbon::now('Asia/Manila');
+                  $current2 = date('M d, Y',strtotime($current));
+                ?>
+                <label class="control-label"><b>STATUS: </b></label>
+                @if($current2 == date('M d,Y', strtotime($schedInfo->Date)))
+                <span style = "color:blue"><b>ARRIVING</b></span>
+                @else
+                <span style = "color:red"><b>LATE</b></span>
+                @endif
               </div>
             </div>
             <div class="col-md-offset-8">
@@ -120,14 +129,16 @@
           {!! Form::model($schedInfo, ['route'=>['InventoryScheduling.update', $schedInfo->Sched_Id],'method'=>'PUT','data-parsley-validate' => ''])!!}
                         <div class = "row col-md-12">
                           <div class="form-group col-md-6">
+
                             <label class="control-label" for = "DateRecieved_Field">Date recieved: </label>
                             <input id = "DateRecieved_Field" name = "DateRecieved_Field" type="date" class="form-control"
-                            min = "{{date('Y-m-d', strtotime($schedInfo->Date))}}"
+                            min = "{{date('Y-m-d', strtotime($schedInfo->Date))}}" max = "{{date('Y-m-d', strtotime($current))}}"
                             value = "{{date('Y-m-d', strtotime($schedInfo->Date))}}" required/>
                           </div>
                           <div class="form-group col-md-6">
                             <label class="control-label" for = "TimeRecieved_Field">Time recieved: </label>
-                            <input id = "TimeRecieved_Field" name = "TimeRecieved_Field" type="time" class="form-control" required/>
+                            <input id = "TimeRecieved_Field" name = "TimeRecieved_Field" type="time" class="form-control" value  = "{{date('H:i', strtotime($current))}}"
+                             required/>
                           </div>
                         </div>
                     </div>

@@ -61,7 +61,7 @@
                                 <input id = "Goodqty_Field" name = "Goodqty_Field" type="number" class="hidden" min = "0" value = "{{$FlowerDet[8]}}" required/>
                               </div>
                               <div>
-                                <a href = "" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
+                                <a href = "{{route('InventoryScheduling.edit',$FlowerDet[0])}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
                                 <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
                               </div>
                           </div>

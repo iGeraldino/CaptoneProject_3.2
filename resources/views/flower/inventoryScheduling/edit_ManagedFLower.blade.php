@@ -6,7 +6,7 @@
 	<div class="container" style="margin-top: 50px;">
 			<div class="panel panel-primary">
 					  <div class="panel-heading" style="background-color: #C93756">
-			            <h3 class="panel-title"><b>Manage Flower To be added to the Inventory</b></h3>
+			            <h3 class="panel-title"><b>Edit Flower before adding it to the Inventory</b></h3>
 			          </div>
 
             		<br>
@@ -60,7 +60,7 @@
                           </div>
 
                           <div class = "pull-right">
-                            <a href = "" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
+                            <a href = "{{route('InventoryArriving_Flowers.show',$ScheduleDet->Schedule_ID)}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
                             <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
                           </div>
                           {!! Form::close() !!}

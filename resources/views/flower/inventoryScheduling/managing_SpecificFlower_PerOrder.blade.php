@@ -60,10 +60,11 @@
                           </div>
 
                           <div class = "pull-right">
-                            <button id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</button>
+                            <a href = "{{ route('InventoryArriving_Flowers.show',$Flower->Sched_ID) }}" id = "cancel_btn"
+															type = "button" class = "btn btn-md btn-danger">Cancel</a>
                             <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
                           </div>
-                          {!! Form::close() !!}
+                      {!! Form::close() !!}
 
                         </div>
 	                   </div>
