@@ -32,33 +32,10 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label"><b>DATE EXPECTED:</b></label>
+                <label class="control-label"><b>DATE RECEIVED:</b></label>
                 <span><b>{{date('M d,Y', strtotime($schedInfo->Date))}}</span></b></span>
               </div>
             </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label"><b>DATE RECIEVED:</b></label>
-                <span><b>{{date('M d,Y (H:i a)', strtotime($schedInfo->DateRecieved))}}</span></b></span>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label"><b>DATE ACCOMPLISHED:</b></label>
-                <span><b>{{date('M d,Y (H:i a)', strtotime($schedInfo->DateAccomplished))}}</span></b></span>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label"><b>STATUS:</b></label>
-                @if(date('M d,Y', strtotime($schedInfo->DateRecieved)) != date('M d,Y', strtotime($schedInfo->Date)))
-                <span style = "color:red;"><b>DONE LATE</b></span>
-                @else
-                <span style = "color:green;"><b>DONE ON TIME</b></span>
-                @endif
-              </div>
-            </div>
-
             <div class="col-md-offset-8">
               <a id = "returnBtn" type="button" href = "{{route('InventoryScheduling.index')}}" class="pull-right btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button redirect you to the list of flower requests from the supplier" data-container="body">
                 RETURN TO REQUEST LIST
@@ -67,11 +44,6 @@
           <div class="row" >
             <div class="col-xs-12">
               <div class="box">
-                <?php
-                  use Carbon\Carbon;
-                  $current = Carbon::now('Asia/Manila');
-                  $current2 = date('M d, Y',strtotime($current));
-                ?>
                 <!-- /.box-header -->
                 <div class="box-body">
                   <table id="flowersTable" class="table table-bordered table-striped">
@@ -128,13 +100,10 @@
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <button style = "color:darkviolet;" type="button" class="btn btn-simple btn-primary" data-dismiss="modal">  Close</button>
-                                    @if(date('M d,Y H:i:s', strtotime($current)) > date('M d,Y H:i:s', strtotime("$schedInfo->DateAccomplished + 24 hours")))
-                                      <button type="button" class="invalidBtn btn btn-simple btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="Adjustments are just available within 24 hrs. after the time that you have managed the request. Function of this button was disabled" data-container="body">Make Adjustments</button>
-                                    @else
-                                     <a href = "{{route('Adjust.SpecificFlower',['Sched_ID'=>$schedInfo->Sched_Id,'Flwr_ID'=>$FlowersRow->flower_ID])}}" type="button" class="btn btn-simple btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="Adjustments are still available, adjustments are available with 24 hrs starting from the time that you managed the flowers in the request" data-container="body">  Make Adjustments
-                                     </a>
-                                    @endif
+                                    <button style = "color:darkviolet;" type="button" class="btn btn-simple btn-primary" data-dismiss="modal">  Close
+                                    </button>
+                                    <a href = "{{route('Adjust.SpecificFlower',['Sched_ID'=>$schedInfo->Sched_Id,'Flwr_ID'=>$FlowersRow->flower_ID])}}" type="button" class="btn btn-simple btn-success" >  Make Adjustments
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -178,9 +147,6 @@
     <script>
       $(document).ready(function(){
 
-        $('.invalidBtn').click(function(){
-          swal("Sorry","Adjustment of flowers that are in the inventory are just available 24 hrs. after the time that you have successfully managed the arriving flowers into the inventory. This is to avoid discrepancy in the inventory.","warning");
-        });
         var date = new Date();
         var currentDate = date.toISOString().slice(0,10);
         var currentTime = date.getHours() + ':' + date.getMinutes();

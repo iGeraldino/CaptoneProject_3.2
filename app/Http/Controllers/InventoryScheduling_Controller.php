@@ -10,7 +10,6 @@ use App\Http\Requests;
 use Session;
 use \Cart;
 use Auth;
-use Carbon\Carbon;
 
 class InventoryScheduling_Controller extends Controller
 {
@@ -159,8 +158,8 @@ class InventoryScheduling_Controller extends Controller
             //
             //$Sched_Info = DB::select('call specific_inventory_schedule_Info(?)',array($id));
             $Sched_Info = DB::table('shop_schedule')
-            ->select('shop_schedule.Schedule_ID as Sched_Id','shop_schedule.Date_of_Event as Date','shop_schedule.Date_Recieved as DateRecieved',
-                        'shop_schedule.Date_Accomplished as DateAccomplished','shop_schedule.Schedule_Type as type', 'shop_schedule.shedule_status as Status',
+            ->select('shop_schedule.Schedule_ID as Sched_Id','shop_schedule.Date_of_Event as Date',
+                        'shop_schedule.Schedule_Type as type', 'shop_schedule.shedule_status as Status',
                         'shop_schedule.supplier_ID as Supplier_ID','shop_schedule.created_at as date_ordered',
                         'supplier_details.supplier_FName as FName','supplier_details.supplier_MName as MName',
                         'supplier_details.supplier_LName as LName')
@@ -197,13 +196,13 @@ class InventoryScheduling_Controller extends Controller
                 return redirect() -> route('adminsignin');
             }
             else{
+              //$current = Carbon::now('Asia/Manila');
+              $updateShopSchedule = DB::select('CALL update_Scheduled_Inventory(?)',array($id));
+
               $dateArrived = date('Y-m-d', strtotime($request->DateRecieved_Field));
               $timeArrived = date('H:i:s', strtotime($request->TimeRecieved_Field));
 
               $datetime = $dateArrived.' '.$timeArrived;
-              $current = Carbon::now('Asia/Manila');
-              $updateShopSchedule = DB::select('CALL update_Scheduled_Inventory(?,?,?)',array($id,$current,$datetime));
-
 
               foreach(CART::instance('Flowers_to_Arrive')->content() as $row){
                 $update_Scheduled_flowers =DB::select('CALL update_ScheduledFlowers_From_suppliers(?, ?, ?, ?, ?, ?)',
@@ -226,7 +225,7 @@ class InventoryScheduling_Controller extends Controller
                     array($id,$row->id,$row->options->goodQty,$row->price,$datetime,'I','Flower'));
 
                     $addNegativetransaction = DB::select('CALL add_record_ofInventory_Transaction(?,?,?,?,?,?,?)',
-                    array($id,$row->id,$row->options->spoiledQty,$row->price,$datetime,'S','Flower'));
+                    array($id,$row->id,$row->options->spoiledQty,$row->price,$datetime,'I','Flower'));
                   }//end of else if
               }
               CART::instance('Flowers_to_Arrive')->destroy();
