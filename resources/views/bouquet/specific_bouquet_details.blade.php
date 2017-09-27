@@ -8,7 +8,7 @@
 	@foreach($CountFlower as $CountFlower)
 		<input id = 'countFlowerField' name= 'countFlowerField' value = "{{$CountFlower->COUNT}}"/>
 	@endforeach
-	
+
   @foreach($CountAcessories as $CountAcessories)
 		<input id = 'countAcessoryField' name = 'countAcessoryField'  value = "{{$CountAcessories->COUNT}}"/>
 	@endforeach
@@ -18,7 +18,7 @@
 
 <div class = "row">
   <div class = "col-md-6">
-  <?php 
+  <?php
     $tCount_of_Flowers = 0;
   ?>
     @foreach($bouq_Flower_Count as $bouq_Flower_Count)
@@ -36,9 +36,9 @@
       </h4>
     @endforeach
   </div>
-  <div class = "col-md-6">   
+  <div class = "col-md-6">
     <div hidden>
-      <?php 
+      <?php
         $final_FAmount =0;
         $final_AAmount =0;
         $final_BAmount =0;
@@ -47,9 +47,9 @@
         {{$final_FAmount += $BFlowers->Total_Amount}}
       @endforeach
 
-      @foreach($BouqAcessoriess as $BAcessoriess)   
+      @foreach($BouqAcessoriess as $BAcessoriess)
           {{$final_AAmount += $BAcessoriess->Total_Amt}}
-      @endforeach 
+      @endforeach
         <input value = "{{number_format($final_FAmount + $final_AAmount,2)}}">
     </div>
     <h4>
@@ -64,11 +64,11 @@
 
 <div class="row container">
       <div  class = "col-md-9">
-        <button id = 'addFlwrBTN' name = 'addFlwrBTN' class="btn btn-primary btn-sm col-xs-offset-2" data-toggle="modal" data-target="#AddFlowerModal"> <i class="material-icons" style="padding-right: 5px;">add_circle</i>Add Flowers </button>
+        <button id = 'addFlwrBTN' name = 'addFlwrBTN' class="hidden btn btn-primary btn-sm col-xs-offset-2" data-toggle="modal" data-target="#AddFlowerModal"> <i class="material-icons" style="padding-right: 5px;">add_circle</i>Add Flowers </button>
 
-        <button id = 'addAcsrBTN' name = 'addAcsrBTN' class="btn btn-primary btn-sm col-xs-offset-2"  data-toggle="modal" data-target="#AddItemModal"> <i class="material-icons" style="padding-right: 5px;">compare</i> Add Acessories</button>
+        <button id = 'addAcsrBTN' name = 'addAcsrBTN' class="hidden btn btn-primary btn-sm col-xs-offset-2"  data-toggle="modal" data-target="#AddItemModal"> <i class="material-icons" style="padding-right: 5px;">compare</i> Add Acessories</button>
       </div>
-      
+
       <div class = "col-md-1"></div>
 
       <div class = "col-md-2">
@@ -96,7 +96,7 @@
               <div class="col-md-6">
                 <div class="form-group label-floating">
                 	<div hidden><!--HIDDEN DIV HERE-->
-						        <input  id = 'BQT_ID_Field' name = 'BQT_ID_Field' value = '{{$BouquetDet->bouquet_ID}}'>	
+						        <input  id = 'BQT_ID_Field' name = 'BQT_ID_Field' value = '{{$BouquetDet->bouquet_ID}}'>
                     <input id = "final_BQTAamount" name = "final_BQTAamount" value = "{{$final_FAmount + $final_AAmount}}">
                     <input id = 'Flower_Count_Field' name = 'Flower_Count_Field' value = '{{$tCount_of_Flowers}}'>
                     <input id = 'InputFlowerPriceField' name = 'InputFlowerPriceField' value = '0'>
@@ -116,7 +116,7 @@
                   <label class="control-label">Flower Price:</label>
                   <input type="text" id = 'FlowerPriceField' name = "FlowerPriceField" class="form-control" disabled>
                 </div>
-               
+
                 <div class="form-group label-floating">
                   <label class="control-label">Quantity:</label>
                   <input type="number" id = "QtyField" name = "QtyField" class="form-control" min = '1' required>
@@ -124,7 +124,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cancel</button>
             <button type="submit" id = 'ProceedBTN' name = 'ProceedBTN' class="btn btn-simple btn-success">Add Flower</button>
@@ -152,7 +152,7 @@
               <div class="col-md-6">
                 <div class="form-group label-static">
                 	<div hidden>
-  						      <input  id = 'BQT_ID_Field2' name = 'BQT_ID_Field2' value = '{{$BouquetDet->bouquet_ID}}'>	
+  						      <input  id = 'BQT_ID_Field2' name = 'BQT_ID_Field2' value = '{{$BouquetDet->bouquet_ID}}'>
                     <input id = "final_BQTAamount2" name = "final_BQTAamount2" value = "{{number_format($final_FAmount + $final_AAmount,2)}}">
                     <input id = 'Acessory_Count_Field' name = 'Flower_Count_Field' value = '{{$tCount_of_Flowers}}'>
                     <input id = 'InputAcessoryPriceField' name = 'InputFlowerPriceField' value = '0'>
@@ -179,7 +179,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cancel</button>
             <button type="submit" id = "Add_Acessory_BTN" name = "Add_Acessory_BTN" class="btn btn-simple btn-success">Add Acessory</button>
@@ -216,7 +216,7 @@
               </div>
               <div class="content-header">
                 <div class="tab-content text-center">
-                  <div class="tab-pane active" id="pending">                 
+                  <div class="tab-pane active" id="pending">
                     <div class="box">
                       <!-- /.box-header -->
                       <div class="box-body">
@@ -231,18 +231,17 @@
                             <th>Quantity</th>
                             <th>Price </th>
                             <th>Total Amount</th>
-                            <th>Actions</th>
                           </tr>
                           </thead>
                         <tbody>
-                         <!--foreach here -->   
-      @foreach($BouqFlowers as $BFlowers)   
+                         <!--foreach here -->
+      @foreach($BouqFlowers as $BFlowers)
                             <tr>
                               <th> FLWR-{{$BFlowers->flower_ID}} </th>
                               <th> {{$BFlowers->flower_name}} </th>
 							  <th align="center">
 							  	<img src="{{ asset('flowerimage/'. $BFlowers->IMG)}}" class ="img-rounded img-raised img-responsive" style="min-width: 80px; max-height: 50px;">
-							  </th>	
+							  </th>
 							  <?php
 							  	//this php is for concatenation the id's of the Bouquet and the flowers under that bouquet so that it can pass those id as one to the edit route
 							  	$Joined_id =$BouquetDet->bouquet_ID.'_'.$BFlowers->flower_ID.'_'.$final_BAmount;
@@ -251,18 +250,19 @@
                               <th> {{$BFlowers->QTY}} pcs.</th>
                               <th> Php {{$BFlowers->Final_SellingPrice}} </th>
                               <th> Php {{$BFlowers->Total_Amount}} </th>
-                              <td align="center"> 
-                                 <a type = "button" href="{{ route ('bouqAddFlower.edit', $Joined_id ) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-pencil"></span> 
-                                 update Qty
-                                 </a>	
-                                 <a type = "button" href="{{ route('bouq.DelFlowerBouquet',['bouquet_ID'=>$BouquetDet->bouquet_ID,'flower_ID'=>$BFlowers->flower_ID,'QTY'=>$BFlowers->QTY,'T_PRICE'=>$BFlowers->Total_Amount]) }}" name = "deleteBTN" id = "deleteBTN"
-                            		 class = "btn btn-danger btn-sm" > <span class = "glyphicon glyphicon-trash"></span> 
-                             		Delete
-                          		  </a>
+                              <td align="center">
+                                 <!--<a type = "button" href="" name = "deleteBTN" id = "deleteBTN"
+                            		 class = "btn btn-danger btn-sm" > <span class = "glyphicon glyphicon-trash"></span>
+                             				Delete
+																		{{ route ('bouqAddFlower.edit', $Joined_id ) }}//for edditing qty of a flower in a bqt
+																		<?php
+																		//{{ route('bouq.DelFlowerBouquet',['bouquet_ID'=>$BouquetDet->bouquet_ID,'flower_ID'=>$BFlowers->flower_ID,'QTY'=>$BFlowers->QTY,'T_PRICE'=>$BFlowers->Total_Amount]) }}
+																		?>
+                          		  	</a>-->
 
                               </td>
                             </tr>
-                        @endforeach 
+                        @endforeach
                       <!--end foreach here-->
                         </tbody>
                        </table>
@@ -286,18 +286,17 @@
                             <th>Quantity</th>
                             <th>Price </th>
                             <th>Total Amount</th>
-                            <th>Actions</th>
                           </tr>
                           </thead>
                         <tbody>
-                         <!--foreach here -->    
-      @foreach($BouqAcessoriess as $BAcessoriess)   
+                         <!--foreach here -->
+      				@foreach($BouqAcessoriess as $BAcessoriess)
                             <tr>
                               <th> ITM-{{$BAcessoriess->Acessory_ID}} </th>
                               <th> {{$BAcessoriess->Name}} </th>
 							  <th align="center">
 							  	<img src="{{ asset('accimage/'. $BAcessoriess->IMG)}}" class ="img-rounded img-raised img-responsive" style="min-width: 80px; max-height: 50px;">
-							  </th>	
+							  </th>
 						      <?php
 							  	//this php is for concatenation the id's of the Bouquet and the flowers under that bouquet so that it can pass those id as one to the edit route
 
@@ -306,18 +305,8 @@
                               <th> {{$BAcessoriess->QTY}} pcs.</th>
                               <th>Php {{$BAcessoriess->Price}}</th>
                               <th>Php {{$BAcessoriess->Total_Amt}} </th>
-                              <td align="center"> 
-                                 <a type = "button" href="{{ route ('bouqAddAcessories.edit', $Joined_id2 ) }}" class = "btn btn-primary btn-sm" ><span class = "glyphicon glyphicon-list-alt"></span> 
-                                 update Qty
-                                 </a>
-
-                                 <a type = "button" href="{{ route('bouq.DelAcessoryBouquet',['bouquet_ID'=>$BouquetDet->bouquet_ID,'acessory_ID'=>$BAcessoriess->Acessory_ID]) }}" class = "btn btn-danger btn-sm" ><span class = "glyphicon glyphicon-remove"></span> 
-                                   Delete
-                                 </a>
-
-                              </td>
                             </tr>
-                        @endforeach                        
+                        @endforeach
                       <!--end foreach here-->
                         </tbody>
                        </table>
@@ -360,7 +349,7 @@
   <script>
  $('document').ready(function(){
 
-  
+
     if($('#flowersField option').val() == '-1'){
       $('#ProceedBTN').attr('disabled',true);
     }else{
@@ -372,7 +361,7 @@
     }else{
       $('#Add_Acessory_BTN').attr('disabled',false);
     }//end of if
-  
+
   $("#flowersField").change(function(){
     var element =  $(this);
     var price = 'Php' + ' ' + $('option:selected').attr( "data-tag" );
@@ -397,10 +386,10 @@
     $('#InputAcessoryPriceField').val(Acprice2);
   });//end of function
 
-       var totalAMT = 0;  
+       var totalAMT = 0;
   $('#total_Amounts_field option').each(function(item){
        // console.log(selected) ;
-        var element =  $(this) ; 
+        var element =  $(this) ;
         totalAMT+=parseInt(element.val());
   }); //end of function
         //console.log(totalAMT);
@@ -441,7 +430,7 @@
 
         for(ctr = 0; ctr < response.data.length; ctr++)
         {
-          option += `<option value="`+ response.data[ctr].supplier_ID +`">`+ response.data[ctr].supplier_ID +`</option>`; 
+          option += `<option value="`+ response.data[ctr].supplier_ID +`">`+ response.data[ctr].supplier_ID +`</option>`;
           console.log(option);
         }
 

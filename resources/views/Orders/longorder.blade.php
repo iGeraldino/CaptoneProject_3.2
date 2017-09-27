@@ -170,7 +170,7 @@
 											</div>
 											<a class="btn btn-sm Lemon BqtAcrs_Btn" data-toggle="modal" data-target="#accessoriesmodal"> QUICK VIEW</a>
 										</div>
-    			                    @endforeach
+    			      @endforeach
 									</div>
 								</div>
 							</div>
@@ -650,7 +650,7 @@
   </script>
 
   <script>
-  $('document').ready(function(){
+  $(document).ready(function(){
 
         if($('#count_offlowers_Field').val()<12){
           $('#saveBtn').attr('disabled',true);

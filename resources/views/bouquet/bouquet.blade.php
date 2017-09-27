@@ -6,7 +6,7 @@
 
     <div class="container">
     	<button class="btn  btn-round btn-lg" data-toggle="modal" data-target="#addprice">
-                <i class="glyphicon glyphicon-plus-sign"></i> Create New
+        <i class="glyphicon glyphicon-plus-sign"></i> Create New
     </div>
 
     <!-- Start of Table-->
@@ -25,46 +25,46 @@
                 </thead>
 
                 <tbody>
-                    <tr>  
+                    <tr>
                       <td> 1     </td>
                       <td>       </td>
                       <td>       </td>
                       <td>       </td>
-                      <td align="center"> 
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs"> 
+                      <td align="center">
+                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs">
                           <i class="glyphicon glyphicon-edit"></i>
                         </button>
-                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs"> 
+                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs">
                         <i class="glyphicon glyphicon-remove-sign"></i>
                       </button></a>
                       </td>
                     </tr>
 
-                    <tr>  
+                    <tr>
                       <td> 2     </td>
                       <td>       </td>
                       <td>       </td>
                       <td>       </td>
-                      <td align="center"> 
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs"> 
+                      <td align="center">
+                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs">
                           <i class="glyphicon glyphicon-edit"></i>
                         </button>
-                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs"> 
+                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs">
                         <i class="glyphicon glyphicon-remove-sign"></i>
                       </button></a>
                       </td>
                     </tr>
 
-                    <tr>  
+                    <tr>
                       <td> 3     </td>
                       <td>       </td>
                       <td>       </td>
                       <td>       </td>
-                      <td align="center"> 
-                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs"> 
+                      <td align="center">
+                        <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-xs">
                           <i class="glyphicon glyphicon-edit"></i>
                         </button>
-                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs"> 
+                        <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-xs">
                         <i class="glyphicon glyphicon-remove-sign"></i>
                       </button></a>
                       </td>

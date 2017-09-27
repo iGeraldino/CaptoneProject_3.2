@@ -10,6 +10,7 @@ use App\bouquet_details;
 use Image;
 use Session;
 use Auth;
+use \Cart;
 
 class bouqcontroller extends Controller
 {
@@ -25,11 +26,8 @@ class bouqcontroller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-            $bou = DB::table('bouquet_details')
-            ->select('*')
-            ->where('type','!=','custom')
-            ->get();
-            return view('bouquet.addbouquet') -> with ('bou', $bou);
+            $bou = DB::select("CALL show_allDefaultBouquets()");
+           return view('bouquet.addbouquet') -> with ('bou', $bou);
         }
     }
 
@@ -58,37 +56,41 @@ class bouqcontroller extends Controller
      */
     public function store(Request $request)
     {
+      //
+      if(auth::check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
 
-        //store
-        if(auth::check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
+
+        $bouquet_record = new bouquet_details;
+        if($request -> hasFile('bouimg')){
+            $image = $request -> file('bouimg');
+            $filename = time() . '.' . $image -> getClientOriginalExtension();
+            $location = public_path('bouquetimage/' . $filename);
+            Image::make($image) ->save($location);
+
+            $bouquet_record->image =$filename;
         }
-        else{
-            $bou = new bouquet_details;
+            $bouquet_record->Type = 'default';
+            $bouquet_record->save();
+            $newBqt_ID = $bouquet_record->bouquet_ID;
 
-            $bou->count_ofFlowers = $request->count;
-            $bou->price = $request->price;
+        foreach(Cart::instance('AdminBqt_Flowers')->content() as $row){
+          $addFlower_To_BQT_details_table = DB::select('CALL add_Flower_to_Bouquet(?,?,?)',array($newBqt_ID,$row->id,$row->qty));
+        }//END OF FOREACH FLOWERS
 
-        //Saving Image
-
-            if($request -> hasFile('bouimg')){
-                $image = $request -> file('bouimg');
-                $filename = time() . '.' . $image -> getClientOriginalExtension();
-                $location = public_path('bouquetimage/' . $filename);
-                Image::make($image) -> resize(800, 400) -> save($location);
-
-                $bou -> image = $filename;
-            }
-
-        //
-
-            $bou->save();
-
-        //redirect
-
-            return redirect()->route('bouquet.show', $bou->bouquet_ID);
+        foreach(Cart::instance('AdminBqt_Acessories')->content() as $row2){
+          $addFlower_To_BQT_details_table = DB::select('CALL add_Acessories_to_Bouquet(?,?,?)',array($newBqt_ID,$row2->id,$row2->qty));
         }
+
+        Cart::instance('AdminBqt_Flowers')->destroy();
+        Cart::instance('AdminBqt_Acessories')->destroy();
+
+        Session::put('Save_Bouquet', 'Successful');
+        return redirect()->route('bouquet.index');
+      }
     }
 
     /**
@@ -104,7 +106,7 @@ class bouqcontroller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-        $bou = bouquet_details::all();
+             $bou = bouquet_details::all();
              return view('bouquet.addbouquet') -> with('bou', $bou);
         }
     }
@@ -122,9 +124,10 @@ class bouqcontroller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-             $bou = bouquet_details::find($id);
+            $bou = bouquet_details::find($id);
 
-            return view('bouquet.editbouquet') -> with('bou', $bou);
+            return view('bouquet.editbouquet')
+            ->with('bou', $bou);
         }
     }
 
@@ -143,21 +146,16 @@ class bouqcontroller extends Controller
         }
         else{
          $this->validate($request, array(
-
-                    
                     'price' => 'required',
                     'count' => 'required|max:11',
-                   
-
-
                 ));
 
         $bou = bouquet_details::find($id);
 
-       
+
         $bou->price = $request->input('price');
         $bou->count_ofFlowers = $request->input('count');
-       
+
 
         //store
 

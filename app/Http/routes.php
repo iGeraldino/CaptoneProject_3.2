@@ -22,9 +22,15 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('bouquet', 'bouqcontroller');
 
-    Route::resource('bouqAddFlower', 'Add_FlowerOnBouquet_Controller');
+	Route::get('/Adminbouquet_Creation',['uses' => 'Administrator_bouquet_Controller@Creation_of_bouquet', 'as'=>'Admin.Creation_Bouquet']);//shows the creation of bouquet in the server side
 
-    Route::resource('bouqAddAcessories', 'Add_AcessoriesOnBouquet_Controller');
+	Route::resource('bouqAdd_Flower_toAdmin_Bqt', 'AddingFlowers_ToAdminBqtSession_Controller');
+
+	Route::resource('bouqAdd_Acrs_toAdmin_Bqt', 'AddingAcessories_ToAdminBqtSession_Controller');
+
+  Route::resource('bouqAddFlower', 'Add_FlowerOnBouquet_Controller');
+
+  Route::resource('bouqAddAcessories', 'Add_AcessoriesOnBouquet_Controller');
 
 	Route::resource('supplieradd', 'suppcontroller');
 
@@ -209,16 +215,18 @@ Route::get('/OrderConfirmation/',['uses' => 'OrderManagementController@ConfrimOr
 Route::get('/saveCustomized_Bouquet/{order_ID}',['uses' => 'OrderManagementController@saveCustomized_Bqt', 'as'=>'Bqtorder.saveBouquet']);//saves the newly created bqt
 
 
-Route::get('/saveNewCustomized_Bouquet/',['uses' => 'OrderManagementController@saveNewCustomized_Bqt', 'as'=>'Bqtorder.saveNewBouquet']);//saves the newly created bqt
+Route::get('/saveNewCustomized_Bouquet',['uses' => 'OrderManagementController@saveNewCustomized_Bqt', 'as'=>'Bqtorder.saveNewBouquet']);//saves the newly created bqt
 
-Route::get('/order_creations/',['uses' => 'OrderManagementController@return_to_CreationOfOrder', 'as'=>'return.orderCreation']);//saves the newly created bqt
+Route::get('/order_creations',['uses' => 'OrderManagementController@return_to_CreationOfOrder', 'as'=>'return.orderCreation']);//saves the newly created bqt
 
-Route::get('/cartClear/',['uses' => 'OrderManagementController@Clear_Cart', 'as'=>'Order.ClearCart']);//saves the newly created bqt
+Route::get('/cartClear',['uses' => 'OrderManagementController@Clear_Cart', 'as'=>'Order.ClearCart']);//saves the newly created bqt
 
-Route::get('/BqtClear/',['uses' => 'OrderManagementController@Clear_Bouquet', 'as'=>'Order.ClearBqt']);//saves the newly created bqt
+Route::get('/BqtClear',['uses' => 'OrderManagementController@Clear_Bouquet', 'as'=>'Order.ClearBqt']);//saves the newly created bqt
+
+Route::get('/AdminBqtClear',['uses' => 'Administrator_bouquet_Controller@Clear_AdminBouquet', 'as'=>'Order.ClearAdminBqt']);//saves the newly created bqt
 
 
-Route::get('/OrderCustomizeofBQT/',['uses' =>
+Route::get('/OrderCustomizeofBQT',['uses' =>
 	'CreationOfBouquet_Controller@show_Order_BQT_CustomizationPage', 'as'=>'Order.CustomizeaBouquet']);
 //creates new bouquet
 
@@ -234,10 +242,14 @@ Route::get('/OrderBouquet_Acessories/{Acessory_ID},{order_ID}',['uses' => 'Order
 
 Route::get('/OrderSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'OrderManagementController@DeleteAcessory_per_SessionBqt_Order', 'as'=>'Sessionorder.DelAcessories']);//deletes a specific flower of a specific bouquet of specific yorder
 
+Route::get('/AdminSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'Administrator_bouquet_Controller@DeleteAcessory_per_SessionAdminBqt', 'as'=>'Admin.DelAcessories']);//deletes a specific flower of a specific bouquet of specific yorder
+
 
 Route::get('/OrderBouquet_Flower/{flower_ID},{order_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Bqt_Order', 'as'=>'BqtFlowerorder.DelOrderFlowers']);//deletes a specific flower of a specific bouquet of specific order
 
 Route::get('/OrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Bqt_SessionOrder', 'as'=>'BqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
+
+Route::get('/AdminBQTSession_Flower/{flower_ID}',['uses' => 'Administrator_bouquet_Controller@DeleteFlower_per_AdminBqt_Session', 'as'=>'AdminBqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
 
 
 Route::get('/BouquetMaintenance/{bouquet_ID},{flower_ID},{QTY},{T_PRICE}',['uses' => 'BouquetMaintenanceController@DeleteFlower_per_Bouquet', 'as'=>'bouq.DelFlowerBouquet']);

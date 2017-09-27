@@ -49,24 +49,7 @@ class Add_FlowerOnBouquet_Controller extends Controller
 
             $TAmt= $request->final_BQTAamount + ($request->InputFlowerPriceField * $QTY);
             $TQTY = $request->Flower_Count_Field + $QTY;
-            
 
-            /*echo '$TAmt = '.$TAmt;
-            echo '_____';
-            echo '$request->InputFlowerPriceField* $QTY = '.$request->InputFlowerPriceField * $QTY;
-            echo '_____';
-            echo '$request->InputFlowerPriceField = '.$request->InputFlowerPriceField;
-            echo '_____';
-            echo '$request->final_BQTAamount = '.$request->final_BQTAamount;
-            */
-
-            /*echo($Bouquet_ID);
-            echo('\n');
-            echo($Fower_ID);
-            echo('\n');
-            echo($QTY);*/
-
-            $update_BQT_PRICE_AND_QTY = DB::select('CALL update_BQT_price_and_QTY(?,?,?)',array($Bouquet_ID,$TAmt,$TQTY));        
             $AddNewFlowerTo_Bouquet = DB::select('CALL add_Flower_to_Bouquet(?,?,?)',array($Bouquet_ID,$Fower_ID,$QTY));
             return redirect()->route("bouqAddFlower.show", $Bouquet_ID);
         }
@@ -90,9 +73,6 @@ class Add_FlowerOnBouquet_Controller extends Controller
             ->select('*')
             ->where('bouquet_ID','=',$id)
             ->first();
-
-            
-
             $bouq_Flower_Count = DB::select('CALL count_of_flowers_per_bouquet(?)',array($id));
             $bouq_Acessory_Count = DB::select('CALL count_of_acessories_per_bouquet(?)',array($id));
             //->where('bouquet_ID','=',$id);
@@ -176,7 +156,7 @@ class Add_FlowerOnBouquet_Controller extends Controller
             //echo ('Quantity = '.$QTY);
             //echo('$Exploded_ID[0] = '. $Exploded_ID[0]);
             //echo('$Exploded_ID[1] = '. $Exploded_ID[1]);
-           
+
             $bouquetFlowers = DB::select('CALL  update_QTY_of_Flower_Per_Bouquet(?,?,?);',array($Exploded_ID[0],$Exploded_ID[1],$QTY));
 
             return redirect()->route('bouqAddFlower.edit',$id);

@@ -45,9 +45,9 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{  
+        else{
             $countofAcessories =  Cart::instance('OrderedBqt_Acessories')->count();
-            
+
             $Acessory_ID = $request->AcessoryList;
             $Acessory_name = $request->Acessoryname_List;
             $Original_Price = $request->AcessoryOrigInputPrice_Field;
@@ -57,21 +57,21 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
             $Qty = $request->AcessoryQTY_Field;
             $image = $request->AcessoryPic_List;
 
-            echo '<h4><b>$Acessory_ID = </b>'.$Acessory_ID.'</h4>';     
-            echo '<h4><b>$Acessory_name = </b>'.$Acessory_name.'</h4>';     
-            echo '<h4><b>$Original_Price = </b>'.$Original_Price.'</h4>';     
-            echo '<h4><b>$order_ID = </b>'.$order_ID.'</h4>';     
-            echo '<h4><b>$descision = </b>'.$descision.'</h4>';     
-            echo '<h4><b>$New_Price = </b>'.$New_Price.'</h4>';     
-            echo '<h4><b>$Qty = </b>'.$Qty.'</h4>';     
-            echo '<h4><b>$image = </b>'.$image.'</h4>'; 
+            echo '<h4><b>$Acessory_ID = </b>'.$Acessory_ID.'</h4>';
+            echo '<h4><b>$Acessory_name = </b>'.$Acessory_name.'</h4>';
+            echo '<h4><b>$Original_Price = </b>'.$Original_Price.'</h4>';
+            echo '<h4><b>$order_ID = </b>'.$order_ID.'</h4>';
+            echo '<h4><b>$descision = </b>'.$descision.'</h4>';
+            echo '<h4><b>$New_Price = </b>'.$New_Price.'</h4>';
+            echo '<h4><b>$Qty = </b>'.$Qty.'</h4>';
+            echo '<h4><b>$image = </b>'.$image.'</h4>';
 
             if(Cart::instance('OrderedBqt_Acessories')->count() == 0){
                 echo 'wala pang laman';
                     $final_total_Amount = 0;
                     $derived_Sellingprice = 0;
                     if($descision == 'O'){
-                          $derived_Sellingprice = $Original_Price; 
+                          $derived_Sellingprice = $Original_Price;
                           $final_total_Amount = $derived_Sellingprice * $Qty;
                     }//end of if
                     else{
@@ -80,7 +80,7 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
                     }//end of outer else(this is automatically understood that it is newPrice)
 
                     Cart::instance('OrderedBqt_Acessories')
-                    ->add(['id' => $Acessory_ID, 'name' => $Acessory_name, 'qty' => $Qty, 'price' => $derived_Sellingprice, 
+                    ->add(['id' => $Acessory_ID, 'name' => $Acessory_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                     'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
             }
             else{
@@ -94,21 +94,21 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
                         $final_total_Amount = 0;
                         $derived_Sellingprice = 0;
                         if($descision == 'O'){
-                              $derived_Sellingprice = $Original_Price; 
+                              $derived_Sellingprice = $Original_Price;
                               $final_total_Amount = $derived_Sellingprice * $TotalQty;
                         }//end of if
                         else{
                               $derived_Sellingprice = $New_Price;
                               $final_total_Amount = $New_Price * $TotalQty;
                         }//end of outer else(this is automatically understood that it is newPrice)
-                        
+
                         Cart::instance('OrderedBqt_Acessories')->update($row->rowId,['qty' => $TotalQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
                         $Insertion = 0;
                         break;
                     }//end of if
                     else{
                         //for none existing item in the cart create a new record
-                        $Insertion = 1;//this indicates that there will be an insertion of new data 
+                        $Insertion = 1;//this indicates that there will be an insertion of new data
                         }//end of else
                 }//end of foreach
                 if($Insertion == 1){
@@ -116,7 +116,7 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
                         $final_total_Amount = 0;
                         $derived_Sellingprice = 0;
                         if($descision == 'O'){
-                              $derived_Sellingprice = $Original_Price; 
+                              $derived_Sellingprice = $Original_Price;
                               $final_total_Amount = $derived_Sellingprice * $Qty;
                         }//end of if
                         else{
@@ -125,7 +125,7 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
                         }//end of outer else(this is automatically understood that it is newPrice)
 
                         Cart::instance('OrderedBqt_Acessories')
-                        ->add(['id' => $Acessory_ID, 'name' => $Acessory_name, 'qty' => $Qty, 'price' => $derived_Sellingprice, 
+                        ->add(['id' => $Acessory_ID, 'name' => $Acessory_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                         'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
                 }
             }//end of outer else
@@ -174,7 +174,7 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
         }
         else{
              $newQty = $request->AcQuantityField;
-            $order_ID = $request->ID_Field;    
+            $order_ID = $request->ID_Field;
             $descision = $request->Decision_Field;
 
            foreach(Cart::instance('OrderedBqt_Acessories')->content() as $row){
@@ -187,14 +187,14 @@ class AddingAcessoriesto_OrderedBouquet_Controller extends Controller
                     $image = $row->options['image'];
 
                     if($descision == 'O'){
-                          $derived_Sellingprice = $row->options['orig_price']; 
+                          $derived_Sellingprice = $row->options['orig_price'];
                           $final_total_Amount = $derived_Sellingprice * $newQty;
                     }//end of if
                     else{
                           $derived_Sellingprice = $row->price;
                           $final_total_Amount = $row->price * $newQty;
                     }//end of outer else(this is automatically understood that it is newPrice)
-                    
+
 
 
                     Cart::instance('OrderedBqt_Acessories')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision]]);

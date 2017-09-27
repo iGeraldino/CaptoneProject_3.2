@@ -34,7 +34,7 @@ class AdminAccounts_Controller extends Controller
           return view('Administrators/Creating_AdminAcct')
           ->with('Accts',$Accounts);
         }
-        
+
     }
 
     /**
@@ -109,9 +109,9 @@ class AdminAccounts_Controller extends Controller
                     $acct->username = trim($request->username);
                     $acct->type = '1';//this means that this is an admin account
                     $acct->Admin_ID = $AdminRec->Admin_Id;
-                    
+
                     $acct->save();
-                    Session::put('Adding_newAdminSession','Successful');     
+                    Session::put('Adding_newAdminSession','Successful');
                     return redirect() -> route('Admins.index');
                 }
             }
@@ -160,7 +160,7 @@ class AdminAccounts_Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
     }
 
     /**
@@ -182,7 +182,7 @@ class AdminAccounts_Controller extends Controller
            // $Deletion2 = DB::select('CALL delete_AdminAcct(?)',array($id));
             Session::put('DeletionSession','Successful');
             return redirect() -> route('Admins.index');
-        }   
+        }
     }
 
     public function postSignin(Request $request){
