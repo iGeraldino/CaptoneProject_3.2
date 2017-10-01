@@ -3,14 +3,6 @@
 
 @section('content')
   <section class="content-header">
-<br>
-<br>
-
-  <h2><b>List of Acessories being offered by the shop</b></h2>
-
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddModal">
-  <i class="material-icons md-24"> add_circle</i>  Add Accessories  
-		</button>
 
 		<!-- Modal -->
 		<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,7 +72,14 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Accessories List</h3>
+              <div class="col-md-8">
+                <h3><b>LIST OF ACCESSORIES BEING OFFERRED BY THE SHOP</b></h3>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-round btn-md pull-right twitch" data-toggle="modal" data-target="#AddModal">
+                <i class="material-icons md-24"> add_circle</i>  Add Accessories  
+                  </button>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -88,12 +87,12 @@
                 <thead>
                 <tr>
                       
-                        <th class="text-center"> Accessories ID </th>
-                        <th class="text-center"> Name </th>
-                        <th class="text-center"> Image </th>
-                        <th class="text-center"> Price </th>
-                        <th class="text-center"> Quantity </th>
-                        <th class="text-center"> Action </th>
+                        <th class="text-center"> ACCESSORIES ID </th>
+                        <th class="text-center"> NAME </th>
+                        <th class="text-center"> IMAGE </th>
+                        <th class="text-center"> PRICE </th>
+                        <th class="text-center"> QUANTITY </th>
+                        <th class="text-center"> ACTION </th>
 
                 </tr>
                 </thead>
@@ -101,16 +100,16 @@
 
            		 @foreach ($acc as $acce)
            				<tr>
-                    <th>ITM-{{ $acce->ACC_ID }}</th>
-                    <th>{{ $acce -> name }}</th>
+                    <th class="text-center">ITM-{{ $acce->ACC_ID }}</th>
+                    <th class="text-center">{{ $acce -> name }}</th>
                     <th align="center"><img src="{{ asset('accimage/'. $acce -> image)}}" style="min-width: 80px; max-height: 50px; margin-left: 100px;">
-                    <th>Php {{number_format($acce -> price,2)  }}</th>
-                    <th>{{ $acce -> qty }} pcs</th>
+                    <th class="text-center">Php {{number_format($acce -> price,2)  }}</th>
+                    <th class="text-center">{{ $acce -> qty }} pcs</th>
                     <td align="center" > 
                           <a data-toggle="modal" href="#acessoryModal{{$acce->ACC_ID}}"> 
-                          <button rel="tooltip" title="View" class="btn btn-success btn-sm btn-simple"> <i class="material-icons md-24"> edit</i></i> </button></a>
+                          <button rel="tooltip" title="VIEW" class="btn btn-just-icon Subu"> <i class="material-icons md-24"> edit</i></i> </button></a>
                            {!! Form::open(['route' => ['acc.destroy',$acce->ACC_ID],'method'=>'DELETE']) !!}
-                          <button rel="tooltip" title="Delete" type = "submit" name = "DelBtn" class="btn btn-danger btn-sm btn-simple"> <i class="material-icons md-24"> delete</i></button>
+                          <button rel="tooltip" title="DELETE" type = "submit" name = "DelBtn" class="btn btn-just-icon Shalala"> <i class="material-icons md-24">delete</i></button>
                           {!! Form::close() !!}
                         </td> 
 

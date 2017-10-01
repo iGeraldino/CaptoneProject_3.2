@@ -75,9 +75,159 @@
         </div>
         <!-- ./col -->
 
-  	
+  	<div class="col-md-6">
+      <!-- AREA CHART -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Area Chart</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool buttonedit" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool buttonedit" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <div class="chart" id="revenue-chart" style="height: 300px;"></div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
   </div>
- 
+
+  <div class="col-md-6">
+    <div class="box">
+      <div class="box-header Subu">
+        <h5 class="text-center" style="color: white;"><b>NEW ORDERS</b></h5>
+      </div>
+      <div class="box-body">
+        <table id="example2" class="table table-bordered table-striped">
+          <thead>
+              <th class="text-center"> ORDER ID</th>
+              <th class="text-center"> CUSTOMER ID </th>
+              <th class="text-center"> DATE</th>
+              <th class="text-center"> STATUS</th>
+              <th class="text-center"> ACTION</th>
+          </thead>
+          <tbody>
+            <td class="text-center">1</td>
+            <td class="text-center"> Christine Joy Aradia</td>
+            <td></td>
+            <td>UTANG</td>
+            <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  <!-- /.col -->
+    </div>
+
+    <div class="col-md-6">
+      <div class="box">
+        <div class="box-header Shalala">
+          <h5 class="text-center" style="color: white;"><b>SPOILAGE</b></h5>
+        </div>
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center"> BATCH ID</th>
+                <th class="text-center"> FLOWER ID </th>
+                <th class="text-center"> QUANTITY</th>
+                <th class="text-center"> DATE</th>
+                <th class="text-center"> ACTION</th>
+            </thead>
+            <tbody>
+              <td class="text-center">1</td>
+              <td class="text-center"> Christine Joy Aradia</td>
+              <td></td>
+              <td>UTANG</td>
+              <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+  <!-- /.col -->
+    </div>
+
+    <div class="col-md-6" style="margin-top: -6%;">
+      <div class="box">
+        <div class="box-header Inbox">
+          <h5 class="text-center" style="color: white;"><b>CRITICAL INVENTORY</b></h5>
+        </div>
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center"> ITEM ID</th>
+                <th class="text-center"> NAME </th>
+                <th class="text-center"> QUANTITY</th>
+            </thead>
+            <tbody>
+              <td>1</td>
+              <td class="text-center"> Christine Joy Aradia</td>
+              <td></td>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    <!-- /.col -->
+    </div>
+    
+    <div class="col-md-6">
+      <div class="box">
+        <div class="box-header Lush">
+          <h5 class="text-center" style="color: white;"><b>ARRIVING SUPPLIES</b></h5>
+        </div>
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center"> ITEM ID</th>
+                <th class="text-center"> NAME </th>
+                <th class="text-center"> QUANTITY</th>
+            </thead>
+            <tbody>
+              <td>1</td>
+              <td class="text-center"> Christine Joy Aradia</td>
+              <td></td>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    <!-- /.col -->
+    </div>
+
+    <div class="col-md-6" style="margin-top: -6%;">
+      <div class="box">
+        <div class="box-header Subu">
+          <h5 class="text-center" style="color: white;"><b>UNPAID ORDERS</b></h5>
+        </div>
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center"> ITEM ID</th>
+                <th class="text-center"> NAME </th>
+                <th class="text-center"> QUANTITY</th>
+            </thead>
+            <tbody>
+              <td>1</td>
+              <td class="text-center"> Christine Joy Aradia</td>
+              <td></td>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    <!-- /.col -->
+    </div>
 @endsection
 @section('scripts')
 
@@ -92,6 +242,31 @@
     //Show popup
     //swal("Sorry!","the session might have already been ","warning");
    }
+
+   // AREA CHART
+    var area = new Morris.Area({
+      element: 'revenue-chart',
+      resize: true,
+      data: [
+        {y: '2011 Q1', item1: 2666, item2: 2666},
+        {y: '2011 Q2', item1: 2778, item2: 2294},
+        {y: '2011 Q3', item1: 4912, item2: 1969},
+        {y: '2011 Q4', item1: 3767, item2: 3597},
+        {y: '2012 Q1', item1: 6810, item2: 1914},
+        {y: '2012 Q2', item1: 5670, item2: 4293},
+        {y: '2012 Q3', item1: 4820, item2: 3795},
+        {y: '2012 Q4', item1: 15073, item2: 5967},
+        {y: '2013 Q1', item1: 10687, item2: 4460},
+        {y: '2013 Q2', item1: 8432, item2: 5713}
+      ],
+      xkey: 'y',
+      ykeys: ['item1', 'item2'],
+      labels: ['Item 1', 'Item 2'],
+      lineColors: ['#a0d0e0', '#3c8dbc'],
+      hideHover: 'auto'
+    });
+
+
 
 </script>
 @endsection

@@ -70,14 +70,6 @@
         </a>
         <ul class="treeview-menu">
           <li>
-            <a href="/Sales_Qoutation"><i class="fa fa-circle-o"></i> Sales Order
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-        </ul>
-        <ul class="treeview-menu">
-          <li>
             <a href="/Quick_Sales_Order"><i class="fa fa-circle-o"></i> Make Quick Order
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -87,6 +79,14 @@
         <ul class="treeview-menu">
           <li>
             <a href="/Long_Sales_Order"><i class="fa fa-circle-o"></i> Make Long Order
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+        </ul>
+        <ul class="treeview-menu">
+          <li>
+            <a href="/Sales_Qoutation"><i class="fa fa-circle-o"></i> Sales Order
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

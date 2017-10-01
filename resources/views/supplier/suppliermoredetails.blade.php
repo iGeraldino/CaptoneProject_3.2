@@ -53,9 +53,9 @@
               </div>
             </div>
             <br>
-            <div class="col-md-offset-9">
-              <button class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Price <i class="material-icons">add_circle</i></button>
-              <a href= "{{route('supplieradd.index')}}" class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;"> Return <i class="material-icons">add_circle</i></a>
+            <div class="col-md-offset-7">
+              <button class="btn btn-round btn-md twitch"  style = " margin-left: 5%; background-color: #C93756;" data-toggle="modal" data-target="#AddModal"> Add New Flower <i class="material-icons">add_circle</i></button>
+              <a href= "{{route('supplieradd.index')}}" class="btn btn-round btn-md twitch"> Return <i class="material-icons">keyboard_backspace</i></a>
             </div>
             <!-- Start of Table-->
         <div class="col-xs-12">
@@ -78,7 +78,7 @@
                       <th class="text-center" align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
                       </th>
                       <th  class="text-center">
-                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon twitch">
+                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon Subu">
                           <i class="material-icons">mode_edit</i>
                         </button>
                       </th>

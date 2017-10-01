@@ -184,7 +184,7 @@
 				</div>
 			</div>
 			<div>
-				<div class="col-md-6" style="margin-left: -20px; margin-top: 8%;">
+				<div class="col-md-6" style="margin-left: -20px; margin-top: 13%;">
 					<div class="panel">
 						<div class="panel">
 							<div class="panel-heading Sharp">

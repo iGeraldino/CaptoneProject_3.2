@@ -52,3 +52,8 @@
 .Inbox {
 	background: linear-gradient(to right, #457fca, #5691c8);
 }
+
+.buttonedit {
+	background-color: transparent;
+	box-shadow: none;
+}
