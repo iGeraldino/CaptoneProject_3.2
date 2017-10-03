@@ -204,15 +204,29 @@ class ClientController extends Controller
           $details = db::table('customer_details')->where('Cust_ID', '=' , $id)->get();
           $account = db::table('users')->where('Cust_ID', '=' , $id)->get();
 
-        
+          // Past Order Details
 
-          //dd($details);
+          $id = db::table('users')->where('id', '=', Auth::user() -> id)->get();
+
+            foreach ($id as $id){
+
+                $newid = $id -> Cust_ID;
+
+            }
+
+            $pastorder = db::table('order_details')->where('Customer_ID', '=', $newid)->get();
+
+
+
+
+
+            //dd($details);
           return view('customer_side.pages.editaccount')
           ->with('details', $details)
           ->with('cities', $cities)
           ->with('province', $province)
-          ->with('account', $account);
-
+          ->with('account', $account)
+          ->with('pastorder', $pastorder);
         }
 
         public function postEditAccount(Request $request, $id){

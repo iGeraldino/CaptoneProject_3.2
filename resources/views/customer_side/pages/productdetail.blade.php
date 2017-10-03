@@ -35,7 +35,7 @@
                 <h6 class="title-attr"><small>QUANTITY</small></h6>
                 <div>
                     <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                    <input value="1" name="quantity"/>
+                    <input type="number" value="1" name="quantity"/>
                     <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
                 </div>
             </div>

@@ -351,14 +351,12 @@ class create_bouquet extends Controller
 
     public function defaultBouquetAdd(){
 
-     dd("betlog");
 
     }
 
     public function pickupreports(){
 
 
-        return redirect('home');
 
     }
 

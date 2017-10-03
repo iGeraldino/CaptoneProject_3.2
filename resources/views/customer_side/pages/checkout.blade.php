@@ -57,9 +57,9 @@
 		                        <div class="row">
                         @if(Auth::check() == 1)
 
-                          <button type="button" class="btn btn-primary next-step" style="margin-left: 500px;">Save and continue</button>
+                          <button type="button" class="btn btn-primary next-step" style="margin-left: 44%;">Save and continue</button>
 
-                        @else
+                        @elseif(Auth::check() == 0)
 
                         <div class="funkyradio text-center fontxx">
 								        <div class="funkyradio-default">
@@ -107,102 +107,101 @@
 
 					        	<div id="signUpshowdiv" hidden="" class="row">
 					                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-<form method="post" action="{{ route('checkRegistration') }}">
-    <fieldset>
-  <h2 class="text-center fontx">Make an Account</h2>
-  <hr class="colorgraph">
-  <div class="row">
-    <div class="col-xs-12 col-sm-4 col-md-4">
-      <div class="form-group">
-        <input type="text" name="fname" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4 col-md-4">
-      <div class="form-group">
-        <input type="text" name="mname" id="middle_name" class="form-control input-lg" placeholder="Middle Name" tabindex="2">
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-4 col-md-4">
-      <div class="form-group">
-        <input type="text" name="lname" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <input type="contact" name="contact" id="contact" class="form-control input-lg" placeholder="Contact Number" tabindex="3">
-  </div>
-  <!--start of customer Address-->
-  <hr>
-<h4 class="text-center fontx">Customer Address</h4>
-<div class = "row">
-    <div class="col-md-6">
-      <input type="contact" name="address_Line" id="address_Line" class="form-control input-lg" placeholder="House No./Street Name" tabindex="4">
-    </div>
+					                    <form method="post" action="{{ route('checkRegistration') }}">
+					                        <fieldset>
+								                <h2 class="text-center fontx">Make an Account</h2>
+								                <hr class="colorgraph">
+								                <div class="row">
+								                  <div class="col-xs-12 col-sm-4 col-md-4">
+								                    <div class="form-group">
+								                      <input type="text" name="fname" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
+								                    </div>
+								                  </div>
+								                  <div class="col-xs-12 col-sm-4 col-md-4">
+								                    <div class="form-group">
+								                      <input type="text" name="mname" id="middle_name" class="form-control input-lg" placeholder="Middle Name" tabindex="2">
+								                    </div>
+								                  </div>
+								                  <div class="col-xs-12 col-sm-4 col-md-4">
+								                    <div class="form-group">
+								                      <input type="text" name="lname" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+								                    </div>
+								                  </div>
+								                </div>
+								                <div class="form-group">
+								                  <input type="contact" name="contact" id="contact" class="form-control input-lg" placeholder="Contact Number" tabindex="3">
+								                </div>
+								                <!--start of customer Address-->
+								                <hr>
+												<h4 class="text-center fontx">Customer Address</h4>
+												<div class = "row">
+									                <div class="col-md-6">
+									                  <input type="contact" name="address_Line" id="address_Line" class="form-control input-lg" placeholder="House No./Street Name" tabindex="4">
+									                </div>
 
-    <div class="col-md-6">
-      <input type="contact" name="baranggay" id="baranggay" class="form-control input-lg" placeholder="Baranggay" tabindex="4">
-    </div>
-</div>
+									                <div class="col-md-6">
+									                  <input type="contact" name="baranggay" id="baranggay" class="form-control input-lg" placeholder="Baranggay" tabindex="4">
+									                </div>
+												</div>
 
-<div class = "row">
-    <div class="form-group col-md-6">
-      <select name="ProvinceField" id="ProvinceField" class="form-control input-lg" tabindex="5" required>
-        <option value = "-1" data-tag = "-1" disabled selected> Choose Province</option>
-      @foreach($province as $prov)
-          <option value ="{{$prov->id}}" > {{$prov->name}} </option>
-        @endforeach
-      </select>
-    </div>
+												<div class = "row">
+									                <div class="form-group col-md-6">
+									                  <select name="ProvinceField" id="ProvinceField" class="form-control input-lg" tabindex="5" required>
+									                  	<option value = "-1" data-tag = "-1" disabled selected> Choose Province</option>
+									                  @foreach($province as $prov)
+								                        <option value ="{{$prov->id}}" > {{$prov->name}} </option>
+								                      @endforeach
+									                  </select>
+									                </div>
 
-    <div class="form-group col-md-6">
-      <select name="TownField" id="TownField" class="form-control input-lg" tabindex="6" required>
-        <option value = "-1" data-tag = "-1" disabled selected> Choose City</option>
-      @foreach($city as $city)
-          <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
-        @endforeach
-      </select>
-    </div>
-</div>
-  <!--end of customer Address-->
+									                <div class="form-group col-md-6">
+									                  <select name="TownField" id="TownField" class="form-control input-lg" tabindex="6" required>
+									                  	<option value = "-1" data-tag = "-1" disabled selected> Choose City</option>
+									                  @foreach($city as $city)
+								                        <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
+								                      @endforeach
+									                  </select>
+									                </div>
+												</div>
+								                <!--end of customer Address-->
 
 
-  <!--start of Acct Info-->
-  <hr>
-<h4 class="text-center fontx">Account Information</h4>
-  <div class="form-group">
-    <input type="email" name="signemail" id="signemail" class="form-control input-lg" placeholder="Email Address" tabindex="7">
-    <h5 hidden id="erroremail" style="color: Red;">Invalid Username</h5>
-  </div>
-  <div class="form-group">
-    <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" tabindex="8">
-    <h5 hidden id="errorusername" style="color: Red;">Invalid Username</h5>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6">
-      <div class="form-group">
-        <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="9">
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-6">
-      <div class="form-group">
-        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="10">
-      </div>
-    </div>
-  </div>
-  <!--start of Acct Info-->
+								                <!--start of Acct Info-->
+								                <hr>
+												<h4 class="text-center fontx">Account Information</h4>
+                                <div class="form-group">
+								                  <input type="email" name="signemail" id="signemail" class="form-control input-lg" placeholder="Email Address" tabindex="7">
+                                  <h5 hidden id="erroremail" style="color: Red;">Invalid Username</h5>
+                                </div>
+								                <div class="form-group">
+								                  <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" tabindex="8">
+                                  <h5 hidden id="errorusername" style="color: Red;">Invalid Username</h5>
+                                </div>
+								                <div class="row">
+								                  <div class="col-xs-12 col-sm-6 col-md-6">
+								                    <div class="form-group">
+								                      <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="9">
+								                    </div>
+								                  </div>
+								                  <div class="col-xs-12 col-sm-6 col-md-6">
+								                    <div class="form-group">
+								                      <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="10">
+								                    </div>
+								                  </div>
+								                </div>
+								                <!--start of Acct Info-->
 
-  <hr class="colorgraph">
-  <div class="row">
+								                <hr class="colorgraph">
+								                <div class="row">
 
-    <div class="col-xs-12 col-md-12">
+                                  <div class="col-xs-12 col-md-12">
 
-      <button type="submit" id="registerbutt" class="btn btn-success btn-block btn-lg fontxx">Register Account</button><!--kapag nasubmit mo na tong button na to kelangan ay maglogin na agad at magderetso sa step 2, kapag di pa nakalogin-->
-    </div>
-  </div>
-  {{ csrf_field() }}
-    </fieldset>
-</form>
-
+								                  	<button type="submit" id="registerbutt" class="btn btn-success btn-block btn-lg fontxx">Register Account</button><!--kapag nasubmit mo na tong button na to kelangan ay maglogin na agad at magderetso sa step 2, kapag di pa nakalogin-->
+                                  </div>
+								                </div>
+								                {{ csrf_field() }}
+					                        </fieldset>
+					                    </form>
 					                    <br>
 					                </div>
 					            </div>
@@ -339,23 +338,23 @@
 								                <div class="row">
 								                	<div class="col-xs-12 col-sm-4 col-md-4">
 								                    	<div class="form-group">
-								                      		<input type="text" name="R_first_name" id="R_first_name" class="form-control input-lg" placeholder="First Name" tabindex="1" required>
+								                      		<input type="text" name="R_first_name" id="R_first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
 								                    	</div>
 								                    </div>
 									                <div class="col-xs-12 col-sm-4 col-md-4">
 									                    <div class="form-group">
-									                      	<input type="text" name="R_mid_name" id="R_mid_name" class="form-control input-lg" placeholder="Middle Name" tabindex="2" required>
+									                      	<input type="text" name="R_mid_name" id="R_mid_name" class="form-control input-lg" placeholder="Middle Name" tabindex="2">
 									                    </div>
 									                </div>
 									                <div class="col-xs-12 col-sm-4 col-md-4">
 									                    <div class="form-group">
-									                      	<input type="text" name="R_last_name" id="R_last_name" class="form-control input-lg" placeholder="Last Name" tabindex="3" required>
+									                      	<input type="text" name="R_last_name" id="R_last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
 									                    </div>
 									                </div>
 						               			</div>
 						             			<div class="col-xs-12 col-sm-12 col-md 12">
 									                <div class="form-group">
-									                	<input type="number" name="R_contact" id="R_contact" class="form-control input-lg" placeholder="Contact Number" tabindex="4" required>
+									                	<input type="number" name="R_contact" id="R_contact" class="form-control input-lg" placeholder="Contact Number" tabindex="7">
 									                </div>
 									            </div>
 									            <br>
@@ -364,12 +363,12 @@
 								                <div class="row">
 								                  	<div class="col-xs-12 col-md-6 col-sm-6">
 								                    	<div class="form-group">
-								                      	<input type="text" name="R_DeliveryAddressLine" id="R_DeliveryAddressLine" class="form-control input-lg" placeholder="Lot/Unit No/Street" tabindex="5" required>
+								                      	<input type="text" name="R_DeliveryAddressLine" id="R_DeliveryAddressLine" class="form-control input-lg" placeholder="Lot/Unit No/Street" tabindex="4">
 								                    	</div>
 								                	</div>
 								                  	<div class="col-xs-12 col-md-6 col-sm-6">
 								                    	<div class="form-group">
-								                      	<input type="text" name="R_DeliveryBrgy" id="R_DeliveryBrgy" class="form-control input-lg" placeholder="Baranggay" tabindex="6" required>
+								                      	<input type="text" name="R_DeliveryBrgy" id="R_DeliveryBrgy" class="form-control input-lg" placeholder="Baranggay" tabindex="4">
 								                    	</div>
 								                	</div>
 							                	</div>
@@ -384,7 +383,7 @@
 								                <div class="row">
 							                  		<div class="col-xs-12 col-sm-6 col-md-6">
 							                    		<div class="form-group">
-							                      			<select name="DeliveryProvinceField" id="DeliveryProvinceField" class="form-control fontxx" tabindex="7" required>
+							                      			<select name="DeliveryProvinceField" id="DeliveryProvinceField" class="form-control fontxx" required>
 									                  				<option value = "-1" data-tag = "-1" disabled selected> Choose Province</option>
 												                @foreach($province2 as $prov)
 											                        <option value ="{{$prov->id}}" > {{$prov->name}} </option>
@@ -394,7 +393,7 @@
 							                  		</div>
 							                  		<div class="col-xs-12 col-sm-6 col-md-6">
 							                    		<div class="form-group">
-							                        		<select name="DeliveryTownField" id="DeliveryTownField" tabindex="8" class="form-control fontxx" required>
+							                        		<select name="DeliveryTownField" id="DeliveryTownField" class="form-control fontxx" required>
 											                  		<option value = "-1" data-tag = "-1" disabled selected> Choose City</option>
 											                  	@foreach($city2 as $city)
 										                        	<option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
@@ -418,7 +417,7 @@
 											                 	 	<div class="input-group-addon">
 											                    		<i class="fa fa-calendar"></i>
 											                  		</div>
-											                  		<input type="text" class="form-control pull-right" tabindex="9" id="to" required>
+											                  		<input type="text" class="form-control pull-right" id="to">
 											                	</div>
 											                	<!-- /.input group -->
 											              	</div>
@@ -429,7 +428,7 @@
 												                <div class="form-group">
 												                	<label>Time Of delivery:</label>
 													                <div class="input-group">
-													                    <input type="text" id="timepicker1" tabindex="10" class="form-control timepicker" required>
+													                    <input type="text" id="timepicker1" class="form-control timepicker">
 													                    <div class="input-group-addon">
 													                    	<i class="fa fa-clock-o"></i>
 													                    </div>
@@ -502,7 +501,7 @@
 				                        <hr class="colorgraph">
 				                        <div class="funkyradio text-center fontxx">
 									        <div class="funkyradio-default col-md-4">
-									            <input type="radio" name="radio" id="radio1" checked/>
+									            <input type="radio" name="radio" id="radio1" />
 									            <label for="radio1">Bank Deposit</label>
 									        </div>
 									        <div class="funkyradio-default fx">
@@ -538,7 +537,7 @@
 				                        <hr class="colorgraph">
 				                        <div class="funkyradio text-center fontxx">
 									        <div class="funkyradio-default col-md-4">
-									            <input type="radio" name="radio" id="radiocod" checked/>
+									            <input type="radio" name="radio" id="radiocod"/>
 									            <label for="radiocod">Cash on Delivery</label>
 									        </div>
 									        <div class="funkyradio-default fx">
@@ -583,7 +582,7 @@
 											<!--Form() open dito-->
                       <form method="post" action="{{ route('checkoutfinalpickup') }}">
 											<div class="row pull-right">
-												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div hidden=""><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -617,7 +616,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<a href="" type="submit" class="btn btn-success btn-lg"> Submit My Order</a><!-- call a route that saves order for delivery only,
+				                        			<button type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
 				                        	</div>
@@ -796,7 +795,7 @@
 
 											<!--Form() open dito-->
 											<div class="row pull-right">
-												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -837,7 +836,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<button href="" type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
+				                        			<button type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
                                   </div>
@@ -868,7 +867,7 @@
 									            </div>
 														</div>
 														<div class="col-md-4 ">
-                              <h5><b>Customer Mode of Payment:</b></h5>
+                              <h5><b>Customer Mode:</b></h5>
 															<div class="form-group">
 									                      		<input type="text" name="cust_mode" id="cust_mode" class="form-control input-lg"  disabled>
 									            </div>
@@ -1212,19 +1211,15 @@
 
 				        var $active = $('.wizard .nav-tabs li.active');
 				        $active.next().removeClass('disabled');
-
-
 				        nextTab($active);
 
 				    });
 				    $(".prev-step").click(function (e) {
 
 				        var $active = $('.wizard .nav-tabs li.active');
-
 				        prevTab($active);
 
 				    });
-
 
 
 				});
@@ -1258,7 +1253,7 @@
 
           if($('#UseMydetailsCheckboxe').is(':checked') == true){
 
-              $('#PickUpDeliverybtn').attr('disabled', true);
+              $('#PickUpDeliverybtn').attr('disabled', false);
 
 
             @foreach($details as $det)
@@ -1285,25 +1280,12 @@
             $('#R_DeliveryAddressLine').val(addline);
             $('#R_DeliveryBrgy').val(brgy);
 
-
-            if($('#R_first_name').val() == "" || $('#R_mid_name').val() == "" || $('#R_last_name').val() == "" || $('#R_contact').val() == "" || $('#R_DeliveryAddressLine').val() || $('#R_DeliveryBrgy').val() == "" ){
-
- 				$('#PickUpDeliverybtn').attr('disabled', true);
-
-
-            }
-            else{
-					$('#PickUpDeliverybtn').attr('disabled', false);
-
-            }
-
-
             $(function() {
               $( "#to" ).datepicker({ dateFormat: 'yy-mm-dd' });
                 $("#to").on("change",function(){
                     var selected = $(this).val();
 
-                    if($('#to').val() == selected && $('#UseMydetailsCheckboxe').is(':checked') == true){
+                    if($('#to').val() == selected){
 
                         $('#PickUpDeliverybtn').attr('disabled', false);
 
@@ -1349,13 +1331,11 @@
 
 
                           }
-                          else{
-
-                          }
                         });
 
                           $('#radiobk').click(function(){
                             if($('#radiobk').is(':checked') == true){
+
                               $("#paydelivery").click(function() {
                                 document.getElementById('Cust_FName').value = firstName;
                                 document.getElementById('Cust_MName').value = middlename;
@@ -1395,9 +1375,9 @@
                         });
 
                     }
-                    else if($('#to').val() == selected && $('#UseMydetailsCheckboxe').is(':checked') == false){
+                    else if($('#to').val() == ""){
 
-                        $('#PickUpDeliverybtn').attr('disabled', false);
+                        $('#PickUpDeliverybtn').attr('disabled', true);
 
 
                     }
@@ -1440,7 +1420,7 @@
       });
 
     }
-               $('#PickUpDeliverybtn').attr('disabled', true);
+
 
 
         $(function() {
@@ -1452,7 +1432,7 @@
 
                 $('#PickUpDeliverybtn').attr('disabled', false);
 
-                @foreach($details1 as $det1)
+                @foreach($details as $det1)
 
                   var firstName =  "{{ $det1 -> Cust_FName}}";
                   var middlename = "{{ $det1 -> Cust_MName}}";
@@ -1482,8 +1462,9 @@
                         document.getElementById('finalPickup_Date').value = deliverdate2;
                         document.getElementById('finalPickup_Time').value = delivertime2;
 
-                        document.getElementById('cust_type').value = "user";
-                        document.getElementById('customer_ID').value = "";
+                          document.getElementById('cust_type').value = "User";
+                          document.getElementById('customer_ID').value = "";
+
 
                         document.getElementById('finalCustomer_FName').value = firstName;
                         document.getElementById('finalCustomer_MName').value = middlename;
@@ -1521,7 +1502,7 @@
                         document.getElementById('finalPickup_Date').value = deliverdate2;
                         document.getElementById('finalPickup_Time').value = delivertime2;
 
-                          document.getElementById('cust_type').value = "user";
+                          document.getElementById('cust_type').value = "User";
                           document.getElementById('customer_ID').value = "";
 
                         document.getElementById('finalCustomer_FName').value = firstName;

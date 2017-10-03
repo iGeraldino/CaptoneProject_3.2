@@ -165,8 +165,63 @@
                         <h3 class="panel-title">List Of Orders</h3>
                     </div>
                     <div class="panel-body">
-                        <h5 class="text-center">You do not have any orders</h5>
-		                <a href="button" class="btn btn-primary btn-lg col-md-4 col-md-offset-4 text-center"> Start Shopping Now</a>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box">
+                                    <div class="box-header">
+
+                                        <h3 class="box-title text-center" >Past Orders</h3>
+
+
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th width="12%" class="text-center">Order Id</th>
+                                                <th width="25%" class="text-center">Total Amount</th>
+                                                <th class="text-center">Payment Mode</th>
+                                                <th class="text-center">Shipping Method</th>
+                                                <th width="20%" class="text-center">Created At</th>
+                                                <th width="10%" class="text-center">Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($pastorder as $past)
+                                            <tr class="text-center">
+
+                                                <td>{{ $past -> Order_ID }}</td>
+                                                <td>Php. {{ $past -> Total_Amt }}</td>
+                                                <td>{{ $past -> Payment_Mode }}</td>
+                                                <td>{{ $past -> shipping_method }}</td>
+                                                <td> {{ $past -> created_at }}</td>
+                                                <td>
+
+                                                    @if ( $past -> Status == "pe" )
+
+                                                        <span class="label label-warning"> Pending </span>
+
+                                                    @endif
+
+                                                </td>
+
+                                            </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+
+
+
+		                    <a href="{{ route('customer_side.pages.flower') }}"  class="btn btn-primary btn-lg col-md-4 col-md-offset-4 text-center"> Start Shopping Now</a>
+
                     </div>
                 </div>
             </div>
