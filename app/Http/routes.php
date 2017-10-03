@@ -424,11 +424,6 @@ Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summary
 
 
 
-//View Reports
-
-
-
-
 Route::group(['prefix' => 'user'], function() {
 	Route::group(['middleware' => 'guest'], function (){
 		Route::get('register', [
