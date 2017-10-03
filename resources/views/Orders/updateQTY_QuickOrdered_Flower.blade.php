@@ -12,8 +12,8 @@
 			          </div>
 <?php
 	$Flower_SellingPrice = 0;
-  $updateQTYsessionValue = Session::get('update_O_FlowerQty_Session');
-  Session::remove('update_O_FlowerQty_Session');//determines the addition of new flower
+  $updateQTYsessionValue = Session::get('update_O_FlowerQuickQty_Session');
+  Session::remove('update_O_FlowerQuickQty_Session');//determines the addition of new flower
 ?>
 
 			@foreach($flower_Det as $orderFlower)
@@ -29,7 +29,7 @@
 						$OFlower_Tamt = '';
 						//(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
 					      //          'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
-						foreach(Cart::instance('Ordered_Flowers')->content() as $row){
+						foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
 							if($row->id == $flower_ID){
 
 								$OFlower_ID = $row->id;
@@ -87,7 +87,7 @@
 
 	                      <div class ="col-md-3" id = 'Update_Div' hidden><!--hidden-->
 <!--form open here-->
-{!! Form::model($OFlower_ID, ['route'=>['Orders_Flowers.update', $OFlower_ID],'method'=>'PUT'])!!}
+{!! Form::model($OFlower_ID, ['route'=>['QuickOrders_Flowers.update', $OFlower_ID],'method'=>'PUT'])!!}
                             <div>
                               <div class="form-group label-floating">
                              	<label class="control-label">Original Price</label>
@@ -153,7 +153,7 @@
 		                     <div class = "col-md-7">
 								<div id = "editFooterdiv" >
 		                       		<div class="btn-group" role="group">
-		                       			<a type = "button" href="{{route('Long_Sales_Order.index')}}" class = "btn btn-default btn-default" >
+		                       			<a type = "button" href="{{route('Quick_Sales_Order.index')}}" class = "btn btn-default btn-default" >
 	                            			Return to Creation of Order
 	                      				</a>
 		                       		</div>
@@ -171,8 +171,7 @@
 @endsection
 @section('scripts')
 <script language="javascript">
-            populateCountries("country", "state");
-            populateCountries("country2");
+
 </script>
 
 <script>
@@ -293,11 +292,6 @@
            }
         });
         //end of function
-
-
-
-
-
  });
    function preview_image(event)
   {

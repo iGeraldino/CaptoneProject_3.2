@@ -69,31 +69,7 @@ class Orderlong_orderingController extends Controller
         $Payment_methodline = $request->Payment_methodline;//payment Method
         $Del_DateLine = $request->Del_DateLine;//date
         $Del_timeLine = $request->Del_timeLine;//Time
-/*
-        echo "<b>Existing_CustID =</b> ".$Existing_CustID."</br>";
-        echo "<b>Existing_CustType =</b> ".$Existing_CustType."</br>";
-        echo "<b>Existing_CustStat =</b> ".$Existing_CustStat."</br>";
-        echo "<b>Ordered_Fname =</b> ".$Ordered_Fname."</br>";
-        echo "<b>Ordered_Mname =</b> ".$Ordered_Mname."</br>";
-        echo "<b>Ordered_Lname =</b> ".$Ordered_Lname."</br>";
-        echo "<b>Ordered_Contact =</b> ".$Ordered_Contact."</br>";
-        echo "<b>Ordered_Email =</b> ".$Ordered_Email."</br>";
 
-        echo "<b>recipientID =</b> ".$recipientID."</br>";
-        echo "<b>recipientFname =</b> ".$recipientFname."</br>";
-        echo "<b>recipientMname =</b> ".$recipientMname."</br>";
-        echo "<b>recipientLname =</b> ".$recipientLname."</br>";
-        echo "<b>recipient_Contact =</b> ".$recipient_Contact."</br>";
-        echo "<b>recipient_email =</b> ".$recipient_email."</br>";
-        echo "<b>Adrs_Line =</b> ".$Adrs_Line."</br>";
-        echo "<b>Brgy_Line =</b> ".$Brgy_Line."</br>";
-        echo "<b>prove_Line =</b> ".$prove_Line."</br>";
-        echo "<b>city_Line =</b> ".$city_Line."</br>";
-        echo "<b>shipping_methodline =</b> ".$shipping_methodline."</br>";
-        echo "<b>Payment_methodline =</b> ".$Payment_methodline."</br>";
-        echo "<b>Del_DateLine =</b> ".$Del_DateLine."</br>";
-        echo "<b>Del_timeLine =</b> ".$Del_timeLine."</br>";
-*/
         $combined_date = $Del_DateLine." ".$Del_timeLine;
         $dateTime_to_beOut = date('Y-m-d h:i:s', strtotime($combined_date));
         //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
@@ -102,11 +78,14 @@ class Orderlong_orderingController extends Controller
 //create a new Sales order first
        $createOrder = new newSales_order;
 
-        if($Existing_CustID == ""){
-          $createOrder->customer_ID = NULL;
-        }else {
-          $createOrder->customer_ID = $Existing_CustID;
-        }
+         if($Existing_CustID == ""){
+           $createOrder->customer_ID = NULL;
+         }else {
+           $CustID = explode("_",$Existing_CustID);
+           $createOrder->customer_ID = $CustID[1];
+         }
+
+       //dd($CustID[1]);
         $createOrder->Customer_Fname = $Ordered_Fname;
         $createOrder->Customer_Mname = $Ordered_Mname;
         $createOrder->Customer_Lname = $Ordered_Lname;
@@ -178,6 +157,17 @@ class Orderlong_orderingController extends Controller
       $F_tamt = str_replace(array(','), array(''), Cart::instance('TobeSubmitted_Flowers')->subtotal());
       $B_tamt = str_replace(array(','), array(''), Cart::instance('TobeSubmitted_Bqt')->subtotal());
 
+      if($recipientID == ""){
+        $finalR_ID = $recipientID;
+      }else{
+        if($recipientID == 'n/a'){
+          $finalR_ID = 'n/a';
+        }else{
+          $R_ID = explode("_",$recipientID);
+          $finalR_ID = $R_ID[1];
+        }
+      }
+
       $OrderTotal_Amt = $F_tamt + $B_tamt;
 
       $create_Order_Details = new Neworder_details;
@@ -186,7 +176,7 @@ class Orderlong_orderingController extends Controller
       $create_Order_Details->Delivery_Baranggay = $Brgy_Line;
       $create_Order_Details->Delivery_City = $city_Line;
       $create_Order_Details->Delivery_Province = $prove_Line;
-      $create_Order_Details->Customer_ID = $recipientID;
+      $create_Order_Details->Customer_ID = $finalR_ID;
       $create_Order_Details->Recipient_Fname = $recipientFname;
       $create_Order_Details->Recipient_Mname = $recipientMname;
       $create_Order_Details->Recipient_Lname = $recipientLname;

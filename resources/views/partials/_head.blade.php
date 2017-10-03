@@ -2,6 +2,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> Wonderbloom Flowershop </title>
+  <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,7 +27,7 @@
   <link rel="stylesheet" href="{{asset ('admin/plugins/datatables/dataTables.bootstrap.css')}}">
 
   <link rel="stylesheet" href="{{asset ('admin/plugins/datepicker/datepicker3.css')}}">
-  
+
   <link rel="stylesheet" href="{{asset ('admin/plugins/daterangepicker/daterangepicker.css')}}">
 
    <!-- iCheck -->
@@ -40,8 +41,8 @@
 
   <link rel="stylesheet" href="{{asset ('material-kit/assets/css/material-kit.css')}}">
 
- 
-  
+
+
 
 
   <link rel="stylesheet" href="{{asset ('fonts/assets.css')}}">
@@ -53,7 +54,7 @@
   <!--Flat Design-->
 
 
-  
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

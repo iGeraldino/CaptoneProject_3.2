@@ -141,6 +141,7 @@
                 			<h6 style="color: white"><span class="glyphicon glyphicon-user text-center" style="color: white;"></span> <b>Order Processing</b></h6>
               			</div>
 					</div>
+
 					<div id = "Customer_DetailsDiv">
 						<form id = "Customer_details_Form" name = "Customer_details_Form" method = "POST">
 						<div class="panel-body">
@@ -702,7 +703,7 @@
 									</div>
 	           {!! Form::open(array('route' => 'Orders_Submit_LongOrder.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
 						      <div class="modal-body">
-										<div hidden>
+										<div>
 											<!--for sales order table's attributes-->
 											<input id = "FinalCustomer_ID" name = "FinalCustomer_ID" type = "text"/>
 											<input id = "customerType" name = "customerType" type = "text"/>
@@ -1393,9 +1394,8 @@
 					$('#recipient_email').val(Recpnt_Email);
 					$('#Adrs_Line').val(Recpnt_AdrsLine);
 					$('#Brgy_Line').val(Recpnt_Brgy);
-					$('#prove_Line').val(Recpnt_Prov);
-					$('#city_Line').val(Recpnt_Town);
-
+					$('#prove_Line').val(Recpnt_ProvID);
+					$('#city_Line').val(Recpnt_TownID);
 
 					var provname = "";
 					var cityname = "";

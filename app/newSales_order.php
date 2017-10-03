@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Events\NewOrders;
 
 class newSales_order extends Model
 {
@@ -12,5 +13,14 @@ class newSales_order extends Model
 
 
     public $timestamps = false;
+
+    public static function boot(){
+       parent::boot();
+        static::created(function($order)
+       {
+         event(new NewOrders($order));
+       });
+    }
+
 
 }

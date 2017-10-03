@@ -118,34 +118,24 @@
 						<div class="receipt-header receipt-header-mid">
 							<div class="col-xs-8 col-sm-8 col-md-8 text-left">
 								<div class="receipt-right">
-									<h4><b>Order Number: </b><small>ORDR_{{$NewSalesOrder->sales_order_ID}}</small></h4>
-									<h4><b>Order Status: </b><small> <span style = "color:red">{{$NewSalesOrder->Status}}</span></small></h4>
-									<h5><b>Charge to:</b> <small>{{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}</small></h5>
+									<h5><b>Order Number: </b><small>ORDR_{{$NewSalesOrder->sales_order_ID}}</small></h5>
+									<p><b>Order Status: </b><small> <span style = "color:green">{{$NewSalesOrder->Status}}</span></small></p>
+									<p><b>Charge to:</b> <small>{{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}</small></p>
 									<p><b>Mobile :</b> {{$NewSalesOrder->Contact_Num}}</p>
 									<p><b>Email :</b> {{$NewSalesOrder->email_Address}}</p>
-									<p><b>Payment Method :</b> {{$NewSalesOrder_details->Payment_Mode}}</p>
-
-									@if($NewSalesOrder_details->shipping_method == "delivery")
-										<p><b>Shipping Method :</b> {{$NewSalesOrder_details->shipping_method}}</p>
-										<p><b>Recipient Name :</b> {{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}</p>
-										<p><b>Delivery Address :</b> {{$NewSalesOrder_details->Delivery_Address}}, {{$NewSalesOrder_details->Delivery_Baranggay}}, {{$city}},{{$province}}</p>
-										<p><b>Delivery Date :</b>
-											<?php
-												echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
-												//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
-											?>
-										</p>
-									@else
-										<p><b>Shipping Method :</b> {{$NewSalesOrder_details->shipping_method}}</p>
-										<p><b>Pickup Date :</b>
-											<?php
-												echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
-												//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
-											?>
-										</p>
-									@endif
 
 								</div>
+                <div class="col-xs-8 col-sm-8 col-md-8 text-right">
+                  <div class="receipt-right">
+                    <p><b>Date:
+                      <?php
+                        use Carbon\Carbon;
+                        $current = Carbon::now('Asia/Manila');
+                        echo date('M d, Y (h:i a)',strtotime($current));
+                      ?></b>
+                    </p>
+                  </div>
+                </div>
 							</div>
 						</div>
 		       </div>
@@ -205,14 +195,14 @@
 								<?php
 									$totalAmt_Bqt = 0;
 								?>
-								@foreach($NewOrder_Bouquet as $Bqt)
+							@foreach($NewOrder_Bouquet as $Bqt)
 									<tr>
 										<th scope="row">BQT-{{$Bqt->Bqt_ID}}</th>
 										<td>Php {{number_format($Bqt->Unit_Price,2)}}</td>
 										<td>{{$Bqt->QTY}}</td>
 										<td style = "color:red;">Php {{Number_format($Bqt->QTY * $Bqt->Unit_Price,2)}}</td>
 									</tr>
-										 @foreach($SalesOrder_Bqtflowers as $row1)
+									 @foreach($SalesOrder_Bqtflowers as $row1)
 											@if($Bqt->Bqt_ID == $row1->BQT_ID)
 												<tr>
 													<td>{{ $row1 -> name}}</td>
@@ -221,8 +211,8 @@
 													<td style = "color:red;">Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
 												</tr>
 											@endif
-										 @endforeach
-										 @foreach($SalesOrder_BqtAccessories as $row2)
+									 @endforeach
+									 @foreach($SalesOrder_BqtAccessories as $row2)
 										@if($Bqt->Bqt_ID == $row2->bqt_ID)
 											<tr>
 												<td>{{ $row2 -> name}}</td>
@@ -231,20 +221,33 @@
 												<td style = "color:red;">Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
 											</tr>
 										@endif
-											<?php
-												$totalAmt_Bqt += $Bqt->QTY*$Bqt->Unit_Price;
-											?>
-										@endforeach
 									@endforeach
+                  <?php
+                    $tamt_BQT = $Bqt->QTY*$Bqt->Unit_Price;
+                  ?>
+                  <?php
+                    $totalAmt_Bqt += $tamt_BQT;
+                  ?>
+								@endforeach
+
 								</tbody>
 							</table>
 						</div>
 							@else
-							@endif
-							<div class="receipt-left">
-									<h6 >(Bouquet) Total Amount: PHP {{number_format($totalAmt_Bqt,2)}}</h6>
-									<h6 >(Flower) Total Amount: PHP {{number_format($Total_AmtFlwr,2)}}</h6>
-									<h4 style = "color:red;"><b>Total Amount: {{ number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
+						@endif
+							<div class="receipt-right">
+                  <h5 style = "margin-top:-20%">BREAKDOWN OF ORDER:</h5>
+                  <p  style = "margin-top:-20%"><b>(Flower) Amount:</b>  Php {{number_format($Total_AmtFlwr,2)}}</p>
+                  <p  style = "margin-top:-20%"><b>(Bouquet) Amount:</b> Php {{number_format($totalAmt_Bqt,2)}}</p>
+                  <p  style = "margin-top:-20%"><b>Amount of Purchase:</b> Php {{number_format($InvoiceDetails[10],2)}}</p>
+                  <hr style = "margin-top:-20%">
+                  <h6 style = "margin-top:-20%">OTHER CHARGES:</h6>
+                  <p  style = "margin-top:-30%"><b>Delivery Charge:</b> Php {{number_format($InvoiceDetails[11],2)}}</p>
+									<p style = "margin-top:-30%"><b>Amount of Vat(12%):</b> Php {{number_format($InvoiceDetails[12],2)}}</p>
+                  <hr style = "margin-top:-20%">
+                  <p style = "color:red;"><b>Total Amount: </b>Php {{ number_format($InvoiceDetails[15],2) }}</p>
+                  <p style = "color:green;"><b>Amount Paid:</b> Php {{ number_format($InvoiceDetails[2],2) }}</p>
+									<p style = "color:green;"><b>Change: Php </b>{{ number_format($InvoiceDetails[3],2) }}</p>
 							</div>
 						</div>
 					</div>
@@ -256,7 +259,6 @@
 								<div class="receipt-right">
 									<p><b>Date :</b>
 										<?php
-											use Carbon\Carbon;
 											$current = Carbon::now('Asia/Manila');
 											echo date('M d, Y (h:i a)',strtotime($current));
 										?>
@@ -265,14 +267,14 @@
 								</div>
 							</div>
 							<hr>
-							<h4><b>Important Note:</b><h4>
+						<!--	<h4><b>Important Note:</b><h4>
 							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</p>
 							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of items that you baught, then the order will not be acknowledged.</p>
 							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</p>
 							<p class="left"><span style = "color:red;">*</span>If you would like to cancel the order, please cancel it immediately by calling us r sending us an email.</p>
 							<p class="left"><span style = "color:red;">*</span>Items under this order cannot be changed.</p>
 							<p class="left"><span style = "color:red;">*</span>Delivery Charge are not applied to your transaction,this will depend upon the negotiation that will be made between you and the company by the time that you recieve a call.</p>
-							<div class="col-xs-4 col-sm-4 col-md-4">
+							<div class="col-xs-4 col-sm-4 col-md-4">-->
 
 							</div>
 						</div>

@@ -3,37 +3,36 @@
 @section('content')
    <?php
 
-   $clearBqtSession_Value = Session::get('BqtClearSession');
-   Session::remove('BqtClearSession');
+   $clearBqtSession_Value = Session::get('QuickBqtClearSession');
+   Session::remove('QuickBqtClearSessions');
 
 
-   $clearCartSession_Value = Session::get('CartClearSession');
-   Session::remove('CartClearSession');
+   $clearCartSession_Value = Session::get('QuickCartClearSession');
+   Session::remove('QuickCartClearSession');
 
-  $sessionValue = Session::get('Added_FlowerToBQT_Order');
-  Session::remove('Added_FlowerToBQT_Order');//determines the addition of new flower
+  $sessionValue = Session::get('Added_FlowerToBQT_QuickOrder');
+  Session::remove('Added_FlowerToBQT_QuickOrder');//determines the addition of new flower
 
-  $sessionAcValue = Session::get('Added_AcessoryToBQT_Order');
-  Session::remove('Added_AcessoryToBQT_Order');//determines the addition of new acessory
+  $sessionAcValue = Session::get('Added_AcessoryToBQT_QuickOrder');
+  Session::remove('Added_AcessoryToBQT_QuickOrder');//determines the addition of new acessory
 
-  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_Order');
-  Session::remove('Update_FlowerToBQT_Order');//deteremines the qty update of flower*/
+  $sessionUpdateFValue = Session::get('Update_AcessoryToBQT_QuickOrder');
+  Session::remove('Update_AcessoryToBQT_QuickOrder');//deteremines the qty update of flower*/
 
   $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order');
   Session::remove('Update_AcessoryToBQT_Order');//deteremines the qty update of acessories*/
 
-  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_Order');
-  Session::remove('Deleted_FlowerfromBQT_Order');//determines the deletion of flower
+  $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_QuickOrder');
+  Session::remove('Deleted_FlowerfromBQT_QuickOrder');//determines the deletion of flower
 
-  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_Order');
-  Session::remove('Deleted_AcessoryfromBQT_Order');//determines the deletion of Acessory
+  $sessionDelAcessoryValue = Session::get('Deleted_AcessoryfromBQT_QuickOrder');
+  Session::remove('Deleted_AcessoryfromBQT_QuickOrder');//determines the deletion of Acessory
 
+  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myQuickOrder');
+  Session::remove('Save_Bouqet_To_myQuickOrder');//determines the addition of new flower
 
-  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder');
-  Session::remove('Save_Bouqet_To_myOrder');//determines the addition of new flower
-
-  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder');
-  Session::remove('AddFlower_To_myOrder');//determines the addition of new flower
+  $AddingFlowersessionValue = Session::get('AddFlower_To_myQuickOrder');
+  Session::remove('AddFlower_To_myQuickOrder');//determines the addition of new flower
 
   $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer');
   Session::remove('Add_Order_ofCustomer');//determines the addition of new flower
@@ -41,22 +40,30 @@
   $CancelOBQTsessionValue = Session::get('Buquet_Cancelation');
   Session::remove('Buquet_Cancelation');//determines the addition of new flower
 
-  $DeletionofFlowerOrderSessionValue = Session::get('Deleted_Flowerfrom_Order');
-  Session::remove('Deleted_Flowerfrom_Order');//determines the deletion of a flower flower
+  $DeletionofFlowerOrderSessionValue = Session::get('Deleted_Flowerfrom_QuickOrder');
+  Session::remove('Deleted_Flowerfrom_QuickOrder');//determines the deletion of a flower flower
+
+  $UpadteofBouquetOrderSessionValue = Session::get('Update_Bouqet_To_myQuickOrder');
+  Session::remove('Update_Bouqet_To_myQuickOrder');//determines the deletion of a flower flower
+
+  $DeletionofBouquetSessionValue = Session::get('Deleted_BouquetFrom_QuickOrder');
+  Session::remove('Deleted_BouquetFrom_QuickOrder');//determines the deletion of a flower flower
+
+
 
     $NewOrderDetailsRows = Session::get('newOrderSession');
     $Flower_Total_Amt = 0;
     $Bqt_Total_Amt = 0;
     $order_ID = 0;
 
-    $final_Amt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal()) + str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
+    $final_Amt = str_replace(',','',Cart::instance('QuickOrdered_Flowers')->subtotal()) + str_replace(',','',Cart::instance('QuickOrdered_Bqt')->subtotal());
 
     //$NewOrderDetailsRows = Session::get('newOrderSession');
 
 	$Flower_Count = 0;//for the count of flowers
    ?>
 
-  @foreach(Cart::instance('OrderedBqt_Flowers')->content() as $Flowersrow)
+  @foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $Flowersrow)
   <?php
    $Flower_Count += $Flowersrow->qty;
   ?>
@@ -70,10 +77,13 @@
 
   <input id = "ClearBqt_result" value = "{{$clearBqtSession_Value}}">
   <input id = "ClearCart_result" value = "{{$clearCartSession_Value}}">
+  <input id = "DeleteBqt_result" value = "{{$DeletionofBouquetSessionValue}}">
+
 
   <input id = "AddFlower_result" value = "{{$sessionValue}}">
   <input id = "AddAcessory_result" value = "{{$sessionAcValue}}">
   <input id = "UpdateFlower_result" value = "{{$sessionUpdateFValue}}">
+  <input id = "UpdateBouquet_result" value = "{{$UpadteofBouquetOrderSessionValue}}">
   <input id = "UpdateAcessory_result" value = "{{$sessionUpdateAcValue}}">
   <input id = "DeleteFlower_result" value = "{{$sessionDelFlowerValue}}">
   <input id = "DeleteAcessory_result" value = "{{$sessionDelAcessoryValue}}">
@@ -123,7 +133,7 @@
 							<div class="tab-pane active" id="Flowers">
 							  @foreach($FlowerList as $Fdetails)
 								@if($Fdetails->QTY != 0)
-									<div class="col-sm-3" style="margin-bottom: 3%;">
+									<div class="col-sm-3">
 										<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field">
 										<div hidden>
 											<input class = "Flwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
@@ -141,9 +151,9 @@
 							<div class="tab-pane" id="Bouquets">
 								<div class="col-md-6">
 									Flowers
-									<div class="row">
+
 							  @foreach($FlowerList as $Fdetails)
-										<div class="col-md-6" style="margin-bottom: 3%;">
+										<div class="col-md-6">
 											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
 										<div hidden>
 											<input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
@@ -154,9 +164,9 @@
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
-          @endforeach
+               @endforeach
 
-									</div>
+
 								</div>
 
 								<div class="col-md-6">
@@ -175,7 +185,7 @@
 											</div>
 											<a class="btn btn-sm Lemon BqtAcrs_Btn" data-toggle="modal" data-target="#accessoriesmodal"> QUICK VIEW</a>
 										</div>
-    			                    @endforeach
+    			         @endforeach
 									</div>
 								</div>
 							</div>
@@ -184,206 +194,452 @@
 				</div>
 			</div>
 			<div>
-				<div class="col-md-6" style="margin-left: -20px; margin-top: 13%;">
-					<div class="panel">
-						<div class="panel">
-							<div class="panel-heading Sharp">
-                      			<div class="panel-title">
-                        			<div class="row">
-                          				<div class="col-xs-6">
-                            				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Cart Content</h6>
-                          				</div>
+        <div class="col-md-6" style="margin-left: -20px; margin-top: 8%;">
+        <div id = "progressDiv">
+  					<div class="panel">
+  						<div class="panel">
+  							<div class="panel-heading Sharp">
+              			<div class="panel-title">
+                			<div class="row">
+                  				<div class="col-xs-6">
+                    				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Cart Content</h6>
+                  				</div>
+                			</div>
+              			</div>
+            		</div>
+            		<div class="panel-body">
+            		          <?php
+                        $Flower_TAmt = 0;
+                        $Total_Order_Amt = 0;
+                      ?>
+            			@foreach(Cart::instance('QuickOrdered_Flowers')->content() as $Flwr)
+            			<div class="row">
+                      <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
+                      </div>
+                      <div class="col-xs-2">
+                        <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
+                      </div>
+                      <div class="col-xs-3" style = "color:red; margin-top:3%;">
+                        <h7>{{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+                      </div>
+                      <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+                        <label>{{$Flwr->qty}} pcs.</label>
+                      </div>
+                      <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
+                        <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
+                      </div>
+                      <div class="col-xs-1">
+                      	<a href = "{{ route ('QuickOrders_Flowers.edit', $Flwr->id ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+    											<i class="material-icons">mode_edit</i>
+    										</a>
+                      </div>
+                      <div class="col-xs-1">
+                      	<a href = "{{ route('Flowerorder.DelQuickOrderFlowers',['flower_ID'=>$Flwr->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+    											<i class="material-icons">delete</i>
+    										</a>
+                      </div>
+              			</div>
+                  @endforeach
+                      <?php
+                        $Flower_TAmt = str_replace(',','',Cart::instance('QuickOrdered_Flowers')->subtotal());
+                        //$Total_Order_Amt += $Flower_TAmt;
+                       ?>
+                  <div class="col-xs-12">
+                    <h5 class="text-right" style = "color:darkviolet"><strong>(Flowers)Total Amount:</strong> Php {{number_format($Flower_TAmt,2)}}</h5>
+                  </div>
+                <hr>
+  <!-- List Of Bouquets on Cart-->
+                  <?php
+                    $total_BQT_Price = str_replace(',','',Cart::instance('QuickOrdered_Bqt')->subtotal());
+                    ?>
+           			@foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt)
+                {!! Form::model($Bqt, ['route'=>['QuickSession_Bouquet.update', $Bqt->id],'method'=>'PUT'])!!}
+                	<div class="row">
+                      <div class="col-xs-2">
+                        <h6 class="product-name"><strong>Bouquet-{{$Bqt->id}}</strong></h6>
+                      </div>
+                      <div class="col-xs-3" style = "color:red; margin-top:3%;">
+                        <h7>Php {{number_format($Bqt->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+                      </div>
+                      <div class="col-md-2">
+                          <input type = "number" id = 'BouqQuantityField' name = 'BouqQuantityField' type="number" class="form-control input-sm" value="{{$Bqt->qty}}">
+                      </div>
+                      <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
+                        <h7><b>=</b> Php {{number_format($Bqt->qty*$Bqt->price,2)}}</h7>
+                      </div>
+                      <div class="col-xs-1">
+                      	<button type = "submit" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+  						            <i class="material-icons">mode_edit</i>
+                        </button>
+                      </div>
+                      <div class="col-xs-1">
+                      	<a href = "{{ route('BqtorderSessions.DelQuickBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+  						           <i class="material-icons">delete</i>
+                       </a>
+                      </div>
+              			</div>
+                  {!! Form::close() !!}
+                  @endforeach
+                        <div class="col-xs-12">
+                    <h5 class="text-right" style = "color:darkviolet"><strong>(Bouquet)Total Amount:</strong> Php {{ number_format($total_BQT_Price,2)}}</h5>
+                  </div>
+            		</div>
+            		<div class="panel-footer">
+
+            			<button id = "checkoutBtn" type="button" class="btn Lemon btn-sm"> Checkout </button>
+            			<a href="{{route('QuickOrder.ClearCart')}}" type="button" class="btn Love btn-sm"> CLEAR CART</a>
+            			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($final_Amt,2)}}
+            			 </h5>
+            			 <div class = "hidden">
+            			 		<input type = "number" id = "finalAmt_Field" value = {{$final_Amt}}>
+            			 </div>
+            		</div>
+  						</div>
+  					</div>
+  					<div class="panel">
+  						<div class="panel">
+  							<div class="panel-heading Sharp">
+                        			<div class="panel-title">
+                          			<div class="row">
+                            				<div class="col-xs-6">
+                              				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Bouquet Content</h6>
+                            				</div>
+                          			</div>
                         			</div>
-                      			</div>
-                    		</div>
-                    		<div class="panel-body">
-                    		          <?php
-				                        $Flower_TAmt = 0;
-				                        $Total_Order_Amt = 0;
-				                      ?>
-                    			@foreach(Cart::instance('Ordered_Flowers')->content() as $Flwr)
-                    			<div class="row">
-			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
-			                        </div>
-			                        <div class="col-xs-2">
-			                          <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
-			                        </div>
-			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
-			                          <h7>{{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
-			                        </div>
-			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-			                          <label>{{$Flwr->qty}} pcs.</label>
-			                        </div>
-			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
-			                          <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<a href = "{{ route ('Orders_Flowers.edit', $Flwr->id ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
-											<i class="material-icons">mode_edit</i>
-										</a>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<a href = "{{ route('Flowerorder.DelOrderFlowers',['flower_ID'=>$Flwr->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
-											<i class="material-icons">delete</i>
-										</a>
-			                        </div>
-                      			</div>
-			                    @endforeach
-                                      <?php
-				                        $Flower_TAmt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal());
-				                        //$Total_Order_Amt += $Flower_TAmt;
-				                        ?>
-                                <div class="col-xs-12">
-			                          <h5 class="text-right" style = "color:darkviolet"><strong>(Flowers)Total Amount:</strong> Php {{number_format($Flower_TAmt,2)}}</h5>
-			                    </div>
-			                  <hr>
-<!-- List Of Bouquets on Cart-->
-		                      <?php
+                      		</div>
+                      		<div class="panel-body">
+                  @foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $BQT_Flowers)
+          					{!! Form::model($BQT_Flowers, ['route'=>['QuickOrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!}
+                      			<div class="row">
+  			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$BQT_Flowers->options['image'])}}">
+  			                        </div>
+  			                        <div class="col-xs-2">
+  			                          <h6 class="product-name"><strong>{{$BQT_Flowers->name}}</strong></h6>
+  			                        </div>
+  			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
+  			                          <h7>Php {{number_format($BQT_Flowers->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+  			                        </div>
+  			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+  			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}">
+  			                        </div>
+                                      <div class="col-md-2"  hidden>
+  			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+  			                        </div>
+  			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
+  			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
+  			                        </div>
+  			                        <div class="col-xs-1">
+  			                        	<button class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+              											<i class="material-icons">mode_edit</i>
+              										</button>
+  			                        </div>
 
-		                        $total_BQT_Price = str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
-		                        ?>
-                   				@foreach(Cart::instance('Ordered_Bqt')->content() as $Bqt)
-                    			<div class="row">
-			                        <div class="col-xs-2">
-			                          <h6 class="product-name"><strong>Bouquet-{{$Bqt->id}}</strong></h6>
-			                        </div>
-			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
-			                          <h7>Php {{number_format($Bqt->price,2)}} <span class="text-muted"><b> x</b></span></h7>
-			                        </div>
-			                        <div class="col-md-2 " style = "margin-top:3%;">
-			                          <label>{{$Bqt->qty}} pcs.</label>
-			                        </div>
-			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
-			                          <h7><b>=</b> Php {{number_format($Bqt->qty*$Bqt->price,2)}}</h7>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<a class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
-											            <i class="material-icons">mode_edit</i>
-                                </a>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<button class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
-											           <i class="material-icons">delete</i>
-										            </button>
-			                        </div>
-                      			</div>
-			                    @endforeach
-                                <div class="col-xs-12">
-			                      <h5 class="text-right" style = "color:darkviolet"><strong>(Bouquet)Total Amount:</strong> Php {{ number_format($total_BQT_Price,2)}}</h5>
-			                    </div>
-                    		</div>
-                    		<div class="panel-footer">
-
-                    			<a id = "checkoutBtn" href="{{route('LongOrder.OrderSummary')}}" type="button" class="btn Lemon btn-sm"> Checkout </a>
-                    			<a href="{{route('Order.ClearCart')}}" type="button" class="btn Love btn-sm"> CLEAR CART</a>
-                    			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($final_Amt,2)}}
-                    			 </h5>
-                    			 <div class = "hidden">
-                    			 		<input type = "number" id = "finalAmt_Field" value = {{$final_Amt}}>
-                    			 </div>
-                    		</div>
-						</div>
-					</div>
-					<div class="panel">
-						<div class="panel">
-							<div class="panel-heading Sharp">
-                      			<div class="panel-title">
-                        			<div class="row">
-                          				<div class="col-xs-6">
-                            				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Bouquet Content</h6>
-                          				</div>
+  			                        <div class="col-xs-1">
+  			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelQuickOrderFlowers',['flower_ID'=>$BQT_Flowers->id]) }}" data-toggle="tooltip" title="Delete">
+              											<i class="material-icons">delete</i>
+              										</a>
+  			                        </div>
                         			</div>
-                      			</div>
-                    		</div>
-                    		<div class="panel-body">
-                    			<!---->
+  							{!! Form::close() !!}
+                @endforeach
+                      			<!---->
+  		                @foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $BQT_Acessories)
+  					        {!! Form::model($BQT_Acessories, ['route'=>['QuickOrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!}
+                      			<div class="row">
+  			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('accimage/'.$BQT_Acessories->options['image'])}}">
+  			                        </div>,
+  			                        <div class="col-xs-2">
+  			                          <h6 class="product-name"><strong>{{$BQT_Acessories->name}}</strong></h6>
+  			                        </div>
+  			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
+  			                          <h7>Php {{number_format($BQT_Acessories->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+  			                        </div>
+  			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+  				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}">
+  			                        </div>
+                                <div class="col-md-2"  hidden>
+                       				    <input id = 'Ac_ID_Field' name = 'Ac_ID_Field' class="form-control input-sm" value="{{$BQT_Acessories->id}}">
+                     					    <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
+  			                        </div>
+  			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
+  			                          <h7><b>=</b> Php {{number_format($BQT_Acessories->price * $BQT_Acessories->qty,2)}}</h7>
+  			                        </div>
+  			                        <div class="col-xs-1">
+  			                        	<button class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+              											<i class="material-icons">mode_edit</i>
+              										</button>
+  			                        </div>
 
+  			                        <div class="col-xs-1">
+  			                        	<a class="btn Love btn-just-icon" href ="{{ route('SessionQuickorder.DelAcessories',['Acessory_ID'=>$BQT_Acessories->id]) }}" data-toggle="tooltip" title="Delete">
+              											<i class="material-icons">delete</i>
+              										</a>
+  			                        </div>
+                        			</div>
+  							{!! Form::close() !!}
+                    			@endforeach
+                      			<!---->
+                      		</div>
+                      		<div class="panel-footer">
+  		                      <?php
+  		                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('QuickOrderedBqt_Flowers')->subtotal());
+  		                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('QuickOrderedBqt_Acessories')->subtotal());
+  		                        ?>
+                      			<a id = "saveBtn" href="{{route('BqtQuickorder.saveNewBouquet')}}" type="button" class="btn Lemon btn-sm" data-toggle="tooltip" data-placement="top" title="This Button will save the bouquet that you have created, also please be noted that if your flowers are less than 12 this button will not submit your Bouquet" data-container="body"> Add to Cart</a>
+                      			<a  href = "{{route('QuickOrder.ClearBqt')}}" type="button" class="btn Love btn-sm"> Clear Bouquet</a>
+                      			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($Flowers_subtotal + $Acessories_subtotal,2)}} </h4>
+                      		</div>
+  						</div>
+  					</div>
+          </div><!-- end of progress div--->
 
-                  			@foreach(Cart::instance('OrderedBqt_Flowers')->content() as $BQT_Flowers)
-        					{!! Form::model($BQT_Flowers, ['route'=>['OrdersSession_Bouquet.update', $BQT_Flowers->id],'method'=>'PUT'])!!}
-                    			<div class="row">
-			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$BQT_Flowers->options['image'])}}">
-			                        </div>
-			                        <div class="col-xs-2">
-			                          <h6 class="product-name"><strong>{{$BQT_Flowers->name}}</strong></h6>
-			                        </div>
-			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
-			                          <h7>Php {{number_format($BQT_Flowers->price,2)}} <span class="text-muted"><b> x</b></span></h7>
-			                        </div>
-			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}">
-			                        </div>
-                                    <div class="col-md-2"  hidden>
-			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
-			                        </div>
-			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
-			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<button class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
-											<i class="material-icons">mode_edit</i>
-										</button>
-			                        </div>
+            <div id = "Customer_Div" hidden>
+              <div class="panel">
+                <div class="panel">
+                  <div class="panel-heading Sharp">
+                      <div class="panel-title">
+                        <div class="row">
+                            <div class="col-xs-6">
+                              <h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> Current Cart Content</h6>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="panel-body">
+                  {!! Form::open(array('route' => 'QuickOrderSessionProcess.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+            						<div class="panel-body">
+            							<h5 class="text-center">Customer Details</h5>
+            							<div class="togglebutton">
+            								<label>
+            							    	<input type="checkbox" id = 'OnetimecheckBox' name="OnetimecheckBox">
+            									One Time Customer?
+            								</label>
+            							</div>
 
-			                        <div class="col-xs-1">
-			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelOrderFlowers',['flower_ID'=>$BQT_Flowers->id]) }}" data-toggle="tooltip" title="Delete">
-											<i class="material-icons">delete</i>
-										</a>
-			                        </div>
-                      			</div>
-							{!! Form::close() !!}
-                  			@endforeach
-                    			<!---->
-		                @foreach(Cart::instance('OrderedBqt_Acessories')->content() as $BQT_Acessories)
-					        {!! Form::model($BQT_Acessories, ['route'=>['OrdersAcSession_Bouquet.update', $BQT_Acessories->id],'method'=>'PUT'])!!}
-                    			<div class="row">
-			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('accimage/'.$BQT_Acessories->options['image'])}}">
-			                        </div>
-			                        <div class="col-xs-2">
-			                          <h6 class="product-name"><strong>{{$BQT_Acessories->name}}</strong></h6>
-			                        </div>
-			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
-			                          <h7>Php {{number_format($BQT_Acessories->price,2)}} <span class="text-muted"><b> x</b></span></h7>
-			                        </div>
-			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}">
-			                        </div>
-                                    <div class="col-md-2"  hidden>
-                     				    <input id = 'Ac_ID_Field' name = 'Ac_ID_Field' class="form-control input-sm" value="{{$BQT_Acessories->id}}">
+            							<div hidden>
+            								<input id = "Trans_typeField" name = "Trans_typeField" value = 'quick' />
+            								<input id = "customer_stat" name = "customer_stat" value = 'old' />
+            						 </div>
 
-                   					    <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
-			                        </div>
-			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
-			                          <h7><b>=</b> Php {{number_format($BQT_Acessories->price * $BQT_Acessories->qty,2)}}</h7>
-			                        </div>
-			                        <div class="col-xs-1">
-			                        	<button class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
-											<i class="material-icons">mode_edit</i>
-										</button>
-			                        </div>
+            							<div id = "Customer_Chooser">
+            								<input id = "customerList_Field" class = "form-control"  name="customerList_ID" list="customerList_ID" placeholder="Enter Customer ID/Customer Name"/>
+            								<datalist id="customerList_ID">
+            									<!--Foreach Loop data Here value = "Name" data-tag = "id"-->
+          									@foreach($cust as $Cdetails)
+          								    <option value="CUST_{{$Cdetails->Cust_ID}}" data-id = "{{$Cdetails->Cust_ID}}">
+          											({{$Cdetails->Cust_FName}} {{$Cdetails->Cust_MName}} {{$Cdetails->Cust_LName}})
+          										</option>
+          									@endforeach
+          									<!--Loop data Here-->
+          								</datalist>
+          							</div>
 
-			                        <div class="col-xs-1">
-			                        	<a class="btn Love btn-just-icon" href ="{{ route('Sessionorder.DelAcessories',['Acessory_ID'=>$BQT_Acessories->id]) }}" data-toggle="tooltip" title="Delete">
-											<i class="material-icons">delete</i>
-										</a>
-			                        </div>
-                      			</div>
-							{!! Form::close() !!}
-                  			@endforeach
-                    			<!---->
-                    		</div>
-                    		<div class="panel-footer">
-		                      <?php
-		                          $Flowers_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Flowers')->subtotal());
-		                          $Acessories_subtotal = str_replace(array(','), array(''), Cart::instance('OrderedBqt_Acessories')->subtotal());
-		                        ?>
-                    			<a id = "saveBtn" href="{{route('Bqtorder.saveNewBouquet')}}" type="button" class="btn Lemon btn-sm" data-toggle="tooltip" data-placement="top" title="This Button will save the bouquet that you have created, also please be noted that if your flowers are less than 12 this button will not submit your Bouquet" data-container="body"> Add to Cart</a>
-                    			<a  href = "{{route('Order.ClearBqt')}}" type="button" class="btn Love btn-sm"> Clear Bouquet</a>
-                    			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($Flowers_subtotal + $Acessories_subtotal,2)}} </h4>
-                    		</div>
-						</div>
-					</div>
-				</div>
+          							<div id = 'Customer_TradeDiv' hidden>
+          								<select id = 'TradeList' name = 'TradeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($CustTradeAgreements as $CTrade)
+          										<option value = 'CUST_{{$CTrade->Customer_ID}}' data-tag ='{{$CTrade->Agreement_ID}}'>
+          										{{$CTrade->Customer_ID}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'Customer_FNameDiv' hidden>
+          								<select id = 'customerList_FName' name = 'customerList_FName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Cust_FName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										{{$Cdetails->Cust_FName}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'Customer_MNameDiv' hidden>
+          								<select id = 'customerList_MName' name = 'customerList_MName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Cust_MName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										{{$Cdetails->Cust_MName}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'Customer_LNameDiv' hidden>
+          								<select id = 'customerList_LName' name = 'customerList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Cust_LName}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										{{$Cdetails->Cust_LName}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'Contact_NumDiv' hidden>
+          								<select id = 'Contact_NumList_LName' name = 'Contact_NumList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Contact_Num}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Contact_Num}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'type_Div' hidden>
+          								<select id = 'TypeList' name = 'TypeList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Customer_Type}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Customer_Type}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'Email_AddDiv' hidden>
+          								<select id = 'Email_AddList_LName' name = 'Email_AddList_LName' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Email_Address}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Email_Address}}
+          										</option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div id = 'AdressLine_Div' hidden>
+          								<select id = 'AdressLineList' name = 'AdressLineList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Address_Line}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Address_Line}}
+          										</option>
+          									@endforeach
+          								</select>
+
+          								<select id = 'HotelNameList' name = 'HotelNameList' class = 'btn btn-primary btn-md'>
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Hotel_Name}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Hotel_Name}}
+          										</option>
+          									@endforeach
+          								</select>
+
+          								<select id = 'ShopNameList' name = 'ShopNameList' class = 'btn btn-primary btn-md'>
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Shop_Name}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Shop_Name}}
+          										</option>
+          									@endforeach
+          								</select>
+
+          								<select id = 'BrgyList' name = 'BrgyList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID">
+          									@foreach($cust as $Cdetails)
+          										<option value = '{{$Cdetails->Baranggay}}' data-tag ='CUST_{{$Cdetails->Cust_ID}}'>
+          										 {{$Cdetails->Baranggay}}
+          										</option>
+          									@endforeach
+          								</select>
+
+          							<div class = 'col-md-6'>
+          								<select class="form-control" name ="ProvField" id ="ProvField" >
+          									@foreach($cust as $Cdetails)
+          										<option value ="{{$Cdetails->Province}}" data-tag = "CUST_{{$Cdetails->Cust_ID}}"> {{$Cdetails->Province}} </option>
+          									@endforeach
+          								</select>
+          							</div>
+
+          							<div class = 'col-md-6'>
+          								<select name="CityField" id="CityField" class="form-control" disabled>
+          									@foreach($cust as $Cdetails)
+          										<option value ="{{$Cdetails->Town}}" data-tag = "CUST_{{$Cdetails->Cust_ID}}"> {{$Cdetails->Town}} </option>
+          									@endforeach
+          								</select>
+          							</div>
+          							</div>
+
+          							<div hidden>
+          								<input id = 'idfield' name = 'idfield' class = 'form-control'>
+          							</div>
+
+          							<div class="row">
+          								<div class="col-md-4">
+          									<div id = "Fnamedisplaydiv" class="form-group label-floating">
+          										<label class="control-label">First Name</label>
+                              <input type="text" class="form-control" name="Cust_FNameField" id="Cust_FNameField" disabled required>
+          										<input type="text" class="hidden form-control" name="Cust_FNameField2" id="Cust_FNameField2" required>
+          									</div>
+          								</div>
+          								<div class="col-md-4">
+          									<div id = "Mnamedisplaydiv" class="form-group label-floating">
+          										<label class="control-label">Middle Name</label>
+                              <input type="text" class="form-control" name="Cust_MNameField" id="Cust_MNameField">
+          										<input type="text" class=" hidden form-control" name="Cust_MNameField2" id="Cust_MNameField2">
+          									</div>
+          								</div>
+          								<div class="col-md-4">
+          									<div id = "Lnamedisplaydiv" class="form-group label-floating">
+          										<label class="control-label">Last Name</label>
+                              <input type="text" class="form-control" name="Cust_LNameField" id="Cust_LNameField" disabled required>
+          										<input type="text" class="hidden form-control" name="Cust_LNameField2" id="Cust_LNameField2" required>
+          									</div>
+          								</div>
+          							</div>
+          							<div class = "row">
+                          <div class="col-sm-4">
+                              <div id = "Contactdisplaydiv" class="form-group label-floating">
+                                <label class="control-label">Number</label>
+                                <input type="text" class="form-control" name="ContactNum_Field" id="ContactNum_Field" required/>
+                                <input type="text" class="hidden form-control" name="ContactNum_Field2" id="ContactNum_Field2" required/>
+                              </div>
+                          </div>
+
+                          <div class="col-sm-8">
+                              <div id = "emailDisplayDiv" class="form-group label-floating">
+                                <label class="control-label">Email Address</label>
+                                <input type="text" class="form-control" name="email_Field" id="email_Field"  required/>
+                                <input type="text" class="hidden form-control" name="email_Field2" id="email_Field2"/>
+                              </div>
+                          </div><!--end of column-->
+
+                          <div class="form-group col-sm-12">
+                              <label class="control-label">Customer Type:</label>
+                                <select class="form-control" names ="custTypeField" id ="custTypeField">
+                                    <option value ="C" > Single </option>
+                                    <option value ="S" > Shop </option>
+                                    <option value ="H" > Hotel </option>
+                                </select>
+                                <select class="hidden form-control" names ="custTypeField2" id ="custTypeField2">
+                                    <option value ="C" > Single </option>
+                                    <option value ="S" > Shop </option>
+                                    <option value ="H" > Hotel </option>
+                                </select>
+                                <input class = "hidden" id = "custTypeFieldVal" name = "custTypeFieldVal" value ="C">
+                          </div><!--end of column-->
+
+          	              <div id = "HotelNamedisplaydiv" class = "row" hidden>
+          	                <div  class="form-group col-md-7">
+          	                      <label class="control-label">Hotel Name</label>
+                                  <input type="text" class="form-control" name="hotelNameField" id="hotelNameField" disabled/>
+          	                      <input type="text" class="hidden form-control" name="hotelNameField2" id="hotelNameField2"/>
+          	                </div>
+          	              </div><!--end of row-->
+
+          	              <div id = "ShopNamedisplaydiv" class = "row" hidden>
+          	                <div  class="form-group col-md-7">
+          	                      <label class="control-label">Shop Name</label>
+                                  <input type="text" class="form-control" name="shopNameField" id="shopNameField" disabled/>
+          	                      <input type="text" class="hidden form-control" name="shopNameField2" id="shopNameField2" />
+          	                </div>
+          	              </div><!--end of row-->
+          						</div>
+          					 </div>
+                  </div>
+                  <div class="panel-footer">
+                    <button id = "BackBtn" type="button" class="btn btn-sm btn-danger" > Back</button>
+                    <button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon" disabled> Next</button>
+                  </div>
+              {!! Form::close() !!}
+                </div>
+              </div>
+          </div><!--end of customer details-->
+  			</div>
 			</div>
 		</div>
 	</div>
@@ -475,7 +731,7 @@
 	<div class="modal fade" id="Bqtflower_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 	    	<div class="modal-content">
-    {!! Form::open(array('route' => 'OrdersSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'QuickOrdersSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
 	      		<div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title text-center" id="myModalLabel"><b>FLOWER DETAILS</b></h4>
@@ -550,7 +806,7 @@
 	<div class="modal fade" id="accessoriesmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 	    	<div class="modal-content">
-	    	{!! Form::open(array('route' => 'OrdersAcSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+	    	{!! Form::open(array('route' => 'QuickOrdersAcSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
 	      		<div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title text-center" id="myModalLabel">ACCESSORIES DETAILS</h4>
@@ -657,6 +913,17 @@
   <script>
   $('document').ready(function(){
 
+        $("#checkoutBtn").click(function(){
+          $("#progressDiv").hide("fold");
+          $("#Customer_Div").show("fold");
+        });
+
+        $("#BackBtn").click(function(){
+          $("#progressDiv").show("fold");
+          $("#Customer_Div").hide("fold");
+        });
+
+
         if($('#count_offlowers_Field').val()<12){
           $('#saveBtn').attr('disabled',true);
           $('#saveBtn').click(function(){
@@ -673,6 +940,11 @@
 
 
 
+    if($('#NewOrderDone_result').val()=='Successful'){
+      //Show popup
+      swal("Congratulations!","New Order was succesfully done!","success");
+     }
+
 	  if($('#ClearBqt_result').val()=='Successful'){
 	    //Show popup
 	    swal("Note:","Bouquet has Been Successfully Cleared!","info");
@@ -682,6 +954,11 @@
 	    //Show popup
 	    swal("Note:","Cart has been Successfully Cleared!","info");
 	   }
+
+     if($('#DeleteBqt_result').val()=='Successful'){
+ 	    //Show popup
+ 	    swal("Note:","Bouquet has been Successfully Deleted!","info");
+ 	   }
 
 
 	  if($('#DeleteAcessory_result').val()=='Successful'){
@@ -694,6 +971,12 @@
 	    //Show popup
 	    swal("Good!","Flower has been removed!","success");
 	   }
+
+
+    if($('#UpdateBouquet_result').val()=='Successful'){
+      //Show popup
+      swal("Good!","Bouquet's quantity has been updated!","success");
+     }
 
 
 	  if($('#UpdateFlower_result').val()=='Successful'){
@@ -1016,31 +1299,562 @@
 
 
 //scripts for avoiding invalid characters in a number field
-      $('#NewPrice_Field').live('keypress', function(key) {
+      $('#NewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#BqtNewPrice_Field').live('keypress', function(key) {
+      $('#BqtNewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
 
-      $('#AcessoryNewPrice_Field').live('keypress', function(key) {
+      $('#AcessoryNewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#QTY_Field').live('keypress', function(key) {
+      $('#QTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#BqtQTY_Field').live('keypress', function(key) {
+      $('#BqtQTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#AcessoryQTY_Field').live('keypress', function(key) {
+      $('#AcessoryQTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 //end of scripts
+
+
+//Customer Details Div -->
+/*
+$(function(){
+   $("#Customer_details_Form").submit(function(event){
+       event.preventDefault();
+       var CustType = $('#custTypeField').val()
+       var CustStatus = $('#customer_stat').val()
+
+       $('#customerType').val(CustType);
+       $('#customerStat').val(CustStatus);
+       $("#Customer_DetailsDiv").hide("fold");//closes the current step the proceeds to the next step
+     //resets the radio buttons
+       $("#PickUp_Rdo").attr('checked',false);
+       $('#Delivery_Rdo').attr('checked',false);
+     //close the open forms incase they are open
+       $('#pickUp_Div').hide("fold");
+       $('#Delivery_Div').hide("fold");
+       $("#ShippingMethod_Div").show("fold");
+   });
+});//end of form
+*/
+
+    var newcust = 'old';
+
+    $("#Cust_FNameField").attr('disabled',true);
+    $("#Cust_MNameField").attr('disabled',true);
+    $("#Cust_LNameField").attr('disabled',true);
+    $("#ContactNum_Field").attr('disabled',true);
+    $("#email_Field").attr('disabled',true);
+    $('#HotelNamedisplaydiv').attr('disabled',true);
+    $('#ShopNamedisplaydiv').attr('disabled',true);
+    $("#custTypeField").attr('disabled',true);
+
+    var TradeApplication_URL = "{{ url('QuickOrder.Apply_CustTradeAgreement') }}";
+    var CurrentPrice_URL = "{{ url('QuickOrder.Remove_CustTradeAgreement') }}";
+
+    $('#customerList_Field').change(function(){
+        var CustID = $("#customerList_Field").val();
+        var HaveTrade = 0;
+
+        $('#TradeList option').each(function(item){
+          if(CustID == $(this).val()){
+            HaveTrade = 1;
+            swal('Note:','This Customer seem to have an active Trade Agreement in the shop, if ypu wish to select this customer the amount of all the items that you set will be decreased by 10% from its current selling price','warning');
+          }
+        });
+        var Found = 0;
+        $('#customerList_ID option').each(function(item){
+          if(CustID == $(this).val()){
+            Found = 1;
+          }
+        });
+
+        if(HaveTrade == 1){
+          //pag may trade agreement do this
+          $.ajax({
+              method: 'GET',
+              url: typeof(TradeApplication_URL) != 'undefined' ? TradeApplication_URL : '',
+              contentType: "application/json",
+              success: function(){
+                  //alert('May Agreements');
+              },
+              error: function(xhr, desc, err){
+                  console.log('There is an error:'+ err);
+              }
+          });
+        }
+        else if(HaveTrade != 1){
+          $.ajax({
+              method: 'GET',
+              url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
+              contentType: "application/json",
+              success: function(){
+                  //alert('Walang Agreements');
+              },
+              error: function(xhr, desc, err){
+                  console.log('There is an error:'+ err);
+              }
+          });
+        }
+
+        if(Found == 1){
+            $('#Cust_Det_NextBtn').attr("disabled",false);
+
+            //alert('found');
+            $("#Cust_Det_NextBtn").attr("disabled",false);
+            var selected = $(this).val();
+            var OptionFname;
+            var OptionMname;
+            var OptionLname;
+            var OptionEmail;
+            var OptionContactNum;
+            var OptionAddrLine;
+            var OptionBrgyLine;
+            var OptionProvLine;
+            var OptionCityLine;
+            var OptionTypeLine;
+            var OptionHotelnameLine;
+            var OptionShopnameLine;
+
+            $('#FinalCustomer_ID').val(selected);
+            console.log($('#FinalCustomer_ID').val());
+
+          //this is for outputing the values of fields so that the labels ae not overlapping to the values
+            $('#Fnamedisplaydiv').removeClass("form-group label-floating");
+            $('#Fnamedisplaydiv').addClass("form-group");
+            $('#Mnamedisplaydiv').removeClass("form-group label-floating");
+            $('#Mnamedisplaydiv').addClass("form-group");
+            $('#Lnamedisplaydiv').removeClass("form-group label-floating");
+            $('#Lnamedisplaydiv').addClass("form-group");
+            $('#AdrLinedisplaydiv').removeClass("form-group label-floating");
+            $('#AdrLinedisplaydiv').addClass("form-group");
+            $('#Brgydisplaydiv').removeClass("form-group label-floating");
+            $('#Brgydisplaydiv').addClass("form-group");
+            $('#Contactdisplaydiv').removeClass("form-group label-floating");
+            $('#Contactdisplaydiv').addClass("form-group");
+            $('#emailDisplayDiv').removeClass("form-group label-floating");
+            $('#emailDisplayDiv').addClass("form-group");
+
+
+            $("#ShopNameList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                //element.hide() ;
+              }
+              else{
+               OptionShopnameLine = element.val();
+
+                //element.show();
+                console.log(OptionTypeLine)
+              }
+            });//end of function
+
+            $("#HotelNameList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                //element.hide() ;
+              }
+              else{
+               OptionHotelnameLine = element.val();
+
+                //element.show();
+                console.log(OptionTypeLine)
+              }
+            });//end of function
+
+            $("#TypeList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                //element.hide() ;
+              }
+              else{
+               OptionTypeLine = element.val();
+              }
+            });//end of function
+
+            $("#custTypeField option").each(function(item){
+              var element =  $(this) ;
+              if (element.val() != OptionTypeLine){
+                //element.hide() ;
+              }
+              else{
+                $("#custTypeField option[value ="+OptionTypeLine+"]").prop('selected',true);
+              }
+            });//end of function
+
+
+            $("#custTypeField2 option").each(function(item){
+              var element =  $(this) ;
+              if (element.val() != OptionTypeLine){
+                //element.hide() ;
+              }
+              else{
+                $("#custTypeField2 option[value ="+OptionTypeLine+"]").prop('selected',true);
+              }
+            });//end of function
+
+            $("#custTypeFieldVal").val(OptionTypeLine);
+
+                if(OptionTypeLine == 'H'){
+                  $('#ShopNamedisplaydiv').slideUp();
+                  $('#HotelNamedisplaydiv').slideDown();
+                }
+                else if(OptionTypeLine == 'S'){
+                  $('#HotelNamedisplaydiv').slideUp();
+                  $('#ShopNamedisplaydiv').slideDown();
+                }
+                else if(OptionTypeLine == 'C'){
+                  $('#HotelNamedisplaydiv').slideUp();
+                  $('#ShopNamedisplaydiv').slideUp();
+                }
+
+
+            $("#CityField option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                //element.hide() ;
+              }
+              else{
+               OptionCityLine = element.val();
+                //element.show();
+              }
+            });//end of function
+
+            $("#ProvField option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                //element.hide() ;
+              }
+              else{
+               OptionProvLine = element.val();
+                //element.show();
+              }
+            });//end of function
+
+
+            $("#ProvinceField option").each(function(item){
+              var element =  $(this) ;
+              if (element.val() != OptionProvLine){
+                //element.hide() ;
+              }
+              else{
+                $("#ProvinceField option[value = "+OptionProvLine+"]").prop('selected',true);
+              }
+            });//end of function
+
+            $("#TownField option").each(function(item){
+              var element =  $(this) ;
+              if (element.val() != OptionCityLine ){
+                //element.hide() ;
+              }
+              else{
+                $("#TownField option[value = "+OptionCityLine+"]").prop('selected',true);
+              }
+            });//end of function
+
+            $("#TownField2 option").each(function(item){
+              var element =  $(this) ;
+              if (element.val() != OptionCityLine ){
+                //element.hide() ;
+              }
+              else{
+                $("#TownField2 option[value = "+OptionCityLine+"]").prop('selected',true);
+              }
+            });//end of function
+
+
+            $("#BrgyList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionBrgyLine = element.val();
+                element.show();
+              }
+            });//end of function
+
+            $("#BrgyList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionBrgyLine = element.val();
+                element.show();
+              }
+            });//end of function
+
+            $("#AdressLineList option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionAddrLine = element.val();
+                element.show();
+              }
+            });//end of function
+
+            $("#customerList_FName option").each(function(item){
+              var element =  $(this) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionFname = element.val();
+                $("#customerList_FName option[data-tag = "+selected+"]").prop('selected',true);
+                //element.show();
+              }
+            });//end of function
+
+
+           $("#customerList_MName option").each(function(item){
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionMname = element.val();
+               $("#customerList_MName option[data-tag = "+selected+"]").prop('selected',true);
+               // element.show();
+              }
+            });//end of function
+
+
+
+           $("#customerList_LName option").each(function(item){
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionLname = element.val();
+               $("#customerList_LName option[data-tag = "+selected+"]").prop('selected',true);
+                //element.show();
+              }
+            });//end of function
+
+           $("#Contact_NumList_LName option").each(function(item){
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionContactNum = element.val();
+                element.show();
+              }
+            });//end of function
+
+           $("#Email_AddList_LName option").each(function(item){
+             // console.log(selected) ;
+              var element =  $(this) ;
+              //console.log(element.data("tag")) ;
+              if (element.data("tag") != selected){
+                element.hide() ;
+              }
+              else{
+               OptionEmail = element.val();
+                element.show();
+              }
+            });//end of function
+
+
+
+          $("#idfield").val(selected);
+          $("#Cust_FNameField").val(OptionFname);
+          $("#Cust_FNameField2").val(OptionFname);
+          $("#Cust_MNameField").val(OptionMname);
+          $("#Cust_MNameField2").val(OptionMname);
+          $("#Cust_LNameField").val(OptionLname);
+          $("#Cust_LNameField2").val(OptionLname);
+          $("#ContactNum_Field").val(OptionContactNum);
+          $("#ContactNum_Field2").val(OptionContactNum);
+          $("#email_Field").val(OptionEmail);
+          $("#email_Field2").val(OptionEmail);
+          $("#hotelNameField2").val(OptionHotelnameLine);
+          $("#hotelNameField").val(OptionHotelnameLine);
+          $("#shopNameField").val(OptionShopnameLine);
+          $("#shopNameField2").val(OptionShopnameLine);
+        }
+        else{
+          $('#FinalCustomer_ID').val(null);
+          //this is for outputing the values of fields so that the labels ae not overlapping to the values
+            $('#Fnamedisplaydiv').removeClass("form-group");
+            $('#Fnamedisplaydiv').addClass("form-group label-floating");
+            $('#Mnamedisplaydiv').removeClass("form-group");
+            $('#Mnamedisplaydiv').addClass("form-group label-floating");
+            $('#Lnamedisplaydiv').removeClass("form-group");
+            $('#Lnamedisplaydiv').addClass("form-group label-floating");
+            $('#AdrLinedisplaydiv').removeClass("form-group");
+            $('#AdrLinedisplaydiv').addClass("form-group label-floating");
+            $('#Brgydisplaydiv').removeClass("form-group");
+            $('#Brgydisplaydiv').addClass("form-group label-floating");
+            $('#Contactdisplaydiv').removeClass("form-group");
+            $('#Contactdisplaydiv').addClass("form-group label-floating");
+            $('#emailDisplayDiv').removeClass("form-group");
+            $('#emailDisplayDiv').addClass("form-group label-floating");
+
+            $("#idfield").val(null);
+            $("#Cust_FNameField").val(null);
+            $("#Cust_MNameField").val(null);
+            $("#Cust_LNameField").val(null);
+            $("#ContactNum_Field").val(null);
+            $("#email_Field").val(null);
+            $("#Addrs_LineField").val(null);
+            $("#brgyField").val(null);
+            $("#idfield").val(null);
+            $("#Cust_FNameField2").val(null);
+            $("#Cust_MNameField2").val(null);
+            $("#Cust_LNameField2").val(null);
+            $("#ContactNum_Field2").val(null);
+            $("#email_Field2").val(null);
+
+          swal('Sorry!','The Customer Id or Customer Name that you entered does not exist','warning')
+          $("#Cust_Det_NextBtn").attr("disabled",true);
+        }
+  });//end of function
+
+
+    $('#OnetimecheckBox').click(function(){
+      if($('#OnetimecheckBox').is(':checked') == true){
+        $('#FinalCustomer_ID').val(null);
+        $('#Cust_Det_NextBtn').attr("disabled",false);
+        $.ajax({
+            method: 'GET',
+            url: typeof(CurrentPrice_URL) != 'undefined' ? CurrentPrice_URL : '',
+            contentType: "application/json",
+            success: function(){
+                //alert('Walang Agreements');
+            },
+            error: function(xhr, desc, err){
+                console.log('There is an error:'+ err);
+            }
+        });
+          swal("take note: ","You will now be required to Enter information about a new customer","warning");
+        $('#Customer_Chooser').slideUp(300);
+        newcust = 'new';
+          $('#customer_stat').val(newcust);
+          $("#Cust_FNameField").attr('disabled',false);
+          $("#Cust_MNameField").attr('disabled',false);
+          $("#Cust_LNameField").attr('disabled',false);
+          $("#ContactNum_Field").attr('disabled',false);
+          $("#email_Field").attr('disabled',false);
+          $("#ProvinceField").attr('disabled',false);
+          $("#custTypeField").attr('disabled',false);
+
+          $("#custTypeField2 option[value ='C']").prop('selected',true);
+          $("#custTypeField option[value ='C']").prop('selected',true);
+          $("#custTypeField").attr('disabled',true);
+          $("#custTypeFieldVal").val('C');
+
+          $('#HotelNamedisplaydiv').slideUp();
+          $('#ShopNamedisplaydiv').slideUp();
+
+          $("#idfield").val(null);
+          $("#Cust_FNameField").val(null);
+          $("#Cust_MNameField").val(null);
+          $("#Cust_LNameField").val(null);
+          $("#ContactNum_Field").val(null);
+          $("#email_Field").val(null);
+          $("#Addrs_LineField").val(null);
+          $("#brgyField").val(null);
+          $("#idfield2").val(null);
+          $("#Cust_FNameField2").val(null);
+          $("#Cust_MNameField2").val(null);
+          $("#Cust_LNameField2").val(null);
+          $("#ContactNum_Field2").val(null);
+          $("#email_Field2").val(null);
+          $("#Addrs_LineField2").val(null);
+          $("#brgyField2").val(null);
+
+          $("#Cust_FNameField").attr('required',true);
+          $("#Cust_LNameField").attr('required',true);
+          $("#ContactNum_Field").attr('required',true);
+          $("#email_Field").attr('required',false);
+          $("#ContactNum_Field").attr('required',false);
+          $("#Addrs_LineField").attr('required',true);
+          $("#brgyField").attr('required',true);
+
+          $('#Fnamedisplaydiv').removeClass("form-group");
+          $('#Fnamedisplaydiv').addClass("form-group label-floating");
+          $('#Mnamedisplaydiv').removeClass("form-group");
+          $('#Mnamedisplaydiv').addClass("form-group label-floating");
+          $('#Lnamedisplaydiv').removeClass("form-group");
+          $('#Lnamedisplaydiv').addClass("form-group label-floating");
+          $('#AdrLinedisplaydiv').removeClass("form-group");
+          $('#AdrLinedisplaydiv').addClass("form-group label-floating");
+          $('#Brgydisplaydiv').removeClass("form-group");
+          $('#Brgydisplaydiv').addClass("form-group label-floating");
+          $('#Contactdisplaydiv').removeClass("form-group");
+          $('#Contactdisplaydiv').addClass("form-group label-floating");
+          $('#emailDisplayDiv').removeClass("form-group");
+          $('#emailDisplayDiv').addClass("form-group label-floating");
+       }
+       else{
+         var CustID = $("#customerList_Field").val();
+         $('#FinalCustomer_ID').val(CustID);//for checking again
+         $('#FinalCustomer_ID').val(null);
+         $('#Customer_Chooser').slideDown(300);
+         $('#Cust_Det_NextBtn').attr("disabled",true);
+          newcust = 'old';
+          $('#customer_stat').val(newcust);
+          $("#Cust_FNameField").attr('disabled',true);
+          $("#Cust_MNameField").attr('disabled',true);
+          $("#Cust_LNameField").attr('disabled',true);
+          $("#ContactNum_Field").attr('disabled',true);
+          $("#email_Field").attr('disabled',true);
+          $('#HotelNamedisplaydiv').attr('disabled',true);
+          $('#ShopNamedisplaydiv').attr('disabled',true);
+          $("#custTypeField").attr('disabled',true);
+
+          swal("take note: ","You may choose from the existing customers in the system","info");
+       }
+    });
+    //end of functionx
+    $("#idfield").change(function(){
+      var value = $("#idfield").val();
+      $("#idfield2").val(value);
+    });
+    $("#Cust_FNameField").change(function(){
+      var value = $("#Cust_FNameField").val();
+      $("#Cust_FNameField2").val(value);
+    });
+    $("#Cust_MNameField").change(function(){
+      var value = $("#Cust_MNameField").val();
+      $("#Cust_MNameField2").val(value);
+    });
+    $("#Cust_LNameField").change(function(){
+      var value = $("#Cust_LNameField").val();
+      $("#Cust_LNameField2").val(value);
+    });
+    $("#ContactNum_Field").change(function(){
+      var value = $("#ContactNum_Field").val();
+      $("#ContactNum_Field2").val(value);
+    });
+    $("#email_Field").change(function(){
+      var value = $("#email_Field").val();
+      $("#email_Field2").val(value);
+    });
+
+
+
 
   });
   </script>

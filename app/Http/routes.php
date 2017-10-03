@@ -11,9 +11,6 @@
 |
 */
 
-
-
-
 Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('floweradd', 'flowercontroller');
@@ -92,6 +89,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::get('/Receipt/{id}',['uses' => 'OrderManagementController@PrintReciept', 'as'=>'LongOrder.GenerateReceipt']);
 
+	Route::get('/QuickReceipt/{id}',['uses' => 'OrderManagementController_Quick@PrintReciept', 'as'=>'QuickOrder.GenerateReceipt']);
+
 
 	Route::resource('Sales_Qoutation','Order_Controller');
 
@@ -156,12 +155,20 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::resource('OrdersSession_Bouquet','AddFlowers_to_session_BQT');
 
+	Route::resource('QuickSession_Bouquet','BouquetSession_Controller');
+
+	Route::resource('QuickOrdersSession_Bouquet','AddFlowers_to_session_QuickBQT');
+
 	Route::resource('OrdersAcSession_Bouquet','AddAcessory_to_session_BQT');
+
+	Route::resource('QuickOrdersAcSession_Bouquet','AddAcessory_to_session_QuickBQT');
+
 
 	Route::resource('Orders_BouquetAcessories','AddingAcessoriesto_OrderedBouquet_Controller');
 
 	Route::resource('Orders_Submit_LongOrder','Orderlong_orderingController');
 
+	Route::resource('QuickOrderSessionProcess','quickOrderProcess_Controller');
 
 
 //validator
@@ -176,8 +183,12 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
   //to be continued
 
 	Route::get('Order.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement');
-
 	Route::get('Order.Remove_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation');
+
+	Route::get('QuickOrder.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement_QuickOrder');
+	Route::get('QuickOrder.Remove_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_CreationQuickOrder');
+
+
 
 //Route::get('/removeDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation', 'as'=>'Order.Remove_CustTradeAgreement']);//for the view of adding flowers to order from the supplier
 	//Route::get('/AddDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement', 'as'=>'Order.Apply_CustTradeAgreement']);//for the view of adding flowers to order from the supplier
@@ -217,11 +228,17 @@ Route::get('/saveCustomized_Bouquet/{order_ID}',['uses' => 'OrderManagementContr
 
 Route::get('/saveNewCustomized_Bouquet',['uses' => 'OrderManagementController@saveNewCustomized_Bqt', 'as'=>'Bqtorder.saveNewBouquet']);//saves the newly created bqt
 
+Route::get('/saveNewQuickCustomized_Bouquet',['uses' => 'OrderManagementController_Quick@saveNewCustomized_Bqt', 'as'=>'BqtQuickorder.saveNewBouquet']);//saves the newly created bqt
+
 Route::get('/order_creations',['uses' => 'OrderManagementController@return_to_CreationOfOrder', 'as'=>'return.orderCreation']);//saves the newly created bqt
 
 Route::get('/cartClear',['uses' => 'OrderManagementController@Clear_Cart', 'as'=>'Order.ClearCart']);//saves the newly created bqt
 
+Route::get('/QuickcartClear',['uses' => 'OrderManagementController_Quick@Clear_Cart', 'as'=>'QuickOrder.ClearCart']);//saves the newly created bqt
+
 Route::get('/BqtClear',['uses' => 'OrderManagementController@Clear_Bouquet', 'as'=>'Order.ClearBqt']);//saves the newly created bqt
+
+Route::get('/QuickBqtClear',['uses' => 'OrderManagementController_Quick@Clear_Bouquet', 'as'=>'QuickOrder.ClearBqt']);//saves the newly created bqt
 
 Route::get('/AdminBqtClear',['uses' => 'Administrator_bouquet_Controller@Clear_AdminBouquet', 'as'=>'Order.ClearAdminBqt']);//saves the newly created bqt
 
@@ -235,12 +252,16 @@ Route::get('/OrderCreationofCart/{Order_Id}',['uses' =>
 
 
 
-Route::get('/OrderManagement/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Order', 'as'=>'Flowerorder.DelOrderFlowers']);//deletes a specific flower of a specific order
+	Route::get('/OrderManagement/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Order', 'as'=>'Flowerorder.DelOrderFlowers']);//deletes a specific flower of a specific order
+
+	Route::get('/QuickOrderManagement/{flower_ID}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_QuickOrder', 'as'=>'Flowerorder.DelQuickOrderFlowers']);//deletes a specific flower of a specific quickorder
 
 Route::get('/OrderBouquet_Acessories/{Acessory_ID},{order_ID}',['uses' => 'OrderManagementController@DeleteAcessory_per_Bqt_Order', 'as'=>'BqtAcessoryorder.DelOrderAcessories']);//deletes a specific flower of a specific bouquet in the creatin of bouquet
 
 
 Route::get('/OrderSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'OrderManagementController@DeleteAcessory_per_SessionBqt_Order', 'as'=>'Sessionorder.DelAcessories']);//deletes a specific flower of a specific bouquet of specific yorder
+
+Route::get('/QuickOrderSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'OrderManagementController_Quick@DeleteAcessory_per_SessionBqt_QuickOrder', 'as'=>'SessionQuickorder.DelAcessories']);//deletes a specific flower of a specific bouquet of specific yorder
 
 Route::get('/AdminSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'Administrator_bouquet_Controller@DeleteAcessory_per_SessionAdminBqt', 'as'=>'Admin.DelAcessories']);//deletes a specific flower of a specific bouquet of specific yorder
 
@@ -248,6 +269,10 @@ Route::get('/AdminSessionBouquet_Acessories/{Acessory_ID}',['uses' => 'Administr
 Route::get('/OrderBouquet_Flower/{flower_ID},{order_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Bqt_Order', 'as'=>'BqtFlowerorder.DelOrderFlowers']);//deletes a specific flower of a specific bouquet of specific order
 
 Route::get('/OrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Bqt_SessionOrder', 'as'=>'BqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
+
+Route::get('/QuickOrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_Bqt_SessionQuickOrder', 'as'=>'BqtFlowerorderSessions.DelQuickOrderFlowers']);//deletes a specific flower of a specific bouquet
+
+Route::get('/QuickOrderSession_bouquet/{Bouquet_ID}',['uses' => 'OrderManagementController_Quick@Delete_Bouquet', 'as'=>'BqtorderSessions.DelQuickBouquet']);//deletes a specific flower of a specific bouquet
 
 Route::get('/AdminBQTSession_Flower/{flower_ID}',['uses' => 'Administrator_bouquet_Controller@DeleteFlower_per_AdminBqt_Session', 'as'=>'AdminBqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
 
@@ -405,9 +430,6 @@ Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summary
 
 
 Route::group(['prefix' => 'user'], function() {
-
-
-
 	Route::group(['middleware' => 'guest'], function (){
 		Route::get('register', [
 			'uses' => 'ClientController@getSignup',

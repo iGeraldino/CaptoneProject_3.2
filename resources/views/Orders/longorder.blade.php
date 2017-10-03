@@ -1009,28 +1009,28 @@
 
 
 //scripts for avoiding invalid characters in a number field
-      $('#NewPrice_Field').live('keypress', function(key) {
+      $('#NewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#BqtNewPrice_Field').live('keypress', function(key) {
+      $('#BqtNewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
 
-      $('#AcessoryNewPrice_Field').live('keypress', function(key) {
+      $('#AcessoryNewPrice_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#QTY_Field').live('keypress', function(key) {
+      $('#QTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#BqtQTY_Field').live('keypress', function(key) {
+      $('#BqtQTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
-      $('#AcessoryQTY_Field').live('keypress', function(key) {
+      $('#AcessoryQTY_Field').on('keypress', function(key) {
         if(key.charCode < 48 || key.charCode > 57) return false;
       });
 //end of scripts

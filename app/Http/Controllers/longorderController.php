@@ -9,6 +9,7 @@ use Session;
 use Auth;
 use App\Sales_Qoutation;
 use \Cart;
+use App\newSales_order;
 
 class longorderController extends Controller
 {
@@ -20,12 +21,32 @@ class longorderController extends Controller
     public function index()
     {
         //
+/*
+        $current = Carbon::now('Asia/Manila');
+
+        //create a new Sales order first
+       $createOrder = new newSales_order;
+
+       //dd($CustID[1]);
+        $createOrder->Customer_Fname = 'Gerardo';
+        $createOrder->Customer_Mname = 'Reyes';
+        $createOrder->Customer_Lname = 'Alvaran';
+        $createOrder->Contact_Num = '09051515663';
+        $createOrder->email_Address = 'gerry@gmail.com';
+        $createOrder->created_at = $current;
+        $createOrder->updated_at = $current;
+        $createOrder->Status = 'PENDING';
+        $createOrder->Type = 'WALK-IN';
+        $createOrder->save();
+*/
+//        dd(auth::user());
 
         /*if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{*/
+
             $cities = DB::table('cities')
               ->select('*')
               ->get();

@@ -13,6 +13,7 @@ use \PDF;
 use App\Newshop_Schedule;
 use App\Neworder_details;
 use Auth;
+
 class OrderManagementController extends Controller
 {
     //
@@ -57,7 +58,7 @@ class OrderManagementController extends Controller
             }
 
             //dd($NewOrder_SchedDetails);
-              $pdf = \PDF::loadView("reports\Order_Delivery_SimpleSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+              $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
               'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
@@ -66,6 +67,7 @@ class OrderManagementController extends Controller
 
             //
   }
+
 
   public function ViewOrderSummary()
   {
@@ -443,7 +445,7 @@ class OrderManagementController extends Controller
 	        return view('Orders.confirmation_of_Order')
 			->with('city',$cities)
 	        ->with('province',$province);
-    	}
+    	//}
 	}//end of function
 
 	public function return_to_CreationOfOrder()

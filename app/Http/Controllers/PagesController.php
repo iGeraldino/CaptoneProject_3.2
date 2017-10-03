@@ -47,7 +47,7 @@ class PagesController extends Controller
 	            Session::put('loginSession','fail');
 	            return redirect() -> route('adminsignin');
 	        }
-	        else{			
+	        else{
 				return view('supplier/supplierpricelist');
 			}
 		}
@@ -57,7 +57,7 @@ class PagesController extends Controller
             	Session::put('loginSession','fail');
             	return redirect() -> route('adminsignin');
         	}
-        	else{		
+        	else{
 				return view('customer/adding_tradeagreement');
 			}
 		}//
@@ -110,7 +110,7 @@ class PagesController extends Controller
 		else{
 			Session::put('loginSession','good');
 			return view('dashboard');
-		
+
 		}
 
 		}
@@ -143,7 +143,7 @@ class PagesController extends Controller
           $province = DB::table('provinces')
           ->select('*')
           ->get();
-			
+
 			return view('customer_side/pages/checkout')
 				->with('city3',$cities)
         		->with('province3',$province)
@@ -166,7 +166,7 @@ class PagesController extends Controller
 		}
 
 		public function getRegister() {
-			
+
               $cities = DB::table('cities')
               ->select('*')
               ->get();
@@ -312,6 +312,3 @@ class PagesController extends Controller
 		}
 
 }
-
-
-

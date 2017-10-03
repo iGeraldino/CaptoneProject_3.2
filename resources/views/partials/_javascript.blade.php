@@ -45,19 +45,39 @@
 <script src="{{asset('admin/plugins/knob/jquery.knob.js')}}"></script>
 
 <script src="{{asset('sweetalert-master/dist/sweetalert.min.js') }} "></script>
-
-
+<script src="http://js.pusher.com/3.0/pusher.min.js"></script><!--for the development of notifications-->
 
 <script>
-$('#notification').html("")
-  $(document).ready(function(){
+$(document).ready(function(){
+//for the pusher of the notification
+ var pusher = new Pusher('{{env("PUSHER_APP_KEY")}}', {
+   cluster: 'ap1',
+   encrypted: true
+ });
 
+ var testChannel = pusher.subscribe('test-channel');
+ testChannel.bind('private-test-event', function(data){
+   alert(data);
+ });
+
+  var notification_OrderChannel = pusher.subscribe('OrderChannel');
+  notification_OrderChannel.bind('private-NewOrders', function(order){
+    alert(order);
+  });
+});
+</script>
+
+<script>
+
+  $(document).ready(function(){
+/*
+$('#notification').html("");
     var Notification_URL = "{{ url('Admin.Check_Notification') }}";
     var notification = new Array();
     var num_ofNotification = 0;
     var notif_UL = "";
   $.ajax({
-      type:'get',
+    type:'get',
       url: Notification_URL,
       dataType: 'json',
       success: function(response){
@@ -72,6 +92,6 @@ $('#notification').html("")
         $('#notifications').append(notif_UL);
       }
     });
-
+*/
   });
 </script>

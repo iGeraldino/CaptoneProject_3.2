@@ -162,6 +162,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
     ],
 
     /*
@@ -214,7 +215,7 @@ return [
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-
+        'Pusher' => Pusher\Pusher::class,
 
     ],
 
