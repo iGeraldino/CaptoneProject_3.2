@@ -86,24 +86,19 @@ class checkoutcontroller extends Controller
           'password' => bcrypt($request -> input('password')),
           'Cust_ID' => $id,
           'username' => $request -> input('username'),
-
       ]);
-
-<<<<<<< Updated upstream
 
       $user -> save();
 
 
       Auth::login($user);
-=======
       //$user -> save();
->>>>>>> Stashed changes
 
       //Auth::login($user);
 
-      //return redirect()-> route('checkingregistration');
+      return redirect()-> route('checkingregistration');
 
-      dd($user);
+      //dd($user);
 
     }
 

@@ -4,7 +4,7 @@
    <?php
 
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
-   Session::remove('QuickBqtClearSessions');
+   Session::remove('QuickBqtClearSession');
 
 
    $clearCartSession_Value = Session::get('QuickCartClearSession');
@@ -16,11 +16,11 @@
   $sessionAcValue = Session::get('Added_AcessoryToBQT_QuickOrder');
   Session::remove('Added_AcessoryToBQT_QuickOrder');//determines the addition of new acessory
 
-  $sessionUpdateFValue = Session::get('Update_AcessoryToBQT_QuickOrder');
-  Session::remove('Update_AcessoryToBQT_QuickOrder');//deteremines the qty update of flower*/
+  $sessionUpdateFValue = Session::get('Update_FlowerToBQT_QuickOrder');
+  Session::remove('Update_FlowerToBQT_QuickOrder');//deteremines the qty update of flower*/
 
-  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_Order');
-  Session::remove('Update_AcessoryToBQT_Order');//deteremines the qty update of acessories*/
+  $sessionUpdateAcValue = Session::get('Update_AcessoryToBQT_QuickOrder');
+  Session::remove('Update_AcessoryToBQT_QuickOrder');//deteremines the qty update of acessories*/
 
   $sessionDelFlowerValue = Session::get('Deleted_FlowerfromBQT_QuickOrder');
   Session::remove('Deleted_FlowerfromBQT_QuickOrder');//determines the deletion of flower
