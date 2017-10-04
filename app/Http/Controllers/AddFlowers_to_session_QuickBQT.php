@@ -86,8 +86,35 @@ class AddFlowers_to_session_QuickBQT extends Controller
                   Cart::instance('QuickOrderedBqt_Flowers')
                   ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                   'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
+
+                  if(Cart::instance('overallFLowers')->count() == 0){
+                    Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+                  }else{
+                    foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+                      if($inCartflowers->id == $Flower_ID){
+                         $newQty = $inCartflowers->qty + $Qty;
+                         Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+                      }//
+                      else{
+                        Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+                      }//
+                    }
+                  }
           }
           else{
+            if(Cart::instance('overallFLowers')->count() == 0){
+              Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+            }else{
+              foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+                if($inCartflowers->id == $Flower_ID){
+                   $newQty = $inCartflowers->qty + $Qty;
+                   Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+                }//
+                else{
+                  Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+                }//
+              }
+            }
               echo 'may laman';
               $Insertion = 0;
           foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
@@ -150,7 +177,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
               }
       }//end of outer else
 
-          Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
+            Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
             return redirect()->back();
 
           //return redirect()->route('Order.CustomizeaBouquet');
@@ -199,7 +226,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
          $order_ID = $request->ID_Field;
          $descision = $request->Decision_Field;
          $flower_details = flower_details::find($id);
-
+         $oldQty = 0;
         foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
              if($row->id == $id){
                  // echo $row->rowId
@@ -207,7 +234,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
                  $derived_Sellingprice = 0;
                  $orig_Price = $row->options['orig_price'];
                  $image = $row->options['image'];
-
+                 $oldQty = $row->qty;
                  if($descision == 'O'){
                      if($newQty>=$flower_details->QTY_of_Wholesale){
                        $derived_Sellingprice =
@@ -234,6 +261,19 @@ class AddFlowers_to_session_QuickBQT extends Controller
                  $Insertion = 1;//this indicates that there will be an insertion of new data
              }//end of else
          }//end of foreach*/
+
+         foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+           if($inCartflowers->id == $id){
+               if($newQty > $oldQty){
+                 $newQty = $inCartflowers->qty + ($newQty - $oldQty);
+               }else if($newQty < $oldQty){
+                 $newQty = $inCartflowers->qty - ($oldQty - $newQty);
+               }else if($oldQty == $newQty){
+                 $newQty = $inCartflowers->qty;
+               }
+              Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+           }//
+         }
 
          Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
              return redirect()-> back();

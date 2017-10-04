@@ -50,6 +50,7 @@
 <script>
 $(document).ready(function(){
 //for the pusher of the notification
+/*
  var pusher = new Pusher('{{env("PUSHER_APP_KEY")}}', {
    cluster: 'ap1',
    encrypted: true
@@ -63,7 +64,7 @@ $(document).ready(function(){
   var notification_OrderChannel = pusher.subscribe('OrderChannel');
   notification_OrderChannel.bind('private-NewOrders', function(order){
     alert(order);
-  });
+  });*/
 });
 </script>
 
