@@ -87,6 +87,34 @@ class OrderManagementController_Quick extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
+        foreach(Cart::instance('QuickOrdered_Flowers')->content() as $ordereFlwr){
+          foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+            if($inCartflowers->id == $ordereFlwr->id){
+              $newQty2 = $inCartflowers->qty - $ordereFlwr->qty;
+              Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
+            }//
+          }
+        }
+
+          foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $BqtFLwr){
+            $count = 0;
+            foreach(Cart::instance('QuickOrdered_Bqt')->content() as $bqt){
+              if($bqt->id == $BqtFLwr->options->bqt_ID){
+                $count = $bqt->qty;
+              }//
+            }//
+            foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+              if($inCartflowers->id == $BqtFLwr->id){
+                for($ctr = 0;$ctr<= $count-1;$ctr++){
+                  $newQty2 = $inCartflowers->qty - $BqtFLwr->qty;
+                  Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
+                }//end of for
+              }//end of if
+            }//end of foreach
+
+          }//end of main foreach
+
+
         Cart::instance('QuickFinalBqt_Flowers')->destroy();
         Cart::instance('QuickFinalBqt_Acessories')->destroy();
         Cart::instance('QuickOrdered_Bqt')->destroy();
