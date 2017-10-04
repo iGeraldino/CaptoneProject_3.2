@@ -106,6 +106,15 @@ class OrderManagementController_Quick extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
+        foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $flowerstoclear){
+          foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+            if($inCartflowers->id == $flowerstoclear->id){
+              $newQty2 = $inCartflowers->qty - $flowerstoclear->qty;
+               Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
+            }//
+          }
+        }
+
 
         Cart::instance('QuickOrderedBqt_Flowers')->destroy();
         Cart::instance('QuickOrderedBqt_Acessories')->destroy();

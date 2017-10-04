@@ -2,6 +2,7 @@
 
 @section('content')
    <?php
+   //Cart::instance('overallFLowers')->destroy();
 
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
    Session::remove('QuickBqtClearSession');
@@ -128,7 +129,7 @@
 							</div>
 						</div>
 					</div>
-          
+
 					<div class="content">
 						<div class="tab-content text-center">
 							<div class="tab-pane active" id="Flowers">
@@ -180,7 +181,8 @@
 												<input class = "BqtAcrs_ID_Field" value = "{{ $accessories->ACC_ID }}">
 												<input class = "BqtAcrs_pic_Field" value = "{{ asset('accimage/'.$accessories->image)}}">
 												<input class = "BqtAcrs_imageValue_Field" value = "{{$accessories->image}}">
-												<input class = "BqtAcrs_name_Field" value = "{{$accessories->name}}">
+                        <input class = "BqtAcrs_name_Field" value = "{{$accessories->name}}">
+												<input class = "BqtAcrs_Qty_Field" value = "{{$accessories->qty}}">
 												<input class = "BqtAcrs_currentPrice_Field"
 												   value = "{{$accessories->price}}">
 											</div>
@@ -823,14 +825,16 @@
 								<label class= "control-label">Current Selling Price</label>
 								<input name="AcessoryViewPrice_Field" id="AcessoryViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
 							</div>
-							<div hidden> <!--start of hidden input field-->
+							<div> <!--start of hidden input field-->
 	                                <input type="number" class="form-control" name="AcessoryOrigInputPrice_Field" id="AcessoryOrigInputPrice_Field" step = '0.01'/>
 
 	                                <input type="number" class="form-control" name="AcrsID_Field" id="AcrsID_Field"/>
 
 	                                <input type="text" class="form-control" name="AcrsName_Field" id="AcrsName_Field"/>
 
-	                                <input type="text" class="form-control" name="Acrs_Image_Field" id="Acrs_Image_Field"/>
+                                  <input type="text" class="form-control" name="Acrs_Image_Field" id="Acrs_Image_Field"/>
+
+	                                <input type="text" class="form-control" name="Acrs_Availableqty_Field" id="Acrs_Availableqty_Field"/>
 
 	                                <label>The decision</label>
 	                                <input type="text" class="form-control" name = "AcessoryDecision_Field" id = "AcessoryDecision_Field" value = 'O'/>
@@ -1040,6 +1044,7 @@
 			var Acrs_Pic = $('.BqtAcrs_imageValue_Field').eq(index).val();
 			var Acrs_Name = $('.BqtAcrs_name_Field').eq(index).val();
 			var Acrs_Price = $('.BqtAcrs_currentPrice_Field').eq(index).val();
+      var Acrs_Qty = $('.BqtAcrs_Qty_Field').eq(index).val();
 
 			$('#AcessoryViewPrice_Field').val("Php " + Acrs_Price);
 			$('#AcessoryOrigInputPrice_Field').val(Acrs_Price);
@@ -1047,7 +1052,8 @@
 			$('#AcrsID_Field').val(Acrs_ID);
 			$('#AcrsName_Field').val(Acrs_Name);
 			$('#Acrs_tab_Image').attr("src",Acrs_IMG);
-			$('#Acrs_Image_Field').val(Acrs_Pic);
+      $('#Acrs_Image_Field').val(Acrs_Pic);
+			$('#Acrs_Availableqty_Field').val(Acrs_Qty);
 
 
 			$('#AcrssellingPrice_Div').prepend('<h5 id = "Acrs_ID">FLWR-'+Acrs_ID+'</h5>'+'<h5 id = "Acrs_Name">'+Acrs_Name+'</h5>');

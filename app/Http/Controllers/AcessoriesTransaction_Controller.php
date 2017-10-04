@@ -97,9 +97,9 @@ class AcessoriesTransaction_Controller extends Controller
             $Item = AcessoriesInventory::find($id);
             //echo 'name = '.$Item->accesories_ID;
             //echo 'qty = '.$Item->qty;
-            
+
             $additional = $request->AdditionalQTY;//gets the additional qty
-            
+
             $oldQTY = $Item->qty;//gets the old qty
             $newQTY = $oldQTY + $additional;//adds the old and additional quantity
 
@@ -109,10 +109,10 @@ class AcessoriesTransaction_Controller extends Controller
             $newInventoryTransaction = DB::select('call additional_QTY_on_Acessories(?,?)',array($id,$additional));//recording the transaction for acessories
 
             //echo 'newQTY = '.$Item->qty;
-            return redirect()->route('Acessory_ADD_Qty.show', $Item->accesories_ID); 
-        
-    }
+            return redirect()->route('Acessory_ADD_Qty.show', $Item->accesories_ID);
 
+    }
+  }
     /**
      * Remove the specified resource from storage.
      *
