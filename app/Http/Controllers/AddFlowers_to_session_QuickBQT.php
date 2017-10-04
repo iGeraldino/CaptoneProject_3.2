@@ -50,7 +50,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
       }
       else{     */
 
-      dd(Cart::instance('overallFLowers')->content());
+      //dd(Cart::instance('overallFLowers')->content());
 
            Cart::instance('QuickOrderedBqt_Flowers')->count();
 

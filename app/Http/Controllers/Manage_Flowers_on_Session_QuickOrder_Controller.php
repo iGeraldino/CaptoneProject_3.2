@@ -66,6 +66,29 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           $Qty = $request->QTY_Field;
           $image = $flower_details->Image;
 
+          $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+          $valid = 0;//determined if the qty entered are still valid;
+
+
+          foreach($AvailableFlowers as $Aflwrs){
+            if($Aflwrs->flower_ID == $Flower_ID){
+              foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                //dd($Aflwrs->flower_ID);
+                $qtyWhenAdded = 0;
+                if($flwr->id == $Aflwrs->flower_ID){
+                  $qtyWhenAdded = $flwr->qty + $Qty;
+                  if($qtyWhenAdded > $Aflwrs->QTY){
+                    dd($qtyWhenAdded,$Aflwrs->QTY);
+                    Session::put('AddFlower_To_myQuickOrder', 'Fail');
+                    return redirect()->back();
+                  }//determines if the inventory cannot sustain the order anymore....
+                }//end of inner if
+              }
+            }
+          }//end of main foreach
+
+
+
 
           if(Cart::instance('QuickOrdered_Flowers')->count() == 0){
               echo 'wala pang laman';
@@ -236,7 +259,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{*/
-       dd(Cart::instance('overallFLowers')->content());
+      // dd(Cart::instance('overallFLowers')->content());
 
             $newQty = $request->QTY_Field;
             $New_Price = $request->NewPrice_Field;

@@ -44,6 +44,7 @@ class quickorderController extends Controller
         ->get();
 
         $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+        
         $accessories = DB::select('CALL AvailableAcessories_Records()');
 
         $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");

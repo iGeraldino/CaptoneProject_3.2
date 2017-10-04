@@ -251,6 +251,12 @@ class OrderManagementController_Quick extends Controller
         $qtytofulfill = 0;
 
 
+          foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
+            if($Bqt->id == $Bouquet_ID){
+              $qtytofulfill = $Bqt->qty;
+            }
+          }
+
         foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
           $flowerincart = $inCartflowers->qty;
           $QtybeUseed = 0;
@@ -265,7 +271,6 @@ class OrderManagementController_Quick extends Controller
           }
 
           if($inCartflowers->id == $flowerId){
-              $qtytofulfill = $oldqty - $newQty;
               for($ctr = 0;$ctr<= $qtytofulfill-1;$ctr++){
                 $flowerincart = $flowerincart - $QtybeUseed;//to be continued
                 //echo($flowerincart.'pasok sa unang else if');

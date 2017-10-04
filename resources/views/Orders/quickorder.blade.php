@@ -282,6 +282,7 @@
                       </div>
               			</div>
                   {!! Form::close() !!}
+
                   @endforeach
                         <div class="col-xs-12">
                     <h5 class="text-right" style = "color:darkviolet"><strong>(Bouquet)Total Amount:</strong> Php {{ number_format($total_BQT_Price,2)}}</h5>
@@ -1034,7 +1035,10 @@
       if($('#Adding_FlowerSessionValue').val()=='Successful'){
          //Show popup
          swal("Good Job!","Flower has been successfully added to order!","success");
-       }
+       }else if($('#Adding_FlowerSessionValue').val()=='Fail'){
+          //Show popup
+          swal("Cannot Add more Order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order for the inventory cannot sustain it anymore!","error");
+        }
         //end of functionx
 
 
