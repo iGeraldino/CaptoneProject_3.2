@@ -78,33 +78,58 @@ class BouquetSession_Controller extends Controller
         $oldqty = 0;
         foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
           if($Bqt->id == $id){
-            $oldqty = $Bqt->qty;
-            Cart::instance('QuickOrdered_Bqt')
-            ->update($Bqt->rowId,['name'=>$Bqt->name,'qty' => $newQty,'price' => $Bqt->price,'options'=>['count' => $Bqt->options->count]]);
-            Session::put('Update_Bouqet_To_myQuickOrder', 'Successful');
+            $oldqty = $Bqt->qty;//for validations's use only this is to determine whether the new qty is not equal to the previous qty
+            if($oldqty == $newQty){
+              Session::put('Update_Bouqet_To_myQuickOrder', 'Fail');
+              return redirect()->back();
+            }else{
+              Cart::instance('QuickOrdered_Bqt')
+              ->update($Bqt->rowId,['name'=>$Bqt->name,'qty' => $newQty,'price' => $Bqt->price,'options'=>['count' => $Bqt->options->count]]);
+              Session::put('Update_Bouqet_To_myQuickOrder', 'Successful');
+            }
           }
         }
 
-$qtytofulfill = 0;
+        $qtytofulfill = 0;
 
 
         foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
-          if($inCartflowers->id == $id){
+          $flowerincart = $inCartflowers->qty;
+          $QtybeUseed = 0;
+          $flowerId = 0;
+          //looks for the flower under the bouquet to be updated
+          foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $quickbqtFLower){
+            if($quickbqtFLower->id == $inCartflowers->id AND $quickbqtFLower->options->bqt_ID == $id){
+              //dd($quickbqtFLower->options->bqt_ID,$id);
+              $flowerId = $quickbqtFLower->id;
+              $QtybeUseed = $quickbqtFLower->qty;
+            }
+          }
+
+
+          if($inCartflowers->id == $flowerId){
             if($oldqty == $newQty){
-              $qtytofulfill = $oldqty - $newQty;
-              $newQty2 = $inCartflowers->qty - $ordereFlwr->qty;
+              //$qtytofulfill = $oldqty - $newQty;
+              //$newQty2 = $inCartflowers->qty - $ordereFlwr->qty;
+             //echo($oldqty.'pasok sa unang if');
               Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $oldqty]);
             }
             else if($oldqty > $newQty){
-              $qtytofulfill = $oldqty- $newQty
+              $qtytofulfill = $oldqty - $newQty;
               for($ctr = 0;$ctr<= $qtytofulfill-1;$ctr++){
-                $newQty2 = $inCartflowers->qty - $ordereFlwr->qty;//to be continued
-                Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $oldqty]);
+                $flowerincart = $flowerincart - $QtybeUseed;//to be continued
+                //echo($flowerincart.'pasok sa unang else if');
+               Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $flowerincart]);
               }
 
             }
             else if ($oldqty < $newQty){
               $qtytofulfill = $newQty - $oldqty;
+              for($ctr = 0;$ctr<= $qtytofulfill-1;$ctr++){
+                $flowerincart += $QtybeUseed;//to be continued
+                //echo($flowerincart.'pasok sa 2nd else if');
+                Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $flowerincart]);
+              }
             }
           }//
         }

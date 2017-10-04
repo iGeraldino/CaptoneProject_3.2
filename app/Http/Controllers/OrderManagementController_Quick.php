@@ -26,14 +26,24 @@ class OrderManagementController_Quick extends Controller
         }
      else{*/
       $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-
+      $qtytodelete = 0;
       foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
         if($row->id == $flower_ID){
-          echo $row->id;
+          $qtytodelete = $row->qty;
+          //echo $row->id;
           Cart::instance('QuickOrdered_Flowers')->remove($row->rowId);
               Session::put('Deleted_Flowerfrom_QuickOrder', 'Successful');
         }
       }//end of function
+
+      foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+        if($inCartflowers->id == $flower_ID){
+              $newQty = $inCartflowers->qty - $qtytodelete;
+           Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+           break;
+        }//
+      }
+
               return redirect()-> back();
                //return view('Orders.creationOfOrders')
                //->with('FlowerList',$AvailableFlowers);
@@ -48,13 +58,27 @@ class OrderManagementController_Quick extends Controller
         }
         else{*/
       echo $flower_ID;
+      $qtytodelete = 0;
       foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
         if($row->id == $flower_ID){
+          $qtytodelete = $row->qty;
           echo $row->id;
           Cart::instance('QuickOrderedBqt_Flowers')->remove($row->rowId);
               Session::put('Deleted_FlowerfromBQT_QuickOrder', 'Successful');
         }
       }
+
+    foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+      if($inCartflowers->id == $flower_ID){
+            $newQty = $inCartflowers->qty - $qtytodelete;
+         Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+         break;
+      }//
+    }
+
+
+
+
       //echo 'hahaah';
           return redirect()-> back();
           //return redirect()->route('Order.CustomizeaBouquet');
@@ -104,10 +128,11 @@ class OrderManagementController_Quick extends Controller
               }//
             }//
             foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+              $FLWRQTY = $inCartflowers->qty;
               if($inCartflowers->id == $BqtFLwr->id){
                 for($ctr = 0;$ctr<= $count-1;$ctr++){
-                  $newQty2 = $inCartflowers->qty - $BqtFLwr->qty;
-                  Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
+                  $FLWRQTY = $FLWRQTY - $BqtFLwr->qty;
+                  Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $FLWRQTY]);
                 }//end of for
               }//end of if
             }//end of foreach
@@ -142,7 +167,6 @@ class OrderManagementController_Quick extends Controller
             }//
           }
         }
-
 
         Cart::instance('QuickOrderedBqt_Flowers')->destroy();
         Cart::instance('QuickOrderedBqt_Acessories')->destroy();
@@ -224,6 +248,34 @@ class OrderManagementController_Quick extends Controller
     	}//end of function
 
       public function Delete_Bouquet($Bouquet_ID){
+        $qtytofulfill = 0;
+
+
+        foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+          $flowerincart = $inCartflowers->qty;
+          $QtybeUseed = 0;
+          $flowerId = 0;
+          //looks for the flower under the bouquet to be updated
+          foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $quickbqtFLower){
+            if($quickbqtFLower->id == $inCartflowers->id AND $quickbqtFLower->options->bqt_ID == $Bouquet_ID){
+              //dd($quickbqtFLower->options->bqt_ID,$id);
+              $flowerId = $quickbqtFLower->id;
+              $QtybeUseed = $quickbqtFLower->qty;
+            }
+          }
+
+          if($inCartflowers->id == $flowerId){
+              $qtytofulfill = $oldqty - $newQty;
+              for($ctr = 0;$ctr<= $qtytofulfill-1;$ctr++){
+                $flowerincart = $flowerincart - $QtybeUseed;//to be continued
+                //echo($flowerincart.'pasok sa unang else if');
+               Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $flowerincart]);
+              }
+          }//
+        }
+
+
+
         foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
           if($Bqt->id == $Bouquet_ID){
             Cart::instance('QuickOrdered_Bqt')

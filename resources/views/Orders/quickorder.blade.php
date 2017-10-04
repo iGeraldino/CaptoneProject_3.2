@@ -265,7 +265,7 @@
                         <h7>Php {{number_format($Bqt->price,2)}} <span class="text-muted"><b> x</b></span></h7>
                       </div>
                       <div class="col-md-2">
-                          <input type = "number" id = 'BouqQuantityField' name = 'BouqQuantityField' type="number" class="form-control input-sm" value="{{$Bqt->qty}}">
+                          <input type = "number" id = 'BouqQuantityField' name = 'BouqQuantityField' type="number" class="form-control input-sm" value="{{$Bqt->qty}}" min = "1" required >
                       </div>
                       <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
                         <h7><b>=</b> Php {{number_format($Bqt->qty*$Bqt->price,2)}}</h7>
@@ -323,7 +323,7 @@
   			                          <h7>Php {{number_format($BQT_Flowers->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
   			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-  			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}">
+  			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
   			                        </div>
                                       <div class="col-md-2"  hidden>
   			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
@@ -358,7 +358,7 @@
   			                          <h7>Php {{number_format($BQT_Acessories->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
   			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-  				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}">
+  				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}" min = "1" required>
   			                        </div>
                                 <div class="col-md-2"  hidden>
                        				    <input id = 'Ac_ID_Field' name = 'Ac_ID_Field' class="form-control input-sm" value="{{$BQT_Acessories->id}}">
@@ -766,7 +766,7 @@
 							<div id = 'BqtNewPrice_Div' hidden>
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>New Price:</label>
-                                <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01"/>
+                                <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01" min = '0.0'/>
                                </div>
                             </div>
 							<div id = 'BqtavailableQTYDIV' hidden>
@@ -849,7 +849,7 @@
 	                       	<div id = 'NewPrice_DivforAcessories' hidden>
 	                         <div class="form-group label-floating">
 	                          <label class = 'control-label'>New Price:</label>
-	                          <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01"/>
+	                          <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01" min = "0.0"/>
 	                         </div>
 	                       	</div>
 
@@ -981,13 +981,19 @@
     if($('#UpdateBouquet_result').val()=='Successful'){
       //Show popup
       swal("Good!","Bouquet's quantity has been updated!","success");
-     }
+    }else if($('#UpdateBouquet_result').val()=='Fail'){
+      swal("Sorry!","The quantity that you entered was the same with the previous quantity of the bouquet, no changes has been made!","warning");
+    }
+
 
 
 	  if($('#UpdateFlower_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Flower's quantity has been updated!","success");
-	   }
+    }else if($('#UpdateFlower_result').val()=='Fail'){
+     	    //Show popup
+     	    swal("Sorry!","The quantity that you entered was the sae with the previous quantity of the flower, therefore no changes has been made!","warning");
+     	   }
 
 	  if($('#UpdateAcessory_result').val()=='Successful'){
 	    //Show popup

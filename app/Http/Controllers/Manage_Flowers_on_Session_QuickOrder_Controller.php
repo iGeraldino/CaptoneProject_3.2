@@ -47,7 +47,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{*/
-        dd(Cart::instance('overallFLowers')->content());
+        //dd(Cart::instance('overallFLowers')->content());
                   //
           //$flower_Det = flower_details::find($request->FLowerList);
           $AvailableFlowers = DB::select  ('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
@@ -99,9 +99,11 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                       if($inCartflowers->id == $Flower_ID){
                          $newQty = $inCartflowers->qty + $Qty;
                          Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+                         break;
                       }//
                       else{
                         Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+                        break;
                       }//
                     }
                   }
@@ -114,9 +116,11 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                 if($inCartflowers->id == $Flower_ID){
                    $newQty = $inCartflowers->qty + $Qty;
                    Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+                   break;
                 }//
                 else{
                   Cart::instance('overallFLowers')->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,'price'=>0.00,'option'=>[]]);
+                  break;
                 }//
               }
             }
@@ -149,7 +153,6 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                   Cart::instance('QuickOrdered_Flowers')->update($row->rowId,['qty' => $TotalQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
                   $Insertion = 0;
                   break;
-
 
               }//end of if
               else{
@@ -278,22 +281,28 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
 
                 }//end of if
               //echo '$Original_Price  = '.$Original_Price;
-             Cart::instance('QuickOrdered_Flowers')->update($rowidofRecord,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
+             Cart::instance('QuickOrdered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
         }
 
         foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+          //echo $inCartflowers->id;
           if($inCartflowers->id == $id){
-
+              //dd($inCartflowers->rowId);
               if($newQty > $oldQty){
-                $newQty2 = $inCartflowers->qty + ($newQty - $oldQty);
+                $newQty = $inCartflowers->qty + ($newQty - $oldQty);
               }else if($newQty < $oldQty){
-                $newQty2 = $inCartflowers->qty - ($oldQty - $newQty);
+                $newQty = $inCartflowers->qty - ($oldQty - $newQty);
               }else if($oldQty == $newQty){
-                $newQty2 = $inCartflowers->qty;
+                $newQty = $inCartflowers->qty;
               }
-             Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
+             //echo $inCartflowers->rowId;
+             //Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+             Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+             break;
           }//
         }
+
+        //dd(Cart::instance('overallFLowers')->content());
         Session::put('update_O_FlowerQuickQty_Session','Successful');
         return redirect()->back();
           //}
