@@ -58,23 +58,17 @@
                 </thead>
 
                 <tbody>
-                    @foreach($orders as $Olist)
-                    @if($Olist->Status == "PENDING")
+                    @foreach($Porders as $Olist)
                     <tr>
                         <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
                         <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
                         <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
-                        <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-danger">{{$Olist->Status}}</span> </td>
+                        <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-warning">{{$Olist->Status}}</span> </td>
                         <td align="center" >
-
-                               <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
-                               </a>
+                          <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
+                          </a>
                         </td>
-
                       </tr>
-                    @else
-
-                    @endif
                     @endforeach
                 </tbody>
               </table>
@@ -100,8 +94,7 @@
                       </thead>
 
                       <tbody>
-                          @foreach($orders as $Olist)
-                          @if($Olist->Status == "CONFIRMED")
+                        @foreach($Corders as $Olist)
                           <tr>
                               <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
                               <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
@@ -114,9 +107,6 @@
                               </td>
 
                             </tr>
-                          @else
-
-                          @endif
                           @endforeach
                       </tbody>
                     </table>
@@ -142,8 +132,7 @@
                       </thead>
 
                       <tbody>
-                          @foreach($orders as $Olist)
-                          @if($Olist->Status == "CLOSED")
+                          @foreach($Dorders as $Olist)
                           <tr>
                               <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
                               <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
@@ -155,9 +144,6 @@
                               </td>
 
                             </tr>
-                          @else
-
-                          @endif
                           @endforeach
                       </tbody>
                     </table>

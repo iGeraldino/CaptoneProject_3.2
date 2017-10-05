@@ -159,16 +159,20 @@
             <thead>
                 <th class="text-center"> ORDER ID</th>
                 <th class="text-center"> CUSTOMER ID </th>
-                <th class="text-center"> DATE</th>
+                <th class="text-center"> DATE CREATED</th>
                 <th class="text-center"> STATUS</th>
                 <th class="text-center"> ACTION</th>
             </thead>
             <tbody>
-              <td class="text-center">1</td>
-              <td class="text-center"> Christine Joy Aradia</td>
-              <td></td>
-              <td>UTANG</td>
-              <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+              @foreach($Porders as $Olist)
+              <tr>
+                  <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
+                  <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
+                  <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
+                  <td class="text-center" style="text-transform: uppercase; color:green;"><span class = "btn btn-sm btn-warning">  {{$Olist->Status}} </span></td>
+                  <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

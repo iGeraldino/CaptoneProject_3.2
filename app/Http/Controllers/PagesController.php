@@ -109,9 +109,16 @@ class PagesController extends Controller
 		}
 		else{
 			Session::put('loginSession','good');
+
+			$Pending_salesOrders = DB::table('sales_order')
+			->select('*')
+			->where('Status','PENDING')
+			->get();
+
 			//
 			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 			return view('dashboard')
+			->with('Porders',$Pending_salesOrders)
 			->with('SpoiledFLowers',$SpoiledFLowers);
 		}
 

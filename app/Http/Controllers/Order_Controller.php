@@ -37,9 +37,17 @@ class Order_Controller extends Controller
               ->select('*')
               ->get();
 
-            $salesOrders = DB::table('sales_order')
+            $ClosedsalesOrders = DB::table('sales_order')
             ->select('*')
+            ->where('Status','CLOSED')
             ->get();
+
+            $Pending_salesOrders = DB::table('sales_order')
+            ->select('*')
+            ->where('Status','PENDING')
+            ->get();
+
+            $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
 
             $customers = DB::table('customer_details')
             ->select('*')
@@ -49,7 +57,9 @@ class Order_Controller extends Controller
 
             //
             return view('Orders.Sales_Order_list')
-            ->with('orders',$salesOrders)
+            ->with('Dorders',$ClosedsalesOrders)
+            ->with('Porders',$Pending_salesOrders)
+            ->with('Corders',$Confirmed_salesOrders)
             ->with('cust',$customers)
             ->with('city',$cities)
             ->with('city2',$cities)
