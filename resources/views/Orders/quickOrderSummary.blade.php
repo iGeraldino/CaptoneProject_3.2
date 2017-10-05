@@ -248,7 +248,7 @@
                         <div class="form-group">
                           <label class="control-label">Change:</label>
                           <input type="number" class="form-control" name="changefield" id="changefield" value = "0.00" disabled/>
-                          <input type="number" class="form-control" name="changefield2" id="changefield2" value = "0.00"/>
+                          <input type="number" class="hidden form-control" name="changefield2" id="changefield2" value = "0.00"/>
                         </div>
                       </div>
                     </div>

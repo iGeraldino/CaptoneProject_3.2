@@ -2,7 +2,19 @@
 
 @section('content')
    <?php
-   //Cart::instance('overallFLowers')->destroy();
+/*
+    Cart::instance('overallFLowers')->destroy();
+
+     Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
+     Cart::instance('TobeSubmitted_BqtQuick')->destroy();
+     Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->destroy();
+
+     Cart::instance('QuickOrdered_Flowers')->destroy();
+
+     Cart::instance('QuickOrdered_Bqt')->destroy();
+     Cart::instance('QuickFinalBqt_Flowers')->destroy();
+     Cart::instance('QuickFinalBqt_Acessories')->destroy();
+*/
 
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
    Session::remove('QuickBqtClearSession');
@@ -155,6 +167,17 @@
 										<a class="btn btn-sm Lemon Flower_Tab_Btn" data-toggle="modal" data-target="#flowerTab_modal"> QUICK VIEW</a>
 	                </div>
 									@elseif($Fdetails->QTY == 0)
+                  <div class="col-md-6" hidden>
+                    <img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                  <div hidden>
+                    <input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
+                    <input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
+                    <input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
+                    <input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
+                    <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
+                  </div>
+                    <a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
+                  </div>
 									@endif
                   @endforeach
 							</div><!--end of active pane-->
@@ -176,6 +199,17 @@
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
                 @elseif($Fdetails->QTY == 0)
+                    <div class="col-md-6" hidden>
+                      <img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                    <div hidden>
+                      <input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
+                      <input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
+                      <input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
+                      <input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
+                      <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
+                    </div>
+                      <a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
+                    </div>
                 @endif
                @endforeach
 
@@ -837,20 +871,20 @@
 								<label class= "control-label">Current Selling Price</label>
 								<input name="AcessoryViewPrice_Field" id="AcessoryViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
 							</div>
-							<div> <!--start of hidden input field-->
-	                                <input type="number" class="form-control" name="AcessoryOrigInputPrice_Field" id="AcessoryOrigInputPrice_Field" step = '0.01'/>
+							<div hidden> <!--start of hidden input field-->
+                    <input type="number" class="form-control" name="AcessoryOrigInputPrice_Field" id="AcessoryOrigInputPrice_Field" step = '0.01'/>
 
-	                                <input type="number" class="form-control" name="AcrsID_Field" id="AcrsID_Field"/>
+                    <input type="number" class="form-control" name="AcrsID_Field" id="AcrsID_Field"/>
 
-	                                <input type="text" class="form-control" name="AcrsName_Field" id="AcrsName_Field"/>
+                    <input type="text" class="form-control" name="AcrsName_Field" id="AcrsName_Field"/>
 
-                                  <input type="text" class="form-control" name="Acrs_Image_Field" id="Acrs_Image_Field"/>
+                    <input type="text" class="form-control" name="Acrs_Image_Field" id="Acrs_Image_Field"/>
 
-	                                <input type="text" class="form-control" name="Acrs_Availableqty_Field" id="Acrs_Availableqty_Field"/>
+                    <input type="text" class="form-control" name="Acrs_Availableqty_Field" id="Acrs_Availableqty_Field"/>
 
-	                                <label>The decision</label>
-	                                <input type="text" class="form-control" name = "AcessoryDecision_Field" id = "AcessoryDecision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->
+                    <label>The decision</label>
+                    <input type="text" class="form-control" name = "AcessoryDecision_Field" id = "AcessoryDecision_Field" value = 'O'/>
+              </div>      <!--end of hidden input field-->
 							<div id = "divToggleBtnforAcessories" class="togglebutton" class="togglebutton">
 								<label>
 							    	<input type="checkbox" name = "NewAcessoryPriceCheckBox" id = "NewAcessoryPriceCheckBox">
