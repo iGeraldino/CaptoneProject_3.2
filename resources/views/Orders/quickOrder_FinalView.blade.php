@@ -129,6 +129,7 @@
 						<tbody>
 						<?php
 							$totalAmt_Bqt = 0;
+							$tamt_BQT = 0;
 						?>
 						@foreach($NewOrder_Bouquet as $Bqt)
 							<tr>
@@ -178,7 +179,7 @@
 														@endif
 
                             <?php
-                              $tamt_BQT = $Bqt->QTY*$Bqt->Unit_Price;
+                              $tamt_BQT = $Bqt->QTY * $Bqt->Unit_Price;
                             ?>
 													@endforeach
 

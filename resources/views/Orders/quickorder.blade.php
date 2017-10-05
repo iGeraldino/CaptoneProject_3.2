@@ -2,8 +2,8 @@
 
 @section('content')
    <?php
-/*
-    Cart::instance('overallFLowers')->destroy();
+    /*Cart::instance('overallFLowers')->destroy();
+
 
      Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
      Cart::instance('TobeSubmitted_BqtQuick')->destroy();

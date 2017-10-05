@@ -246,7 +246,7 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
 
                   }//end of if
                 //echo '$Original_Price  = '.$Original_Price;
-               Cart::instance('Ordered_Flowers')->update($rowidofRecord,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
+               Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
           }
           Session::put('update_O_FlowerQty_Session','Successful');
           return redirect()->route('Orders_Flowers.edit',$id);

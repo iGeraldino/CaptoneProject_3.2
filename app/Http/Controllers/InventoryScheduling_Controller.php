@@ -10,6 +10,8 @@ use App\Http\Requests;
 use Session;
 use \Cart;
 use Auth;
+use Carbon\Carbon;
+
 
 class InventoryScheduling_Controller extends Controller
 {
@@ -197,12 +199,15 @@ class InventoryScheduling_Controller extends Controller
             }
             else{
               //$current = Carbon::now('Asia/Manila');
-              $updateShopSchedule = DB::select('CALL update_Scheduled_Inventory(?)',array($id));
 
               $dateArrived = date('Y-m-d', strtotime($request->DateRecieved_Field));
               $timeArrived = date('H:i:s', strtotime($request->TimeRecieved_Field));
 
               $datetime = $dateArrived.' '.$timeArrived;
+              $current = Carbon::now('Asia/Manila');
+
+              $updateShopSchedule = DB::select('CALL update_Scheduled_Inventory(?,?,?)',array($id,$current,$datetime));
+
 
               foreach(CART::instance('Flowers_to_Arrive')->content() as $row){
                 $update_Scheduled_flowers =DB::select('CALL update_ScheduledFlowers_From_suppliers(?, ?, ?, ?, ?, ?)',

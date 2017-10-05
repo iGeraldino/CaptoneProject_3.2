@@ -290,6 +290,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                foreach($AvailableFlowers as $Aflwrs){
                  if($Aflwrs->flower_ID == $id){
                    if($newQty > $Aflwrs->QTY){
+
                      Session::put('update_O_FlowerQuickQty_Session', 'Fail2');
                      return redirect()->back();
                    }else{
@@ -297,12 +298,20 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                        //dd($Aflwrs->flower_ID);
                        $qtyWhenAdded = 0;
                        if($flwr->id == $Aflwrs->flower_ID){
-                         $qtyWhenAdded = $flwr->qty + $newQty;
-                         if($qtyWhenAdded > $Aflwrs->QTY){
-                           //dd($qtyWhenAdded,$Aflwrs->QTY);
-                           Session::put('update_O_FlowerQuickQty_Session', 'Fail3');
-                           return redirect()->back();
-                         }//determines if the inventory cannot sustain the order anymore....
+                         foreach(Cart::instance('QuickOrdered_Flowers')->content() as $data){
+                           if($data->id == $Aflwrs->flower_ID){
+                             $oldQty = $data->qty;
+                             break;
+                           }
+                         }
+                        if($oldQty < $newQty){
+                          $qtyWhenAdded = $flwr->qty + $newQty;
+                          if($qtyWhenAdded > $Aflwrs->QTY){
+                            //dd($qtyWhenAdded,$Aflwrs->QTY);
+                            Session::put('update_O_FlowerQuickQty_Session', 'Fail3');
+                            return redirect()->back();
+                          }//determines if the inventory cannot sustain the order anymore....
+                        }
                        }//end of inner if
                      }
                    }
