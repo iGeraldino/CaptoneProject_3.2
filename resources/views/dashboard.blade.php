@@ -8,6 +8,8 @@
   <?php
    $sessionLoginValue = Session::get('loginSession');
      Session::remove('loginSession');//determines the addition of new flower
+     use Carbon\Carbon;
+     $current = Carbon::now('Asia/Manila');
   ?>
 
   <div hidden>
@@ -106,14 +108,18 @@
         <div class="box-body">
           <table id="example2" class="table table-bordered table-striped">
             <thead>
-                <th class="text-center"> ITEM ID</th>
-                <th class="text-center"> NAME </th>
-                <th class="text-center"> QUANTITY</th>
+                <th class="text-center"> FLOWER ID</th>
+                <th class="text-center"> FLOWER NAME </th>
+                <th class="text-center"> QUANTITY LEFT</th>
             </thead>
             <tbody>
-              <td>1</td>
-              <td class="text-center"> Christine Joy Aradia</td>
-              <td></td>
+              @foreach($CriticalFLowers as $FLWR)
+              <tr>
+                <td class="text-center">FLWR-{{$FLWR->FLWR_ID}}</td>
+                <td class="text-center"> {{$FLWR->Name}}</td>
+                <td class="text-center" style = "color:red;"><b>{{$FLWR->QTY}} stems</b></td>
+              </tr>
+             @endforeach
             </tbody>
           </table>
         </div>
@@ -166,7 +172,7 @@
             <tbody>
               @foreach($Porders as $Olist)
               <tr>
-                  <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
+                  <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}</td>
                   <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
                   <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
                   <td class="text-center" style="text-transform: uppercase; color:green;"><span class = "btn btn-sm btn-warning">  {{$Olist->Status}} </span></td>
@@ -185,7 +191,7 @@
       <div>
         <div class="box">
           <div class="box-header Shalala">
-            <h5 class="text-center" style="color: white;"><b>SPOILAGE</b></h5>
+            <h5 class="text-center" style="color: white;"><b>FLOWERS EXPECTED TO SPOIL</b></h5>
           </div>
           <div class="box-body">
             <table id="example2" class="table table-bordered table-striped">
@@ -203,7 +209,7 @@
                   <td class="text-center">BATCH_{{$FLowers->Sched_ID}}</td>
                   <td class="text-center">FLWR_{{$FLowers->Flower_ID}}</td>
                   <td class="text-center">{{$FLowers->flwrName}}</td>
-                  <td class="text-right">{{$FLowers->QTY_Remaining}}</td>
+                  <td class="text-right" style = "color:red"><b>{{$FLowers->QTY_Remaining}} stems</b> </td>
                   <td class="text-right">{{date_format(date_create($FLowers->Date_to_Spoil),'M d, Y')}}</td>
                   <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
                 </tr>
@@ -219,20 +225,44 @@
       <div>
         <div class="box">
           <div class="box-header Lush">
-            <h5 class="text-center" style="color: white;"><b>ARRIVING SUPPLIES</b></h5>
+            <h5 class="text-center" style="color: white;"><b>ARRIVING FLOWERS</b></h5>
           </div>
           <div class="box-body">
-            <table id="example2" class="table table-bordered table-striped">
+            <table id="Arrivingtable" class="table table-bordered table-striped">
               <thead>
-                  <th class="text-center"> ITEM ID</th>
-                  <th class="text-center"> NAME </th>
-                  <th class="text-center"> QUANTITY</th>
+              <tr>
+                <th>Sched ID </th>
+                <th>Date Requested</th>
+                <th>Date to Recieve </th>
+                <th>Supplier </th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
               </thead>
-              <tbody>
-                <td>1</td>
-                <td class="text-center"> Christine Joy Aradia</td>
-                <td></td>
-              </tbody>
+            <tbody>
+              <?php
+                $current2 = date('M d, Y',strtotime($current));
+              ?>
+             <!--foreach here -->
+             @foreach($arriving as $arriving)
+                <tr>
+                  <td> SCHED-{{$arriving->Sched_Id}} </td>
+                  <td>{{date('M d, Y (h:i a)',strtotime($arriving->date_ordered))}}</td>
+                  <td>{{date('M d, Y',strtotime($arriving->Date))}}</td>
+                  <td>(SUPLR-{{$arriving->Supplier_ID}}){{$arriving->FName}} {{$arriving->MName}},{{$arriving->LName}} </td>
+                  @if($current2 != date('M d, Y',strtotime($arriving->Date)))
+                   <td><span class = "btn btn-sm btn-danger">Late</span></td>
+                  @elseif($current2 == date('M d, Y',strtotime($arriving->Date)))
+                   <td><span class = "btn btn-sm btn-primary">To be recieved</span></td>
+                  @endif
+                  <td align="center">
+                     <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">search</i>
+                     </a>
+                  </td>
+                </tr>
+              @endforeach
+            <!--end foreach here-->
+            </tbody>
             </table>
           </div>
           <!-- /.box-body -->

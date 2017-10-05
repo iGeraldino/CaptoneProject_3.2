@@ -12,7 +12,8 @@
 
   $sessionManage_RequestValue = Session::get('Manage_Session');
   Session::remove('Manage_Session');//determines if there are flowers the have been managed
-
+  use Carbon\Carbon;
+  $current = Carbon::now('Asia/Manila');
 ?>
 
  <div hidden>
@@ -52,8 +53,8 @@
                     echo $min->format("Y-m-d");
                     ?>"
                   min = "<?php
-                    $min = new DateTime();
-                    $min->modify("+3 days");
+                    $min = $current;
+                    //$min->modify("+3 days");
                     //$max = new DateTime();
                     echo $min->format("Y-m-d");
                     ?>"
@@ -141,7 +142,7 @@
                         <th>Schedule ID </th>
                         <th>Date Requested</th>
                         <th>Date to Recieve </th>
-                        <th>Supp_ID</th>
+                        <th>SUPLR_ID</th>
                         <th>Supplier_Name </th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -154,9 +155,9 @@
                           <th> SCHED-{{$sched->Sched_Id}} </th>
                           <th>{{date('M d, Y (h:i a)',strtotime($sched->date_ordered))}}</th>
                           <th>{{date('M d, Y',strtotime($sched->Date))}}</th>
-                          <th>SUPP-{{$sched->Supplier_ID}}</th>
+                          <th>SUPLR-{{$sched->Supplier_ID}}</th>
                           <th>{{$sched->FName}} {{$sched->MName}},{{$sched->LName}} </th>
-                          <th>{{$sched->Status}}</th>
+                          <th><span class = "btn btn-sm btn-warning">PENDING<span></th>
                           <td align="center">
                              <a type = "button" href="{{ route('InventoryScheduling.show',$sched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="MORE"> <i class="material-icons">more_horiz</i>
 
@@ -183,7 +184,7 @@
                             <th>Schedule ID </th>
                             <th>Date Requested</th>
                             <th>Date to Recieve </th>
-                            <th>Supp_ID</th>
+                            <th>SUPLR_ID</th>
                             <th>Supplier_Name </th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -191,8 +192,6 @@
                           </thead>
                         <tbody>
                           <?php
-                            use Carbon\Carbon;
-                            $current = Carbon::now('Asia/Manila');
                             $current2 = date('M d, Y',strtotime($current));
                           ?>
                          <!--foreach here -->
@@ -203,10 +202,10 @@
                               <th>{{date('M d, Y',strtotime($arriving->Date))}}</th>
                               <th>SUPP-{{$arriving->Supplier_ID}}</th>
                               <th>{{$arriving->FName}} {{$arriving->MName}},{{$arriving->LName}} </th>
-                              @if($current2 != $arriving->Date)
-                               <th>Late</th>
-                              @else if($current2 == $arriving->Date)
-                               <th>To be recieved</th>
+                              @if($current2 != date('M d, Y',strtotime($arriving->Date)))
+                               <th><span class = "btn btn-sm btn-danger">Late</span></th>
+                              @elseif($current2 == date('M d, Y',strtotime($arriving->Date)))
+                               <th><span class = "btn btn-sm btn-primary">To be recieved</span></th>
                               @endif
                               <td align="center">
                                  <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">search</i>
@@ -232,7 +231,7 @@
                         <th>Schedule ID </th>
                         <th>Date to Recieve </th>
                         <th>Date Requested</th>
-                        <th>Supp_ID</th>
+                        <th>SUPLR_ID</th>
                         <th>Supplier_Name </th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -247,7 +246,7 @@
                           <th>{{$donesched->date_ordered}}</th>
                           <th>SUPP-{{$donesched->Supplier_ID}}</th>
                           <th>{{$donesched->FName}} {{$donesched->MName}},{{$donesched->LName}} </th>
-                          <th>{{$donesched->Status}}</th>
+                          <th><span class = "btn btn-sm btn-success">Recieved</span></th>
                           <td align="center">
                              <a type = "button" href="{{ route('InventoryScheduling.edit',$donesched->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW"><i class="material-icons">search</i>
                              </a>

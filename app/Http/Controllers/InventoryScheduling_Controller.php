@@ -41,7 +41,7 @@ class InventoryScheduling_Controller extends Controller
             $doneschedule = DB::select('CALL doneinventory_Schedules()');
             $canceledschedule = DB::select('CALL canceledinventory_Schedules()');
             $arriving = DB::select('CALL view_Arriving_Inventory()');
-
+            //dd($arriving);
            return view('flower.inventoryScheduling.schedule_Inventory')
            ->with('arriving',$arriving)
            ->with('schedInv',$schedule)

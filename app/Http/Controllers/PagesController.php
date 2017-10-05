@@ -115,11 +115,16 @@ class PagesController extends Controller
 			->where('Status','PENDING')
 			->get();
 
+			$arriving = DB::select('CALL view_Arriving_Inventory()');
+
+			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 			//
 			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 			return view('dashboard')
-			->with('Porders',$Pending_salesOrders)
-			->with('SpoiledFLowers',$SpoiledFLowers);
+			 ->with('CriticalFLowers',$CriticalFLowers)
+       ->with('arriving',$arriving)
+			 ->with('Porders',$Pending_salesOrders)
+			 ->with('SpoiledFLowers',$SpoiledFLowers);
 		}
 
 		}
