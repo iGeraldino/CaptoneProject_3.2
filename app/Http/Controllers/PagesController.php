@@ -109,8 +109,8 @@ class PagesController extends Controller
 		}
 		else{
 			Session::put('loginSession','good');
+			//
 			return view('dashboard');
-
 		}
 
 		}
