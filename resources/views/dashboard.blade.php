@@ -1,12 +1,12 @@
-  
+
 @extends('main')
 
 @section('content')
-   
+
   <div style="margin-top: 50px;">
 
   <?php
-   $sessionLoginValue = Session::get('loginSession'); 
+   $sessionLoginValue = Session::get('loginSession');
      Session::remove('loginSession');//determines the addition of new flower
   ?>
 
@@ -74,8 +74,11 @@
           </div>
         </div>
         <!-- ./col -->
+      </div>
 
-  	<div class="col-md-6">
+<div class = "row">
+  <div class = "col-md-6">
+    <div>
       <!-- AREA CHART -->
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -94,67 +97,8 @@
       </div>
       <!-- /.box -->
     </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="box">
-      <div class="box-header Subu">
-        <h5 class="text-center" style="color: white;"><b>NEW ORDERS</b></h5>
-      </div>
-      <div class="box-body">
-        <table id="example2" class="table table-bordered table-striped">
-          <thead>
-              <th class="text-center"> ORDER ID</th>
-              <th class="text-center"> CUSTOMER ID </th>
-              <th class="text-center"> DATE</th>
-              <th class="text-center"> STATUS</th>
-              <th class="text-center"> ACTION</th>
-          </thead>
-          <tbody>
-            <td class="text-center">1</td>
-            <td class="text-center"> Christine Joy Aradia</td>
-            <td></td>
-            <td>UTANG</td>
-            <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
-          </tbody>
-        </table>
-      </div>
-      <!-- /.box-body -->
-    </div>
-    <!-- /.box -->
-  <!-- /.col -->
-    </div>
-
-    <div class="col-md-6">
-      <div class="box">
-        <div class="box-header Shalala">
-          <h5 class="text-center" style="color: white;"><b>SPOILAGE</b></h5>
-        </div>
-        <div class="box-body">
-          <table id="example2" class="table table-bordered table-striped">
-            <thead>
-                <th class="text-center"> BATCH ID</th>
-                <th class="text-center"> FLOWER ID </th>
-                <th class="text-center"> QUANTITY</th>
-                <th class="text-center"> DATE</th>
-                <th class="text-center"> ACTION</th>
-            </thead>
-            <tbody>
-              <td class="text-center">1</td>
-              <td class="text-center"> Christine Joy Aradia</td>
-              <td></td>
-              <td>UTANG</td>
-              <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
-            </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-  <!-- /.col -->
-    </div>
-
-    <div class="col-md-6" style="margin-top: -6%;">
+    <div>
       <div class="box">
         <div class="box-header Inbox">
           <h5 class="text-center" style="color: white;"><b>CRITICAL INVENTORY</b></h5>
@@ -178,33 +122,8 @@
       <!-- /.box -->
     <!-- /.col -->
     </div>
-    
-    <div class="col-md-6">
-      <div class="box">
-        <div class="box-header Lush">
-          <h5 class="text-center" style="color: white;"><b>ARRIVING SUPPLIES</b></h5>
-        </div>
-        <div class="box-body">
-          <table id="example2" class="table table-bordered table-striped">
-            <thead>
-                <th class="text-center"> ITEM ID</th>
-                <th class="text-center"> NAME </th>
-                <th class="text-center"> QUANTITY</th>
-            </thead>
-            <tbody>
-              <td>1</td>
-              <td class="text-center"> Christine Joy Aradia</td>
-              <td></td>
-            </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    <!-- /.col -->
-    </div>
 
-    <div class="col-md-6" style="margin-top: -6%;">
+    <div>
       <div class="box">
         <div class="box-header Subu">
           <h5 class="text-center" style="color: white;"><b>UNPAID ORDERS</b></h5>
@@ -228,11 +147,108 @@
       <!-- /.box -->
     <!-- /.col -->
     </div>
+  </div>
+  <div class = "col-md-6">
+    <div>
+      <div class="box">
+        <div class="box-header Subu">
+          <h5 class="text-center" style="color: white;"><b>NEW ORDERS</b></h5>
+        </div>
+        <div class="box-body">
+          <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <th class="text-center"> ORDER ID</th>
+                <th class="text-center"> CUSTOMER ID </th>
+                <th class="text-center"> DATE</th>
+                <th class="text-center"> STATUS</th>
+                <th class="text-center"> ACTION</th>
+            </thead>
+            <tbody>
+              <td class="text-center">1</td>
+              <td class="text-center"> Christine Joy Aradia</td>
+              <td></td>
+              <td>UTANG</td>
+              <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    <!-- /.col -->
+      </div>
+
+      <div>
+        <div class="box">
+          <div class="box-header Shalala">
+            <h5 class="text-center" style="color: white;"><b>SPOILAGE</b></h5>
+          </div>
+          <div class="box-body">
+            <table id="example2" class="table table-bordered table-striped">
+              <thead>
+                  <th class="text-center"> BATCH ID</th>
+                  <th class="text-center"> FLOWER ID </th>
+                  <th class="text-center"> NAME </th>
+                  <th class="text-center"> QUANTITY TO SPOIL</th>
+                  <th class="text-center"> DATE OF SPOILAGE</th>
+                  <th class="text-center"> ACTION</th>
+              </thead>
+              <tbody>
+                @foreach($SpoiledFLowers as $FLowers)
+                <tr>
+                  <td class="text-center">BATCH_{{$FLowers->Sched_ID}}</td>
+                  <td class="text-center">FLWR_{{$FLowers->Flower_ID}}</td>
+                  <td class="text-center">{{$FLowers->flwrName}}</td>
+                  <td class="text-right">{{$FLowers->QTY_Remaining}}</td>
+                  <td class="text-right">{{date_format(date_create($FLowers->Date_to_Spoil),'M d, Y')}}</td>
+                  <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    <!-- /.col -->
+      </div>
+      <div>
+        <div class="box">
+          <div class="box-header Lush">
+            <h5 class="text-center" style="color: white;"><b>ARRIVING SUPPLIES</b></h5>
+          </div>
+          <div class="box-body">
+            <table id="example2" class="table table-bordered table-striped">
+              <thead>
+                  <th class="text-center"> ITEM ID</th>
+                  <th class="text-center"> NAME </th>
+                  <th class="text-center"> QUANTITY</th>
+              </thead>
+              <tbody>
+                <td>1</td>
+                <td class="text-center"> Christine Joy Aradia</td>
+                <td></td>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      <!-- /.col -->
+      </div>
+
+  </div>
+</div>
+
+
+
+
+
 @endsection
 @section('scripts')
 
 <script>
-  
+
   if($("#LoggedInfield").val()=='good'){
     //Show popup
     //swal("Welcome to the admin side!","You have successfully logged in!","success");

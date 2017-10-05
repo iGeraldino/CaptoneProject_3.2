@@ -154,7 +154,6 @@
 						<div class="tab-content text-center">
 							<div class="tab-pane active" id="Flowers">
 							  @foreach($FlowerList as $Fdetails)
-								@if($Fdetails->QTY != 0)
 									<div class="col-sm-3">
 										<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field">
 										<div hidden>
@@ -166,19 +165,6 @@
 										</div>
 										<a class="btn btn-sm Lemon Flower_Tab_Btn" data-toggle="modal" data-target="#flowerTab_modal"> QUICK VIEW</a>
 	                </div>
-									@elseif($Fdetails->QTY == 0)
-                  <div class="col-md-6" hidden>
-                    <img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
-                  <div hidden>
-                    <input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
-                    <input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
-                    <input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
-                    <input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
-                    <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
-                  </div>
-                    <a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
-                  </div>
-									@endif
                   @endforeach
 							</div><!--end of active pane-->
 							<div class="tab-pane" id="Bouquets">
@@ -186,7 +172,6 @@
 									Flowers
 
 							  @foreach($FlowerList as $Fdetails)
-                @if($Fdetails->QTY != 0)
 										<div class="col-md-6">
 											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
 										<div hidden>
@@ -198,19 +183,6 @@
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
-                @elseif($Fdetails->QTY == 0)
-                    <div class="col-md-6" hidden>
-                      <img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
-                    <div hidden>
-                      <input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
-                      <input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
-                      <input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
-                      <input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
-                      <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
-                    </div>
-                      <a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
-                    </div>
-                @endif
                @endforeach
 
 

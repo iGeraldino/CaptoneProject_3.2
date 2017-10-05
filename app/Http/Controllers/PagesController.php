@@ -110,7 +110,9 @@ class PagesController extends Controller
 		else{
 			Session::put('loginSession','good');
 			//
-			return view('dashboard');
+			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+			return view('dashboard')
+			->with('SpoiledFLowers',$SpoiledFLowers);
 		}
 
 		}

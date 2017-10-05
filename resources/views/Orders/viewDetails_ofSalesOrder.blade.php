@@ -19,8 +19,12 @@
 					<h6 class="container"><b>Congartulations! You have successfully made an order</b></h6>
 				</div>
 				<div class="col-md-3 col-md-offset-3">
-					<a href="/Long_Sales_Order" type="button" class="btn btn-sm Lemon"> Done</a>
-					<a href="{{route('LongOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print</a>
+					<a href="/Sales_Qoutation" type="button" class="btn btn-sm Lemon"> Back</a>
+					@if($NewSalesOrder_details != null)
+					<a href="{{route('LongOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print Receipt</a>
+					 @else
+					 <a href="{{route('QuickOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print</a>
+					 @endif
 				</div>
 			</div>
 		</div>
@@ -49,21 +53,26 @@
 				<div class="col-md-6">
 					<h6><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
 				</div>
-				<div class="col-md-6">
-					<h6><b>Shipping Method: </b>{{$NewSalesOrder_details->shipping_method}}</h6>
-				</div>
-				<div class="col-md-6">
-					<h6><b>Payment Method: </b>{{$NewSalesOrder_details->Payment_Mode}} </h6>
-				</div>
+				@if($NewSalesOrder_details != null)
+					<div class="col-md-6">
+						<h6><b>Shipping Method: </b>{{$NewSalesOrder_details->shipping_method}}</h6>
+					</div>
+					<div class="col-md-6">
+						<h6><b>Payment Method: </b>{{$NewSalesOrder_details->Payment_Mode}} </h6>
+					</div>
+				@else
 
+				@endif
+
+
+				@if($NewSalesOrder_details != null)
 				<div hidden>
-					<input type = "text" id = "Del_Adrs" name = "Del_Adrs" value = "{{$NewSalesOrder_details->Delivery_Address}}">
-					<input type = "text" id = "Del_Brgy" name = "Del_Brgy" value = "{{$NewSalesOrder_details->Delivery_Baranggay}}">
-					<input type = "text" id = "prov_ID" name = "prov_ID" value = "{{$NewSalesOrder_details->Delivery_Province}}">
-					<input type = "text" id = "city_ID" name = "city_ID" value = "{{$NewSalesOrder_details->Delivery_City}}">
-					<input type = "text" id = "ship_method" name = "ship_method" value ="{{$NewSalesOrder_details->shipping_method}}">
-					<input type = "text" id = "NewOrderSession_Value" name = "NewOrderSession_Value" value ="{{$Successession}}">
-
+						<input type = "text" id = "Del_Adrs" name = "Del_Adrs" value = "{{$NewSalesOrder_details->Delivery_Address}}">
+						<input type = "text" id = "Del_Brgy" name = "Del_Brgy" value = "{{$NewSalesOrder_details->Delivery_Baranggay}}">
+						<input type = "text" id = "prov_ID" name = "prov_ID" value = "{{$NewSalesOrder_details->Delivery_Province}}">
+						<input type = "text" id = "city_ID" name = "city_ID" value = "{{$NewSalesOrder_details->Delivery_City}}">
+						<input type = "text" id = "ship_method" name = "ship_method" value ="{{$NewSalesOrder_details->shipping_method}}">
+						<input type = "text" id = "NewOrderSession_Value" name = "NewOrderSession_Value" value ="{{$Successession}}">
 					<select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
 						@foreach($provinces as $prov2)
 							<option value ="{{$prov2->id}}" data-tag = "{{$prov2->name}}"> {{$prov2->name}} </option>
@@ -76,29 +85,34 @@
 						@endforeach
 					</select>
 				</div>
-			<div id = "delivery_det_DIV" hidden>
-				<div id = 'Del_addressDIV' class="col-md-12">
-					<h6><b>Delivery Address: </b> </h6>
-				</div>
+				<div id = "delivery_det_DIV" hidden>
+					<div id = 'Del_addressDIV' class="col-md-12">
+						<h6><b>Delivery Address: </b> </h6>
+					</div>
 
-				<div id = "Delivery_DateDiv" class="col-md-12">
-					<h6><b>Delivery Date:</b>
-						<?php
+					<div id = "Delivery_DateDiv" class="col-md-12">
+						<h6><b>Delivery Date:</b>
+							<?php
+									echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
+									//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+						?></h6>
+					</div>
+				</div>
+				<div id = "pickup_dateDIV" hidden>
+					<div id = "pikupDate_DIV" class="col-md-12">
+						<h6><b>PickUp Date:</b>
+							<?php
 								echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
 								//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
-					?></h6>
+							?>
+						</h6>
+					</div>
 				</div>
-			</div>
-		<div id = "pickup_dateDIV" hidden>
-			<div id = "pikupDate_DIV" class="col-md-12">
-				<h6><b>PickUp Date:</b>
-	 				<?php
-						echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
-						//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
-					?>
-				</h6>
-			</div>
-		</div>
+		@else
+
+		@endif
+
+
 				<div class="col-md-12" style="margin-top: 40px;overflow-x:auto;">
 					<h3 class="fontx text-center">Flower Summary</h3>
 					<hr>
