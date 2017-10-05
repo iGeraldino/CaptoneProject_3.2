@@ -421,6 +421,8 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
+Route::get('landing_page', 'PagesController@getLandingPage');
+
 
 
 

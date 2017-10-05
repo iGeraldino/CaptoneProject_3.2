@@ -311,4 +311,7 @@ class PagesController extends Controller
 			return view('reports/OrderSummary_Delivery_Simple');
 		}
 
+	public function getLandingPage() {
+			return view('login/landing_page');
+		}
 }

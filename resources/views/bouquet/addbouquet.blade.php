@@ -13,7 +13,7 @@
 	<input id = "AddBqt_result" value = "{{$savingSession}}">
 </div>
 
-	<section class="content">
+	<section class="content" style="margin-top: 2%;">
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
@@ -32,19 +32,19 @@
               <table id="sam" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th> Bouquet ID </th>
-                  <th> Bouquet Image </th>
-                  <th> Flower Count </th>
-                  <th> Action </th>
+                  <th class="text-center"> BOUQUET ID </th>
+                  <th class="text-center"> BOUQUET IMAGE </th>
+                  <th class="text-center"> FLOWER COUNT </th>
+                  <th class="text-center"> ACTION </th>
                 </tr>
                 </thead>
            		<tbody>
                @foreach ($bou as $bouq)
                   <tr>
-                    <th>BQT-{{ $bouq -> BQT_ID }}</th>
+                    <th class="text-center">BQT-{{ $bouq -> BQT_ID }}</th>
                     <th align="center"><img src="{{ asset('bouquetImage/'. $bouq -> img)}}" style="min-width: 50px; max-height: 50px; margin-left: 100px;">
-                    <th>{{ $bouq->countF }} pcs. </th>
-                    <th align="center">
+                    <th class="text-center">{{ $bouq->countF }} pcs. </th>
+                    <th class="text-center">
                     	<a href=" {{ route ('bouqAddFlower.show', $bouq -> BQT_ID ) }} " class="btn btn-just-icon Subu" rel="tooltip" title="MORE DETAILS"> <i class="material-icons">more_horiz</i></a>
                     </th>
                   </tr>

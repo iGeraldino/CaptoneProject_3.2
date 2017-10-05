@@ -5,8 +5,10 @@
     <!-- Content Header (Page header) -->
   <section class="content-header" style="margin-top: 2%;">
 
-
+    
     <!-- line modal -->
+
+
     <div class="modal fade" id="newCust" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-dialog">
       <div class="modal-content">
@@ -286,6 +288,7 @@
                           <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" >
                            <i class="material-icons">add_circle</i>
                           </a>
+                           <a type="button" class="btn btn-just-icon twitch" rel="tooltip" title="CREATE ACCOUNT" data-toggle="modal" data-target="#createaccount"> <i class="material-icons">add</i></a>
 
                         </td>
 
@@ -301,10 +304,57 @@
         </div>
         <!-- /.col -->
       </div>
-
-
-
 	</div>
+
+  <!-- CREATE ACCOUNT MODAL -->
+
+  <!-- Modal Core -->
+    <div class="modal fade" id="createaccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel" class="text-center">CREATE ACCOUNT</h4>
+          </div>
+          <div class="modal-body">
+            <div class="">
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Username:</label>
+                    <input type="email" class="form-control">
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Email:</label>
+                    <input type="email" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Password:</label>
+                    <input type="email" class="form-control">
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Confirm Password:</label>
+                    <input type="email" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-info btn-simple">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection
 
 

@@ -67,102 +67,137 @@
 
 	</section>
 
-	<section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <div class="col-md-8">
-                <h3><b>LIST OF ACCESSORIES BEING OFFERRED BY THE SHOP</b></h3>
-              </div>
-              <div class="col-md-4">
-                <button type="button" class="btn btn-round btn-md pull-right twitch" data-toggle="modal" data-target="#AddModal">
-                <i class="material-icons md-24"> add_circle</i>  Add Accessories  
-                  </button>
+	<div class="col-xs-12" style="margin-top: 2%;">
+    <div class="panel">
+      <div class="panel-heading Subu">
+        <h3 class="panel-title" style="color: white;"> OTHER ITEMS</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-8">
+          <h3><b>LIST OF ACCESSORIES BEING OFFERED BY THE SHOP</b></h3>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-round btn-md pull-right twitch" data-toggle="modal" data-target="#AddModal">
+          <i class="material-icons md-24"> add_circle</i>  Add Accessories  
+            </button>
+        </div>
+        <div class="col-md-12">
+          <div class="card card-nav-tabs">
+            <div class="header Sharp">
+            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="active">
+                    <a href="#active" data-toggle="tab">
+                      <i class="material-icons">assignment_return</i>
+                      Active
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#inactive" data-toggle="tab">
+                      <i class="material-icons">assignment_turned_in</i>
+                      Inactive
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="sam" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                      
+          </div>
+          <div class="content">
+            <div class="tab-content text-center">
+              <div class="tab-pane active" id="active">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table id="sam" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
                         <th class="text-center"> ACCESSORIES ID </th>
                         <th class="text-center"> NAME </th>
                         <th class="text-center"> IMAGE </th>
                         <th class="text-center"> PRICE </th>
                         <th class="text-center"> QUANTITY </th>
                         <th class="text-center"> ACTION </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($acc as $acce)
+                      <tr>
+                        <th class="text-center">ITM-{{ $acce->ACC_ID }}</th>
+                        <th class="text-center">{{ $acce -> name }}</th>
+                        <th align="center"><img src="{{ asset('accimage/'. $acce -> image)}}" style="min-width: 80px; max-height: 50px; margin-left: 100px;">
+                        <th class="text-center">Php {{number_format($acce -> price,2)  }}</th>
+                        <th class="text-center">{{ $acce -> qty }} pcs</th>
+                          <td align="center" > 
+                            <a data-toggle="modal" href="#acessoryModal{{$acce->ACC_ID}}"> 
+                            <button rel="tooltip" title="VIEW" class="btn btn-just-icon Subu"> <i class="material-icons md-24"> edit</i></i> </button></a>
+                            {!! Form::open(['route' => ['acc.destroy',$acce->ACC_ID],'method'=>'DELETE']) !!}
+                            <button rel="tooltip" title="DELETE" type = "submit" name = "DelBtn" class="btn btn-just-icon Shalala"> <i class="material-icons md-24">delete</i></button>
+                            {!! Form::close() !!}
+                          </td> 
 
-                </tr>
-                </thead>
-           		<tbody>
-
-           		 @foreach ($acc as $acce)
-           				<tr>
-                    <th class="text-center">ITM-{{ $acce->ACC_ID }}</th>
-                    <th class="text-center">{{ $acce -> name }}</th>
-                    <th align="center"><img src="{{ asset('accimage/'. $acce -> image)}}" style="min-width: 80px; max-height: 50px; margin-left: 100px;">
-                    <th class="text-center">Php {{number_format($acce -> price,2)  }}</th>
-                    <th class="text-center">{{ $acce -> qty }} pcs</th>
-                    <td align="center" > 
-                          <a data-toggle="modal" href="#acessoryModal{{$acce->ACC_ID}}"> 
-                          <button rel="tooltip" title="VIEW" class="btn btn-just-icon Subu"> <i class="material-icons md-24"> edit</i></i> </button></a>
-                           {!! Form::open(['route' => ['acc.destroy',$acce->ACC_ID],'method'=>'DELETE']) !!}
-                          <button rel="tooltip" title="DELETE" type = "submit" name = "DelBtn" class="btn btn-just-icon Shalala"> <i class="material-icons md-24">delete</i></button>
-                          {!! Form::close() !!}
-                        </td> 
-
-                        <div id="acessoryModal{{$acce->ACC_ID}}" class="modal fade">
-                                    <div class="modal-dialog text-center" style = "width: 40%;" >
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title">Acessory's Details</h4>
-                                            </div>
-
-                                            <div class="modal-body">
-                                              <img src = "{{ asset('accimage/'. $acce -> image)}}" class = "img_responsive" style = "max-width:300px; margin-top: 3%; margin-left: 7%;">
-                                                
-                                                <p><strong>ITM-{{$acce->ACC_ID}}: </strong> </p>
-                                                <p class="text-warning"><strong>Item name: </strong> {{$acce->name}} </p>
-                                                <p class="text-warning"><strong>PRICE:</strong> Php {{number_format($acce->price,2)}} </p>
-                                                <p class="text-warning"><strong>Qty onhand: </strong> {{$acce->qty}} </p>
-                                            </div>
-                                            <div class="modal-footer" id = "editFooter">
-                                              <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-                                                <div class="btn-group" role="group">
-                                                  <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" 
-                                                  class="btn btn-default"  role="button">Cancel</button>
-                                                </div>
-                                                <div class="btn-group" role="group">
-                                                    <a type = "button" href="{{ route('acc.edit',$acce->ACC_ID) }}" class = "btn btn-success btn-info" ><span class = "glyphicon glyphicon-pencil"></span> 
-                                                      Edit Item
-                                                    </a>
-                                                 
-                                                </div>
-                                              </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                          <div id="acessoryModal{{$acce->ACC_ID}}" class="modal fade">
+                            <div class="modal-dialog text-center" style = "width: 40%;" >
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                  <h4 class="modal-title">Acessory's Details</h4>
                                 </div>
-                          <!--end of modal-->
-           				</tr>
-                @endforeach
-     
 
-           		</tbody>
-               </table>
+                              <div class="modal-body">
+                                <img src = "{{ asset('accimage/'. $acce -> image)}}" class = "img_responsive" style = "max-width:300px; margin-top: 3%; margin-left: 7%;">
+                                <p><strong>ITM-{{$acce->ACC_ID}}: </strong> </p>
+                                <p class="text-warning"><strong>Item name: </strong> {{$acce->name}} </p>
+                                <p class="text-warning"><strong>PRICE:</strong> Php {{number_format($acce->price,2)}} </p>
+                                <p class="text-warning"><strong>Qty onhand: </strong> {{$acce->qty}} </p>
+                              </div>
+                              <div class="modal-footer" id = "editFooter">
+                                <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+                                  <div class="btn-group" role="group">
+                                    <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" 
+                                    class="btn btn-default"  role="button">Cancel</button>
+                                  </div>
+                                  <div class="btn-group" role="group">
+                                    <a type = "button" href="{{ route('acc.edit',$acce->ACC_ID) }}" class = "btn btn-success btn-info" ><span class = "glyphicon glyphicon-pencil"></span> 
+                                    Edit Item
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--end of modal-->
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <div class="tab-pane" id="inactive">
+                <div class="box-body">
+                  <table id="sam" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th class="text-center"> ACCESSORIES ID </th>
+                        <th class="text-center"> NAME </th>
+                        <th class="text-center"> IMAGE </th>
+                        <th class="text-center"> PRICE </th>
+                        <th class="text-center"> QUANTITY </th>
+                        <th class="text-center"> ACTION </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+              </div>
             </div>
-            <!-- /.box-body -->
           </div>
-          <!-- /.box -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
-    </section>
+    </div>
+  </div>
+</div>
 
 @endsection
 
