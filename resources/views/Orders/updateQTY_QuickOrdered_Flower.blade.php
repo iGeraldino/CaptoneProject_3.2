@@ -74,15 +74,22 @@
                               <input type="text" class="form-control" value = "Php {{$OFlower_price}}" name="unit_Price" id="unit_Price" disabled>
                              </div>
 
-	                          <div class="form-group label-floating">
+	                        <div class="form-group label-floating">
 		                        <label class="control-label">Quantity:</label>
 		                        <input type="text" class="form-control" value = "{{$OFlower_qty}} pcs." name="Qty" id="Qty" disabled required>
-		                     </div>
+		                       </div>
 
 	                         <div class="form-group label-floating">
                               <label class="control-label">Total Amount</label>
                               <input type="text" class="form-control" value = "Php {{number_format($OFlower_price * $OFlower_qty,2)}}" name="TAmount" id="TAmount" disabled>
-                             </div>
+                            </div>
+
+														<div class="form-group label-floating">
+															 <label class="control-label">Available Quantity</label>
+															 <input type="text" class="form-control" value = "{{$QTYAvailable}} pcs" name="AvailableQTy" id="AvailableQTy" disabled>
+														 </div>
+
+
 	                      </div>
 
 	                      <div class ="col-md-3" id = 'Update_Div' hidden><!--hidden-->
@@ -181,7 +188,13 @@
    if($('#UpdateQtyFlower_order_result').val()=='Successful'){
     //Show popup
     swal("Good!","Ordered quantity has been successfully updated!","success");
-   }
+	}else if($('#UpdateQtyFlower_order_result').val()=='Fail2'){
+	     //Show popup
+			 swal("The quantity requested was greater than the available quantity!","The quantity that you entered has exceeded the available flowers in the inventory. Therefore, no changes has been made!","warning");
+	}else if($('#UpdateQtyFlower_order_result').val()=='Fail3'){
+	     //Show popup
+			 swal("Cannot add flower to order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order. This is for the reason that the inventory cannot sustain it anymore!","error");
+	}
 
     $('#UpdateCheckbox').click(function(){
     	//console.log('pasok');

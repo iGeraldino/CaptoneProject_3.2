@@ -242,11 +242,18 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
   public function edit($id)
   {
     $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($id));
-
+    $AvailableFlowers = DB::select  ('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+    $QTYAvailable = 0;
+    foreach($AvailableFlowers as $AFlowers){
+      if($AFlowers->flower_ID == $id){
+          $QTYAvailable = $AFlowers->QTY;
+      }
+    }
 
   //dd($flower_Det);
     return view('Orders.updateQty_QuickOrdered_Flower')
-    ->with('flower_Det',$flower_Det);
+    ->with('flower_Det',$flower_Det)
+    ->with('QTYAvailable',$QTYAvailable);
   }
 
   /**
@@ -277,6 +284,32 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
             $derived_Sellingprice = 0;
             $oldQty = 0;
                // echo 'may laman';
+
+               $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+
+               foreach($AvailableFlowers as $Aflwrs){
+                 if($Aflwrs->flower_ID == $id){
+                   if($newQty > $Aflwrs->QTY){
+                     Session::put('update_O_FlowerQuickQty_Session', 'Fail2');
+                     return redirect()->back();
+                   }else{
+                     foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                       //dd($Aflwrs->flower_ID);
+                       $qtyWhenAdded = 0;
+                       if($flwr->id == $Aflwrs->flower_ID){
+                         $qtyWhenAdded = $flwr->qty + $newQty;
+                         if($qtyWhenAdded > $Aflwrs->QTY){
+                           //dd($qtyWhenAdded,$Aflwrs->QTY);
+                           Session::put('update_O_FlowerQuickQty_Session', 'Fail3');
+                           return redirect()->back();
+                         }//determines if the inventory cannot sustain the order anymore....
+                       }//end of inner if
+                     }
+                   }
+                 }
+               }//end of main foreach
+
+
             foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
                 if($row->id == $id){
                    //echo $row->id.'---------';
