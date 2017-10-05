@@ -155,17 +155,20 @@
 									Flowers
 
 							  @foreach($FlowerList as $Fdetails)
+                @if($Fdetails->QTY != 0)
 										<div class="col-md-6">
 											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
 										<div hidden>
 											<input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 											<input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
-											<input class = "BqtFlwr_currentPrice_Field"
-											   value = "{{$Fdetails->Final_SellingPrice}}">
+											<input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
+                      <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
+                @elseif($Fdetails->QTY == 0)
+                @endif
                @endforeach
 
 
@@ -765,29 +768,29 @@
 								</label>
 							</div>
 							<div id = 'BqtNewPrice_Div' hidden>
-                               <div class="form-group label-floating">
-                                <label class = 'control-label'>New Price:</label>
-                                <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01" min = '0.0'/>
-                               </div>
-                            </div>
-							<div id = 'BqtavailableQTYDIV' hidden>
-                                <div  class="input-group" >
-                                  <label class = 'control-label'>Available Quantity:</label>
-                                  <input type="text" class="form-control" name="BqtAvailableQty_Field" id="BqtAvailableQty_Field"  placeholder="" disabled/>
-                                </div>
-                            </div>
-                             <div id = 'BqtQTY_Div'>
-                               <div class="form-group label-floating">
-                                <label class = 'control-label'>Quantity:</label>
-                                <input type="number" class="form-control" name="BqtQTY_Field" id="BqtQTY_Field"  placeholder="" min = '1' required/>
-                              </div>
-                            </div>
-                            <div id = 'BqtTAmt_Div'>
-								<div class="input-group">
-                              		<label class = 'control-label'>Total Amount: </label>
-                              		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="Bqttotal_Amt" id="Bqttotal_Amt"  value ="Php 0.00" disabled/>
-                            	</div>
-                            </div>
+                 <div class="form-group label-floating">
+                  <label class = 'control-label'>New Price:</label>
+                  <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01" min = '0.0'/>
+                 </div>
+              </div>
+              <div id = 'BqtavailableQTYDIV'>
+                  <div  class="input-group" >
+                    <label class = 'control-label'>Available Quantity:</label>
+                    <input type="text" class="form-control" name="BqtAvailableQty_Field" id="BqtAvailableQty_Field"  placeholder="" disabled/>
+                  </div>
+              </div>
+               <div id = 'BqtQTY_Div'>
+                 <div class="form-group label-floating">
+                  <label class = 'control-label'>Quantity:</label>
+                  <input type="number" class="form-control" name="BqtQTY_Field" id="BqtQTY_Field"  placeholder="" min = '1' required/>
+                </div>
+              </div>
+              <div id = 'BqtTAmt_Div'>
+	              <div class="input-group">
+                		<label class = 'control-label'>Total Amount: </label>
+                		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="Bqttotal_Amt" id="Bqttotal_Amt"  value ="Php 0.00" disabled/>
+              	</div>
+              </div>
 			        	</div>
 	        		</div>
 	    		</div>
@@ -993,18 +996,31 @@
 	    swal("Good!","Flower's quantity has been updated!","success");
     }else if($('#UpdateFlower_result').val()=='Fail'){
      	    //Show popup
-     	    swal("Sorry!","The quantity that you entered was the sae with the previous quantity of the flower, therefore no changes has been made!","warning");
-     	   }
+     	    swal("Sorry!","The quantity that you entered was the same with the previous quantity of the flower, therefore no changes has been made!","warning");
+    }else if($('#UpdateFlower_result').val()=='Fail2'){
+     	    //Show popup
+     	    swal("The quantity requested was greater than the available quantity!","The quantity that you entered has exceeded the available flowers in the inventory. Therefore, no changes has been made!","warning");
+     }else if($('#UpdateFlower_result').val()=='Fail3'){
+      	    //Show popup
+      	    swal("Cannot add flower to order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order. This is for the reason that the inventory cannot sustain it anymore!","error");
+      }
+
 
 	  if($('#UpdateAcessory_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Acessory's quantity has been updated!","success");
 	   }
 
-	   if($('#AddFlower_result').val()=='Successful'){
+	  if($('#AddFlower_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Flower has been successfully added to Bouquet!","success");
-	   }
+    }else if($('#AddFlower_result').val()=='Fail2'){
+     //Show popup
+     swal("The quantity requested was greater than the available quantity!","The quantity that you entered has exceeded the available flowers in the inventory. Therefore, the flower was not added to the list of order.","warning");
+   }else if($('#AddFlower_result').val()=='Fail3'){
+     //Show popup
+      swal("Cannot add flower to order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order. This is for the reason that the inventory cannot sustain it anymore!","error");
+    }
 
 	  if($('#AddAcessory_result').val()=='Successful'){
 	    //Show popup
@@ -1035,10 +1051,13 @@
       if($('#Adding_FlowerSessionValue').val()=='Successful'){
          //Show popup
          swal("Good Job!","Flower has been successfully added to order!","success");
-       }else if($('#Adding_FlowerSessionValue').val()=='Fail'){
+       }else if($('#Adding_FlowerSessionValue').val()=='Fail2'){
           //Show popup
-          swal("Cannot Add more Order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order for the inventory cannot sustain it anymore!","error");
-        }
+           swal("The quantity requested was greater than the available quantity!","The quantity that you entered has exceeded the available flowers in the inventory. Therefore, the flower was not added to the list of order!","warning");
+        }else if($('#Adding_FlowerSessionValue').val()=='Fail3'){
+           //Show popup
+           swal("Cannot add flower to order!","The request exceeded the available flowers in the inventory, you cannot add the flower that your requested in your order. This is for the reason that the inventory cannot sustain it anymore!","error");
+         }
         //end of functionx
 
 
@@ -1105,7 +1124,9 @@
 			var Flwr_IMG = $('.BqtFlwr_pic_Field').eq(index).val();
 			var Flwr_Name = $('.BqtFlwr_name_Field').eq(index).val();
 			var Flwr_Price = $('.BqtFlwr_currentPrice_Field').eq(index).val();
+      var Flwr_Qty = $('.BqtFlwr_QTY_Field').eq(index).val();
 
+      $('#BqtAvailableQty_Field').val(Flwr_Qty + 'pcs.');
 			$('#BqtViewPrice_Field').val("Php " + Flwr_Price);
 			$('#BqtOrigInputPrice_Field').val(Flwr_Price);
 			$('#BqtNewPrice_Field').val(Flwr_Price);

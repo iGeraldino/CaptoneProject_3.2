@@ -67,6 +67,32 @@ class AddFlowers_to_session_QuickBQT extends Controller
           $Flower_name = $flower_details->flower_name;
           $image = $flower_details->Image;
 
+
+          $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+
+          foreach($AvailableFlowers as $Aflwrs){
+            if($Aflwrs->flower_ID == $Flower_ID){
+              if($Qty > $Aflwrs->QTY){
+                Session::put('AddFlower_To_myQuickOrder', 'Fail2');
+                return redirect()->back();
+              }else{
+                foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                  //dd($Aflwrs->flower_ID);
+                  $qtyWhenAdded = 0;
+                  if($flwr->id == $Aflwrs->flower_ID){
+                    $qtyWhenAdded = $flwr->qty + $Qty;
+                    if($qtyWhenAdded > $Aflwrs->QTY){
+                      //dd($qtyWhenAdded,$Aflwrs->QTY);
+                      Session::put('Added_FlowerToBQT_QuickOrder', 'Fail3');
+                      return redirect()->back();
+                    }//determines if the inventory cannot sustain the order anymore....
+                  }//end of inner if
+                }
+              }
+            }
+          }//end of main foreach
+
+
           if(Cart::instance('QuickOrderedBqt_Flowers')->count() == 0){
               echo 'wala pang laman';
                   $final_total_Amount = 0;
@@ -247,6 +273,33 @@ class AddFlowers_to_session_QuickBQT extends Controller
          $descision = $request->Decision_Field;
          $flower_details = flower_details::find($id);
          $oldQty = 0;
+
+
+                   $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+
+                   foreach($AvailableFlowers as $Aflwrs){
+                     if($Aflwrs->flower_ID == $id){
+                       if($newQty > $Aflwrs->QTY){
+                         Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
+                         return redirect()->back();
+                       }else{
+                         foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                           //dd($Aflwrs->flower_ID);
+                           $qtyWhenAdded = 0;
+                           if($flwr->id == $Aflwrs->flower_ID){
+                             $qtyWhenAdded = $flwr->qty + $newQty;
+                             if($qtyWhenAdded > $Aflwrs->QTY){
+                               //dd($qtyWhenAdded,$Aflwrs->QTY);
+                               Session::put('Update_FlowerToBQT_QuickOrder', 'Fail3');
+                               return redirect()->back();
+                             }//determines if the inventory cannot sustain the order anymore....
+                           }//end of inner if
+                         }
+                       }
+                     }
+                   }//end of main foreach
+
+
         foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
              if($row->id == $id){
                  // echo $row->rowId

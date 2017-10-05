@@ -67,23 +67,28 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           $image = $flower_details->Image;
 
           $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-          $valid = 0;//determined if the qty entered are still valid;
-
 
           foreach($AvailableFlowers as $Aflwrs){
             if($Aflwrs->flower_ID == $Flower_ID){
-              foreach(Cart::instance('overallFLowers')->content() as $flwr){
-                //dd($Aflwrs->flower_ID);
-                $qtyWhenAdded = 0;
-                if($flwr->id == $Aflwrs->flower_ID){
-                  $qtyWhenAdded = $flwr->qty + $Qty;
-                  if($qtyWhenAdded > $Aflwrs->QTY){
-                    dd($qtyWhenAdded,$Aflwrs->QTY);
-                    Session::put('AddFlower_To_myQuickOrder', 'Fail');
-                    return redirect()->back();
-                  }//determines if the inventory cannot sustain the order anymore....
-                }//end of inner if
+
+              if($Qty > $Aflwrs->QTY){
+                Session::put('AddFlower_To_myQuickOrder', 'Fail2');
+                return redirect()->back();
+              }else{
+                foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                  //dd($Aflwrs->flower_ID);
+                  $qtyWhenAdded = 0;
+                  if($flwr->id == $Aflwrs->flower_ID){
+                    $qtyWhenAdded = $flwr->qty + $Qty;
+                    if($qtyWhenAdded > $Aflwrs->QTY){
+                      //dd($qtyWhenAdded,$Aflwrs->QTY);
+                      Session::put('AddFlower_To_myQuickOrder', 'Fail3');
+                      return redirect()->back();
+                    }//determines if the inventory cannot sustain the order anymore....
+                  }//end of inner if
+                }
               }
+
             }
           }//end of main foreach
 
