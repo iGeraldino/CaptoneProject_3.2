@@ -59,11 +59,12 @@
 
                 <tbody>
                     @foreach($orders as $Olist)
+                    @if($Olist->Status == "PENDING")
                     <tr>
-                        <td class="text-center"> {{$Olist->sales_order_ID}}   </td>
+                        <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
                         <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
                         <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
-                        <td class="text-center" style="text-transform: uppercase;">  {{$Olist->Status}} </td>
+                        <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-danger">{{$Olist->Status}}</span> </td>
                         <td align="center" >
 
                                <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
@@ -71,7 +72,10 @@
                         </td>
 
                       </tr>
-                      @endforeach
+                    @else
+
+                    @endif
+                    @endforeach
                 </tbody>
               </table>
             <!-- /.box-body -->
@@ -86,13 +90,35 @@
                 <div class="box">
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                      <thead>
-                          <th class="text-center"> Order ID </th>
-                          <th class="text-center"> Customer_Name </th>
-                          <th class="text-center"> Date Created</th>
-                          <th class="text-center"> Status</th>
+                    <table id="example3" class="table table-bordered table-striped table-hover">
+                      <thead style="color: #6e48aa">
+                          <th class="text-center"> ORDER ID </th>
+                          <th class="text-center"> CUSTOMER NAME </th>
+                          <th class="text-center"> DATE CREATED</th>
+                          <th class="text-center"> STATUS</th>
+                          <th class="text-center"> ACTION </th>
                       </thead>
+
+                      <tbody>
+                          @foreach($orders as $Olist)
+                          @if($Olist->Status == "CONFIRMED")
+                          <tr>
+                              <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
+                              <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
+                              <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
+                              <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-primary">  {{$Olist->Status}} </span></td>
+                              <td align="center" >
+
+                                     <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
+                                     </a>
+                              </td>
+
+                            </tr>
+                          @else
+
+                          @endif
+                          @endforeach
+                      </tbody>
                     </table>
                   </div>
                   <!-- /.box-body -->
@@ -106,18 +132,33 @@
                 <div class="box">
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                      <thead>
-                          <th class="text-center"> Order ID </th>
-                          <th class="text-center"> Customer_Name </th>
-                          <th class="text-center"> Date Created</th>
-                          <th class="text-center"> Status</th>
+                    <table id="example4" class="table table-bordered table-striped table-hover">
+                      <thead style="color: #6e48aa">
+                          <th class="text-center"> ORDER ID </th>
+                          <th class="text-center"> CUSTOMER NAME </th>
+                          <th class="text-center"> DATE CREATED</th>
+                          <th class="text-center"> STATUS</th>
+                          <th class="text-center"> ACTION </th>
                       </thead>
+
                       <tbody>
-                        <td>1</td>
-                        <td> Christine Joy Aradia</td>
-                        <td></td>
-                        <td>UTANG</td>
+                          @foreach($orders as $Olist)
+                          @if($Olist->Status == "CLOSED")
+                          <tr>
+                              <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
+                              <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
+                              <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
+                              <td class="text-center" style="text-transform: uppercase; color:green;"><span class = "btn btn-sm btn-success">  {{$Olist->Status}} </span></td>
+                              <td align="center" >
+                                     <a id = "showBtn" type = "button" data-toggle="tooltip" title="View Details" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
+                                     </a>
+                              </td>
+
+                            </tr>
+                          @else
+
+                          @endif
+                          @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -153,7 +194,22 @@
           "info": true,
           "autoWidth": false*/
         });
+        $('#example3').DataTable({
+/*          "paging": true,
+          "lengthChange": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false*/
+        });
+        $('#example4').DataTable({
+/*          "paging": true,
+          "lengthChange": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false*/
+        });
       });
+
       });
     </script>
 @endsection\
