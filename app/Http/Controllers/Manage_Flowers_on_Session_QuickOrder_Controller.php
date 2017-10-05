@@ -47,7 +47,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{*/
-        //dd(Cart::instance('overallFLowers')->content());
+          //dd(Cart::instance('overallFLowers')->content());
                   //
           //$flower_Det = flower_details::find($request->FLowerList);
           $AvailableFlowers = DB::select  ('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');

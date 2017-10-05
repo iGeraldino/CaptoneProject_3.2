@@ -7,6 +7,12 @@
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
    Session::remove('QuickBqtClearSession');
 
+   $Updating_BouquetQtyError = Session::get('BqtCount_UpdateSession');
+   Session::remove('BqtCount_UpdateSession');
+
+   $UpdateBqtSessionValue = explode("_",$Updating_BouquetQtyError);
+
+   //dd($UpdateBqtSessionValue);
 
    $clearCartSession_Value = Session::get('QuickCartClearSession');
    Session::remove('QuickCartClearSession');
@@ -76,6 +82,8 @@
 
 <div hidden>
 
+
+  <input id = "UpdateBqt_invalidresult" value = "{{$UpdateBqtSessionValue[0]}}">
   <input id = "ClearBqt_result" value = "{{$clearBqtSession_Value}}">
   <input id = "ClearCart_result" value = "{{$clearCartSession_Value}}">
   <input id = "DeleteBqt_result" value = "{{$DeletionofBouquetSessionValue}}">
@@ -945,8 +953,13 @@
           $('#checkoutBtn').click(function(){
             return false;
          });
-        }//determines if the cart have items in it
+       }//determines if the cart have items in it
 
+
+    if($('#UpdateBqt_invalidresult').val()=='Fail'){
+      //Show popup
+      swal("Oops!","The system detected that you're trying to update the qty of a bouquet that has a flower that might exceed the available quantity of flowers in the inventory,please consider the available flowers in the inventory","error");
+     }
 
 
     if($('#NewOrderDone_result').val()=='Successful'){
