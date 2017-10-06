@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\inventoryPersched;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Session;
 
 class spoiled_Monitoring_Controller extends Controller
 {
@@ -47,10 +49,10 @@ class spoiled_Monitoring_Controller extends Controller
         //dd($Spoiled);
         $batch = inventoryPersched::find($Inventory_ID);
 
-        $SetSpoiled = DB::select('CALL Set_SpoiledOnBatch`(?, ?)',array($Inventory_ID,$Spoiled));
+        $SetSpoiled = DB::select('CALL Set_SpoiledOnBatch(?, ?)',array($Inventory_ID,$Spoiled));
 
         $spoiledQTY = 0 - $Spoiled;//for it to be negative
-        $Spoiled_InvnetoryTrans  DB::select('CALL add_record_ofSpoiledInventory_Transaction`(?,?,?,?,?,?,?,?)'
+        $Spoiled_InvnetoryTrans  =  DB::select('CALL add_record_ofSpoiledInventory_Transaction(?,?,?,?,?,?,?,?)'
         ,array($batch->Sched_ID,$batch->Flower_ID,$spoiledQTY,$batch->Cost,$current,'S','Flower','Allin Spoiled of the remaining flower in the batch'));
 
         Session::put('SpoiledRecord','Successful');

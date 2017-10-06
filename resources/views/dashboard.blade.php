@@ -7,13 +7,18 @@
 
   <?php
    $sessionLoginValue = Session::get('loginSession');
-     Session::remove('loginSession');//determines the addition of new flower
+   Session::remove('loginSession');//determines the addition of new flower
+
+  $sessionSpoiledValue = Session::get('SpoiledRecord');
+  Session::remove('SpoiledRecord');//determines the addition of new flower
+
      use Carbon\Carbon;
      $current = Carbon::now('Asia/Manila');
   ?>
 
   <div hidden>
     <input id = "LoggedInfield" value = "{{$sessionLoginValue}}">
+    <input id = "SpoiledSessionfield" value = "{{$sessionSpoiledValue}}">
   </div>
 
         <div class="col-lg-3 col-xs-6">
@@ -282,6 +287,10 @@
 @section('scripts')
 
 <script>
+
+  if($("#SpoiledSessionfield").val() == 'Successful'){
+   swal("Take Note!","You have successfully recorded the spoiled flower under a specific batch, what you have done can no longer be changed!","success");
+  }
 
   if($("#LoggedInfield").val()=='good'){
     //Show popup
