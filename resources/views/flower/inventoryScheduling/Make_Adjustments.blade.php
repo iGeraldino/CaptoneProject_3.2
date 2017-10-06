@@ -36,6 +36,9 @@
                           <h4><b>Recieved Quantity: </b> {{$FlowerDet[7]}} pcs.</h4>
                           <h4><b>Good Quantity: </b> {{$FlowerDet[8]}} pcs.</h4>
                           <h4><b>Spoiled Quantity: </b> {{$FlowerDet[9]}} pcs.</h4>
+                          <h4><b>Adjusted Recieved Quantity: </b> {{$FlowerDet[10]}} pcs.</h4>
+                          <h4><b>Adjusted Good Quantity: </b> {{$FlowerDet[11]}} pcs.</h4>
+                          <h4><b>Adjusted Spoiled Quantity: </b> {{$FlowerDet[12]}} pcs.</h4>
                         </div>
                         <div class="col-md-6 row" style = "margin-top: 3%;">
                       <!--form model here-->
@@ -61,7 +64,7 @@
                                 <input id = "Goodqty_Field" name = "Goodqty_Field" type="number" class="hidden" min = "0" value = "{{$FlowerDet[8]}}" required/>
                               </div>
                               <div>
-                                <a href = "" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
+                                <a href = "{{route('InventoryScheduling.edit',$FlowerDet[0])}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
                                 <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
                               </div>
                           </div>

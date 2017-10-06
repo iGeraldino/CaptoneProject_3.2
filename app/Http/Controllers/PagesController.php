@@ -118,6 +118,7 @@ class PagesController extends Controller
 			$arriving = DB::select('CALL view_Arriving_Inventory()');
 
 			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+
 			//
 			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 			return view('dashboard')
