@@ -10,6 +10,11 @@ use Session;
 use Auth;
 use App\Sales_Qoutation;
 use \Cart;
+use App\newSales_order;
+use App\bouquet_details;
+use App\Newshop_Schedule;
+use App\Neworder_details;
+
 class Order_Controller extends Controller
 {
     /**
@@ -32,9 +37,17 @@ class Order_Controller extends Controller
               ->select('*')
               ->get();
 
-            $salesOrders = DB::table('sales_order')
+            $ClosedsalesOrders = DB::table('sales_order')
             ->select('*')
+            ->where('Status','CLOSED')
             ->get();
+
+            $Pending_salesOrders = DB::table('sales_order')
+            ->select('*')
+            ->where('Status','PENDING')
+            ->get();
+
+            $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
 
             $customers = DB::table('customer_details')
             ->select('*')
@@ -44,7 +57,9 @@ class Order_Controller extends Controller
 
             //
             return view('Orders.Sales_Order_list')
-            ->with('orders',$salesOrders)
+            ->with('Dorders',$ClosedsalesOrders)
+            ->with('Porders',$Pending_salesOrders)
+            ->with('Corders',$Confirmed_salesOrders)
             ->with('cust',$customers)
             ->with('city',$cities)
             ->with('city2',$cities)
@@ -215,6 +230,45 @@ class Order_Controller extends Controller
     public function edit($id)
     {
         //
+        //
+
+        $cities = DB::table('cities')
+          ->select('*')
+          ->get();
+
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+
+        $NewSalesOrder = newSales_order::find($id);
+        $NewSalesOrder_details = Neworder_details::find($id);
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                   ->where('Order_ID', $id)
+                                   ->first();
+
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                    ->where('Order_ID', $id)
+                                    ->get();
+
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+        //dd($SalesOrder_flowers);
+
+       //dd($NewOrder_SchedDetails);
+        return view('Orders/viewDetails_ofSalesOrder')
+        ->with('cities',$cities)
+        ->with('provinces',$province)
+        ->with('NewSalesOrder',$NewSalesOrder)
+        ->with('NewSalesOrder_details',$NewSalesOrder_details)
+        ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+        ->with('SalesOrder_flowers',$SalesOrder_flowers)
+        ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+        ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+        ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
     }
 
     /**

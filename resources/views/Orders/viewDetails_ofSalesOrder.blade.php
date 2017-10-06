@@ -6,11 +6,7 @@
 	$Successession = Session::get('newOrderMade_Session');
 	Session::remove('newOrderMade_Session');
 
-  $DoneOrderSession = Session::get('QuickOrderDone');
-  Session::remove('QuickOrderDone');
 ?>
-
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-" style="margin-left: -7px;">
@@ -23,8 +19,12 @@
 					<h6 class="container"><b>Congartulations! You have successfully made an order</b></h6>
 				</div>
 				<div class="col-md-3 col-md-offset-3">
-					<a href="/Quick_Sales_Order" type="button" class="btn btn-sm Lemon"> Done</a>
-					<a href="{{route('QuickOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print</a>
+					<a href="/Sales_Qoutation" type="button" class="btn btn-sm Lemon"> Back</a>
+					@if($NewSalesOrder_details != null)
+					<a href="{{route('LongOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print Receipt</a>
+					 @else
+					 <a href="{{route('QuickOrder.GenerateReceipt',['id'=>$NewSalesOrder->sales_order_ID])}}" type="button" class="btn btn-sm Beach"> Print</a>
+					 @endif
 				</div>
 			</div>
 		</div>
@@ -51,24 +51,67 @@
 					<h6><b>Customer Name: </b>{{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}</h6>
 				</div>
 				<div class="col-md-6">
-          @if($NewSalesOrder->Status == 'CLOSED')
-					 <h6 style = "color:green"><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
-          @else
-           <h6><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
-          @endif
+					<h6><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
 				</div>
-        <div class="col-md-6">
-          @if($NewSalesOrder->Status == 'CLOSED')
-           <h6 style = "color:green"><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
-          @else
-           <h6><b>Status: </b>{{$NewSalesOrder->Status}}</h6>
-          @endif
-        </div>
+				@if($NewSalesOrder_details != null)
+					<div class="col-md-6">
+						<h6><b>Shipping Method: </b>{{$NewSalesOrder_details->shipping_method}}</h6>
+					</div>
+					<div class="col-md-6">
+						<h6><b>Payment Method: </b>{{$NewSalesOrder_details->Payment_Mode}} </h6>
+					</div>
+				@else
 
+				@endif
+
+
+				@if($NewSalesOrder_details != null)
 				<div hidden>
-					<input type = "text" id = "NewOrderSession_Value" name = "NewOrderSession_Value" value ="{{$Successession}}">
-          <input id = "NewOrderDone_result" value = "{{$DoneOrderSession}}">
+						<input type = "text" id = "Del_Adrs" name = "Del_Adrs" value = "{{$NewSalesOrder_details->Delivery_Address}}">
+						<input type = "text" id = "Del_Brgy" name = "Del_Brgy" value = "{{$NewSalesOrder_details->Delivery_Baranggay}}">
+						<input type = "text" id = "prov_ID" name = "prov_ID" value = "{{$NewSalesOrder_details->Delivery_Province}}">
+						<input type = "text" id = "city_ID" name = "city_ID" value = "{{$NewSalesOrder_details->Delivery_City}}">
+						<input type = "text" id = "ship_method" name = "ship_method" value ="{{$NewSalesOrder_details->shipping_method}}">
+						<input type = "text" id = "NewOrderSession_Value" name = "NewOrderSession_Value" value ="{{$Successession}}">
+					<select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
+						@foreach($provinces as $prov2)
+							<option value ="{{$prov2->id}}" data-tag = "{{$prov2->name}}"> {{$prov2->name}} </option>
+						@endforeach
+					</select>
+
+					<select name="TownField_Search" id="TownField_Search" class="form-control" disabled>
+						@foreach($cities as $cities2)
+							<option value ="{{$cities2->id}}" data-tag = "{{$cities2->name}}"> {{$cities2->name}} </option>
+						@endforeach
+					</select>
 				</div>
+				<div id = "delivery_det_DIV" hidden>
+					<div id = 'Del_addressDIV' class="col-md-12">
+						<h6><b>Delivery Address: </b> </h6>
+					</div>
+
+					<div id = "Delivery_DateDiv" class="col-md-12">
+						<h6><b>Delivery Date:</b>
+							<?php
+									echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
+									//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+						?></h6>
+					</div>
+				</div>
+				<div id = "pickup_dateDIV" hidden>
+					<div id = "pikupDate_DIV" class="col-md-12">
+						<h6><b>PickUp Date:</b>
+							<?php
+								echo $dateTime_to_beOut = date('M d, Y @ h:i a',strtotime($NewOrder_SchedDetails->Time));
+								//echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+							?>
+						</h6>
+					</div>
+				</div>
+		@else
+
+		@endif
+
 
 				<div class="col-md-12" style="margin-top: 40px;overflow-x:auto;">
 					<h3 class="fontx text-center">Flower Summary</h3>
@@ -148,7 +191,7 @@
 																		<th class="text-center">Total Price</th>
 																</thead>
 																	<tbody>
-												 @foreach($SalesOrder_Bqtflowers as $row1)
+													@foreach($SalesOrder_Bqtflowers as $row1)
 															@if($Bqt->Bqt_ID == $row1->BQT_ID)
 															<tr>
 																<th scope="row">{{$row1 ->FLwr_ID}}</th>
@@ -177,19 +220,17 @@
 																<td style = "color:red;">Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
 															</tr>
 														@endif
-
-                            <?php
-                              $tamt_BQT = $Bqt->QTY * $Bqt->Unit_Price;
-                            ?>
 													@endforeach
-
+													<?php
+														$tamt_BQT = $Bqt->QTY * $Bqt->Unit_Price;
+													?>
 														</tbody>
 													</table>
 								</td>
 							</tr>
-              <?php
-                $totalAmt_Bqt += $tamt_BQT;
-              ?>
+							<?php
+								$totalAmt_Bqt += $tamt_BQT;
+							?>
 							@endforeach
 						</tbody>
 					</table>
@@ -199,126 +240,7 @@
 				</div>
 			</div>
 			<div class="panel-footer">
-
-        <div class = "row">
-          <div class = "col-md-7">
-          </div>
-          <div class = "col-md-4">
-            <div class = "row">
-              <div class = "col-md-7">
-                <b>Amount of Flowers: </b>
-              </div>
-              <div class = "col-md-4">
-                <div class ="col-md-6">
-                  <h4  style = "color:red">Php </h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($Total_AmtFlwr,2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Amount of Bouquet: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red">Php </h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($totalAmt_Bqt,2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Amount of Purchase: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php </h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[10],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Amount of Vat(12%): </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php </h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[11],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Delivery Fee: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php</h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[12],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-          <hr>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Total Amount: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php</h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[15],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <hr>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Amount Paid: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php</h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[2],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "col-md-7" style = "margin-top:-30p">
-                <b>Change: </b>
-              </div>
-              <div class = "col-md-4" style = "margin-top:-30p">
-                <div class ="col-md-6">
-                  <h4  style = "color:red;">Php</h4>
-                </div>
-                <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[3],2) }}</h4>
-                </div>
-
-              </div>
-            </div>
-        </div>
+				<h4 class="text-right" style = "color:red;"><b>Total Amount: {{number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
 			</div>
 		</div>
 	</div>
@@ -326,11 +248,6 @@
 @section('scripts')
 	<script>
 		$('document').ready(function(){
-
-      if($('#NewOrderDone_result').val()=='Successful'){
-        //Show popup
-        swal("Congratulations!","New Order was succesfully done!","success");
-       }
 
 			if($("#NewOrderSession_Value").val() == "Successful"){
 				swal('Congratulations',"The order was successfully Submitted!","success");

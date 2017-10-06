@@ -109,8 +109,22 @@ class PagesController extends Controller
 		}
 		else{
 			Session::put('loginSession','good');
-			return view('dashboard');
 
+			$Pending_salesOrders = DB::table('sales_order')
+			->select('*')
+			->where('Status','PENDING')
+			->get();
+
+			$arriving = DB::select('CALL view_Arriving_Inventory()');
+
+			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+			//
+			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+			return view('dashboard')
+			 ->with('CriticalFLowers',$CriticalFLowers)
+       ->with('arriving',$arriving)
+			 ->with('Porders',$Pending_salesOrders)
+			 ->with('SpoiledFLowers',$SpoiledFLowers);
 		}
 
 		}

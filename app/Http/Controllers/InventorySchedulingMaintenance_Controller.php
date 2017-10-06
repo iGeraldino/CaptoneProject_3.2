@@ -88,6 +88,9 @@ class InventorySchedulingMaintenance_Controller extends Controller
 					$Qty_Recieved = "";
 					$Qty_Good = "";
 					$Qty_Spoiled = "";
+					$AQty_Recieved = "";
+					$AQty_Good = "";
+					$AQty_Spoiled = "";
 
 					foreach($Flower as $Flower1){
 						$Rqst_ID = $Flower1->Sched_ID;
@@ -100,11 +103,14 @@ class InventorySchedulingMaintenance_Controller extends Controller
 						$Qty_Recieved = $Flower1->Recieved_QTY;
 						$Qty_Good = $Flower1->Good_QTY;
 						$Qty_Spoiled = $Flower1->Spoiled_QTY;
+						$AQty_Recieved = $Flower1->Adjusted_QTYRecieved;
+						$AQty_Good = $Flower1->Adjusted_QTYGood;
+						$AQty_Spoiled = $Flower1->Adjusted_QTYSpoiled;
 					}
 
 					$FlowerDet = collect([$Rqst_ID ,$Flower_ID ,$Img ,$Name ,
 					$D_Recieved ,$D_Expected ,$Qty_Expected ,$Qty_Recieved ,
-					$Qty_Good ,$Qty_Spoiled]);
+					$Qty_Good ,$Qty_Spoiled,$AQty_Recieved,$AQty_Good,$AQty_Spoiled]);
 
 					return view('flower.inventoryScheduling.Make_Adjustments')
 					->with('FlowerDet',$FlowerDet);

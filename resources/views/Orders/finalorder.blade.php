@@ -158,6 +158,7 @@
 						<tbody>
 						<?php
 							$totalAmt_Bqt = 0;
+							$tamt_BQT = 0;
 						?>
 						@foreach($NewOrder_Bouquet as $Bqt)
 							<tr>
@@ -176,7 +177,7 @@
 																		<th class="text-center">Total Price</th>
 																</thead>
 																	<tbody>
-														 @foreach($SalesOrder_Bqtflowers as $row1)
+													@foreach($SalesOrder_Bqtflowers as $row1)
 															@if($Bqt->Bqt_ID == $row1->BQT_ID)
 															<tr>
 																<th scope="row">{{$row1 ->FLwr_ID}}</th>
@@ -190,8 +191,8 @@
 																	<td style = "color:red;">Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
 																</tr>
 															@endif
-														 @endforeach
-														 @foreach($SalesOrder_BqtAccessories as $row2)
+													@endforeach
+													@foreach($SalesOrder_BqtAccessories as $row2)
 														@if($Bqt->Bqt_ID == $row2->bqt_ID)
 															<tr>
 																<th scope="row">ACRS-{{$row2 -> Acrs_ID}}</th>
@@ -205,15 +206,17 @@
 																<td style = "color:red;">Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
 															</tr>
 														@endif
-
-														<?php
-															$totalAmt_Bqt += $Bqt->QTY*$Bqt->Unit_Price;
-														?>
 													@endforeach
+													<?php
+														$tamt_BQT = $Bqt->QTY * $Bqt->Unit_Price;
+													?>
 														</tbody>
 													</table>
 								</td>
 							</tr>
+							<?php
+								$totalAmt_Bqt += $tamt_BQT;
+							?>
 							@endforeach
 						</tbody>
 					</table>
@@ -223,7 +226,7 @@
 				</div>
 			</div>
 			<div class="panel-footer">
-				<h4 class="text-right" style = "color:red;"><b>Total Amount: {{ number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
+				<h4 class="text-right" style = "color:red;"><b>Total Amount: {{number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
 			</div>
 		</div>
 	</div>

@@ -43,7 +43,7 @@ class quickorderController extends Controller
         ->select('*')
         ->get();
 
-        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
 
         $accessories = DB::select('CALL AvailableAcessories_Records()');
 
@@ -106,9 +106,9 @@ class quickorderController extends Controller
         $current = Carbon::now('Asia/Manila');
         $newCustID = array();
         $salesorder = new newSales_order;
-        if($custID == " "){
+        if($custID == null){
           $salesorder->customer_ID = null;
-        }else {
+        }else if($custID != null) {
          $newCustID = explode("_",$custID);
           $salesorder->customer_ID = $newCustID[1];
         }
@@ -117,14 +117,14 @@ class quickorderController extends Controller
         $salesorder->Customer_MName = $Mname;
         $salesorder->Customer_LName = $Lname;
 
-        if($ContactNum == " "){
+        if($ContactNum == null){
           $salesorder->Contact_Num = null;
-        }else{
+        }else if($ContactNum == null){
           $salesorder->Contact_Num = $ContactNum;
         }
-        if($email == " "){
+        if($email == null){
           $salesorder->email_Address = null;
-        }else{
+        }else if($email != null){
           $salesorder->email_Address = $email;
         }
         $salesorder->Status = 'CLOSED';
@@ -365,6 +365,7 @@ class quickorderController extends Controller
   //return $pdf->download('sampleDelivery.pdf');
   //return $pdf->stream();
 
+  Cart::instance('overallFLowers')->destroy();
   Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
   Cart::instance('TobeSubmitted_BqtQuick')->destroy();
   Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->destroy();
