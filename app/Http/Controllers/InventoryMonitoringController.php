@@ -79,6 +79,18 @@ class InventoryMonitoringController extends Controller
 	}//end of function
 
 
+  public function ManageSpoiledFlowers($Flower_ID)
+	{
+		if(auth::check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+      }
+    else{
+      //
+      return view('flower.flowerInventory.ManageFlowersTo_spoiled');
+		}
+	}//end of function
+
 
 	public function Cancel_requestTo_Supplier()
 	{

@@ -211,7 +211,7 @@
                   <td class="text-center">{{$FLowers->flwrName}}</td>
                   <td class="text-right" style = "color:red"><b>{{$FLowers->QTY_Remaining}} stems</b> </td>
                   <td class="text-right">{{date_format(date_create($FLowers->Date_to_Spoil),'M d, Y')}}</td>
-                  <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+                  <td class="text-center"> <a href = "{{route('manageBatch.Spoiled',['Flower_ID'=>$FLowers->inventory_ID])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
                 </tr>
                 @endforeach
               </tbody>
