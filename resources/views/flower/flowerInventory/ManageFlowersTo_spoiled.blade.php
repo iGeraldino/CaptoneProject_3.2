@@ -41,7 +41,8 @@
 												<a href = "{{route('dashboard')}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Return to the List</a>
 											</div>
                           <div id = "AllinDiv" class = "col-md-12">
-													{!! Form::open(['route'=>['Inventory_Flowers_toSession.store','method'=>'POST','data-parsley-validate' => ''])!!}
+													{!! Form::open(array('route' => 'InventorySpoilage.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+
 														<br>
 														<br>
 														<br>
@@ -52,8 +53,8 @@
                             </div>
                             <div class="form-group label-floating">
                               <label class="control-label" for = "qtyRecieved_Field">Expected Number of Spoilage: </label>
-															<input id = "Expected_Field" name = "qtyRecieved_Field" type="text" class="form-control" min = "0" value = "{{$records[11]}} pcs." disabled/>
-                              <input id = "Expected_Field" name = "RealqtyRecieved_Field" type="number" class=" hidden form-control" min = "0" required value = "{{$records[11]}}" />
+															<input id = "qtyToSpoil_Field" name = "qtyToSPoil_Field" type="text" class="form-control" value = "{{$records[11]}} pcs." disabled/>
+                              <input id = "RealqtyToSpoil_Field" name = "RealqtyToSpoil_Field" type="number" class = "hidden form-control" min = "0" required value = "{{$records[11]}}" />
                             </div>
 														<div class="checkbox">
 															<label>
