@@ -71,7 +71,7 @@
 													<button id = "showPartialBtn" type="button" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="left" title="This button will show a form that will ask you the real number of spoiled flowers in this batch" data-container="body">NO, There are only part of it that are spoiled <span class = "glyphicon glyphicon-triangle-bottom"></span></button>
 
                           <div id = "PartialDiv" class = "col-md-12" hidden>
-														{!! Form::model($records, ['route'=>['Inventory_Flowers_toSession.update', $records[1]],'method'=>'PUT','data-parsley-validate' => ''])!!}
+														{!! Form::model($records, ['route'=>['InventorySpoilage.update', $records[17]],'method'=>'PUT','data-parsley-validate' => ''])!!}
 														<button id = "hidepartialBtn" type="button" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="left" title="This button will show the previous form" data-container="body">All of the remaining flowers are spoiled <span class = "glyphicon glyphicon-triangle-top"></span></button>
 														<div hidden>
 															<input id = "inventory_IDField" name = "inventory_IDField" value = "{{$records[17]}}">
@@ -80,12 +80,12 @@
 														</div>
                             <div class="form-group label-floating">
                               <label class="control-label" for = "qtySpoiled_Field">Expected Number of Spoilage: </label>
-                              <input id = "ExpectedNumber_Field" name = "ExpectedNumber_Field" type="text" class="form-control" min = "0" value = "{{$records[11]}} pcs."  disabled/>
-                              <input id = "ExpectedNumber_Field" name = "ExpectedNumber_Field" type="number" class="hidden" min = "0" value = "{{$records[11]}}" required/>
+                              <input id = "ExpectedNumber_Field" name = "ExpectedNumber_Field" type="text" class="form-control" value = "{{$records[11]}} pcs."  disabled/>
+                              <input id = "Expected_Field" name = "Expected_Field" type="number" class="hidden" min = "0" value = "{{$records[11]}}" required/>
                             </div>
                             <div class="form-group label-floating">
                               <label class="control-label" for = "lifeSpan_Field">Number of Spoiled: </label>
-                              <input id = "lifeSpan_Field" name = "lifeSpan_Field" type="number" class="form-control" value = "{{$records[11]-1}}" max = "{{$records[11]-1}}" min = "1" required/>
+                              <input id = "Spoiled_Field" name = "Spoiled_Field" type="number" class="form-control" value = "{{$records[11]-1}}" max = "{{$records[11]-1}}" min = "1" required/>
                             </div>
 														<div class="checkbox">
 															<label>
