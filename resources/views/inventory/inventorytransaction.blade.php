@@ -172,8 +172,22 @@
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">
+                      <div class="col-md-6">
+                        <div id = "">
+                          <input id = "BatchID_Field" class = "form-control"  name="Batch_ID" list="Batch_ID" placeholder="Enter Batch ID"/>
+                          <datalist id="customerList_ID">
+                          </datalist>
+                        </div>
+                      </div>
                     </div>
                     <div class="tab-pane" id="flowers">
+                      <div class="col-md-6">
+                        <div id = "">
+                          <input id = "" class = "form-control"  name="" list="" placeholder="Enter Flower"/>
+                          <datalist id="customerList_ID">
+                          </datalist>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

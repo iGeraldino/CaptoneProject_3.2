@@ -8,13 +8,11 @@
           $DeletionAdminSessionValue = Session::get('DeletionSession');
           Session::remove('DeletionSession');//determines the addition of new flower
        ?>
-          <h3><b>Accounts that can Access the Administrator Side</b></h3>
-          <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingAdminSessionValue}}">
+
+       <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingAdminSessionValue}}">
           <input type = "text" class = "hidden" id = "deletingSessionField" value = "{{$DeletionAdminSessionValue}}">
-              <button class="btn btn-primary" data-toggle="modal" data-target="#addingModal">
-                Create a new Admin Account
-              </button>
-              <!-- Sart Modal -->
+              
+              <!-- Start Modal -->
                 <div class="modal fade" id="addingModal" tabxindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -100,19 +98,39 @@
                   </div>
                 </div>
                 <!--  End Modal -->
-            <div class="card card-nav-tabs card-plain">
-              <div class="header header-danger">
-                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-                <div class="nav-tabs-navigation">
-                  <div class="nav-tabs-wrapper">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
-                      <li class="active"><a href="#activePrice" data-toggle="tab">Administrarors Accounts</a></li>
-                    </ul>
-                  </div>
-                </div>
+
+      <div class="panel" style="margin-top: 2%;">
+      <div class="panel-heading Subu">
+          <h3 class="panel-title" style="color: white;">Accounts that can Access the Administrator Side</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12">
+          <div class="pull-right">
+            <button class="btn pull btn-round twitch" data-toggle="modal" data-target="#addingModal">
+                Create a new Admin Account
+              </button>
+          </div>
+        <!-- Tabs with icons on Card -->
+        <div class="card card-nav-tabs">
+          <div class="header Sharp">
+            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="active">
+                    <a href="#admin" data-toggle="tab">
+                      <i class="material-icons">assignment_return</i>
+                      Administrator Account
+                    </a>
+                  </li>
+                </ul>
               </div>
-              <div class="content">
-                <div class="tab-content text-center">
+            </div>
+          </div>
+          <div class="content">
+            <div class="tab-content text-center">
+              <div class="tab-pane active" id="admin">
+                
                   <div class="tab-pane active" id="activePrice">
                     <table id="example2" class="table table-bordered table-striped">
                       <thead>
@@ -227,11 +245,14 @@
                         @endforeach
                       </tbody>
                     </table>
-                  </div>
-
-                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <!-- End Tabs with icons on Card -->
+      </div>
+    </div>
+</div>
 </section>
 @endsection
 

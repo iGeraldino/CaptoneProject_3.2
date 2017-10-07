@@ -13,10 +13,11 @@
           <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingTradeSessionValue}}">
           <input type = "text" class = "hidden" id = "deletingSessionField" value = "{{$DeletingTradeSessionValue}}">
 
-      <div class="panel" style="margin-top: 25px; padding-bottom: 43%;">
+      <div class="panel" style="margin-top: 2%;">
         <div class="panel-heading Subu">
           <h3 class="panel-title" style="color: white;">Specific Customer's Agreement</h3>
         </div>
+        <div class="panel-body">
         <div class="col-md-6">
           <h4 style="padding-left: 15px;"> Customer ID: CUST-{{$CustomerDet->Cust_ID}}</h4>
         </div>
@@ -238,7 +239,7 @@
     </div>
         
       </div>
-    
+    </div>
 
 
      

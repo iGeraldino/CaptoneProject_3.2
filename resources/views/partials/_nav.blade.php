@@ -23,6 +23,8 @@
             <ul class = "dropdown-menu">
 
               <a href="{{ route('adminlogout')   }}" class="text-center"> <h4> Logout </h4> </a>
+              <a href="#" class="text-center"> <h4 style="padding-left: 1%; padding-right: 1%;"> Manage my Account   </h4> </a>
+
 
             </ul>
             @endif
@@ -184,19 +186,6 @@
           </a>
         </li>
       </ul>
-
-      <!-- sidebar menu: SETTINGS -->
-      <ul class="sidebar-menu">
-        <li class="treeview">
-          <a href="#">
-            <i class="material-icons">&#xE8B8;</i> <span>Settings</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-        </li>
-      </ul>
-
 
       <!-- sidebar menu: Administrator Account Management -->
       <ul class="sidebar-menu">
