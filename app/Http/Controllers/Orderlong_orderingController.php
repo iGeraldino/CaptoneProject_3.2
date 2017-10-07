@@ -86,6 +86,7 @@ class Orderlong_orderingController extends Controller
          }
 
        //dd($CustID[1]);
+        $createOrder->cust_Type = $Existing_CustType;
         $createOrder->Customer_Fname = $Ordered_Fname;
         $createOrder->Customer_Mname = $Ordered_Mname;
         $createOrder->Customer_Lname = $Ordered_Lname;
