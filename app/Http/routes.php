@@ -57,6 +57,7 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Inventory_Flowers_toAdjustments', 'inventoryAdjustment_Controller');
 
+	Route::resource('InventorySpoilage','spoiled_Monitoring_Controller');
 
 	Route::resource('Admins', 'AdminAccounts_Controller');
 
@@ -188,6 +189,7 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 	Route::get('QuickOrder.Apply_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Trade_Agreement_QuickOrder');
 	Route::get('QuickOrder.Remove_CustTradeAgreement', 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_CreationQuickOrder');
 
+	Route::get('/saveCustomized_Bouquet/{order_ID}',['uses' => 'OrderManagementController@saveCustomized_Bqt', 'as'=>'Bqtorder.saveBouquet']);//saves the newly created bqt
 
 
 //Route::get('/removeDiscount/',['uses' => 'Ordering_with_TradeAgreement_Controller@Apply_Price_Made_OnOrder_Creation', 'as'=>'Order.Remove_CustTradeAgreement']);//for the view of adding flowers to order from the supplier
@@ -201,7 +203,7 @@ Route::get('/Save_Created_Flower_request',['uses' => 'InventoryMonitoringControl
 
 Route::get('/Cancelrequest_Creation',['uses' => 'InventoryMonitoringController@Cancel_requestTo_Supplier', 'as'=>'InventorySched.Cancel_requestCreation']);//for the view of adding flowers to order from the supplier
 
-
+Route::get('/FlowerSpoilage/{ID}',['uses'=>'InventoryMonitoringController@ManageSpoiledFlowers', 'as'=> 'manageBatch.Spoiled']);
 
 Route::get('/ChooseFlowersForArrival/{flower_Id}',['uses' => 'InventoryMonitoringController@Delete_requestedflower_insession_toarrive', 'as'=>'InventorySched.RemoveFlower']);//for the view of adding flowers to order from the supplier
 

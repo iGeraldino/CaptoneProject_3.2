@@ -14,61 +14,90 @@
                   </div>
 	                    <div class = "row" style = "margin-left: 5%;">
 	                      <div class = "col-md-3">
-                            <div class="form-group label-floating">
-                             <img src= "{{asset('flowerimage/'.$records[7])}}" id="imageBox" name="imageBox" class = "img-rounded img-raised img-responsive" style="max-width: 300px; max-height: 300px;" />
-                            </div>
+                          <div class="form-group label-floating">
+                             <img src = "{{asset('flowerimage/'.$records[16])}}" id="imageBox" name="imageBox"
+														 class = "img-rounded img-raised img-responsive"
+														 style = "max-width: 300px; max-height: 300px;"/>
+                          </div>
+													<h4><b>Request ID: </b>RQST-{{$records[0]}}</h4>
+													<h4><b>Flower ID: </b>FLWR-{{$records[4]}}</h4>
+													<h4><b>Name: </b>{{$records[15]}}</h4>
+													<h4><b>Unit Cost: </b> {{$records[14]}} pcs.</h4>
 	                      </div>
-	                      <div class="col-md-3" style = "margin-top: 5%;">
-                          <h4><b>Request ID: </b>RQST-</h4>
-                          <h4><b>Flower ID: </b>FLWR-</h4>
-                          <h4><b>Flower Name: </b></h4>
-                          <h4><b>Date to Recieve: </b></h4>
-                          <h4><b>Expected Quantity: </b> pcs.</h4>
-                          <h4><b>Recieved Quantity: </b> pcs.</h4>
-                          <h4><b>Initial Good: </b> pcs.</h4>
-                          <h4><b>Initial Spoiled: </b> pcs.</h4>
+	                      <div class="col-md-5" style = "margin-top: 2%;">
+                          <h4><b>Recieved Quantity: </b> {{$records[5]}} pcs.</h4>
+                          <h4><b>Updated Recieved QTY: </b> {{$records[6]}} pcs.</h4>
+													<h4><b>Initial Good: </b> {{$records[7]}} pcs.</h4>
+													<h4><b>Updated Good QTY: </b> {{$records[8]}} pcs.</h4>
+													<h4><b>Initial Spoiled QTY: </b> {{$records[9]}} pcs.</h4>
+													<h4><b>Updated Spoiled QTY: </b> {{$records[10]}} pcs.</h4>
+													<h4><b>QTY Remaining: </b> {{$records[11]}} pcs.</h4>
+													<h4><b>QTY Spoiled: </b> {{$records[12]}} pcs.</h4>
+													<h4><b>QTY Sold: </b> {{$records[13]}} pcs.</h4>
                         </div>
-                        <div class="col-md-6 row" style = "margin-top: 3%;">
+                        <div class="col-md-4 row" style = "margin-top: 3%;">
                       <!--form model here-->
-                      {!! Form::model($records, ['route'=>['Inventory_Flowers_toSession.update', $records[1]],'method'=>'PUT','data-parsley-validate' => ''])!!}
-                          <div class = "col-md-6">
+											<div class = "pull-right">
+												<a href = "{{route('dashboard')}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Return to the List</a>
+											</div>
+                          <div id = "AllinDiv" class = "col-md-12">
+													{!! Form::open(array('route' => 'InventorySpoilage.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+
+														<br>
+														<br>
+														<br>
                             <div hidden>
-                              <input id = "rqst_IDField" name = "rqst_IDField" value = "{{$ScheduleDet->Schedule_ID}}">
+                              <input id = "inventory_IDField" name = "inventory_IDField" value = "{{$records[17]}}">
                               <input id = "flwr_IDField" name = "flwr_IDField" value = "{{$records[1]}}">
-                              <input id = "flwr_qtyField" name = "flwr_qtyField" value = "{{$records[5]}}">
+                              <input id = "flwr_qtyRemainingField" name = "flwr_qtyRemainingField" value = "{{$records[11]}}">
                             </div>
                             <div class="form-group label-floating">
-                              <label class="control-label" for = "qtyRecieved_Field">Quantity Recieved (pcs): </label>
-                              <input id = "qtyRecieved_Field" name = "qtyRecieved_Field" type="number" class="form-control" min = "0" required value = "{{$records[3]}}"/>
+                              <label class="control-label" for = "qtyRecieved_Field">Expected Number of Spoilage: </label>
+															<input id = "qtyToSpoil_Field" name = "qtyToSPoil_Field" type="text" class="form-control" value = "{{$records[11]}} pcs." disabled/>
+                              <input id = "RealqtyToSpoil_Field" name = "RealqtyToSpoil_Field" type="number" class = "hidden form-control" min = "0" required value = "{{$records[11]}}" />
                             </div>
-                            <div class="form-group label-floating">
-                              <label class="control-label" for = "qtySpoiled_Field">Quantity Spoiled (pcs): </label>
-                              <input id = "qtySpoiled_Field" name = "qtySpoiled_Field" type="number" class="form-control" min = "0" value = "{{$records[9]}}" required/>
-                            </div>
-                          </div>
-                          <div class = "col-md-6">
-                            <div class="form-group label-floating">
-                              <label class="control-label" for = "qtySpoiled_Field">Quantity Good (pcs): </label>
-                              <input id = "qtyGood_Field" name = "qtyGood_Field" type="number" class="form-control" min = "0" value = "{{$records[8]}}"  disabled required/>
-                              <input id = "Goodqty_Field" name = "Goodqty_Field" type="number" class="hidden" min = "0" value = "{{$records[8]}}" required/>
-                            </div>
-                            <div class="form-group label-floating">
-                              <label class="control-label" for = "Cost_Field">Cost (per Piece): </label>
-                              <input id = "Cost_Field" name = "Cost_Field" type="number" step = "0.01" class="form-control" value = "{{number_format($records[4],2)}}" min = "1" required/>
-                            </div>
-                            <div class="form-group label-floating">
-                              <label class="control-label" for = "lifeSpan_Field">Expected Life Span (days): </label>
-                              <input id = "lifeSpan_Field" name = "lifeSpan_Field" type="number" class="form-control" value = "{{$records[6]}}" min = "1" required/>
-                            </div>
+														<div class="checkbox">
+															<label>
+																<input type="checkbox" name="SubmitallCheckBox" id = "SubmitallCheckBox">
+																Yes, All of these flowers are spoiled already
+															</label>
+														</div>
+														<div id = "submitBtnDiv" class = "pull-right" hidden>
+															<button id = "sbmtAll_btn" type = "submit" class="btn btn-md btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" title = "Click this button if you are sure that it is the right spoilage number that is in this batch of he flower, for you cannot change what you've entered here after you click this button" data-container="body"><span class = "glyphicon glyphicon-ok"> Submit</span></button>
+														</div>
+													{!! Form::close() !!}
                           </div>
 
-                          <div class = "pull-right">
-                            <a href = "" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
-                            <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
-                          </div>
-                          {!! Form::close() !!}
+													<button id = "showPartialBtn" type="button" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="left" title="This button will show a form that will ask you the real number of spoiled flowers in this batch" data-container="body">NO, There are only part of it that are spoiled <span class = "glyphicon glyphicon-triangle-bottom"></span></button>
 
-                          <!--form close here-->
+                          <div id = "PartialDiv" class = "col-md-12" hidden>
+														{!! Form::model($records, ['route'=>['InventorySpoilage.update', $records[17]],'method'=>'PUT','data-parsley-validate' => ''])!!}
+														<button id = "hidepartialBtn" type="button" class="btn btn-sm btn-default btn-tooltip" data-toggle="tooltip" data-placement="left" title="This button will show the previous form" data-container="body">All of the remaining flowers are spoiled <span class = "glyphicon glyphicon-triangle-top"></span></button>
+														<div hidden>
+															<input id = "inventory_IDField" name = "inventory_IDField" value = "{{$records[17]}}">
+															<input id = "flwr_IDField" name = "flwr_IDField" value = "{{$records[1]}}">
+															<input id = "flwr_qtyRemainingField" name = "flwr_qtyRemainingField" value = "{{$records[11]}}">
+														</div>
+                            <div class="form-group label-floating">
+                              <label class="control-label" for = "qtySpoiled_Field">Expected Number of Spoilage: </label>
+                              <input id = "ExpectedNumber_Field" name = "ExpectedNumber_Field" type="text" class="form-control" value = "{{$records[11]}} pcs."  disabled/>
+                              <input id = "Expected_Field" name = "Expected_Field" type="number" class="hidden" min = "0" value = "{{$records[11]}}" required/>
+                            </div>
+                            <div class="form-group label-floating">
+                              <label class="control-label" for = "lifeSpan_Field">Number of Spoiled: </label>
+                              <input id = "Spoiled_Field" name = "Spoiled_Field" type="number" class="form-control" value = "{{$records[11]-1}}" max = "{{$records[11]-1}}" min = "1" required/>
+                            </div>
+														<div class="checkbox">
+															<label>
+																<input type="checkbox" name="SubmitPartialCheckBox" id = "SubmitPartialCheckBox">
+																Yes, I'm sure that this is the spoiled quantity
+															</label>
+														</div>
+														<div id = "submitPartialBtnDiv" class = "pull-right" hidden>
+															<button id = "sbmtPartial_btn" type = "submit" class="btn btn-md btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" title = "Click this button if you are sure that it is the right spoilage number that is in this batch of he flower, for you cannot change what you've entered here after you click this button" data-container="body"><span class = "glyphicon glyphicon-ok"> Submit</span></button>
+														</div>
+													 {!! Form::close() !!}
+                          </div>
                         </div>
 	                   </div>
 						<br>
@@ -94,6 +123,39 @@
 
     $("#qtyGood_Field").val(maxVal);
     $("#Goodqty_Field").val(maxVal);
+
+
+		$('#SubmitPartialCheckBox').click(function(){
+			if($('#SubmitPartialCheckBox').is(":checked")){
+				$('#submitPartialBtnDiv').show("fold");
+				$('#hidepartialBtn').hide("fold");
+			}else{
+				$('#submitPartialBtnDiv').hide("fold");
+				$('#hidepartialBtn').show("fold");
+			}
+		});
+
+		$('#SubmitallCheckBox').click(function(){
+			if($('#SubmitallCheckBox').is(":checked")){
+				$('#submitBtnDiv').show("fold");
+				$('#showPartialBtn').hide("fold");
+			}else{
+				$('#submitBtnDiv').hide("fold");
+				$('#showPartialBtn').show("fold");
+			}
+		});
+
+		$('#showPartialBtn').click(function(){
+			$('#showPartialBtn').hide("fold");
+			$('#AllinDiv').slideUp();
+			$('#PartialDiv').slideDown();
+		});
+
+		$('#hidepartialBtn').click(function(){
+			$('#PartialDiv').slideUp();
+			$('#showPartialBtn').slideDown();
+			$('#AllinDiv').slideDown();
+		});
 
 
     $('#qtyRecieved_Field').change(function(){

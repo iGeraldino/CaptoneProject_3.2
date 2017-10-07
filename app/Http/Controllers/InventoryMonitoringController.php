@@ -79,15 +79,93 @@ class InventoryMonitoringController extends Controller
 	}//end of function
 
 
-  public function ManageSpoiledFlowers($Flower_ID)
+  public function ManageSpoiledFlowers($ID)
 	{
 		if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
+    }
+    else{//
+
+      $Flower = DB::select('CALL viewSpecificInventory_ID(?);',array($ID));
+      $Rqst_ID = "";
+      $D_Recieved = "";
+      $LifeSpan = "";
+
+      $spoilageDate = "";
+
+      $Flower_ID = "";
+
+      $Qty_Recieved = "";
+      $Qty_UpdatedRecieved = "";
+
+      $Qty_InitialGood = "";
+      $Qty_UpdatedInitialGood = "";
+
+      $Qty_InitialSpoiled = "";
+      $Qty_UpdatedInitialSpoiled = "";
+
+      $Qty_Remaining = "";
+      $Qty_Spoiled = "";
+      $Qty_Sold = "";
+      $Cost = "";
+
+      $Name = "";
+      $Img = "";
+      $Inventory_ID = "";
+
+      foreach($Flower as $Flower1){
+        $Rqst_ID = $Flower1->Sched_ID;
+        $D_Recieved = $Flower1->Date_Obtained;
+        $LifeSpan = $Flower1->LifeSpan;
+
+        $spoilageDate = $Flower1->Spoilagedate;
+
+        $Flower_ID = $Flower1->flower_ID;
+
+        $Qty_Recieved = $Flower1->Recieved_QTY;
+        $Qty_UpdatedRecieved = $Flower1->UpdatedQtyR;
+
+        $Qty_InitialGood = $Flower1->Good_QTY;
+        $Qty_UpdatedInitialGood = $Flower1->UpdatedQtyG;
+
+        $Qty_InitialSpoiled = $Flower1->InitialSpoiled_QTY;
+        $Qty_UpdatedInitialSpoiled = $Flower1->UpdatedQtyS;
+
+        $Qty_Remaining = $Flower1->QTY_Remaining;
+        $Qty_Spoiled = $Flower1->QTY_Spoiled;
+        $Qty_Sold = $Flower1->QTY_Sold;
+        $Cost = $Flower1->Cost;
+
+        $Name = $Flower1->flowerName;
+        $Img = $Flower1->Img;
+        $Inventory_ID = $Flower1->Inventory_ID;
       }
-    else{
-      //
-      return view('flower.flowerInventory.ManageFlowersTo_spoiled');
+
+      $FlowerDet = collect([$Rqst_ID,
+      $D_Recieved,
+      $LifeSpan,
+      $spoilageDate,
+      $Flower_ID,
+      $Qty_Recieved,
+      $Qty_UpdatedRecieved,
+      $Qty_InitialGood,
+      $Qty_UpdatedInitialGood,
+      $Qty_InitialSpoiled,
+      $Qty_UpdatedInitialSpoiled,
+      $Qty_Remaining,
+      $Qty_Spoiled,
+      $Qty_Sold,
+      $Cost,
+      $Name,
+      $Img,
+      $Inventory_ID]);
+
+      return view('flower.flowerInventory.ManageFlowersTo_spoiled')
+      ->with('records',$FlowerDet);
+
+      dd($Flower);
+
 		}
 	}//end of function
 

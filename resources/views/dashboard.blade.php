@@ -7,13 +7,18 @@
 
   <?php
    $sessionLoginValue = Session::get('loginSession');
-     Session::remove('loginSession');//determines the addition of new flower
+   Session::remove('loginSession');//determines the addition of new flower
+
+  $sessionSpoiledValue = Session::get('SpoiledRecord');
+  Session::remove('SpoiledRecord');//determines the addition of new flower
+
      use Carbon\Carbon;
      $current = Carbon::now('Asia/Manila');
   ?>
 
   <div hidden>
     <input id = "LoggedInfield" value = "{{$sessionLoginValue}}">
+    <input id = "SpoiledSessionfield" value = "{{$sessionSpoiledValue}}">
   </div>
 
         <div class="col-lg-3 col-xs-6">
@@ -211,7 +216,7 @@
                   <td class="text-center">{{$FLowers->flwrName}}</td>
                   <td class="text-right" style = "color:red"><b>{{$FLowers->QTY_Remaining}} stems</b> </td>
                   <td class="text-right">{{date_format(date_create($FLowers->Date_to_Spoil),'M d, Y')}}</td>
-                  <td class="text-center"> <a href = "{{route('manageBatch.Spoiled',['Flower_ID'=>$FLowers->inventory_ID])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+                  <td class="text-center"> <a href = "{{route('manageBatch.Spoiled',['ID'=>$FLowers->inventory_ID])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
                 </tr>
                 @endforeach
               </tbody>
@@ -282,6 +287,13 @@
 @section('scripts')
 
 <script>
+
+  if($("#SpoiledSessionfield").val() == 'Successful'){
+   swal("Take Note!","You have successfully recorded the spoiled flower under a specific batch, what you have done can no longer be changed!","success");
+  }
+  else if($("#SpoiledSessionfield").val() == 'Successful2'){
+   swal("Take Note!","You have successfully recorded that there are partially spoiled flower under a specific batch, what you have done can no longer be changed!","success");
+  }
 
   if($("#LoggedInfield").val()=='good'){
     //Show popup

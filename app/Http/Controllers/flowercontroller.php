@@ -91,7 +91,7 @@ class flowercontroller extends Controller
                             $max_BatchID = DB::table('inventory_persched')
                             ->Max('Sched_ID');
 
-                            $RecordEmptyFlower = DB::select('CALL Add_Empty_Recordto_LatestBatch(?,?)',array($max_BatchID,$flower->flower_ID));
+                            $RecordEmptyFlower = DB::select('CALL Add_Empty_Recordto_LatestBatch(?,?)',array(null,$flower->flower_ID));
                             //dd($RecordEmptyFlower);
                     //redirect
                             Session::flash('success','The flower has been Succesfully Created!');
