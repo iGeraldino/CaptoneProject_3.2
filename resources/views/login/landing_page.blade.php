@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="content">
+<div class="content1">
 	<h1 class="font1" style="margin-top: 18%;">DECORATE YOUR LIFE WITH FLOWERS</h1>
 	<a href="/home" type="button" class="btn Shalala btn-sm">Learn More</a>
 </div>

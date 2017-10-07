@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<div class="container" style="">
+	<div class="container" style="margin-top: 3%;">
 
 <!-- TABLE-->
     </div>
@@ -11,23 +11,10 @@
             <div class="box-header">
                 <h2 class="container">INVENTORY TRANSACTION</h2>
                 <label class="container">CHECK EVERYTHING THAT IS HAPPENING INSIDE YOUR INVENTORY</label>
-
-
-              <div class="row">
-                <div class="col-md-3 col-md-offset-6">
-                    <button type="button" class="btn btn-round btn-md Subu" data-toggle="modal" data-target="#flower"> <i class="material-icons">filter_vintage</i>
-                      Show  per Flower
+                <div class="col-md-1 col-md-offset-9" style="margin-top: -7%;">
+                    <button type="button" class="btn btn-round btn-md Inbox" data-toggle="modal" data-target="#reports"> <i class="material-icons" >print</i>
+                      Generate Reports
                     </button>
-                </div>
-
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-round btn-md Inbox" data-toggle="modal" data-target="#date"> <i class="material-icons" >date_range</i>
-                      Show per Date
-                    </button>
-                    <br>
-                    <br>
-                </div>
-              </div>
             </div>
           <!-- /.box-header -->
             <div class="box-body">
@@ -125,6 +112,83 @@
         </div>
       </div>
       <!-- /.col -->
+
+    <!-- REPORTS MODAL -->
+    <!-- Modal Core -->
+    <div class="modal fade" id="reports" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">GENERATE REPORTS</h4>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-12">
+              <!-- Tabs with icons on Card -->
+              <div class="card card-nav-tabs">
+                <div class="header Sharp">
+                  <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active">
+                          <a href="#date" data-toggle="tab">
+                            <i class="material-icons">date_range</i>
+                            By Date
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#batch" data-toggle="tab">
+                            <i class="material-icons">assignment</i>
+                            By Batch
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#flowers" data-toggle="tab">
+                            <i class="material-icons">filter_vintage</i>
+                            By Flowers
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="content">
+                  <div class="tab-content text-center">
+                    <div class="tab-pane active" id="date">
+                      <div class="col-md-6" style="margin-top: -6%;">
+                        <!-- Date range -->
+                        <div class="form-group">
+                          <label class="pull-left">Date range:</label>
+                          <div class="input-group">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="reservation">
+                          </div>
+                          <!-- /.input group -->
+                        </div>
+                        <!-- /.form group -->
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="batch">
+                    </div>
+                    <div class="tab-pane" id="flowers">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Tabs with icons on Card -->
+              <br><br>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-info btn-simple">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -137,6 +201,8 @@
           "autoWidth": true
         });
       });
+      //Date range picker
+    $('#reservation').daterangepicker();
   </script>
   <script>
       $('document').ready(function(){

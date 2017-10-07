@@ -83,7 +83,7 @@
         <!-- ./col -->
       </div>
 
-<div class = "row">
+<div class = "">
   <div class = "col-md-6">
     <div>
       <!-- AREA CHART -->
