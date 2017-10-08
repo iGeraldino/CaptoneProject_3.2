@@ -425,6 +425,8 @@ Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summary
 
 Route::get('landing_page', 'PagesController@getLandingPage');
 
+Route::get('manage_account', 'PagesController@getManageAccount');
+
 
 
 

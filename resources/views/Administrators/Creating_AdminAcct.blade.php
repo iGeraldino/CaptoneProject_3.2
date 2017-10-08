@@ -152,7 +152,7 @@
                           <td> {{$Accts->dateCreated}} </td>
                           <td align="center">
 
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewPrice{{$Accts->Acct_ID}}">View</button>
+                                <button type="button" class="btn btn-just-icon Subu" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#viewPrice{{$Accts->Acct_ID}}"><i class="material-icons">search</i></button>
                                       <!-- line modal -->
                                      <div class="modal fade" id="viewPrice{{$Accts->Acct_ID}}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                          <div class="modal-dialog">
@@ -235,8 +235,7 @@
                                    <!--Form close here-->
                                         </div>
 
-                                  <a type = "button" href="{{route('deleteAdminAcct',['id' => $Accts->Admin_ID])}}" class = "btn btn-danger btn-sm" >
-                                    delete
+                                  <a type = "button" rel="tooltip" title="DELETE" href="{{route('deleteAdminAcct',['id' => $Accts->Admin_ID])}}" class = "btn btn-just-icon Shalala" ><i class="material-icons">delete</i>
                                   </a>
 
                                 </td>

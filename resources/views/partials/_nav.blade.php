@@ -23,7 +23,7 @@
             <ul class = "dropdown-menu">
 
               <a href="{{ route('adminlogout')   }}" class="text-center"> <h4> Logout </h4> </a>
-              <a href="#" class="text-center"> <h4 style="padding-left: 1%; padding-right: 1%;"> Manage my Account   </h4> </a>
+              <a href="/manage_account" class="text-center"> <h4 style="padding-left: 1%; padding-right: 1%;"> Manage my Account   </h4> </a>
 
 
             </ul>
@@ -210,7 +210,7 @@
       <!-- sidebar menu: Online shop -->
       <ul class="sidebar-menu">
         <li class="treeview">
-          <a href="/home">
+          <a href="/landing_page">
             <i class="material-icons">store_directory</i> <span>Online Shop</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

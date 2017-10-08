@@ -329,4 +329,8 @@ class PagesController extends Controller
 	public function getLandingPage() {
 			return view('login/landing_page');
 		}
+
+	public function getManageAccount() {
+			return view('login/manage_account');
+		}
 }
