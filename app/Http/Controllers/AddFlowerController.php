@@ -24,9 +24,9 @@ class AddFlowerController extends Controller
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{ 
+        else{
             $flower = flower_details::all();
-        
+
             return view ('flower/flowerlist')->with('flower', $flower);
         }
 
@@ -89,7 +89,7 @@ class AddFlowerController extends Controller
 
     }
 
-    /** 
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -104,7 +104,7 @@ class AddFlowerController extends Controller
         else{
             $flower = flower_details::all();
             return view('flower.flowerlist')->with('flower', $flower);
-        }       
+        }
 
     }
 

@@ -41,8 +41,10 @@ class customerListController extends Controller
           ->get();
 
         $customerDetails = CustomerDetails::all();
+        $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
 
         return view('customer/customerlist')
+        ->with('accts',$custAccts)
         ->with('customers',$customerDetails)
         ->with('city',$cities)
         ->with('province',$province);

@@ -11,7 +11,7 @@ use Response;
 class Validator_Controller extends Controller
 {
     //
-    
+
 	public function CheckEmail_Existence(Request $request)
     {
         $emailExistence = User::where('email', '=', "{$request->input('email')}")
