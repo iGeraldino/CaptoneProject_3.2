@@ -427,6 +427,8 @@ Route::get('landing_page', 'PagesController@getLandingPage');
 
 Route::get('manage_account', 'PagesController@getManageAccount');
 
+Route::get('create_account', 'PagesController@getCreateAccount');
+
 
 
 

@@ -285,7 +285,7 @@
                                 <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" >
                                  <i class="material-icons">add_circle</i>
                                 </a>
-                                <a type="button" class="btn btn-just-icon twitch" rel="tooltip" title="CREATE ACCOUNT" data-toggle="modal" data-target="#createaccount"> <i class="material-icons">add</i></a>
+                                <a type="button" class="btn btn-just-icon twitch" rel="tooltip" title="CREATE ACCOUNT" href="/create_account"> <i class="material-icons">add</i></a>
                               </td>
                             </tr>
                           @endforeach
@@ -320,7 +320,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel" class="text-center">CREATE ACCOUNT</h4>
+            <h4 class="modal-title" id="myModalLabel" class="text-center">CREATEEEEs ACCOUNT</h4>
           </div>
           <div class="modal-body">
             <div class="">

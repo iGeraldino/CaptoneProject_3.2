@@ -333,4 +333,8 @@ class PagesController extends Controller
 	public function getManageAccount() {
 			return view('login/manage_account');
 		}
+
+	public function getCreateAccount() {
+			return view('customer/create_account');
+		}
 }
