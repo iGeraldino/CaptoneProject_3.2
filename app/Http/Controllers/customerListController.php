@@ -40,7 +40,7 @@ class customerListController extends Controller
           ->select('*')
           ->get();
 
-        $customerDetails = CustomerDetails::all();
+        $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
         $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
 
         return view('customer/customerlist')
