@@ -1,0 +1,531 @@
+@extends('main')
+
+@section('content')
+	<?php
+		//$final_Amt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal()) + str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
+    $final_Amt = 0;
+    foreach($Flowers as $Frow){
+      $final_Amt += $Frow->Tamt;
+    }
+    foreach($Bouquet as $Brow){
+      $final_Amt += $Brow->Amt;
+    }
+	?>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8" style="margin-left: -7px;">
+				<div class="title container" style="margin-top: 5%;">
+					<h3><b>ORDER MANAGEMENT</b></h3>
+				</div>
+
+				<div class="panel" style="margin-top: 3%">
+					<div class="panel-heading  Sharp">
+						<div class="panel-title">
+                			<div class="row">
+                  				<div class="col-xs-6">
+                    				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> <b>Order Summary</b></h6>
+                  				</div>
+                			</div>
+              			</div>
+					</div>
+					<div class="panel-body">
+            <div class = "row">
+              <div class = "col-md-6">
+                <p><b>Order ID:</b> ORDR-{{$SalesOrder->sales_order_ID}}</p>
+                @if($SalesOrder->Status == "PENDING")
+                  <p><b>Status: </b><span class = "btn btn-sm btn-warning">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "CLOSED")
+                <p><b>Status: </b><span class = "btn btn-sm btn-success">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "P_PARTIAL")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "P_FULL")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-primary">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "BALANCED")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "A_UNPAID")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
+                @elseif($SalesOrder->Status == "A_P_PARTIAL")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
+                @endif
+
+
+                @if($SalesOrder->customer_ID != NULL)
+                  <p><b>Customer:</b> (CUST-{{$SalesOrder->customer_ID}}) {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
+                @else
+                  <p><b>Customer ID:</b> N/A</p>
+                  <p><b>Customer:</b> {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
+                @endif
+                  <p><b>Contact No: </b>{{$SalesOrder->Contact_Num}}</p>
+                  <p><b>Email Add: </b>{{$SalesOrder->email_Address}}</p>
+
+
+                @if($SalesOrder->cust_Type == 'C')
+                  <p><b>Customer Type:</b> Single Customer</p>
+                @elsif($SalesOrder->cust_Type == 'S')
+                  <p><b>Customer Type:</b> Shop</p>
+                @elseif($SalesOrder->cust_Type == 'H')
+                  <p><b>Customer Type:</b> HOTEL</p>
+                @endif
+                  <p><b>Payment Method: </b>{{$OrderDetails->Payment_Mode}}</p>
+                @if($OrderDetails->shipping_method == 'delivery')
+                  <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
+                  <p><b>Delivery Address: </b>{{$OrderDetails->Delivery_Address}}, {{$OrderDetails->Delivery_Baranggay}}, {{$cityname}}, {{$provname}}</p>
+                  <p><b>Delivery Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
+                @else
+                  <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
+                @endif
+
+              </div>
+              <div class = "Col-md-6 " style = "color:darkviolet;">
+                <h5><b>Total Purchase:</b> Php {{number_format($final_Amt,2)}}</h5>
+                <h5><b>Vat:</b> Php {{number_format(($final_Amt*0.12),2)}}</h5>
+                <h5><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge*0.12),2)}}</h5>
+
+              </div>
+            </div>
+
+						<div class="col-md-12" style="margin-top: 10px;overflow-x:auto;">
+							<h3 class="fontx text-center">Flower Summary</h3>
+							<hr>
+
+							<table class="table table-hover table-bordered table-striped">
+							  	<thead>
+							    	<tr>
+								      <th class="text-center">Flower ID</th>
+								      <th class="text-center">Name</th>
+								      <th class="text-center">Image</th>
+								      <th class="text-center">Price</th>
+								      <th class="text-center">Qty</th>
+								      <th class="text-center">Total Amount</th>
+									</tr>
+							  </thead>
+							  <tbody>
+                  <?php
+                    $F_total = 0;
+
+                  ?>
+							  @foreach($Flowers as $Flwr)
+							    <tr>
+							      <th scope="row">FLWR-{{$Flwr->flwr_ID}}</th>
+							      <td>{{$Flwr->name}}</td>
+							      	<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->Img)}}"></td>
+							      <td class = "text-right" style = "color:red;"> Php 	{{number_format($Flwr->Price,2)}}</td>
+							      <td class = "text-right"> {{$Flwr->qty}} pcs. </td>
+							      <td class = "text-right" style = "color:red;">Php {{number_format($Flwr->Tamt,2)}}</td>
+							    </tr>
+                  <?php
+                    $F_total += $Flwr->Price * $Flwr->qty;
+                  ?>
+			          @endforeach
+							  </tbody>
+							</table>
+						</div>
+						<hr>
+						<div class="col-md-4 col-md-offset-7">
+							<h7 style = "color:darkviolet;"><b>(Flower) Total: Php {{number_format($F_total,2)}} </b></h7>
+						</div>
+						<div class="col-md-12" style="margin-top: 10px;overflow-x:auto;">
+							<h3 class="fontx text-center">Bouquet Summary</h3>
+							<hr>
+							<table class="table table-hover table-bordered table-striped">
+							  	<thead>
+							    	<tr>
+								      <th class="text-center">Item ID</th>
+								      <th class="text-center">Price</th>
+								      <th class="text-center">Qty</th>
+								      <th class="text-center">Total</th>
+								      <th class="text-center">Contents</th>
+									</tr>
+							  </thead>
+							  <tbody>
+                  <?php
+                    $Bqt_Total = 0;
+
+                  ?>
+							  @foreach($Bouquet as $Bqt)
+							    <tr>
+							      <th scope="row">BQT-{{$Bqt->Bqt_ID}}</th>
+							      <td>Php {{number_format($Bqt->Unit_Price,2)}}</td>
+							      <td>{{$Bqt->QTY}}</td>
+							      <td>Php {{Number_format($Bqt->QTY * $Bqt->Amt,2)}}</td>
+							      <td>
+									<table class="table table-bordered" style="overflow-x:auto;">
+                                       <thead>
+	                                    	<th class="text-center">Item ID</th>
+	                                    	<th class="text-center">Item Name</th>
+	                                    	<th class="text-center">Image</th>
+	                                    	<th class="text-center">Price</th>
+	                                    	<th class="text-center">Qty</th>
+	                                    	<th class="text-center">Total Price</th>
+		                                </thead>
+                                   		<tbody>
+                                 @foreach($Bqt_Flowers as $row1)
+                                	@if($Bqt->Bqt_ID == $row1->BQT_ID)
+	                            		<tr>
+	                            			<th scope="row">FLWR-{{$row1->FLwr_ID}}</th>
+	                              			<td>{{ $row1->name}}</td>
+	                              			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$row1->Img)}}">
+	                              			</td>
+	                              			<td>Php {{ $row1->price}}</td>
+	                              			<td>{{ $row1->qty}}</td>
+	                              			<td>Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
+	                               		</tr>
+                              	 	@endif
+                                 @endforeach
+                                 @foreach($Bqt_Acrs as $row2)
+                             		@if($Bqt->Bqt_ID == $row2->bqt_ID)
+	                             		<tr>
+	                          				<th scope="row">ACRS-{{$row2 -> Acrs_ID}}</th>
+	                            			<td>{{ $row2 -> name}}</td>
+	                            			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('accimage/'.$row2->Img)}}">
+	                            			</td>
+	                            			<td>Php {{ Number_format($row2 -> Price,2)}}</td>
+	                            			<td>{{ $row2 -> qty}}</td>
+	                            			<td>Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
+	                            		</tr>
+                            		@endif
+                              @endforeach
+                                </tbody>
+
+                                </table>
+
+							      </td>
+							    </tr>
+                  <?php
+                    $Bqt_Total += $Bqt->Amt * $Bqt->QTY;
+                  ?>
+							    @endforeach
+							  </tbody>
+							</table>
+						</div>
+						<div class="col-md-4 col-md-offset-7">
+							<h7 style = "color:darkviolet;"><b>(Bouquet) Total: Php {{number_format($Bqt_Total,2)}}</b></h7>
+						</div>
+					</div>
+					<div class="panel-footer">
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel" style="margin-top: 35%; margin-left: -5%;">
+					<div class="panel-heading  Sharp">
+						<div class="panel-title">
+              <h6 style="color: white"><span class="glyphicon glyphicon-user text-center" style="color: white;"></span>
+                <b>Manage the order Now</b></h6>
+            </div>
+					</div>
+          <div class = "panel-body">
+            <h5><b>Total Purchase:</b> Php {{number_format($final_Amt,2)}}</h5>
+            <h5><b>Vat(12%):</b> Php {{number_format(($final_Amt*0.12),2)}}</h5>
+            <h5><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</h5>
+            <hr>
+            <div class="radio">
+              <p class = "text-center"><b>Pay Through?</b></p>
+              <label>
+                <input type="radio" name="optionsPayment" id = "cashRdo">
+                Cash
+              </label>
+              <label>
+                <input type="radio" name="optionsPayment" id = "bankRdo">
+                Bank
+              </label>
+              <label>
+                <input type="radio" name="optionsPayment" id = "checkRdo">
+                Check
+              </label>
+            </div>
+
+            <hr>
+
+            <div id = "cashPaymentDiv" hidden>
+          {!! Form::open(array('route' => 'Orders_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+              <h6><b>Pay through Cash:</b></h6>
+                <b>Details of Person who gave the payment:</b>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="samePersonCheckBox" id = "samePersonCheckBox">
+                    Same Person who placed the order
+                  </label>
+                </div>
+                <div hidden>
+                  <input type = "text" id = "Currentcust_ID" value = "{{$SalesOrder->customer_ID}}"/>
+                  <input type = "text" id = "Decision_text" value = "N"/>
+                  <input type = "text" id = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
+                  <input type = "text" id = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
+                  <input type = "text" id = "SubtotalDown" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+                </div>
+                <div class = "row">
+
+                  <div class = "col-md-6">
+                    <div id = "fnameDiv" class="form-group label-floating">
+                      <label class="control-label">First Name</label>
+                      <input  name = "nf_namefield" id = "nf_namefield" type="text" class="form-control text-right" required/>
+                      <input name = "f_namefield" id = "f_namefield" type="text" class="hidden form-control text-right" value = "{{$SalesOrder->Customer_Fname}}"/>
+                      <span class="form-control-feedback">
+                      </span>
+                    </div>
+                  </div>
+                  <div class = "col-md-6">
+                    <div id = "lnameDiv" class="form-group label-floating">
+                      <label class="control-label">Last Name</label>
+                      <input name = "nl_namefield" id = "nl_namefield" type="text" class="form-control text-right" required/>
+                      <input name = "l_namefield" id = "l_namefield" type="text" class="hidden form-control text-right" value = '{{$SalesOrder->Customer_LName}}'/>
+                      <span class="form-control-feedback">
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              <div class = "row">
+                <div class = "col-md-6">
+                </div>
+                <div class = "col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Amount of Purchase</label>
+                      <input type="text" class="form-control text-right" value = "Php {{number_format($final_Amt,2)}}" disabled/>
+                      <input type="number" class="hidden form-control text-right" value = "{{$final_Amt}}"/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  <div class="form-group label-floating">
+                    <label class="control-label">(12%)VAT</label>
+                      <input type="text" class="form-control text-right" value = "Php {{number_format(($final_Amt*0.12),2)}}" disabled/>
+                      <input type="number" class="hidden form-control text-right" value = "{{$final_Amt*0.12}}"/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  <div class="form-group label-control">
+                    <label class="control-label">Delivery Charge</label>
+                      <input type="text" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Delivery_Charge),2)}}" disabled/>
+                      <input type="number" class="hidden form-control text-right" value = "{{$OrderDetails->Delivery_Charge}}"/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  @if($SalesOrder->Status == "PENDING")
+                  <div class="form-group label-control">
+                    <label class="control-label">Total Amount</label>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
+                    <input type="number" id = "balanceField" name = "balanceField" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  @else
+                  <div class="form-group label-control">
+                    <label class="control-label">Total Amount</label>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  <div class="form-group label-control">
+                    <label class="control-label">Balance</label>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->BALANCE),2)}}" disabled/>
+                    <input type="number" id = "balanceField" name = "balanceField" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  @endif
+                </div>
+              </div>
+              <div id = "partialCheckbox_DIV" class="checkbox">
+                <label  style = "color:red;">
+                  <input type="checkbox" name="partial_PaymentCheckBox" id = "partial_PaymentCheckBox">
+                   Use only the partial of the entered payment
+                </label>
+              </div>
+              <div class = "row">
+                <div class = "col-md-6">
+                  <div class="form-group label-floating">
+                    <label class="control-label">Enter Amount Paid</label>
+                      <input id = "payment_field" name = "payment_field" type="number" step = "1.0" class="form-control" min = "<?php
+                        if($SalesOrder->Status == 'PENDING'){
+                          $min = $OrderDetails->Subtotal * 0.20;
+                        }else{
+                          $min = $OrderDetails->BALANCE;
+                        }
+                        echo $min;
+                       ?>" required/>
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                  <div class="form-group label-control">
+                    <label class="control-label">Change</label>
+                      <input id = "DisplaychangeField" type="text" class="form-control" disabled value = "Php 0.00"/>
+                      <input id = "changeField" name = "changeField" type="text" class="form-control" />
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                </div>
+
+                <div class = "col-md-6">
+                  <div id = "partialDiv" class="form-group label-floating" hidden>
+                    <label class="control-label">Partial</label>
+                      <input max = "20" min = "1" id = "PartialField" name = "PartialField" type="number" class="form-control" />
+                    <span class="form-control-feedback">
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="checkbox">
+                <label  style = "color:red;">
+                  <input type="checkbox" name="cash_ShowSubmitButton" id = "cash_ShowSubmitButton">
+                  *important: by checking this, you are sure about the amount that you entered.
+                </label>
+              </div>
+              <div id = "cashSbmt_BtnDIV" hidden>
+                <button id = "cashSBMT" type = "submit" class = "btn btn-md btn-success" disabled>submit payment</button>
+              </div>
+              {!! Form::close() !!}
+            </div>
+            <div id = "bankPaymentDiv">
+							<p>Pay through Bank Deposites</p>
+							<input name = "slip_Number" id = "slip_Number" type = "text" />
+							<div id = "partialDiv" class="form-group label-floating" hidden>
+								<label class="control-label">Deposit Slip Number</label>
+									<input name = "slip_Number" id = "slip_Number" type="text" class="form-control" />
+								<span class="form-control-feedback">
+								</span>
+							</div>
+							<div id = "partialDiv" class="form-group label-floating" hidden>
+								<label class="control-label">Amount Deposited</label>
+									<input name = "Amount" id = "Amount" type="number" min = "{{$OrderDetails->Subtotal * 0.20}}" class="form-control" />
+								<span class="form-control-feedback">
+								</span>
+							</div>
+							<button id = "bankSubmit" name = "bankSubmit" type = "submit" class =  "btn btn-md btn-success">Submit Payment</button>
+            </div>
+            <div id = "chequePaymentDiv">
+            </div>
+
+            @if($SalesOrder->cust_Type == 'H')
+
+            @elseif($SalesOrder->cust_Type == 'S')
+              <p><b>Customer Type:</b> Shop</p>
+            @elseif($SalesOrder->cust_Type == 'C')
+
+            @endif
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection
+
+@section('scripts')
+
+  <script type="text/javascript">
+      $(function () {
+        $("#example2").DataTable();
+        $('#BouqTable').DataTable({
+          "paging": true,
+          "info": true,
+          "autoWidth": true
+        });
+        $('#flowersTable').DataTable({
+          "paging": true,
+          "info": true,
+          "autoWidth": true
+        });
+        $('#cancelledtable').DataTable({
+          "paging": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+  </script>
+
+  <script>
+  $(document).ready(function(){
+    $('#samePersonCheckBox').click(function(){
+
+
+      if($('#samePersonCheckBox').is(":checked")){
+        $('#Decision_text').val("O");
+        $('#fnameDiv').removeClass("form-group label-floating");
+        $('#fnameDiv').addClass("form-group label-control");
+        $('#lnameDiv').removeClass("form-group label-floating");
+        $('#lnameDiv').addClass("form-group label-control");
+        $("#nf_namefield").val($('#Current_FName').val());
+        $("#nl_namefield").val($('#Current_LName').val());
+        $("#nf_namefield").attr('disabled',true);
+        $("#nl_namefield").attr('disabled',true);
+      }else{
+        $('#Decision_text').val("N");
+        $('#fnameDiv').removeClass("form-group label-control");
+        $('#fnameDiv').addClass("form-group label-floating");
+        $('#lnameDiv').removeClass("form-group label-control");
+        $('#lnameDiv').addClass("form-group label-floating");
+        $("#nf_namefield").val(null);
+        $("#nl_namefield").val(null);
+        $("#nf_namefield").attr('disabled',false);
+        $("#nl_namefield").attr('disabled',false);
+      }
+    });
+
+    if($('#payment_field').val() == "" || $('#payment_field').val() == null){
+      $('#partialCheckbox_DIV').hide();
+    }
+
+    var DownPayment = $('#SubtotalDown').val();
+
+    $('#payment_field').change(function(){
+      if($('#payment_field').val() < DownPayment){
+        var change = $('#payment_field').val() - DownPayment;
+        $('#partialCheckbox_DIV').hide();
+        $('#changeField').val(change);
+      }
+      else if($('#payment_field').val() > DownPayment){
+        $('#partialCheckbox_DIV').show();
+        $('#changeField').val('0.00');
+        var payment = $('#payment_field').val();
+        var balance = $('#balanceField').val();
+        if(payment >= balance){//to be cotinued....
+          alert(payment+'__________'+balance)
+           var change = $('#payment_field').val() - $('#balanceField').val();
+           $('#changeField').val(change);
+         }else if(balance < balance){
+           var change = 0;
+           $('#changeField').val(change);
+         }
+      }
+      else if($('#payment_field').val() == DownPayment){
+        var change = $('#payment_field').val() - DownPayment;
+        $('#partialCheckbox_DIV').hide();
+        $('#changeField').val(change);
+      }
+    });
+
+
+
+    $('#partial_PaymentCheckBox').click(function(){
+			if($('#partial_PaymentCheckBox').is(":checked")){
+        $('#partialDiv').show("fold");
+        $('#payment_field').attr("disabled",true);
+        $('#PartialField').attr("required",true);
+        var maximum = $('#payment_field').val() - 1;//for the maximum value of partial_field
+        var arr = $("#PartialField").attr('max',maximum);
+        var arr2 = $("#PartialField").attr('min',DownPayment);
+        alert(arr+'___'+arr2);
+			}else{
+        $('#PartialField').attr("required",false);
+        $('#payment_field').attr("disabled",false);
+        $('#partialDiv').hide("fold");
+			}
+		});
+
+    $('#cash_ShowSubmitButton').click(function(){
+			if($('#cash_ShowSubmitButton').is(":checked")){
+        $('#cashSbmt_BtnDIV').show("fold");
+        $('#cashSBMT').attr("disabled",false);
+			}else{
+        $('#payment_field').attr("disabled",true);
+        $('#cashSBMT').hide("fold");
+			}
+		});
+
+
+	});//end of document ready
+  </script>
+
+@endsection

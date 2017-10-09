@@ -182,7 +182,9 @@
                   <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
                   <td class="text-center" style="text-transform: uppercase; color:green;"><span class = "btn btn-sm btn-warning">  {{$Olist->Status}} </span></td>
 
-                  <td class="text-center"> <a type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
+                  <td class="text-center">
+                    <a href = "{{route('SalesOrderManage.Order',['id'=>$Olist->sales_order_ID])}}" type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE THIS ORDER" ><i class="material-icons">more_horiz</i></a>
+                  </td>
                 </tr>
               @endforeach
             </tbody>

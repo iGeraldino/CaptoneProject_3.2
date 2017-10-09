@@ -85,6 +85,8 @@ Route::group(['middleware' => ['web']], function() {
 	Route::resource('Quick_Sales_Order','quickorderController');
 
 
+	Route::get('/SpecificSales_Order/{id}',['uses' => 'OrderManagementController@ManageSpecific_Order', 'as'=>'SalesOrderManage.Order']);
+
 //checkot of longorder
   Route::get('/LongorderSummary',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
 
@@ -424,8 +426,6 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
 Route::get('landing_page', 'PagesController@getLandingPage');
-
-Route::get('manage_account', 'PagesController@getManageAccount');
 
 
 
