@@ -84,6 +84,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Quick_Sales_Order','quickorderController');
 
+	Route::resource('ManageOrder_Bank','ManageOrder_bankController');
+
 
 	Route::get('/SpecificSales_Order/{id}',['uses' => 'OrderManagementController@ManageSpecific_Order', 'as'=>'SalesOrderManage.Order']);
 

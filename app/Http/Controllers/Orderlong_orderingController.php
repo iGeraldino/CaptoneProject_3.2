@@ -183,8 +183,45 @@ class Orderlong_orderingController extends Controller
       $create_Order_Details->Recipient_Lname = $recipientLname;
       $create_Order_Details->Status = 'PENDING';
       $create_Order_Details->Payment_Mode = $Payment_methodline;
-      $create_Order_Details->shipping_method = $shipping_methodline;
       $create_Order_Details->Subtotal = $OrderTotal_Amt;
+      $create_Order_Details->shipping_method = $shipping_methodline;
+      $delivery_Charge = 0;
+
+
+      $citiesRecord = DB::table('cities')
+        ->select('*')
+        ->get();
+
+      if($shipping_methodline == 'delivery'){
+            if($prove_Line == 47 AND $city_Line == 969){
+                $deliveryCharge = 0;
+              }
+            else if($prove_Line == 47 AND $city_Line != 969){
+               $deliveryCharge = 300;
+              }
+              else{
+                $deliveryCharge = 0.0;
+              }
+      }else{
+        $deliveryCharge = 0.0;
+      }
+
+      $vat = $OrderTotal_Amt * 0.12;
+
+      $create_Order_Details->Delivery_Charge = $deliveryCharge;
+
+      if($Existing_CustType != 'C'){
+        $create_Order_Details->VAT = $vat;
+        $create_Order_Details->Total_Amt = $OrderTotal_Amt + $vat +  $deliveryCharge;
+        $create_Order_Details->BALANCE = $OrderTotal_Amt + $vat + $deliveryCharge;
+      }else{
+        $vat = 0.00;
+        $create_Order_Details->VAT = 0;
+        $create_Order_Details->Total_Amt = $OrderTotal_Amt + $vat + $deliveryCharge;
+        $create_Order_Details->BALANCE = $OrderTotal_Amt + $vat + $deliveryCharge;
+      }
+
+
       $create_Order_Details->email_Addresss = $recipient_email;
       $create_Order_Details->Contact_Num = $recipient_Contact;
       $create_Order_Details->created_at = $current;

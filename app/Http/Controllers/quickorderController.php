@@ -158,7 +158,8 @@ class quickorderController extends Controller
         //make a record of Customer_payment under that invoice and payment settlement
         $customerPayment = new CustomerPayment;
         $customerPayment->Amount = $Amt_Paid;
-        $customerPayment->BALANCE = 0;
+        $customerPayment->Amount_Used = $Amt_Paid;
+        $customerPayment->BALANCE = $TotalAmt;
         $customerPayment->Date_Obtained = $current;
         if($custID == " "){
           $customerPayment->From_Id = null;
@@ -171,8 +172,8 @@ class quickorderController extends Controller
         $customerPayment->save();
 
         //make a record of customer payment Settlement record
-         $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?)',
-         array($salesorder->sales_order_ID,$customerPayment->Payment_ID,$Amt_Paid,$Change));
+         $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+         array($salesorder->sales_order_ID,$customerPayment->Payment_ID,$Amt_Paid,$Amt_Paid,$Change));
 
         //add the bouquet under the order ID
         //add the flowers under the bqt under the Order ID

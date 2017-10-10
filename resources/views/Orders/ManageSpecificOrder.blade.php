@@ -10,6 +10,10 @@
     foreach($Bouquet as $Brow){
       $final_Amt += $Brow->Amt;
     }
+		use Carbon\Carbon;
+
+		$current = Carbon::now('Asia/Manila');
+
 	?>
 
 	<div class="container">
@@ -22,12 +26,12 @@
 				<div class="panel" style="margin-top: 3%">
 					<div class="panel-heading  Sharp">
 						<div class="panel-title">
-                			<div class="row">
-                  				<div class="col-xs-6">
-                    				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> <b>Order Summary</b></h6>
-                  				</div>
-                			</div>
-              			</div>
+        			<div class="row">
+          				<div class="col-xs-6">
+            				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> <b>Order Summary</b></h6>
+          				</div>
+        			</div>
+      			</div>
 					</div>
 					<div class="panel-body">
             <div class = "row">
@@ -49,6 +53,7 @@
                  <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
                 @endif
 
+								<p><b>Date of Order: </b><span class = "btn btn-sm btn-info">{{date("M d, Y @ h:i a",strtotime($SalesOrder->created_at))}}</span></p>
 
                 @if($SalesOrder->customer_ID != NULL)
                   <p><b>Customer:</b> (CUST-{{$SalesOrder->customer_ID}}) {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
@@ -62,7 +67,7 @@
 
                 @if($SalesOrder->cust_Type == 'C')
                   <p><b>Customer Type:</b> Single Customer</p>
-                @elsif($SalesOrder->cust_Type == 'S')
+                @elseif($SalesOrder->cust_Type == 'S')
                   <p><b>Customer Type:</b> Shop</p>
                 @elseif($SalesOrder->cust_Type == 'H')
                   <p><b>Customer Type:</b> HOTEL</p>
@@ -72,15 +77,17 @@
                   <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
                   <p><b>Delivery Address: </b>{{$OrderDetails->Delivery_Address}}, {{$OrderDetails->Delivery_Baranggay}}, {{$cityname}}, {{$provname}}</p>
                   <p><b>Delivery Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
-                @else
-                  <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
+								@elseif($OrderDetails->shipping_method == 'pickup')
+										<p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
+										<p><b>Pickup Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
                 @endif
 
               </div>
               <div class = "Col-md-6 " style = "color:darkviolet;">
-                <h5><b>Total Purchase:</b> Php {{number_format($final_Amt,2)}}</h5>
-                <h5><b>Vat:</b> Php {{number_format(($final_Amt*0.12),2)}}</h5>
-                <h5><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge*0.12),2)}}</h5>
+                <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
+                <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
+								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
+                <h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
 
               </div>
             </div>
@@ -217,9 +224,11 @@
             </div>
 					</div>
           <div class = "panel-body">
-            <h5><b>Total Purchase:</b> Php {{number_format($final_Amt,2)}}</h5>
-            <h5><b>Vat(12%):</b> Php {{number_format(($final_Amt*0.12),2)}}</h5>
-            <h5><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</h5>
+            <p><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</p>
+            <p><b>Vat(12%):</b> Php {{number_format($OrderDetails->VAT,2)}}</p>
+            <p><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</p>
+						<p><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</p>
+
             <hr>
             <div class="radio">
               <p class = "text-center"><b>Pay Through?</b></p>
@@ -239,7 +248,7 @@
 
             <hr>
 
-            <div id = "cashPaymentDiv" hidden>
+          <div id = "cashPaymentDiv" hidden>
           {!! Form::open(array('route' => 'Orders_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
               <h6><b>Pay through Cash:</b></h6>
                 <b>Details of Person who gave the payment:</b>
@@ -250,6 +259,7 @@
                   </label>
                 </div>
                 <div hidden>
+									<input type = "text" id = "Order_ID"  name = "Order_ID" value = "{{$SalesOrder->sales_order_ID}}"/>
                   <input type = "text" id = "Currentcust_ID" value = "{{$SalesOrder->customer_ID}}"/>
                   <input type = "text" id = "Decision_text" value = "N"/>
                   <input type = "text" id = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
@@ -378,23 +388,114 @@
               </div>
               {!! Form::close() !!}
             </div>
-            <div id = "bankPaymentDiv">
-							<p>Pay through Bank Deposites</p>
-							<input name = "slip_Number" id = "slip_Number" type = "text" />
-							<div id = "partialDiv" class="form-group label-floating" hidden>
-								<label class="control-label">Deposit Slip Number</label>
-									<input name = "slip_Number" id = "slip_Number" type="text" class="form-control" />
-								<span class="form-control-feedback">
-								</span>
+
+
+            <div id = "bankPaymentDiv" hidden>
+					{!! Form::open(array('route' => 'ManageOrder_Bank.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
+							<b>Details of Person who gave the payment:</b>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="samePersonCheckBox2" id = "samePersonCheckBox2">
+									Same Person who placed the order
+								</label>
 							</div>
-							<div id = "partialDiv" class="form-group label-floating" hidden>
-								<label class="control-label">Amount Deposited</label>
-									<input name = "Amount" id = "Amount" type="number" min = "{{$OrderDetails->Subtotal * 0.20}}" class="form-control" />
-								<span class="form-control-feedback">
-								</span>
+							<div hidden>
+								<input type = "text" id = "Order_ID2"  name = "Order_ID2" value = "{{$SalesOrder->sales_order_ID}}"/>
+								<input type = "text" id = "Currentcust_ID2" name = "Currentcust_ID2"  value = "{{$SalesOrder->customer_ID}}"/>
+								<input type = "text" id = "Decision_text2"  name = "Decision_text2" value = "N"/>
+								<input type = "text" id = "Current_FName2"  name = "Current_FName2" value = "{{$SalesOrder->Customer_Fname}}"/>
+								<input type = "text" id = "Current_LName2"  name = "Current_LName2" value = "{{$SalesOrder->Customer_LName}}"/>
+								<input type = "text" id = "SubtotalDown2"  name = "SubtotalDown2" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
 							</div>
-							<button id = "bankSubmit" name = "bankSubmit" type = "submit" class =  "btn btn-md btn-success">Submit Payment</button>
+							<div class = "row">
+
+								<div class = "col-md-6">
+									<div id = "fnameDiv2" class="form-group label-floating">
+										<label class="control-label">First Name</label>
+										<input  name = "nf_namefield2" id = "nf_namefield2" type="text" class="form-control text-right" required/>
+										<input name = "f_namefield2" id = "f_namefield2" type="text" class="hidden form-control text-right" value = "{{$SalesOrder->Customer_Fname}}"/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+								<div class = "col-md-6">
+									<div id = "lnameDiv2" class="form-group label-floating">
+										<label class="control-label">Last Name</label>
+										<input name = "nl_namefield2" id = "nl_namefield2" type="text" class="form-control text-right" required/>
+										<input name = "l_namefield2" id = "l_namefield2" type="text" class="hidden form-control text-right" value = '{{$SalesOrder->Customer_LName}}'/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+							</div>
+							<hr>
+
+							<p><b>Pay through Bank Deposite<b></p>
+
+							<div class="form-group" Style = "margin-left: 20%;">
+                <img src= "{{ asset('img/'.'addfile.ico')}}" id="imageBox" name="imageBox" style="max-width: 200px; max-height: 200px;" />
+              </div>
+
+							<label for = 'flowerimg'>Slip Image: </label>
+							<div class="input-group">
+								<input class ="uploader" type="file" accept="image/*" name = "DSlipimg" id = "DSlipimg" onchange="preview_image(event)"  style = "margin-top: 2%;" required>
+							</div>
+							<div class="input-group" hidden>
+								<img class ="uploader" type="file" accept="image/*" name = "DSlipimg2" id = "DSlipimg2" value = "{{ asset('img/'.'addfile.ico')}}" src = "{{ asset('img/'.'addfile.ico')}}" hidden/>
+							</div>
+
+							<div class = "row">
+								<div class = "col-md-6">
+									<div id = "partialDiv" class="form-group label-floating">
+										<label class="control-label">Bank Name</label>
+										<input name = "Bank_Name" id = "Bank_Name" type="text" class="form-control" required maxlength= "40" required/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+
+								<div class = "col-md-6">
+									<div id = "partialDiv" class="form-group label-floating">
+										<label class="control-label">Deposit Slip Number</label>
+										<input name = "slip_Number" id = "slip_Number" type="text" class="form-control" maxlength= "20" required/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class = "row">
+								<div class = "col-md-6">
+									<div id = "partialDiv" class="form-group label-control">
+										<label class="control-label">Date Deposited</label>
+										<input name = "D_date" id = "D_date" min = "{{date('Y-m-d', strtotime($SalesOrder->created_at))}}" max = "{{date('Y-m-d', strtotime($current))}}" value = "{{date('Y-m-d', strtotime($current))}}" type="date" class="form-control" reqired/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+
+								<div class = "col-md-6">
+									<div id = "partialDiv" class="form-group label-control">
+										<label class="control-label">Amount Deposited</label>
+											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "{{$OrderDetails->Subtotal * 0.20}}" value = "{{$OrderDetails->Subtotal * 0.20}}" class="form-control" required/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="checkbox">
+								<label  style = "color:red;">
+									<input type="checkbox" name="bank_ShowSubmitButton" id = "bank_ShowSubmitButton">
+									*important: by checking this, you are sure about the amount that you entered.
+								</label>
+							</div>
+							<div id = "bankSbmt_BtnDIV" hidden>
+								<button id = "bankSBMT" type = "submit" class = "btn btn-md btn-success" disabled>Submit payment</button>
+							</div>
+					{!! Form::close() !!}
             </div>
+
+
             <div id = "chequePaymentDiv">
             </div>
 
@@ -433,35 +534,85 @@
           "autoWidth": false
         });
       });
+			function preview_image(event)
+		  {
+		   var reader = new FileReader();
+		   reader.onload = function()
+		   {
+		    var output = document.getElementById('imageBox');
+		    output.src = reader.result;
+		   }
+		   reader.readAsDataURL(event.target.files[0]);
+		  }
+
   </script>
 
   <script>
   $(document).ready(function(){
-    $('#samePersonCheckBox').click(function(){
 
+		$('#bankRdo').click(function(){
+			$('#cashPaymentDiv').hide("fold");
+			$('#chequePaymentDiv').hide("fold");
+			$('#bankPaymentDiv').show("fold");
+		});
+		$('#cashRdo').click(function(){
+			$('#chequePaymentDiv').hide("fold");
+			$('#bankPaymentDiv').hide("fold");
+			$('#cashPaymentDiv').show("fold");
+		});
+		$('#checkRdo').click(function(){
+			$('#bankPaymentDiv').hide("fold");
+			$('#cashPaymentDiv').hide("fold");
+			$('#chequePaymentDiv').show("fold");
+		});
 
-      if($('#samePersonCheckBox').is(":checked")){
-        $('#Decision_text').val("O");
-        $('#fnameDiv').removeClass("form-group label-floating");
-        $('#fnameDiv').addClass("form-group label-control");
-        $('#lnameDiv').removeClass("form-group label-floating");
-        $('#lnameDiv').addClass("form-group label-control");
-        $("#nf_namefield").val($('#Current_FName').val());
-        $("#nl_namefield").val($('#Current_LName').val());
-        $("#nf_namefield").attr('disabled',true);
-        $("#nl_namefield").attr('disabled',true);
+    $('#samePersonCheckBox2').click(function(){
+      if($('#samePersonCheckBox2').is(":checked")){
+        $('#Decision_text2').val("O");
+        $('#fnameDiv2').removeClass("form-group label-floating");
+        $('#fnameDiv2').addClass("form-group label-control");
+        $('#lnameDiv2').removeClass("form-group label-floating");
+        $('#lnameDiv2').addClass("form-group label-control");
+      	$("#nf_namefield2").val($('#Current_FName').val());
+        $("#nl_namefield2").val($('#Current_LName').val());
+        $("#nf_namefield2").attr('disabled',true);
+        $("#nl_namefield2").attr('disabled',true);
       }else{
-        $('#Decision_text').val("N");
-        $('#fnameDiv').removeClass("form-group label-control");
-        $('#fnameDiv').addClass("form-group label-floating");
-        $('#lnameDiv').removeClass("form-group label-control");
-        $('#lnameDiv').addClass("form-group label-floating");
-        $("#nf_namefield").val(null);
-        $("#nl_namefield").val(null);
-        $("#nf_namefield").attr('disabled',false);
-        $("#nl_namefield").attr('disabled',false);
+        $('#Decision_text2').val("N");
+        $('#fnameDiv2').removeClass("form-group label-control");
+        $('#fnameDiv2').addClass("form-group label-floating");
+        $('#lnameDiv2').removeClass("form-group label-control");
+        $('#lnameDiv2').addClass("form-group label-floating");
+        $("#nf_namefield2").val(null);
+        $("#nl_namefield2").val(null);
+        $("#nf_namefield2").attr('disabled',false);
+        $("#nl_namefield2").attr('disabled',false);
       }
     });
+
+	$('#samePersonCheckBox').click(function(){
+		if($('#samePersonCheckBox').is(":checked")){
+				$('#Decision_text').val("O");
+				$('#fnameDiv').removeClass("form-group label-floating");
+				$('#fnameDiv').addClass("form-group label-control");
+				$('#lnameDiv').removeClass("form-group label-floating");
+				$('#lnameDiv').addClass("form-group label-control");
+				$("#nf_namefield").val($('#Current_FName').val());
+				$("#nl_namefield").val($('#Current_LName').val());
+				$("#nf_namefield").attr('disabled',true);
+				$("#nl_namefield").attr('disabled',true);
+			}else{
+				$('#Decision_text').val("N");
+				$('#fnameDiv').removeClass("form-group label-control");
+				$('#fnameDiv').addClass("form-group label-floating");
+				$('#lnameDiv').removeClass("form-group label-control");
+				$('#lnameDiv').addClass("form-group label-floating");
+				$("#nf_namefield").val(null);
+				$("#nl_namefield").val(null);
+				$("#nf_namefield").attr('disabled',false);
+				$("#nl_namefield").attr('disabled',false);
+			}
+		});
 
     if($('#payment_field').val() == "" || $('#payment_field').val() == null){
       $('#partialCheckbox_DIV').hide();
@@ -516,11 +667,24 @@
 
     $('#cash_ShowSubmitButton').click(function(){
 			if($('#cash_ShowSubmitButton').is(":checked")){
+				//$('#bank_ShowSubmitButton').attr('checked',false);
         $('#cashSbmt_BtnDIV').show("fold");
         $('#cashSBMT').attr("disabled",false);
 			}else{
-        $('#payment_field').attr("disabled",true);
-        $('#cashSBMT').hide("fold");
+        $('#cashSBMT').attr("disabled",true);
+        $('#cashSbmt_BtnDIV').hide("fold");
+			}
+		});
+
+
+
+		$('#bank_ShowSubmitButton').click(function(){
+			if($('#bank_ShowSubmitButton').is(":checked")){
+        $('#bankSbmt_BtnDIV').show("fold");
+        $('#bankSBMT').attr("disabled",false);
+			}else{
+        $('#bankSBMT').attr("disabled",true);
+        $('#bankSbmt_BtnDIV').hide("fold");
 			}
 		});
 

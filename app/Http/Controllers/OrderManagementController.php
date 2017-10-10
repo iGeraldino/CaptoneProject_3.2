@@ -29,7 +29,7 @@ class OrderManagementController extends Controller
       $cityname = "";
       $provname = "";
     $NewSalesOrder = sales_order::find($id);
-    
+
     $NewSalesOrder_details = Neworder_details::find($id);
     foreach($cities as $city){
       if($city->id == $NewSalesOrder_details->Delivery_City){

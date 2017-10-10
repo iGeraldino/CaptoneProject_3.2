@@ -12,11 +12,16 @@
   $sessionSpoiledValue = Session::get('SpoiledRecord');
   Session::remove('SpoiledRecord');//determines the addition of new flower
 
+  $sessionConfirmValue = Session::get('ConfirmOrderSession');
+  Session::remove('ConfirmOrderSession');
+
+
      use Carbon\Carbon;
      $current = Carbon::now('Asia/Manila');
   ?>
 
   <div hidden>
+    <input id = "ConfirmValuefield" value = "{{$sessionConfirmValue}}">
     <input id = "LoggedInfield" value = "{{$sessionLoginValue}}">
     <input id = "SpoiledSessionfield" value = "{{$sessionSpoiledValue}}">
   </div>
@@ -290,6 +295,15 @@
 @section('scripts')
 
 <script>
+
+
+
+  if($("#ConfirmValuefield").val() == 'Successful'){
+   swal("Order was Fully paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
+ }else if($("#ConfirmValuefield").val() == 'Successful2'){
+   swal("Order Partially Paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
+ }
+
 
   if($("#SpoiledSessionfield").val() == 'Successful'){
    swal("Take Note!","You have successfully recorded the spoiled flower under a specific batch, what you have done can no longer be changed!","success");
