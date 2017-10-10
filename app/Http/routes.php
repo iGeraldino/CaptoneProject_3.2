@@ -86,6 +86,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('ManageOrder_Bank','ManageOrder_bankController');
 
+	Route::resource('ManageOrder_Cash','ManageOrder_CashController');
+
 
 	Route::get('/SpecificSales_Order/{id}',['uses' => 'OrderManagementController@ManageSpecific_Order', 'as'=>'SalesOrderManage.Order']);
 
@@ -430,7 +432,6 @@ Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summary
 Route::get('landing_page', 'PagesController@getLandingPage');
 
 
-Route::get('create_account', 'PagesController@getCreateAccount');
 
 
 Route::group(['prefix' => 'user'], function() {

@@ -15,6 +15,8 @@
   $sessionConfirmValue = Session::get('ConfirmOrderSession');
   Session::remove('ConfirmOrderSession');
 
+  $sessionConfirmCashValue = Session::get('ConfirmOrderSessionCash');
+  Session::remove('ConfirmOrderSessionCash');
 
      use Carbon\Carbon;
      $current = Carbon::now('Asia/Manila');
@@ -22,8 +24,10 @@
 
   <div hidden>
     <input id = "ConfirmValuefield" value = "{{$sessionConfirmValue}}">
+    <input id = "CashConfirmationSessionfield" value = "{{$sessionConfirmCashValue}}">
     <input id = "LoggedInfield" value = "{{$sessionLoginValue}}">
     <input id = "SpoiledSessionfield" value = "{{$sessionSpoiledValue}}">
+
   </div>
 
         <div class="col-lg-3 col-xs-6">
@@ -298,11 +302,18 @@
 
 
 
-  if($("#ConfirmValuefield").val() == 'Successful'){
+ if($("#ConfirmValuefield").val() == 'Successful'){
    swal("Order was Fully paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
  }else if($("#ConfirmValuefield").val() == 'Successful2'){
    swal("Order Partially Paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
  }
+
+if($("#CashConfirmationSessionfield").val() == 'Successful'){
+  swal("Order was Fully paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
+}else if($("#CashConfirmationSessionfield").val() == 'Successful2'){
+  swal("Order Partially Paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
+}
+
 
 
   if($("#SpoiledSessionfield").val() == 'Successful'){

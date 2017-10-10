@@ -240,16 +240,12 @@
                 <input type="radio" name="optionsPayment" id = "bankRdo">
                 Bank
               </label>
-              <label>
-                <input type="radio" name="optionsPayment" id = "checkRdo">
-                Check
-              </label>
             </div>
 
             <hr>
 
           <div id = "cashPaymentDiv" hidden>
-          {!! Form::open(array('route' => 'Orders_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+          {!! Form::open(array('route' => 'ManageOrder_Cash.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
               <h6><b>Pay through Cash:</b></h6>
                 <b>Details of Person who gave the payment:</b>
                 <div class="checkbox">
@@ -260,11 +256,11 @@
                 </div>
                 <div hidden>
 									<input type = "text" id = "Order_ID"  name = "Order_ID" value = "{{$SalesOrder->sales_order_ID}}"/>
-                  <input type = "text" id = "Currentcust_ID" value = "{{$SalesOrder->customer_ID}}"/>
-                  <input type = "text" id = "Decision_text" value = "N"/>
-                  <input type = "text" id = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
-                  <input type = "text" id = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
-                  <input type = "text" id = "SubtotalDown" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+                  <input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = "{{$SalesOrder->customer_ID}}"/>
+                  <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
+                  <input type = "text" id = "Current_FName" name = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
+                  <input type = "text" id = "Current_LName" name = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
+                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
                 </div>
                 <div class = "row">
 
@@ -317,7 +313,6 @@
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
                     <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
-                    <input type="number" id = "balanceField" name = "balanceField" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
@@ -331,11 +326,11 @@
                   <div class="form-group label-control">
                     <label class="control-label">Balance</label>
                     <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->BALANCE),2)}}" disabled/>
-                    <input type="number" id = "balanceField" name = "balanceField" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
                   @endif
+									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->Total_Amt}}"/>
                 </div>
               </div>
               <div id = "partialCheckbox_DIV" class="checkbox">
@@ -348,7 +343,7 @@
                 <div class = "col-md-6">
                   <div class="form-group label-floating">
                     <label class="control-label">Enter Amount Paid</label>
-                      <input id = "payment_field" name = "payment_field" type="number" step = "1.0" class="form-control" min = "<?php
+                      <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
                         if($SalesOrder->Status == 'PENDING'){
                           $min = $OrderDetails->Subtotal * 0.20;
                         }else{
@@ -356,13 +351,14 @@
                         }
                         echo $min;
                        ?>" required/>
+											 <input id = "payment" name = "payment" type="number" step = "0.01" class="hidden form-control">
                     <span class="form-control-feedback">
                     </span>
                   </div>
                   <div class="form-group label-control">
                     <label class="control-label">Change</label>
                       <input id = "DisplaychangeField" type="text" class="form-control" disabled value = "Php 0.00"/>
-                      <input id = "changeField" name = "changeField" type="text" class="form-control" />
+                      <input id = "changeField" name = "changeField" type="text" class="hidden form-control" />
                     <span class="form-control-feedback">
                     </span>
                   </div>
@@ -371,7 +367,7 @@
                 <div class = "col-md-6">
                   <div id = "partialDiv" class="form-group label-floating" hidden>
                     <label class="control-label">Partial</label>
-                      <input max = "20" min = "1" id = "PartialField" name = "PartialField" type="number" class="form-control" />
+                      <input id = "PartialField" name = "PartialField" type="number" step = "0.01" value = "0.00" class="form-control" />
                     <span class="form-control-feedback">
                     </span>
                   </div>
@@ -399,6 +395,7 @@
 									Same Person who placed the order
 								</label>
 							</div>
+
 							<div hidden>
 								<input type = "text" id = "Order_ID2"  name = "Order_ID2" value = "{{$SalesOrder->sales_order_ID}}"/>
 								<input type = "text" id = "Currentcust_ID2" name = "Currentcust_ID2"  value = "{{$SalesOrder->customer_ID}}"/>
@@ -407,8 +404,8 @@
 								<input type = "text" id = "Current_LName2"  name = "Current_LName2" value = "{{$SalesOrder->Customer_LName}}"/>
 								<input type = "text" id = "SubtotalDown2"  name = "SubtotalDown2" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
 							</div>
-							<div class = "row">
 
+							<div class = "row">
 								<div class = "col-md-6">
 									<div id = "fnameDiv2" class="form-group label-floating">
 										<label class="control-label">First Name</label>
@@ -418,6 +415,7 @@
 										</span>
 									</div>
 								</div>
+
 								<div class = "col-md-6">
 									<div id = "lnameDiv2" class="form-group label-floating">
 										<label class="control-label">Last Name</label>
@@ -427,6 +425,7 @@
 										</span>
 									</div>
 								</div>
+
 							</div>
 							<hr>
 
@@ -494,18 +493,6 @@
 							</div>
 					{!! Form::close() !!}
             </div>
-
-
-            <div id = "chequePaymentDiv">
-            </div>
-
-            @if($SalesOrder->cust_Type == 'H')
-
-            @elseif($SalesOrder->cust_Type == 'S')
-              <p><b>Customer Type:</b> Shop</p>
-            @elseif($SalesOrder->cust_Type == 'C')
-
-            @endif
           </div>
 				</div>
 			</div>
@@ -555,11 +542,13 @@
 			$('#chequePaymentDiv').hide("fold");
 			$('#bankPaymentDiv').show("fold");
 		});
+
 		$('#cashRdo').click(function(){
 			$('#chequePaymentDiv').hide("fold");
 			$('#bankPaymentDiv').hide("fold");
 			$('#cashPaymentDiv').show("fold");
 		});
+
 		$('#checkRdo').click(function(){
 			$('#bankPaymentDiv').hide("fold");
 			$('#cashPaymentDiv').hide("fold");
@@ -619,33 +608,67 @@
     }
 
     var DownPayment = $('#SubtotalDown').val();
+		var change = 0;
 
     $('#payment_field').change(function(){
-      if($('#payment_field').val() < DownPayment){
-        var change = $('#payment_field').val() - DownPayment;
+
+			$('#payment').val($(this).val());
+
+			if($(this).val() == null || $(this).val() == "" || parseFloat($(this).val()) == 0){
+				change = 0 - $('#balanceField').val();
+				$('#partialCheckbox_DIV').hide();
+        $('#changeField').val(change.toFixed(2));
+				$('#DisplaychangeField').val('Php '+change.toFixed(2));
+			}
+      else if(parseFloat($(this).val()) < parseFloat(DownPayment)){
+         change = parseFloat($(this).val()) - parseFloat(DownPayment);
+
         $('#partialCheckbox_DIV').hide();
-        $('#changeField').val(change);
+        $('#changeField').val(change.toFixed(2));
+				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
-      else if($('#payment_field').val() > DownPayment){
+      else if(parseFloat($(this).val()) > parseFloat(DownPayment)){
+			 change = 0;
+
         $('#partialCheckbox_DIV').show();
-        $('#changeField').val('0.00');
+        $('#changeField').val(change.toFixed(2));
         var payment = $('#payment_field').val();
         var balance = $('#balanceField').val();
-        if(payment >= balance){//to be cotinued....
-          alert(payment+'__________'+balance)
-           var change = $('#payment_field').val() - $('#balanceField').val();
-           $('#changeField').val(change);
-         }else if(balance < balance){
-           var change = 0;
-           $('#changeField').val(change);
+
+      if(parseFloat(balance) > parseFloat(payment)){
+          change = 0;
+           $('#changeField').val(change.toFixed(2));
+					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
          }
+				 else if(parseFloat(balance) < parseFloat(payment)){
+					 change = $(this).val() - $('#balanceField').val();
+						$('#changeField').val(change.toFixed(2));
+					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
+				 }
+				 else if(parseFloat(balance) == parseFloat(payment)){
+					 alert('equal ang balance at payment');
+					 change = 0;
+            $('#changeField').val(change.toFixed(2));
+ 					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
+				 }
       }
-      else if($('#payment_field').val() == DownPayment){
-        var change = $('#payment_field').val() - DownPayment;
+      else if(parseFloat($('#payment_field').val()) == parseFloat(DownPayment)){
+        var change = parseFloat($('#payment_field').val()) - parseFloat(DownPayment);
         $('#partialCheckbox_DIV').hide();
-        $('#changeField').val(change);
+        $('#changeField').val(change.toFixed(2));
+				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
     });
+
+		$('#PartialField').change(function(){
+				var payment = parseFloat($('#payment_field').val());
+				var changeval = 0;
+				changeval = payment - parseFloat($(this).val());
+
+				$('#changeField').val(changeval.toFixed(2));
+				$('#DisplaychangeField').val('Php '+changeval.toFixed(2));
+		});
+
 
 
 
@@ -655,10 +678,15 @@
         $('#payment_field').attr("disabled",true);
         $('#PartialField').attr("required",true);
         var maximum = $('#payment_field').val() - 1;//for the maximum value of partial_field
-        var arr = $("#PartialField").attr('max',maximum);
-        var arr2 = $("#PartialField").attr('min',DownPayment);
-        alert(arr+'___'+arr2);
+        $("#PartialField").attr('max',maximum);
+        $("#PartialField").attr('min',DownPayment);
 			}else{
+				var resetval = 0;
+				$('#DisplaychangeField').val('Php '+resetval.toFixed(2));
+				$('#changeField').val(resetval.toFixed(2));
+				$("#PartialField").val(resetval.toFixed(2));
+				$("#PartialField").removeAttr('max');
+				$("#PartialField").removeAttr('min');
         $('#PartialField').attr("required",false);
         $('#payment_field').attr("disabled",false);
         $('#partialDiv').hide("fold");

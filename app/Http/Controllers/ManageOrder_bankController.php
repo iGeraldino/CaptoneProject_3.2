@@ -48,7 +48,7 @@ class ManageOrder_bankController extends Controller
 
         //
         $Order_ID = $request->Order_ID2;
-        $descision = $request->Decision_text2;
+        $decision = $request->Decision_text2;
         $Minimum_Down = $request->SubtotalDown2;
 
         $fromId = $request->Currentcust_ID2;
@@ -56,6 +56,7 @@ class ManageOrder_bankController extends Controller
         $fromLname = $request->Current_LName2;
         $nFname = $request->nf_namefield2;
         $nlname = $request->nl_namefield2;
+
         $bankname = $request->Bank_Name;
         $SlipNum = $request->slip_Number;
         $dateDeposited = $request->D_date;
@@ -79,7 +80,7 @@ class ManageOrder_bankController extends Controller
           $customerPayment->Amount = $amount;
           $customerPayment->Amount_Used = $amount;
           $customerPayment->Date_Obtained = $current;
-          if($descision == "N"){
+          if($decision == "N"){
             $customerPayment->From_Id = null;
             $customerPayment->From_FName = $nFname;
             $customerPayment->From_LName = $nlname;
