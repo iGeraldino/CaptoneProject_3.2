@@ -306,6 +306,8 @@
    swal("Order was Fully paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
  }else if($("#ConfirmValuefield").val() == 'Successful2'){
    swal("Order Partially Paid!","You have successfully confirmed a newly made order, please make it sure that it will be picked up or delivered to the customers on time, you can monitor these orders on the list of confirmed orders!","success");
+ }else if($("#ConfirmValuefield").val() == 'Paylater'){
+   swal("Note!","You have successfully confirmed a newly made order, but please be noted that the order has not been paid yet even with 20% downpayment. The order was added to the debt of the customer, you can send them a statement of account through email or letters if you wish to remind them about the collection of their payments","info");
  }
 
 if($("#CashConfirmationSessionfield").val() == 'Successful'){

@@ -231,18 +231,38 @@
 
             <hr>
             <div class="radio">
-              <p class = "text-center"><b>Pay Through?</b></p>
+              <p class = "text-left"><b>Choose From the following:</b></p>
               <label>
                 <input type="radio" name="optionsPayment" id = "cashRdo">
-                Cash
+                Pay via Cash
               </label>
               <label>
                 <input type="radio" name="optionsPayment" id = "bankRdo">
-                Bank
+                Pay via Bank
               </label>
+							@if($SalesOrder->cust_Type == 'H' OR $SalesOrder->cust_Type == 'S')
+							<label>
+								<input type="radio" name="optionsPayment" id = "laterRdo">
+								Pay Later
+							</label>
+							@else
+
+							@endif
             </div>
 
             <hr>
+					<div id = "paylaterDiv" hidden>
+						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>
+						<div class="checkbox">
+							<label  style = "color:red;">
+								<input type="checkbox" name="later_ShowSubmitButton" id = "later_ShowSubmitButton">
+								<b>*Important:</b> by checking this, you are sure that you are going to set this order as confirmed even without any payment.
+							</label>
+						</div>
+						<div id = "laterSbmt_BtnDIV" hidden>
+							<a href = "{{route('SalesOrderManage.PayLater',['id'=>$SalesOrder->sales_order_ID])}}" id = "laterSBMT" type = "button" class = "btn btn-md btn-success" disabled>Yes, Pay it Later</a>
+						</div>
+					</div>
 
           <div id = "cashPaymentDiv" hidden>
           {!! Form::open(array('route' => 'ManageOrder_Cash.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
@@ -537,14 +557,20 @@
   <script>
   $(document).ready(function(){
 
+		$('#laterRdo').click(function(){
+			$('#cashPaymentDiv').hide("fold");
+			$('#bankPaymentDiv').hide("fold");
+			$('#paylaterDiv').show("fold");
+		});
+
 		$('#bankRdo').click(function(){
 			$('#cashPaymentDiv').hide("fold");
-			$('#chequePaymentDiv').hide("fold");
+			$('#paylaterDiv').hide("fold");
 			$('#bankPaymentDiv').show("fold");
 		});
 
 		$('#cashRdo').click(function(){
-			$('#chequePaymentDiv').hide("fold");
+			$('#paylaterDiv').hide("fold");
 			$('#bankPaymentDiv').hide("fold");
 			$('#cashPaymentDiv').show("fold");
 		});
@@ -715,6 +741,17 @@
         $('#bankSbmt_BtnDIV').hide("fold");
 			}
 		});
+
+		$('#later_ShowSubmitButton').click(function(){
+			if($('#later_ShowSubmitButton').is(":checked")){
+        $('#laterSbmt_BtnDIV').show("fold");
+        $('#laterSBMT').attr("disabled",false);
+			}else{
+        $('#laterSBMT').attr("disabled",true);
+        $('#laterSbmt_BtnDIV').hide("fold");
+			}
+		});
+
 
 
 	});//end of document ready

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use \Cart;
 use App\bouquet_details;
+use Carbon\Carbon;
 use Session;
 use App\sales_order;
 use \PDF;
@@ -16,7 +17,20 @@ use Auth;
 
 class OrderManagementController extends Controller
 {
+
     //
+  public function PaylaterSpecific_Order($id){
+    $current = Carbon::now('Asia/Manila');
+
+      $NewSalesOrder_details = Neworder_details::find($id);
+      $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($id,'BALANCED',$NewSalesOrder_details->Total_Amt));//updated the status of the order details as well sa the salesorder status
+
+      $newInvoice = DB::select("CALL new_Invoice(?,?,?,?,?,?,?,?)",
+      array($id,$NewSalesOrder_details->Subtotal,$NewSalesOrder_details->Delivery_Charge,$NewSalesOrder_details->VAT,
+      $NewSalesOrder_details->Total_Amt,$NewSalesOrder_details->Total_Amt,$current,'B'));
+      Session::put('ConfirmOrderSession','Paylater');
+      return redirect()->route('dashboard');
+  }
 
   public function ManageSpecific_Order($id){
     $cities = DB::table('cities')
