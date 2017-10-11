@@ -123,7 +123,8 @@ Route::group(['middleware' => ['web']], function() {
 	Route::post('AddAccess_ToBouquet', ['uses' => 'create_bouquet@addacc_bouqsession', 'as' => 'addaccbouq']);
 //adds accessories to the temp accessories session
 
-Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Acrs_inTempBoquet', 'as' => 'Updating_Acrs_inTempBoquet']);
+    Route::put('UpdateAccessories/{id}', ['uses' => 'create_bouquet@updateaccessories', 'as' => 'updateacc']);
+
 //for the updating flowers in the temp bouquet session
 
 	Route::put('updateQTY_Flower_bouquet/{id}', ['uses' => 'create_bouquet@Updating_FLower_inTempBoquet', 'as' => 'update_QtyFlower_bqtSession']);
@@ -152,7 +153,7 @@ Route::put('updateQTY_Acrs_bouquet/{id}', ['uses' => 'create_bouquet@Updating_Ac
 
 	Route::post('checkoutfinal', ['uses'=>'checkoutcontroller@userfinalCheckout', 'as' => 'checkoutfinal']);
 
-	Route::get('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
+	Route::post('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
 
 
 	Route::resource('Orders_Flowers','Manage_Flowers_on_Session_Order_Controller');
@@ -431,9 +432,12 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
 Route::get('landing_page', 'PagesController@getLandingPage');
+Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
 
 
 
+
+//View Reports
 
 Route::group(['prefix' => 'user'], function() {
 	Route::group(['middleware' => 'guest'], function (){

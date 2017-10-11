@@ -22,9 +22,8 @@ use App\sales_order_bouquet;
 use App\sales_order_bouquet_flowers;
 use App\sales_order_acessories;
 use App\Neworder_details;
-
-
 use Cart;
+
 class checkoutcontroller extends Controller
 {
     public function checkingregistration(){
@@ -88,6 +87,7 @@ class checkoutcontroller extends Controller
           'username' => $request -> input('username'),
       ]);
 
+
       $user -> save();
 
 
@@ -112,6 +112,7 @@ class checkoutcontroller extends Controller
       $email = Auth::user()->email;
       $status = "pending";
       $type = "online";
+      $check = 0;
 
       $sales_order = new sales_order([
                 'customer_ID' => $cust_id,
@@ -309,10 +310,18 @@ class checkoutcontroller extends Controller
           ]);
 
           $salesbouquetacc->save();
+          $check = 1;
 
       }
 
-        $cities = DB::table('cities')
+      Cart::instance('flowerwish')->destroy();
+      Cart::instance('finalboqcart')->destroy();
+      Cart::instance('finalacccart')->destroy();
+      Cart::instance('finalflowerbqt')->destroy();
+
+
+      if($check = 1){
+            $cities = DB::table('cities')
             ->select('*')
             ->get();
 
@@ -338,6 +347,7 @@ class checkoutcontroller extends Controller
 
         $cityName = "";
         $provName = "";
+
         foreach($cities as $city){
             if($NewSalesOrder_details->Delivery_City == $city->id){
                 $cityName = $city->name;
@@ -356,14 +366,13 @@ class checkoutcontroller extends Controller
         $pdf = \PDF::loadView("reports\Order_Delivery_SimpleSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+        
+      return $pdf->download('sampleDelivery.pdf');
+        
+      }
 
-        return $pdf->download('sampleDelivery.pdf')->route('homepages');
-
-      Cart::instance('flowerwish')->destroy();
-      Cart::instance('finalboqcart')->destroy();
-      Cart::instance('finalacccart')->destroy();
-      Cart::instance('finalflowerbqt')->destroy();
-
+    
+      return redirect()->route('homepages');
 
 
 
@@ -555,7 +564,15 @@ class checkoutcontroller extends Controller
 
           $salesbouquetacc->save();
 
+
       }
+
+      Cart::instance('flowerwish')->destroy();
+      Cart::instance('finalboqcart')->destroy();
+      Cart::instance('finalacccart')->destroy();
+      Cart::instance('finalflowerbqt')->destroy();
+
+
 
 
         $cities = DB::table('cities')
@@ -603,12 +620,10 @@ class checkoutcontroller extends Controller
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
-        return $pdf->download('sampleDelivery.pdf')->route('homepages');
+        return $pdf->download('sampleDelivery.pdf');
 
-      Cart::instance('flowerwish')->destroy();
-      Cart::instance('finalboqcart')->destroy();
-      Cart::instance('finalacccart')->destroy();
-      Cart::instance('finalflowerbqt')->destroy();
+        return redirect()->route('homepages');
+     
 
 
 
