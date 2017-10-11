@@ -72,7 +72,7 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                     if($descision == 'O'){
                         if($Qty>=$flower_details->QTY_of_Wholesale){
                           $derived_Sellingprice =
-                            $Original_Price - (($Original_Price * $flower_details->WholeSalePrice_Decrease)/100);
+                            $Original_Pricex - (($Original_Price * $flower_details->WholeSalePrice_Decrease)/100);
                           //computes for the selling price that reached the required qty for wholesale pricing
                           $final_total_Amount = $derived_Sellingprice * $Qty;
                         }//checks if the qty reached the Limit of the needed qty for wholesale

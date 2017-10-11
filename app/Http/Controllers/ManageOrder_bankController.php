@@ -118,7 +118,7 @@ class ManageOrder_bankController extends Controller
           $customerPayment->Amount = $amount;
           $customerPayment->Amount_Used = $amount;
           $customerPayment->Date_Obtained = $current;
-          if($descision == "N"){
+          if($decision == "N"){
             $customerPayment->From_Id = null;
             $customerPayment->From_FName = $nFname;
             $customerPayment->From_LName = $nlname;

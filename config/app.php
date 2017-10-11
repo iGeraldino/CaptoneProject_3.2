@@ -153,7 +153,8 @@ return [
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -162,7 +163,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -216,7 +216,8 @@ return [
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Pusher' => Pusher\Pusher::class,
-
+        'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+        'Charts'=> ConsoleTVs\Charts\Charts::class,
     ],
 
 ];

@@ -51,6 +51,7 @@
 <link rel="stylesheet" href="{{ URL::asset('_CSS/index2.css') }}">
 <link rel="stylesheet" href="{{ URL::asset('_CSS/gradient_color.css') }}">
 
+
   <!--Flat Design-->
 
 

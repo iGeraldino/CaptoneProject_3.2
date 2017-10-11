@@ -369,7 +369,7 @@
                         }else{
                           $min = $OrderDetails->BALANCE;
                         }
-                        echo $min;
+                        echo number_format($min,2);
                        ?>" required/>
 											 <input id = "payment" name = "payment" type="number" step = "0.01" class="hidden form-control">
                     <span class="form-control-feedback">
