@@ -181,6 +181,67 @@ class ManageOrder_bankController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $current = Carbon::now('Asia/Manila');
+
+          //
+          $Order_ID = $request->Order_ID2;
+          $decision = $request->Decision_text2;
+          $Minimum_Down = $request->SubtotalDown2;
+
+          $fromId = $request->Currentcust_ID2;
+          $fromFname = $request->Current_FName2;
+          $fromLname = $request->Current_LName2;
+          $nFname = $request->nf_namefield2;
+          $nlname = $request->nl_namefield2;
+
+          $bankname = $request->Bank_Name;
+          $SlipNum = $request->slip_Number;
+          $dateDeposited = $request->D_date;
+          $amount = $request->D_Amount;
+
+
+          //$NewSalesOrder = sales_order::find($id);
+          $NewSalesOrder_details = Neworder_details::find($id);
+          $Change = 0;
+
+            $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($id,'P_FULL',0.00));//updated the status of the order details as well sa the salesorder status
+
+            $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+            array($id,$current,'PF',0.00));
+            //update the invoice
+
+            $customerPayment = new CustomerPayment;
+            $customerPayment->Amount = $amount;
+            $customerPayment->Amount_Used = $amount;
+            $customerPayment->Date_Obtained = $current;
+            if($decision == "N"){
+              $customerPayment->From_Id = null;
+              $customerPayment->From_FName = $nFname;
+              $customerPayment->From_LName = $nlname;
+            }else{
+              $customerPayment->From_Id = $fromId;
+              $customerPayment->From_FName = $fromFname;
+              $customerPayment->From_LName = $fromLname;
+            }
+
+            $customerPayment->Type = "BANK";
+            $customerPayment->bank_name = $bankname;
+            $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
+            if($request -> hasFile('DSlipimg')){
+                $image = $request->file('DSlipimg');
+                $filename = time().'.' . $image->getClientOriginalExtension();
+                $location = public_path('paymentPictures/' . $filename);
+                Image::make($image)->save($location);
+                $customerPayment->image = $filename;
+            }
+            $customerPayment->save();
+
+            //make a record of customer payment Settlement record
+             $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+             array($id,$customerPayment->Payment_ID,$amount,$amount,$Change));
+             Session::put('PaymentCompletion_Session','Successful');
+
+          return redirect()->back();
     }
 
     /**

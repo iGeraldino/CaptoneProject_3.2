@@ -18,6 +18,69 @@ use Auth;
 class OrderManagementController extends Controller
 {
 
+  public function Show_Specific_customerWith_Debt($id){
+    //echo $id;
+
+  }
+
+  public function ShowSpecific_Confirmed_Orders($id){
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+      $cityname = "";
+      $provname = "";
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+    foreach($cities as $city){
+      if($city->id == $NewSalesOrder_details->Delivery_City){
+          $cityname = $city->name;
+          break;
+      }
+    }
+    foreach($province as $prov){
+      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provname = $prov->name;
+          break;
+      }
+    }
+
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+    //dd($NewOrder_Bouquet);
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+      return view('Orders.manageSpecific_ConfirmedOrder')
+      ->with('payments',$payments)
+      ->with('cityname',$cityname)
+      ->with('provname',$provname)
+      ->with('cities',$cities)
+      ->with('province',$province)
+      ->with('SalesOrder',$NewSalesOrder)
+      ->with('Sched_Details',$NewOrder_SchedDetails)
+      ->with('OrderDetails',$NewSalesOrder_details)
+      ->with('Flowers',$SalesOrder_flowers)
+      ->with('Bouquet',$NewOrder_Bouquet)
+      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+  }
+
     //
   public function PaylaterSpecific_Order($id){
     $current = Carbon::now('Asia/Manila');

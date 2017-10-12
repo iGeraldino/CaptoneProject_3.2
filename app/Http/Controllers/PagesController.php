@@ -116,6 +116,9 @@ class PagesController extends Controller
 			->setValues(100,50,25)
 			->setElementLabel("Total Users");
 */
+
+
+
 			$Pending_salesOrders = DB::table('sales_order')
 			->select('*')
 			->where('Status','PENDING')

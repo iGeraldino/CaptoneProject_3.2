@@ -8,7 +8,7 @@
 
         <div class = "container-fluid" style="margin-top: 80px">
             <div class="col-md-12">
-                
+
         </div>
         <div class="col-xs-12">
             <div class="well wellcolor well-sm">

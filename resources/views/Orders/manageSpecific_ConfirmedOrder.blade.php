@@ -12,11 +12,23 @@
     }
 		use Carbon\Carbon;
 
+ 			$paymentComplete = Session::get('PaymentCompletion_Session');
+   		Session::remove('PaymentCompletion_Session');
+
+
+			$CashPaymentComplete = Session::get('CashPayment_CompletionSession');
+			Session::remove('CashPayment_CompletionSession');
+
+
 		$current = Carbon::now('Asia/Manila');
 
 	?>
 
 	<div class="container">
+		<div hidden>
+			<input  type = "text" class = "hidden" name = "paymentCompletion_field" id = "paymentCompletion_field" value = "{{$paymentComplete}}"/>
+			<input  type = "text" class = "hidden" name = "CashpaymentCompletion_field" id = "CashpaymentCompletion_field" value = "{{$CashPaymentComplete}}"/>
+		</div>
 		<div class="row">
 			<div class="col-md-8" style="margin-left: -7px;">
 				<div class="title container" style="margin-top: 5%;">
@@ -38,19 +50,19 @@
               <div class = "col-md-6">
                 <p><b>Order ID:</b> ORDR-{{$SalesOrder->sales_order_ID}}</p>
                 @if($SalesOrder->Status == "PENDING")
-                  <p><b>Status: </b><span class = "btn btn-sm btn-warning">{{$SalesOrder->Status}}</span></p>
+                  <p><b>Status: </b><span class = "btn btn-sm btn-warning">PENDING</span></p>
                 @elseif($SalesOrder->Status == "CLOSED")
-                <p><b>Status: </b><span class = "btn btn-sm btn-success">{{$SalesOrder->Status}}</span></p>
+                <p><b>Status: </b><span class = "btn btn-sm btn-success">CLOSED</span></p>
                 @elseif($SalesOrder->Status == "P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-warning">PARTIALLY PAID</span></p>
                 @elseif($SalesOrder->Status == "P_FULL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-primary">{{$SalesOrder->Status}}</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-primary">FULLY PAID</span></p>
                 @elseif($SalesOrder->Status == "BALANCED")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">NO PEYMENT YET</span></p>
                 @elseif($SalesOrder->Status == "A_UNPAID")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">ACQUIRED WITHOUT PAYMENT</span></p>
                 @elseif($SalesOrder->Status == "A_P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-info">ACQUIRED WITH PARTIAL PAYMENT</span></p>
                 @endif
 
 								<p><b>Date of Order: </b><span class = "btn btn-sm btn-info">{{date("M d, Y @ h:i a",strtotime($SalesOrder->created_at))}}</span></p>
@@ -84,11 +96,12 @@
 
               </div>
               <div class = "Col-md-6 " style = "color:darkviolet;">
+                <a href = "{{route('dashboard')}}" class = "btn btn-md btn-danger"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Dashboard</a>
                 <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
                 <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
 								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
-                <h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
-
+								<h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
+                <h5><b>Balance:</b> Php {{number_format($OrderDetails->BALANCE,2)}}</h5>
               </div>
             </div>
 
@@ -230,26 +243,132 @@
 						<p><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</p>
 
             <hr>
-            <div class="radio">
-              <p class = "text-left"><b>Choose From the following:</b></p>
-              <label>
-                <input type="radio" name="optionsPayment" id = "cashRdo">
-                Pay via Cash
-              </label>
-              <label>
-                <input type="radio" name="optionsPayment" id = "bankRdo">
-                Pay via Bank
-              </label>
-							@if($SalesOrder->cust_Type == 'H' OR $SalesOrder->cust_Type == 'S')
-							<label>
-								<input type="radio" name="optionsPayment" id = "laterRdo">
-								Pay Later
-							</label>
-							@else
 
-							@endif
-            </div>
+            <p class = "text-left"><b>Complete what would you like to do?</b></p>
+            @if($SalesOrder->Status == "BALANCED" OR $SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+              <div class="row">
+                <div class = "col-md-6">
+                  @if($SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+                    <a type = "button" id = "cancelBTN" class = "btn btn-md btn-danger" disabled data-toggle="tooltip" data-placement="bottom"  title = "This Order cannot be cancelled because, flowers under this order were already acquire by the customer"> Cancel Order</a>
+                  @else
+                    <a type = "button" id = "cancel_BTN" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not  monitor this order as an order to be accomplished anymore"> Cancel Order</a>
+                  @endif
+                </div>
+                <div class = "col-md-6">
+                  <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Process Balance</a>
+                </div>
+              </div>
+            @elseif($SalesOrder->Status  == "P_PARTIAL")
+              <div class="row">
+                <div class = "col-md-6">
+                  <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</button>
+                </div>
+                <div class = "col-md-6">
+                @if($SalesOrder->cust_Type == 'C')
+                  <a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
+                @else
+									<a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Process Balance</a>
+                @endif
+                </div>
+              </div>
+              <div class = "row pull-right">
+                <button id = "payment_breakdownBtn2" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+                  Payment Breakdown <span class = "glyphicon glyphicon-list"></span></button>
+              </div>
+              <div id = "p_breakdownDIV2" hidden>
+              <div class = "col-md-12">
+                <button id = "payment_buildupBtn2" type = "button" class = "btn btn-md pull-right" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+                  Hide Breakdown of Payments<span class = "glyphicon glyphicon-chevron-up"></span>
+                </button>
+              </div>
+                <hr>
+                <br>
+                <p style = "color:green"><b>*Breakdown of payments made by the customer to this Order</b></p>
+                <table id="paymentsTbl" class="table table-bordered table-striped">
+                  <thead>
+                      <th class="text-center"> ID</th>
+                      <th class="text-center"> Amount </th>
+                      <th class="text-center"> Amount Used</th>
+                      <th class="text-center"> Change</th>
+                      <th class="text-center"> Balance paid for</th>
 
+                  </thead>
+                  <tbody>
+                  @foreach($payments as $pay)
+                    <tr>
+                      <td>{{$pay->P_ID}}</td>
+                      <td>Php {{number_format($pay->Amount_Paid,2)}}</td>
+                      <td>Php {{number_format($pay->Amt_Used,2)}}</td>
+                      <td>Php {{number_format($pay->change,2)}}</td>
+                      <td>Php {{number_format($pay->BALANCE,2)}}</td>
+                  </button>
+                  @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <br>
+              <br>
+            @elseif($SalesOrder->Status  == "P_FULL")
+                <div class="row">
+                  <div class = "col-md-6" style = "margin-left:-3%;">
+
+                    <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
+                      <span class = "glyphicon glyphicon-remove"></span> Cancel Order</button>
+                  </div>
+                  <div class = "col-md-6" style = "margin-left:-7%;">
+                    <button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+                      Payment Breakdown <span class = "glyphicon glyphicon-list"></span></button>
+                  </div>
+                </div>
+                <div id = "p_breakdownDIV" hidden>
+                <div class = "col-md-12">
+                  <button id = "payment_buildupBtn" type = "button" class = "btn btn-md pull-right" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+                    Hide Breakdown of Payments<span class = "glyphicon glyphicon-chevron-up"></span>
+                  </button>
+                </div>
+                  <hr>
+                  <br>
+                  <p style = "color:green"><b>*Breakdown of payments made by the customer to this Order</b></p>
+                  <table id="paymentsTbl" class="table table-bordered table-striped">
+                    <thead>
+                        <th class="text-center"> ID</th>
+                        <th class="text-center"> Amount </th>
+                        <th class="text-center"> Amount Used</th>
+                        <th class="text-center"> Change</th>
+                        <th class="text-center"> Balance paid for</th>
+
+                    </thead>
+                    <tbody>
+                    @foreach($payments as $pay)
+                      <tr>
+                        <td>{{$pay->P_ID}}</td>
+                        <td>Php {{number_format($pay->Amount_Paid,2)}}</td>
+                        <td>Php {{number_format($pay->Amt_Used,2)}}</td>
+                        <td>Php {{number_format($pay->change,2)}}</td>
+                        <td>Php {{number_format($pay->BALANCE,2)}}</td>
+                    </button>
+                    @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                <hr>
+                <p style = "color:green;"><b>*Closing this Order?</b></p>
+                <p>This order will be shown at the table of orders to be acquired within 24 hours which is located at the dashboard. Closing of this order is a function not available in this page, but is available at  the page of releasing the orders</p>
+            @endif
+
+              <div id = "PaymentDiv" hidden>
+                <div class="radio" hidden>
+                  <p class = "text-left"><b>Complete the payment through the following:</b></p>
+                  <label>
+                    <input type="radio" name="optionsPayment" id = "cashRdo">
+                    Pay via Cash
+                  </label>
+                  <label>
+                    <input type="radio" name="optionsPayment" id = "bankRdo">
+                    Pay via Bank
+                  </label>
+                </div>
+              </div>
             <hr>
 					<div id = "paylaterDiv" hidden>
 						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>
@@ -265,7 +384,7 @@
 					</div>
 
           <div id = "cashPaymentDiv" hidden>
-          {!! Form::open(array('route' => 'ManageOrder_Cash.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+					{!! Form::model($SalesOrder, ['route'=>['ManageOrder_Cash.update', $SalesOrder->sales_order_ID],'method'=>'PUT','data-parsley-validate'=>'', 'files' => 'true'])!!}
               <h6><b>Pay through Cash:</b></h6>
                 <b>Details of Person who gave the payment:</b>
                 <div class="checkbox">
@@ -280,7 +399,7 @@
                   <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
                   <input type = "text" id = "Current_FName" name = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
                   <input type = "text" id = "Current_LName" name = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
-                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->BALANCE}}"/>
                 </div>
                 <div class = "row">
 
@@ -350,7 +469,7 @@
                     </span>
                   </div>
                   @endif
-									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->Total_Amt}}"/>
+									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
                 </div>
               </div>
               <div id = "partialCheckbox_DIV" class="checkbox">
@@ -365,7 +484,7 @@
                     <label class="control-label">Enter Amount Paid</label>
                       <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
                         if($SalesOrder->Status == 'PENDING'){
-                          $min = $OrderDetails->Subtotal * 0.20;
+                          $min = $OrderDetails->BALANCE * 0.20;
                         }else{
                           $min = $OrderDetails->BALANCE;
                         }
@@ -407,7 +526,7 @@
 
 
             <div id = "bankPaymentDiv" hidden>
-					{!! Form::open(array('route' => 'ManageOrder_Bank.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
+          {!! Form::model($SalesOrder, ['route'=>['ManageOrder_Bank.update', $SalesOrder->sales_order_ID],'method'=>'PUT','data-parsley-validate'=>'', 'files' => 'true'])!!}
 							<b>Details of Person who gave the payment:</b>
 							<div class="checkbox">
 								<label>
@@ -496,7 +615,7 @@
 								<div class = "col-md-6">
 									<div id = "partialDiv" class="form-group label-control">
 										<label class="control-label">Amount Deposited</label>
-											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "{{$OrderDetails->Subtotal * 0.20}}" value = "{{$OrderDetails->Subtotal * 0.20}}" class="form-control" required/>
+											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "{{$OrderDetails->BALANCE}}" value = "{{$OrderDetails->BALANCE}}" class="form-control" required/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -556,6 +675,42 @@
 
   <script>
   $(document).ready(function(){
+
+		if($('#paymentCompletion_field').val() == 'Successful'){
+			swal('Success!','The Payment for this order is already complete!, but make it sure that there are enough flowers in the inventory to supply this order','success');
+		}
+
+		if($('#CashpaymentCompletion_field').val() == 'Successful'){
+			swal('Success!','The Payment for this order is already complete!, but make it sure that there are enough flowers in the inventory to supply this order','success');
+		}else if($('#CashpaymentCompletion_field').val() == 'Fail'){
+			swal('Sorry','The payment that you entered is below the minimum required payment which is the balance of the customer in this order, please try again','error');
+		}
+
+
+
+    $('#show_PaymentDiv').click(function(){
+      $('#PaymentDiv').show("fold");
+    })
+
+    $('#payment_breakdownBtn').click(function(){
+      $('#p_breakdownDIV').show("fold");
+      $('#payment_breakdownBtn').hide("fold");
+      });
+
+      $('#payment_breakdownBtn2').click(function(){
+        $('#p_breakdownDIV2').show("fold");
+        $('#payment_breakdownBtn2').hide("fold");
+        });
+
+      $('#payment_buildupBtn').click(function(){
+        $('#p_breakdownDIV').hide("fold");
+        $('#payment_breakdownBtn').show("fold");
+        });
+
+        $('#payment_buildupBtn2').click(function(){
+          $('#p_breakdownDIV2').hide("fold");
+          $('#payment_breakdownBtn2').show("fold");
+          });
 
 		$('#laterRdo').click(function(){
 			$('#cashPaymentDiv').hide("fold");

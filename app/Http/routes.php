@@ -73,6 +73,8 @@ Route::group(['middleware' => ['web']], function() {
 
 
 // Store
+  //Route::resource('flowerReport_Transaction', 'InventoryTransaction_ReportController');
+
 
 	Route::resource('flower', 'AddFlowerController');
 
@@ -89,6 +91,8 @@ Route::group(['middleware' => ['web']], function() {
 	Route::resource('ManageOrder_Bank','ManageOrder_bankController');
 
 	Route::resource('ManageOrder_Cash','ManageOrder_CashController');
+
+	Route::get('/Specific_Customer_Sales_Orders/{id}',['uses' => 'OrderManagementController@Show_Specific_customerWith_Debt', 'as'=>'SalesOrder.UnderCustomer']);
 
 	Route::get('/SpecificSales_OrderPayingLater/{id}',['uses' => 'OrderManagementController@PaylaterSpecific_Order', 'as'=>'SalesOrderManage.PayLater']);
 
@@ -231,7 +235,9 @@ Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementC
 
 
 
-Route::get('/Order_Confirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
+Route::get('/Mange_Confirmation/{id}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 
 Route::get('/OrderConfirmation/',['uses' => 'OrderManagementController@ConfrimOrder', 'as'=>'order.ConfirmOrder']);//deletes a specific flower of a specific order
 
