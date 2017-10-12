@@ -66,26 +66,37 @@
 					<h4 class="panel-title"> Bouquet Details</h4>
 				</div>
 				<div class="panel-body">
-					<h4>Price of Bouquet</h4>
-					<div class="row">
-						<div class="col-md-3">
-							<h5>Quantity</h5>
+					<div class="col-md-6">
+						<h4>Price of Bouquet</h4>
+						<div class="row">
+							<div class="col-md-3">
+								<h5>Quantity</h5>
+							</div>
+							<div class="col-md-4">
+							  <div class="input-group">
+							    <input type="number" class="form-control" value="1">
+							  </div>
+							</div>
 						</div>
-						<div class="col-md-4" style="margin-left: -10%;">
-						  <div class="input-group">
-						    <input type="number" class="form-control" value="1">
-						  </div>
+						<div class="row" style="margin-top: 3%;">
+							<div class="col-md-3">
+								<h5>Total Amount</h5>
+							</div>
+							<div class="col-md-5">
+							  <div class="input-group">
+							    <input type="number" class="form-control" disabled>
+							  </div>
+							</div>
+						</div>
+						<div class="row" style="margin-top: 13%; margin-left: 5%;">
+							
+								<button type="submit" class="btn btn-sm btn-success"> Submit </button>
+								<button type="" class="btn btn-sm btn-danger"> Back </button>
+							
 						</div>
 					</div>
-					<div class="row" style="margin-top: 2%;">
-						<div class="col-md-3">
-							<h5>Total Amount</h5>
-						</div>
-						<div class="col-md-4" style="margin-left: -7%;">
-						  <div class="input-group">
-						    <input type="number" class="form-control" disabled>
-						  </div>
-						</div>
+					<div class="col-md-6">
+						<img class="img-responsive img-rounded" src="images/flower/pic3.jpg" alt="bouquet" width="304" height="236">
 					</div>
 				</div>
 			</div>
