@@ -13,6 +13,8 @@
 
 Route::group(['middleware' => ['web']], function() {
 
+	Route::resource('flowerReport_Transaction', 'InventoryTransaction_ReportController');
+
 	Route::resource('floweradd', 'flowercontroller');
 
 	Route::resource('acc', 'accesscontroller');
@@ -432,7 +434,10 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
 Route::get('landing_page', 'PagesController@getLandingPage');
+
 Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
+
+Route::get('view_bouquet', 'PagesController@getViewBouquet');
 
 
 

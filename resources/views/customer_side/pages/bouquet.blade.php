@@ -31,6 +31,9 @@
                                 <div class="col-sm-4">
                                     <a class="btn btn-sm btn-success" href="">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
                                 </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-sm btn-success" href="/view_bouquet">  <span class="glyphicon glyphicon-shopping-cart"></span> View </a>
+                                </div>
                             </div>
                         </div>
                     </div>

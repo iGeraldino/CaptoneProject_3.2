@@ -353,4 +353,8 @@ class PagesController extends Controller
 	public function getCreateAccount() {
 			return view('customer/create_account');
 		}
+
+	public function getViewBouquet() {
+			return view('customer_side/pages/view_bouquet');
+		}
 }

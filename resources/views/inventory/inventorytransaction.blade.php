@@ -158,17 +158,23 @@
                     <div class="tab-pane active" id="date">
                       <div class="col-md-6" style="margin-top: -6%;">
                         <!-- Date range -->
+                    {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                        <input type="text" value="{{$trans->TypeOfItem}}" name="itemtype" class="hidden">
                         <div class="form-group">
                           <label class="pull-left">Date range:</label>
                           <div class="input-group">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control pull-right" id="reservation">
+                            <input type="text" class="form-control pull-right" id="trans_range" name="trans_range">
                           </div>
                           <!-- /.input group -->
                         </div>
                         <!-- /.form group -->
+
+                        <button type="submit" id= submit_rangeBTN class="btn btn-md btn-success">... </button>
+                    {!! Form::close() !!}
+
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">
@@ -216,7 +222,7 @@
         });
       });
       //Date range picker
-    $('#reservation').daterangepicker();
+    $('#trans_range').daterangepicker();
   </script>
   <script>
       $('document').ready(function(){
