@@ -82,7 +82,7 @@
 							<div class="col-md-3">
 								<h5>Total Amount</h5>
 							</div>
-							<div class="col-md-5">
+							<div class="col-md-6">
 							  <div class="input-group">
 							    <input type="number" class="form-control" disabled>
 							  </div>
@@ -96,7 +96,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<img class="img-responsive img-rounded" src="images/flower/pic3.jpg" alt="bouquet" width="304" height="236">
+						<img class="img-responsive img-rounded" src="images/flower/pic3.jpg" alt="bouquet image" width="304" height="236">
 					</div>
 				</div>
 			</div>
