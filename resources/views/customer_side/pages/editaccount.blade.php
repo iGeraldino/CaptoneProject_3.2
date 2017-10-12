@@ -229,28 +229,34 @@
                 <div class="container">
                 	<div class="row">
                 		<div class="col-md-8">
-				            <form role="form">
+				            <form role="form" method="post" action="{{ route('changepassword') }}">
 				                <h5 class="text-center fontx">Edit Password</h5>
 				                <hr class="colorgraph">
 				                <div class="row">
 				                	<div class="col-xs-12 col-sm-6 col-md-6">
 				                    	<div class="form-group">
-				                      		<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Current Password" tabindex="4">
-				                    	</div>
+				                      		<input type="password" name="oldpassword" id="password" class="form-control input-lg" placeholder="Current Password" tabindex="4">
+                                            <span style="color:red">{{ $errors->first('oldpassword') }}</span>
+                                        </div>
 				                    </div>
 				                </div>
 				                <div class="row">
 				                  	<div class="col-xs-12 col-sm-6 col-md-6">
 				                    	<div class="form-group">
-				                      		<input type="password" name="password" id="password" class="form-control input-lg" placeholder="New Password" tabindex="4">
-				                    	</div>
+				                      		<input type="password" name="newpassword" id="password" class="form-control input-lg" placeholder="New Password" tabindex="4">
+				                    	    <span style="color:red">{{ $errors->first('newpassword') }}</span>
+                                        </div>
 				                    </div>
-				                    <div class="col-xs-12 col-sm-6 col-md-6">
-				                    	<div class="form-group">
-				                      		<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Confirm New Password" tabindex="4">
-				                    	</div>
-				                    </div>
+
 				                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                           <button class="btn btn-info" type="submit"> Submit </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ csrf_field() }}
 				            </form>
 				        </div>
                 	</div>
@@ -460,6 +466,9 @@ x
             var target = $(this).attr('data-target-id');
             $('#' + target).show();
         });
+
+
+
 
         
 

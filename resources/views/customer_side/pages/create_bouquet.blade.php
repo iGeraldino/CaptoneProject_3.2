@@ -284,30 +284,32 @@
             {!! Form::close() !!}
 
            @endforeach
-           @foreach(Cart::instance('tempacccart')->content() as $row1)
-          {!! Form::model($row1, ['route'=>['Updating_Acrs_inTempBoquet', 'id' => $row1->id], 'method'=>'PUT'])!!}
-           <tr>
-             <td>{{ $row1 ->name }}</td>
-             <td>Php {{ number_format($row1->price,2)}}</td>
-             <td class="qty">
-                 <div class="form-group">
-                   <input type="number" id="quantity" name = "quantity" value="{{ $row1->qty }}" class="form-control input-md" min = "1">
-                 </div>
-               </td>
-             <td>Php {{number_format($row1->qty * $row1->price,2) }} </td>
-             <td class = "row">
-              <div class = "col-md-6">
-               <button type="submit" class="btn btn-sm btn-success glyphicon glyphicon-refresh"></button>
-             </div>
-             <div class = "col-md-6">
-               <input type="hidden" value="{{ Cart::instance('tempflowercart')->count() }}" id="check">
-               <a type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" href="{{ route('deleteboqAcrs_temp', ['id' => $row1->id])}}"></a>
-             </div>
-             </td>
-           </tr>
-           {!! Form::close() !!}
 
-          @endforeach
+            @foreach(Cart::instance('tempacccart')->content() as $row1)
+                {!! Form::model($row1, ['route'=>['updateacc', 'id' => $row1->id], 'method'=>'PUT'])!!}
+                <tr>
+                    <td>{{ $row1 ->name }}</td>
+                    <td>Php {{ number_format($row1->price,2)}}</td>
+                    <td class="qty">
+                        <div class="form-group">
+                            <input type="number" id="quantity" name = "quantity" value="{{ $row1->qty }}" class="form-control input-md" min = "1">
+                        </div>
+                    </td>
+                    <td>Php {{number_format($row1->qty * $row1->price,2) }} </td>
+                    <td class = "row">
+                        <div class = "col-md-6">
+                            <button type="submit" class="btn btn-sm btn-success glyphicon glyphicon-refresh"></button>
+                        </div>
+                        <div class = "col-md-6">
+                            <input type="hidden" value="{{ Cart::instance('tempflowercart')->count() }}" id="check">
+                            <a type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" href="{{ route('deleteboqAcrs_temp', ['id' => $row1->id])}}"></a>
+                        </div>
+                    </td>
+                </tr>
+                {!! Form::close() !!}
+
+            @endforeach
+
 
 				  </tbody>
 				</table>

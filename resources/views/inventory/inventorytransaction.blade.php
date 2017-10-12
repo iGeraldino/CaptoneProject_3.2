@@ -158,6 +158,8 @@
                     <div class="tab-pane active" id="date">
                       <div class="col-md-6" style="margin-top: -6%;">
                         <!-- Date range -->
+                    {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                        <input type="text" value="{{$trans->TypeOfItem}}" name="itemtype" class="hidden">
                         <div class="form-group">
                           <label class="pull-left">Date range:</label>
                           <div class="input-group">
@@ -172,6 +174,10 @@
                           <!-- /.input group -->
                         </div>
                         <!-- /.form group -->
+
+                        <button type="submit" id= submit_rangeBTN class="btn btn-md btn-success">... </button>
+                    {!! Form::close() !!}
+
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">

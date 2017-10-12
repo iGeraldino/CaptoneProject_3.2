@@ -213,44 +213,44 @@
 
 					        	<div id="Guestshowdiv" hidden="" class="row">
 					                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-					                    <form role="form">
+					                    <form  id="guest_form" name="guest_form" method="POST">
 					                        <fieldset>
 								                <h2 class="text-center fontx">Provide Customer Information</h2>
 								                <hr class="colorgraph">
 								                <div class="row">
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Fname" id="Guest_Fname" class="form-control input-lg" placeholder="First Name" tabindex="1">
+								                      <input type="text" name="Guest_Fname" id="Guest_Fname" class="form-control input-lg" placeholder="First Name" tabindex="1" required/>
 								                    </div>
 								                  </div>
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Mname" id="Guest_Mname" class="form-control input-lg" placeholder="Middle Name" tabindex="2">
+								                      <input type="text" name="Guest_Mname" id="Guest_Mname" class="form-control input-lg" placeholder="Middle Name" tabindex="2" required/>
 								                    </div>
 								                  </div>
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Lname" id="Guest_Lname" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+								                      <input type="text" name="Guest_Lname" id="Guest_Lname" class="form-control input-lg" placeholder="Last Name" tabindex="3" required/>
 								                    </div>
 								                  </div>
 								                </div>
 								                <div class="form-group">
-								                  <input type="contact" name="Guest_contact" id="Guest_contact" class="form-control input-lg" placeholder="Contact Number" tabindex="3">
+								                  <input type="contact" name="Guest_contact" id="Guest_contact" class="form-control input-lg" placeholder="Contact Number" tabindex="4" required/>
 								                </div>
 
 								                <div class="form-group">
-								                  <input type="email" name="Guest_email" id="Guest_email" class="form-control input-lg" placeholder="Email Address" tabindex="7">
+								                  <input type="email" name="Guest_email" id="Guest_email" class="form-control input-lg" placeholder="Email Address" tabindex="5" required/>
 								                </div>
 								                <!--start of customer Address-->
 								                <hr>
 												<h4 class="text-center fontx">Customer Address</h4>
 												<div class = "row">
 									                <div class="col-md-6">
-									                  <input type="contact" name="Guestaddress_Line" id="Guestaddress_Line" class="form-control input-lg" placeholder="House No./Street Name" tabindex="4">
+									                  <input type="contact" name="Guestaddress_Line" id="Guestaddress_Line" class="form-control input-lg" placeholder="House No./Street Name" tabindex="6" required>
 									               </div>
 
 									                <div class="col-md-6">
-									                  <input type="contact" name="Guest_baranggay" id="Guest_baranggay" class="form-control input-lg" placeholder="Baranggay" tabindex="4">
+									                  <input type="contact" name="Guest_baranggay" id="Guest_baranggay" class="form-control input-lg" placeholder="Baranggay" tabindex="7" required>
 									                </div>
 												</div>
 
@@ -278,7 +278,7 @@
 								                <hr class="colorgraph">
 								                <div class="row">
 								                  <div class="center pull-right">
-														<button id = 'savBtnAcct' type="button" class="btn btn-primary next-step text-center">Save and continue</button>
+														<button id = 'savBtnAcct' type="submit" class="btn btn-primary next-step text-center">Save and continue</button>
 								                  </div>
 								                </div>
 								                {{ csrf_field() }}
@@ -332,6 +332,14 @@
 																		Use my Account's Details
 															</label>
 														</div>
+
+														<div id="guestDetails">
+															<label>
+																<input type="checkbox" name="guestDetailscheck" id="guestDetailscheck">
+																		Use my Account's Details
+															</label>
+														</div>
+
 
 								                <label for="" class="text-center fontx">Recipient Details</label>
 
@@ -795,7 +803,7 @@
 
 											<!--Form() open dito-->
 											<div class="row pull-right">
-												<div ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div  hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -1139,7 +1147,7 @@
 						$("#Guestshowdiv").show("fold");
 						$("#savBtnAcct").show("fold");
 						$("#useMyAcctDetailsDiv").hide();
-
+						$('#guestDetails').show();
 					});
 
 					$("#registerRdoBtn").click(function(){
@@ -1148,7 +1156,7 @@
 						$("#savBtnAcct").hide("fold");
 						$("#Guestshowdiv").hide("fold");
 						$("#useMyAcctDetailsDiv").show();
-
+						$("#guestDetails").hide();
 					});
 
 					$("#loginshow").click (function(){
@@ -1251,9 +1259,11 @@
 
             $('#PickUpDeliverybtn').attr('disabled', true);
 
+
+              
+
           if($('#UseMydetailsCheckboxe').is(':checked') == true){
 
-              $('#PickUpDeliverybtn').attr('disabled', false);
 
 
             @foreach($details as $det)
@@ -1287,6 +1297,9 @@
 
                     if($('#to').val() == selected){
 
+                      if($('#UseMydetailsCheckboxe').is(':checked') == true){
+
+
                         $('#PickUpDeliverybtn').attr('disabled', false);
 
 
@@ -1294,6 +1307,8 @@
 
                           var deliverdate = $('#to').val();
                           var delivertime = $('#timepicker1').val();
+
+                          $('#paydelivery').attr('disabled',true);
 
                         $('#radiocod').click(function(){
                           if($('#radiocod').is(':checked') == true){
@@ -1328,6 +1343,9 @@
 
 
                             });
+
+                            $('#paydelivery').attr('disabled', false);
+
 
 
                           }
@@ -1367,6 +1385,8 @@
 
                               });
 
+	                          $('#paydelivery').attr('disabled', false);
+
 
 
                             }
@@ -1375,12 +1395,19 @@
                         });
 
                     }
-                    else if($('#to').val() == ""){
+
+                    else {
 
                         $('#PickUpDeliverybtn').attr('disabled', true);
 
 
                     }
+
+                  }
+                  else{
+		               $('#PickUpDeliverybtn').attr('disabled', true);
+
+                  }
 
 
               });
@@ -1451,10 +1478,13 @@
 
                 var deliverdate2 = $('#datepicker2').val();
                 var delivertime2 = $('#timepicker2').val();
+              	$('#step3button').attr('disabled', true);
 
                 $("#PickUpDeliverybtn").click(function(){
 
                   $('#radio1').click(function(){
+
+
                     if($('#radio1').is(':checked') == true){
 
                       $("#step3button").click(function() {
@@ -1489,6 +1519,8 @@
 
                       }); // step3button
 
+                   	$('#step3button').attr('disabled', false);
+
 
                     } // if else
 
@@ -1522,12 +1554,14 @@
 
 
 
-
+                  	
 
 
 
                       }); // step3button
 
+
+                   	$('#step3button').attr('disabled', false);
 
                     } // if else
 
@@ -1543,13 +1577,39 @@
 
             });
 
-          });
+          });	
+
+		/*		$(function(){
+
+					$('#guest_form').submit(function(event){
+
+						event.preventDefault();
+						alert('haahahh');
+                        var fname = document.getElementById('Guest_Fname').value;
+                        var mname = document.getElementById('Guest_Mname').value;
+                        var lname = document.getElementById('Guest_Lname').value;
+                        var contact = document.getElementById('Guest_contact').value;
+                        var email = document.getElementById('Guest_email').value;
+                        var addline = document.getElementById('Guestaddress_Line').value;
+                        var brgy = document.getElementById('Guest_baranggay').value;
+                        var prov = document.getElementById('ProvinceField0').value;
+                        var town = document.getElementById('TownField0').value;
+                    });
+
+				});
+*/
+                $(function(){
+                    $("#guest_form").submit(function(event){
+                        event.preventDefault();
+								alert('ahhahhaa');
+                    });
+                });//end of form
+
+				
+	
 
 
-
-
-
-
+				
 
 
 

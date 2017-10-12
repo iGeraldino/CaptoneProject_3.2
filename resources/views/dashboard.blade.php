@@ -120,7 +120,7 @@
         <div class="box-header Inbox">
           <h5 class="text-center" style="color: white;"><b>CRITICAL INVENTORY</b></h5>
         </div>
-        <div class="box-body">
+        <div class="box-body" style="overflow-x: auto;">
           <table id="criticalTBL" class="table table-bordered table-striped">
             <thead>
                 <th class="text-center"> FLOWER ID</th>
@@ -149,7 +149,7 @@
         <div class="box-header Shalala">
           <h5 class="text-center" style="color: white;"><b>FLOWERS EXPECTED TO SPOIL</b></h5>
         </div>
-        <div class="box-body">
+        <div class="box-body" style="overflow-x: auto;">
           <table id="spoiled_TBL" class="table table-bordered table-striped">
             <thead>
                 <th class="text-center"> BATCH ID</th>
@@ -184,7 +184,7 @@
         <div class="box-header Lush">
           <h5 class="text-center" style="color: white;"><b>ARRIVING FLOWERS</b></h5>
         </div>
-        <div class="box-body">
+        <div class="box-body" style="overflow-x: auto;">
           <table id="Arriving_tbl" class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -235,7 +235,7 @@
         <div class="box-header Subu">
           <h5 class="text-center" style="color: white;"><b>NEW ORDERS</b></h5>
         </div>
-        <div class="box-body">
+        <div class="box-body" style="overflow-x: auto;">
           <table id="NewOrder_TBL" class="table table-bordered table-striped">
             <thead>
                 <th class="text-center"> ORDER ID</th>
@@ -271,8 +271,8 @@
           <div class="box-header Subu">
             <h5 class="text-center" style="color: white;"><b>ORDERS TO BE ACQUIRED With in 24 hrs</b></h5>
           </div>
-          <div class="box-body">
-            <table id="release24hr_TBL" class="table table-bordered table-striped">
+          <div class="box-body" style="overflow-x: auto;">
+            <table id="release24hr_TBL" class="table table-bordered table-striped" >
               <thead>
                   <th class="text-center"> Order ID</th>
                   <th class="text-center"> Customer Name </th>
@@ -383,7 +383,7 @@
           <div class="box-header Subu">
             <h5 class="text-center" style="color: white;"><b>HOTELS & SHOPS WITH DEBTS</b></h5>
           </div>
-          <div class="box-body">
+          <div class="box-body" style="overflow-x: auto;">
             <table id="Debtors_TBL" class="table table-bordered table-striped">
               <thead>
                   <th class="text-center"> Customer</th>

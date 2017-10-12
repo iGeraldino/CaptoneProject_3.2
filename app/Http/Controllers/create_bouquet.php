@@ -245,23 +245,25 @@ class create_bouquet extends Controller
       return back();
     }
 
-    public function Updating_Acrs_inTempBoquet(Request $request, $id){
-      $newQty = $request->quantity;
 
-     foreach(Cart::instance('tempacccart')->content() as $row){
-          if($row->id == $id){
-            $final_total_Amount = 0;
-            $final_total_Amount = $newQty * $row->options->orig_price;
-            Cart::instance('tempacccart')->update($row->rowId,['id' => $request->input('ID'),
-            'name' => $row->name, 'qty' => $newQty,
-            'price' => $row->options->orig_price, 'options' => ['orig_price' => $row->options->orig_price,
-            'T_Amt' => $final_total_Amount,'image' =>  $row->options->image]]);
-          }//end of if
-      }//end of foreach
-      //Session::put('Update_AcessoryToBQT_Order', 'Successful');
-      //return redirect()->route('Order.CustomizeaBouquet');
-      return back();
+    public function updateaccessories(Request $request, $id){
+        $newQty = $request->quantity;
+
+        foreach(Cart::instance('tempacccart')->content() as $row){
+            if($row->id == $id){
+                $final_total_Amount = 0;
+                $final_total_Amount = $newQty * $row->options->orig_price;
+                Cart::instance('tempacccart')->update($row->rowId,['id' => $id,
+                    'name' => $row->name, 'qty' => $newQty,
+                    'price' => $row->options->orig_price, 'options' => ['orig_price' => $row->options->orig_price,
+                        'T_Amt' => $final_total_Amount,'image' =>  $row->options->image]]);
+            }//end of if
+        }//end of foreach
+        //Session::put('Update_AcessoryToBQT_Order', 'Successful');
+        //return redirect()->route('Order.CustomizeaBouquet');
+        return back();
     }
+
 
 
     public function finalcheck(Request $request) {

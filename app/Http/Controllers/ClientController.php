@@ -13,6 +13,7 @@ use Auth;
 use Cart;
 use App\customer_details;
 use Session;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests;
 
@@ -173,6 +174,7 @@ class ClientController extends Controller
           Cart::instance('finalflowerbqt')->destroy();
           Cart::instance('finalacccart')->destroy();
           Cart::instance('flowerwish')->destroy();
+          Cart::instance('tempacccart')->destroy();
           return redirect() -> route('homepages');
         }
 
@@ -302,6 +304,30 @@ class ClientController extends Controller
 
         }
 
+        public function changepassword(Request $request){
+
+                $oldpassword = $request -> oldpassword;
+                $newpassword = $request -> newpassword;
+
+                $notif = 0;
+
+                if (!hash::check($oldpassword, Auth::user()->password)){
+
+                    return redirect()->route('geteditaccount');
+                }
+                else{
+
+                   $request->user()->fill(['password' => hash::make($newpassword)])->save();
+                   return redirect()->route('geteditaccount');
+                
+
+                }
+
+
+
+
+
+        }
 
 
 

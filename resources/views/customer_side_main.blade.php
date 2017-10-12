@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
     @include('customer_side/partials/_head')
