@@ -17,6 +17,12 @@ use Auth;
 
 class OrderManagementController extends Controller
 {
+
+  public function Show_Specific_customerWith_Debt($id){
+    //echo $id;
+
+  }
+
   public function ShowSpecific_Confirmed_Orders($id){
     $cities = DB::table('cities')
       ->select('*')

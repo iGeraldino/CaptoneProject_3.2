@@ -92,6 +92,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('ManageOrder_Cash','ManageOrder_CashController');
 
+	Route::get('/Specific_Customer_Sales_Orders/{id}',['uses' => 'OrderManagementController@Show_Specific_customerWith_Debt', 'as'=>'SalesOrder.UnderCustomer']);
+
 	Route::get('/SpecificSales_OrderPayingLater/{id}',['uses' => 'OrderManagementController@PaylaterSpecific_Order', 'as'=>'SalesOrderManage.PayLater']);
 
 	Route::get('/SpecificSales_Order/{id}',['uses' => 'OrderManagementController@ManageSpecific_Order', 'as'=>'SalesOrderManage.Order']);
