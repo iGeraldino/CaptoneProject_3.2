@@ -108,7 +108,7 @@
         </div>
         <div class="box-body chart-responsive">
           <!--<div class="chart" id="revenue-chart" style="height: 300px;"></div>-->
-
+          <div id="myfirstchart" style="height: 250px;"></div>
         </div>
         <!-- /.box-body -->
       </div>
@@ -333,7 +333,7 @@
                     <tr>
                       <td>ORDR-{{$B_Orders->sales_order_ID}}</td>
                       @if($B_Orders->Status == 'BALANCED')
-                      <td class="text-center"><span   class = "btn btn-sm btn-danger">Balanced</span></td>
+                      <td class="text-center"><span   class = "btn btn-sm btn-danger">NO PEYMENT YET</span></td>
                       @elseif($B_Orders->Status == 'P_PARTIAL')
                       <td class="text-center"><span   class = "btn btn-sm btn-warning">Partially Paid</span></td>
                       @elseif($B_Orders->Status == 'A_UNPAID')
@@ -342,7 +342,7 @@
                       <td class="text-center"><span   class = "btn btn-sm btn-warning">Acquired Partially paid</span></td>
                       @endif
                       <td class = "text-center">
-                         <a href = "" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
+                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$B_Orders->sales_order_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
                       </td>
                     </tr>
                   @endforeach
@@ -363,7 +363,7 @@
                       <td>ORDR-{{$P_orders->sales_order_ID}}</td>
                       <td class="text-center"><span   class = "btn btn-sm btn-info">Fully Paid</span></td>
                       <td class = "text-center">
-                         <a href = "" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
+                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$P_orders->sales_order_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
                       </td>
                     </tr>
                   @endforeach
@@ -432,7 +432,26 @@
 @endsection
 @section('scripts')
 <script type="text/javascript">
-
+Morris.Donut({
+  element: 'myfirstchart',
+  data:[
+    { label: '2008', value: 1 },
+    { label: '2009', value: 10 },
+    { label: '2010', value: 5 },
+    { label: '2011', value: 5 },
+  ],
+  backgroundColor: '#ccc',
+  labelColor: '#060',
+  colors: [
+    '#0BA462',
+    '#39B580',
+    '#67C69D',
+    '#95D7BB'
+  ],
+  xkey:'year',
+  ykeys:['value'],
+  labels:['value']
+})
 
 $(function () {
 

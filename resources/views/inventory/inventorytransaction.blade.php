@@ -164,7 +164,10 @@
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control pull-right" id="reservation">
+                          {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                            <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
+                            <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md btn-success">Generate Report</button>
+                          {!! Form::close() !!}
                           </div>
                           <!-- /.input group -->
                         </div>
@@ -216,7 +219,7 @@
         });
       });
       //Date range picker
-    $('#reservation').daterangepicker();
+    $('#trans_range').daterangepicker();
   </script>
   <script>
       $('document').ready(function(){

@@ -71,6 +71,8 @@ Route::group(['middleware' => ['web']], function() {
 
 
 // Store
+  //Route::resource('flowerReport_Transaction', 'InventoryTransaction_ReportController');
+
 
 	Route::resource('flower', 'AddFlowerController');
 
@@ -228,7 +230,9 @@ Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementC
 
 
 
-Route::get('/Order_Confirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
+Route::get('/Mange_Confirmation/{id}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 
 Route::get('/OrderConfirmation/',['uses' => 'OrderManagementController@ConfrimOrder', 'as'=>'order.ConfirmOrder']);//deletes a specific flower of a specific order
 
