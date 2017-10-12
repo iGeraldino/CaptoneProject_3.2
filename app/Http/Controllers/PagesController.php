@@ -170,7 +170,7 @@ class PagesController extends Controller
 		}
 
 		public function getCheckout() {
-		  $cities = DB::table('cities')
+		  		$cities = DB::table('cities')
           ->select('*')
           ->get();
 

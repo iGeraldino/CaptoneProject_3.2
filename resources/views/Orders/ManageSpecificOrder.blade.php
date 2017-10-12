@@ -88,7 +88,7 @@
                 <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
 								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
                 <h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
-
+								<h5 style  = "color:red;"><b>Balance:</b> Php {{number_format($OrderDetails->BALANCE,2)}}</h5>
               </div>
             </div>
 
@@ -228,6 +228,7 @@
             <p><b>Vat(12%):</b> Php {{number_format($OrderDetails->VAT,2)}}</p>
             <p><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</p>
 						<p><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</p>
+
 
             <hr>
             <div class="radio">

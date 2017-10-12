@@ -2,14 +2,9 @@
 
 @section('content')
 	<?php
-		//$final_Amt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal()) + str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
+
     $final_Amt = 0;
-    foreach($Flowers as $Frow){
-      $final_Amt += $Frow->Tamt;
-    }
-    foreach($Bouquet as $Brow){
-      $final_Amt += $Brow->Amt;
-    }
+
 		use Carbon\Carbon;
 
 		$current = Carbon::now('Asia/Manila');
@@ -20,7 +15,7 @@
 		<div class="row">
 			<div class="col-md-8" style="margin-left: -7px;">
 				<div class="title container" style="margin-top: 5%;">
-					<h3><b>ORDER MANAGEMENT</b></h3>
+					<h3><b>CUSTOMER'S ACCOUNT</b></h3>
 				</div>
 
 				<div class="panel" style="margin-top: 3%">
@@ -36,61 +31,91 @@
 					<div class="panel-body">
             <div class = "row">
               <div class = "col-md-6">
-                <p><b>Order ID:</b> ORDR-{{$SalesOrder->sales_order_ID}}</p>
-                @if($SalesOrder->Status == "PENDING")
-                  <p><b>Status: </b><span class = "btn btn-sm btn-warning">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "CLOSED")
-                <p><b>Status: </b><span class = "btn btn-sm btn-success">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "P_FULL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-primary">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "BALANCED")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "A_UNPAID")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">{{$SalesOrder->Status}}</span></p>
-                @elseif($SalesOrder->Status == "A_P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-info">{{$SalesOrder->Status}}</span></p>
-                @endif
+								<p><b>Customer: </b>(CUST-{{$cust->Cust_ID}}) {{$cust->Cust_FName}} {{$cust->Cust_MName}}, {{$cust->Cust_LName}}</p>
+								<p><b>Contact No: </b>{{$cust->Contact_Num}}</p>
+								<p><b>Email: </b>{{$cust->Email_Address}}</p>
 
-								<p><b>Date of Order: </b><span class = "btn btn-sm btn-info">{{date("M d, Y @ h:i a",strtotime($SalesOrder->created_at))}}</span></p>
-
-                @if($SalesOrder->customer_ID != NULL)
-                  <p><b>Customer:</b> (CUST-{{$SalesOrder->customer_ID}}) {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
-                @else
-                  <p><b>Customer ID:</b> N/A</p>
-                  <p><b>Customer:</b> {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
-                @endif
-                  <p><b>Contact No: </b>{{$SalesOrder->Contact_Num}}</p>
-                  <p><b>Email Add: </b>{{$SalesOrder->email_Address}}</p>
+								@if($cust->Customer_Type == 'C')
+									<p><b>Type: </b>Single Customer</p>
+								@elseif($cust->Customer_Type == 'H')
+								  <p><b>Type: </b>Hotel</p>
+									<p><b>Hotel Name: </b>{{$cust->Hotel_Name}}</p>
+								@elseif($cust->Customer_Type == 'S')
+									<p><b>Type: </b>S</p>
+									<p><b>Shop Name: </b>{{$cust->Shop_Name}}</p>
+								@endif
+									<p><b>Address: </b>{{$cust->Address_Line}}, {{$cust->Baranggay}}, {{$city}}, {{$prov}}</p>
 
 
-                @if($SalesOrder->cust_Type == 'C')
-                  <p><b>Customer Type:</b> Single Customer</p>
-                @elseif($SalesOrder->cust_Type == 'S')
-                  <p><b>Customer Type:</b> Shop</p>
-                @elseif($SalesOrder->cust_Type == 'H')
-                  <p><b>Customer Type:</b> HOTEL</p>
-                @endif
-                  <p><b>Payment Method: </b>{{$OrderDetails->Payment_Mode}}</p>
-                @if($OrderDetails->shipping_method == 'delivery')
-                  <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
-                  <p><b>Delivery Address: </b>{{$OrderDetails->Delivery_Address}}, {{$OrderDetails->Delivery_Baranggay}}, {{$cityname}}, {{$provname}}</p>
-                  <p><b>Delivery Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
-								@elseif($OrderDetails->shipping_method == 'pickup')
-										<p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
-										<p><b>Pickup Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
-                @endif
 
               </div>
               <div class = "Col-md-6 " style = "color:darkviolet;">
-                <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
-                <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
-								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
-                <h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
 
               </div>
             </div>
+
+						<div style="margin-top: 50px;">
+					        <div class="col-lg-3 col-xs-6">
+					          <!-- small box -->
+					          <div class="small-box Subu">
+					            <div class="inner">
+					              <h3>150</h3>
+
+					              <p>Pending Orders</p>
+					            </div>
+					            <div class="icon">
+					              <i class="ion ion-bag"></i>
+					            </div>
+					            <a href="/Sales_Qoutation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+					          </div>
+					        </div>
+					        <!-- ./col -->
+					        <div class="col-lg-3 col-xs-6">
+					          <!-- small box -->
+					          <div class="small-box Lush">
+					            <div class="inner">
+					              <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+					              <p>Closed Orders</p>
+					            </div>
+					            <div class="icon">
+					              <i class="ion ion-stats-bars"></i>
+					            </div>
+					            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+					          </div>
+					        </div>
+					        <!-- ./col -->
+					        <div class="col-lg-3 col-xs-6">
+					          <!-- small box -->
+					          <div class="small-box Sulfur">
+					            <div class="inner">
+					              <h3>44</h3>
+
+					              <p>Orders with balance</p>
+					            </div>
+					            <div class="icon">
+					              <i class="ion ion-person-add"></i>
+					            </div>
+					            <button type = "button" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+					          </div>
+					        </div>
+					        <!-- ./col -->
+					        <div class="col-lg-3 col-xs-6">
+					          <!-- small box -->
+					          <div class="small-box Shalala">
+					            <div class="inner">
+					              <h3>65</h3>
+					              <p>Unique Visitors</p>
+					            </div>
+					            <div class="icon">
+					              <i class="ion ion-pie-graph"></i>
+					            </div>
+					            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+					          </div>
+					        </div>
+					        <!-- ./col -->
+					      </div>
+
 
 						<div class="col-md-12" style="margin-top: 10px;overflow-x:auto;">
 							<h3 class="fontx text-center">Flower Summary</h3>
@@ -108,29 +133,13 @@
 									</tr>
 							  </thead>
 							  <tbody>
-                  <?php
-                    $F_total = 0;
 
-                  ?>
-							  @foreach($Flowers as $Flwr)
-							    <tr>
-							      <th scope="row">FLWR-{{$Flwr->flwr_ID}}</th>
-							      <td>{{$Flwr->name}}</td>
-							      	<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->Img)}}"></td>
-							      <td class = "text-right" style = "color:red;"> Php 	{{number_format($Flwr->Price,2)}}</td>
-							      <td class = "text-right"> {{$Flwr->qty}} pcs. </td>
-							      <td class = "text-right" style = "color:red;">Php {{number_format($Flwr->Tamt,2)}}</td>
-							    </tr>
-                  <?php
-                    $F_total += $Flwr->Price * $Flwr->qty;
-                  ?>
-			          @endforeach
 							  </tbody>
 							</table>
 						</div>
 						<hr>
 						<div class="col-md-4 col-md-offset-7">
-							<h7 style = "color:darkviolet;"><b>(Flower) Total: Php {{number_format($F_total,2)}} </b></h7>
+							<h7 style = "color:darkviolet;"><b>(Flower) Total: Php  </b></h7>
 						</div>
 						<div class="col-md-12" style="margin-top: 10px;overflow-x:auto;">
 							<h3 class="fontx text-center">Bouquet Summary</h3>
@@ -148,66 +157,13 @@
 							  <tbody>
                   <?php
                     $Bqt_Total = 0;
-
                   ?>
-							  @foreach($Bouquet as $Bqt)
-							    <tr>
-							      <th scope="row">BQT-{{$Bqt->Bqt_ID}}</th>
-							      <td>Php {{number_format($Bqt->Unit_Price,2)}}</td>
-							      <td>{{$Bqt->QTY}}</td>
-							      <td>Php {{Number_format($Bqt->QTY * $Bqt->Amt,2)}}</td>
-							      <td>
-									<table class="table table-bordered" style="overflow-x:auto;">
-                                       <thead>
-	                                    	<th class="text-center">Item ID</th>
-	                                    	<th class="text-center">Item Name</th>
-	                                    	<th class="text-center">Image</th>
-	                                    	<th class="text-center">Price</th>
-	                                    	<th class="text-center">Qty</th>
-	                                    	<th class="text-center">Total Price</th>
-		                                </thead>
-                                   		<tbody>
-                                 @foreach($Bqt_Flowers as $row1)
-                                	@if($Bqt->Bqt_ID == $row1->BQT_ID)
-	                            		<tr>
-	                            			<th scope="row">FLWR-{{$row1->FLwr_ID}}</th>
-	                              			<td>{{ $row1->name}}</td>
-	                              			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$row1->Img)}}">
-	                              			</td>
-	                              			<td>Php {{ $row1->price}}</td>
-	                              			<td>{{ $row1->qty}}</td>
-	                              			<td>Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
-	                               		</tr>
-                              	 	@endif
-                                 @endforeach
-                                 @foreach($Bqt_Acrs as $row2)
-                             		@if($Bqt->Bqt_ID == $row2->bqt_ID)
-	                             		<tr>
-	                          				<th scope="row">ACRS-{{$row2 -> Acrs_ID}}</th>
-	                            			<td>{{ $row2 -> name}}</td>
-	                            			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('accimage/'.$row2->Img)}}">
-	                            			</td>
-	                            			<td>Php {{ Number_format($row2 -> Price,2)}}</td>
-	                            			<td>{{ $row2 -> qty}}</td>
-	                            			<td>Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
-	                            		</tr>
-                            		@endif
-                              @endforeach
-                                </tbody>
 
-                                </table>
-
-							      </td>
-							    </tr>
-                  <?php
-                    $Bqt_Total += $Bqt->Amt * $Bqt->QTY;
-                  ?>
-							    @endforeach
 							  </tbody>
 							</table>
 						</div>
 						<div class="col-md-4 col-md-offset-7">
-							<h7 style = "color:darkviolet;"><b>(Bouquet) Total: Php {{number_format($Bqt_Total,2)}}</b></h7>
+							<h7 style = "color:darkviolet;"><b>(Bouquet) Total: Php </b></h7>
 						</div>
 					</div>
 					<div class="panel-footer">
@@ -224,10 +180,10 @@
             </div>
 					</div>
           <div class = "panel-body">
-            <p><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</p>
-            <p><b>Vat(12%):</b> Php {{number_format($OrderDetails->VAT,2)}}</p>
-            <p><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</p>
-						<p><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</p>
+            <p><b>Total Purchase:</b> Php </p>
+            <p><b>Vat(12%):</b> Php </p>
+            <p><b>Delivery Charge:</b> Php </p>
+						<p><b>Total Amount:</b> Php </p>
 
             <hr>
             <div class="radio">
@@ -240,14 +196,6 @@
                 <input type="radio" name="optionsPayment" id = "bankRdo">
                 Pay via Bank
               </label>
-							@if($SalesOrder->cust_Type == 'H' OR $SalesOrder->cust_Type == 'S')
-							<label>
-								<input type="radio" name="optionsPayment" id = "laterRdo">
-								Pay Later
-							</label>
-							@else
-
-							@endif
             </div>
 
             <hr>
@@ -260,7 +208,7 @@
 							</label>
 						</div>
 						<div id = "laterSbmt_BtnDIV" hidden>
-							<a href = "{{route('SalesOrderManage.PayLater',['id'=>$SalesOrder->sales_order_ID])}}" id = "laterSBMT" type = "button" class = "btn btn-md btn-success" disabled>Yes, Pay it Later</a>
+							<a href = "" id = "laterSBMT" type = "button" class = "btn btn-md btn-success" disabled>Yes, Pay it Later</a>
 						</div>
 					</div>
 
@@ -275,12 +223,12 @@
                   </label>
                 </div>
                 <div hidden>
-									<input type = "text" id = "Order_ID"  name = "Order_ID" value = "{{$SalesOrder->sales_order_ID}}"/>
-                  <input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = "{{$SalesOrder->customer_ID}}"/>
+									<input type = "text" id = "Order_ID"  name = "Order_ID" value = ""/>
+                  <input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = ""/>
                   <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
-                  <input type = "text" id = "Current_FName" name = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
-                  <input type = "text" id = "Current_LName" name = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
-                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+                  <input type = "text" id = "Current_FName" name = "Current_FName" value = ""/>
+                  <input type = "text" id = "Current_LName" name = "Current_LName" value = ""/>
+                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = ""/>
                 </div>
                 <div class = "row">
 
@@ -288,7 +236,7 @@
                     <div id = "fnameDiv" class="form-group label-floating">
                       <label class="control-label">First Name</label>
                       <input  name = "nf_namefield" id = "nf_namefield" type="text" class="form-control text-right" required/>
-                      <input name = "f_namefield" id = "f_namefield" type="text" class="hidden form-control text-right" value = "{{$SalesOrder->Customer_Fname}}"/>
+                      <input name = "f_namefield" id = "f_namefield" type="text" class="hidden form-control text-right" value = ""/>
                       <span class="form-control-feedback">
                       </span>
                     </div>
@@ -297,7 +245,7 @@
                     <div id = "lnameDiv" class="form-group label-floating">
                       <label class="control-label">Last Name</label>
                       <input name = "nl_namefield" id = "nl_namefield" type="text" class="form-control text-right" required/>
-                      <input name = "l_namefield" id = "l_namefield" type="text" class="hidden form-control text-right" value = '{{$SalesOrder->Customer_LName}}'/>
+                      <input name = "l_namefield" id = "l_namefield" type="text" class="hidden form-control text-right" value = ''/>
                       <span class="form-control-feedback">
                       </span>
                     </div>
@@ -310,47 +258,45 @@
                 <div class = "col-md-6">
                   <div class="form-group label-floating">
                     <label class="control-label">Amount of Purchase</label>
-                      <input type="text" class="form-control text-right" value = "Php {{number_format($final_Amt,2)}}" disabled/>
-                      <input type="number" class="hidden form-control text-right" value = "{{$final_Amt}}"/>
+                      <input type="text" class="form-control text-right" value = "Php " disabled/>
+                      <input type="number" class="hidden form-control text-right" value = ""/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
                   <div class="form-group label-floating">
                     <label class="control-label">(12%)VAT</label>
-                      <input type="text" class="form-control text-right" value = "Php {{number_format(($final_Amt*0.12),2)}}" disabled/>
-                      <input type="number" class="hidden form-control text-right" value = "{{$final_Amt*0.12}}"/>
+                      <input type="text" class="form-control text-right" value = "Php " disabled/>
+                      <input type="number" class="hidden form-control text-right" value = ""/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
                   <div class="form-group label-control">
                     <label class="control-label">Delivery Charge</label>
-                      <input type="text" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Delivery_Charge),2)}}" disabled/>
-                      <input type="number" class="hidden form-control text-right" value = "{{$OrderDetails->Delivery_Charge}}"/>
+                      <input type="text" class="form-control text-right" value = "Php " disabled/>
+                      <input type="number" class="hidden form-control text-right" value = ""/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
-                  @if($SalesOrder->Status == "PENDING")
+
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
-                  @else
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
                   <div class="form-group label-control">
                     <label class="control-label">Balance</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->BALANCE),2)}}" disabled/>
+                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
                     <span class="form-control-feedback">
                     </span>
                   </div>
-                  @endif
-									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->Total_Amt}}"/>
+									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = ""/>
                 </div>
               </div>
               <div id = "partialCheckbox_DIV" class="checkbox">
@@ -364,11 +310,9 @@
                   <div class="form-group label-floating">
                     <label class="control-label">Enter Amount Paid</label>
                       <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
-                        if($SalesOrder->Status == 'PENDING'){
-                          $min = $OrderDetails->Subtotal * 0.20;
-                        }else{
-                          $min = $OrderDetails->BALANCE;
-                        }
+
+                          $min = 0 * 0.20;
+
                         echo $min;
                        ?>" required/>
 											 <input id = "payment" name = "payment" type="number" step = "0.01" class="hidden form-control">
@@ -417,12 +361,12 @@
 							</div>
 
 							<div hidden>
-								<input type = "text" id = "Order_ID2"  name = "Order_ID2" value = "{{$SalesOrder->sales_order_ID}}"/>
-								<input type = "text" id = "Currentcust_ID2" name = "Currentcust_ID2"  value = "{{$SalesOrder->customer_ID}}"/>
+								<input type = "text" id = "Order_ID2"  name = "Order_ID2" value = ""/>
+								<input type = "text" id = "Currentcust_ID2" name = "Currentcust_ID2"  value = ""/>
 								<input type = "text" id = "Decision_text2"  name = "Decision_text2" value = "N"/>
-								<input type = "text" id = "Current_FName2"  name = "Current_FName2" value = "{{$SalesOrder->Customer_Fname}}"/>
-								<input type = "text" id = "Current_LName2"  name = "Current_LName2" value = "{{$SalesOrder->Customer_LName}}"/>
-								<input type = "text" id = "SubtotalDown2"  name = "SubtotalDown2" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+								<input type = "text" id = "Current_FName2"  name = "Current_FName2" value = ""/>
+								<input type = "text" id = "Current_LName2"  name = "Current_LName2" value = ""/>
+								<input type = "text" id = "SubtotalDown2"  name = "SubtotalDown2" value = ""/>
 							</div>
 
 							<div class = "row">
@@ -430,7 +374,7 @@
 									<div id = "fnameDiv2" class="form-group label-floating">
 										<label class="control-label">First Name</label>
 										<input  name = "nf_namefield2" id = "nf_namefield2" type="text" class="form-control text-right" required/>
-										<input name = "f_namefield2" id = "f_namefield2" type="text" class="hidden form-control text-right" value = "{{$SalesOrder->Customer_Fname}}"/>
+										<input name = "f_namefield2" id = "f_namefield2" type="text" class="hidden form-control text-right" value = ""/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -440,7 +384,7 @@
 									<div id = "lnameDiv2" class="form-group label-floating">
 										<label class="control-label">Last Name</label>
 										<input name = "nl_namefield2" id = "nl_namefield2" type="text" class="form-control text-right" required/>
-										<input name = "l_namefield2" id = "l_namefield2" type="text" class="hidden form-control text-right" value = '{{$SalesOrder->Customer_LName}}'/>
+										<input name = "l_namefield2" id = "l_namefield2" type="text" class="hidden form-control text-right" value = ''/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -487,7 +431,7 @@
 								<div class = "col-md-6">
 									<div id = "partialDiv" class="form-group label-control">
 										<label class="control-label">Date Deposited</label>
-										<input name = "D_date" id = "D_date" min = "{{date('Y-m-d', strtotime($SalesOrder->created_at))}}" max = "{{date('Y-m-d', strtotime($current))}}" value = "{{date('Y-m-d', strtotime($current))}}" type="date" class="form-control" reqired/>
+										<input name = "D_date" id = "D_date" min = "" max = "" value = "" type="date" class="form-control" reqired/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -496,7 +440,7 @@
 								<div class = "col-md-6">
 									<div id = "partialDiv" class="form-group label-control">
 										<label class="control-label">Amount Deposited</label>
-											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "{{$OrderDetails->Subtotal * 0.20}}" value = "{{$OrderDetails->Subtotal * 0.20}}" class="form-control" required/>
+											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "" value = "" class="form-control" required/>
 										<span class="form-control-feedback">
 										</span>
 									</div>

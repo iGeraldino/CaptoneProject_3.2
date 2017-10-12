@@ -14,13 +14,47 @@ use \PDF;
 use App\Newshop_Schedule;
 use App\Neworder_details;
 use Auth;
+use App\CustomerDetails;
 
 class OrderManagementController extends Controller
 {
 
   public function Show_Specific_customerWith_Debt($id){
     //echo $id;
+    $cities = DB::table('cities')
+    ->select('*')
+    ->get();
 
+    $province = DB::table('provinces')
+    ->select('*')
+    ->get();
+
+    $provname = "";
+    $cityname = "";
+
+    $customer = CustomerDetails::find($id);
+    foreach($province as $prov){
+      if($customer->Province == $prov->id){
+        $provname = $prov->name;
+        break;
+      }
+    }
+    foreach($cities as $city){
+      if($customer->Province == $city->id){
+         $cityname = $city->name;
+        break;
+      }
+    }
+
+    $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+    //$balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+
+    return view('Orders.Customers_Orders_WithDebt')
+    ->with('cust',$customer)
+    ->with('city',$cityname)
+    ->with('prov',$provname)
+    ->with('b_Orders',$balanced);
+    //to be continued
   }
 
   public function ShowSpecific_Confirmed_Orders($id){

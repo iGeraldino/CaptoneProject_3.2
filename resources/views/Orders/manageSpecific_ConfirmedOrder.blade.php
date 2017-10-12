@@ -670,7 +670,6 @@
 		   }
 		   reader.readAsDataURL(event.target.files[0]);
 		  }
-
   </script>
 
   <script>
@@ -797,21 +796,21 @@
 
 			if($(this).val() == null || $(this).val() == "" || parseFloat($(this).val()) == 0){
 				change = 0 - $('#balanceField').val();
-				$('#partialCheckbox_DIV').hide();
+				//$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
 			}
       else if(parseFloat($(this).val()) < parseFloat(DownPayment)){
          change = parseFloat($(this).val()) - parseFloat(DownPayment);
 
-        $('#partialCheckbox_DIV').hide();
+        //$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
       else if(parseFloat($(this).val()) > parseFloat(DownPayment)){
 			 change = 0;
 
-        $('#partialCheckbox_DIV').show();
+        //$('#partialCheckbox_DIV').show();
         $('#changeField').val(change.toFixed(2));
         var payment = $('#payment_field').val();
         var balance = $('#balanceField').val();
@@ -833,9 +832,10 @@
  					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
 				 }
       }
+
       else if(parseFloat($('#payment_field').val()) == parseFloat(DownPayment)){
         var change = parseFloat($('#payment_field').val()) - parseFloat(DownPayment);
-        $('#partialCheckbox_DIV').hide();
+        //$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
