@@ -78,25 +78,24 @@
 							  </div>
 							</div>
 						</div>
-						<div class="row" style="margin-top: 3%;">
+						<div class="row">
 							<div class="col-md-3">
 								<h5>Total Amount</h5>
 							</div>
-							<div class="col-md-6">
-							  <div class="input-group">
-							    <input type="number" class="form-control" disabled>
-							  </div>
-							</div>
+							<div class="col-md-5" style="margin-top: 5%;"> 
+				              <div class="input-group"> 
+				                <input type="number" class="form-control" disabled> 
+				              </div>
+				             </div>
 						</div>
 						<div class="row" style="margin-top: 13%; margin-left: 5%;">
-							
-								<button type="submit" class="btn btn-sm btn-success"> Submit </button>
-								<button type="" class="btn btn-sm btn-danger"> Back </button>
-							
+							<button type="submit" class="btn btn-sm btn-success"> Submit </button>
+							<button type="" class="btn btn-sm btn-danger"> Back </button>
 						</div>
+						
 					</div>
 					<div class="col-md-6">
-						<img class="img-responsive img-rounded" src="images/flower/pic3.jpg" alt="bouquet image" width="304" height="236">
+						<img class="img-responsive img-rounded" src="images/flower/pic3.jpg" alt="bouquet image" width="304" height="236">	
 					</div>
 				</div>
 			</div>
