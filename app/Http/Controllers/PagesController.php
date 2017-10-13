@@ -20,7 +20,6 @@ class PagesController extends Controller
         else{
 			return view('supplier/supplierlist');
 		}
-	}//
 
 	public function getSupplierMoreDetails() {
 		if(auth::guard('admins')->check() == false){

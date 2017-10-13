@@ -465,6 +465,19 @@ Route::get('sales_report', 'PagesController@getSalesReport');
     ]);
 
 
+    Route::get('AdminLogin', [
+        'uses'=>'PagesController@getLoginPage',
+        'as'=>'AdminLogin',
+
+    ]);
+
+    Route::post('AdminLogin', [
+        'uses' => 'AdminAccounts_Controller@postSignin',
+        'as' => 'adminsignin',
+
+    ]);
+
+
     Route::get('adminlogout',[
         'uses' => 'AdminAccounts_Controller@AdminLogout',
         'as' => 'adminlogout',

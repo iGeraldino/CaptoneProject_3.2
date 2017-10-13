@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\AdminTable;
+use App\Admin;
 use App\Http\Requests;
 use Response;
 class Validator_Controller extends Controller
@@ -14,7 +15,7 @@ class Validator_Controller extends Controller
 
 	public function CheckEmail_Existence(Request $request)
     {
-        $emailExistence = User::where('email', '=', "{$request->input('email')}")
+        $emailExistence = Admin::where('email', '=', "{$request->input('email')}")
 	    ->where('email', '<>', "{$request->input('orig_email')}")
         ->get();
 
@@ -28,7 +29,7 @@ class Validator_Controller extends Controller
 
 	public function CheckUsername_Existence(Request $request)
     {
-        $UsernameExistence = User::where('username', '=', "{$request->input('username')}")
+        $UsernameExistence = Admin::where('username', '=', "{$request->input('username')}")
 	    ->where('username', '<>', "{$request->input('orig_username')}")
         ->get();
 

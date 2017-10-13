@@ -331,11 +331,9 @@ foreach($debtDetails as $debtDetails){
 
     public function DeleteFlower_per_Order($flower_ID)
 	{
-        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-	   else{
 	        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
 			foreach(Cart::instance('Ordered_Flowers')->content() as $row){
@@ -350,13 +348,13 @@ foreach($debtDetails as $debtDetails){
 	             //->with('FlowerList',$AvailableFlowers);
        	//}
 	}
+}
     public function DeleteFlower_per_Bqt_Order($flower_ID,$order_ID)
 	{
-		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+        else{*/
 			echo $flower_ID;
 			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 				if($row->id == $flower_ID){
@@ -368,14 +366,14 @@ foreach($debtDetails as $debtDetails){
 			return redirect()->route('Order.CreateaBouquet', $order_ID);//returns to the creation of flowers
 		//}
 	}//end of function
-
+}
 	public function DeleteFlower_per_Bqt_SessionOrder($flower_ID)
 	{
-        if(auth::guard('admins')->check() == false){
+        /*if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+        else{*/
 			echo $flower_ID;
 			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
 				if($row->id == $flower_ID){
@@ -390,14 +388,14 @@ foreach($debtDetails as $debtDetails){
 	    //}
 	}//end of function
 
-
+}
     public function DeleteAcessory_per_Bqt_Order($Acessory_ID,$order_ID)
 	{
-        /*if(auth::guard('admins')->check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
 			echo $Acessory_ID;
 			foreach(Cart::instance('OrderedBqt_Acessories')->content() as $row){
 				if($row->id == $Acessory_ID){
@@ -409,10 +407,10 @@ foreach($debtDetails as $debtDetails){
 		//}
 	}//end of function
 
-
+}
     public function DeleteAcessory_per_SessionBqt_Order($Acessory_ID)
 	{
-    if(auth::guard('admins')->check() == false){
+    if(auth::check() == false){
         Session::put('loginSession','fail');
         return redirect() -> route('adminsignin');
     }
@@ -431,11 +429,11 @@ foreach($debtDetails as $debtDetails){
 
 	public function Cancel_and_ClearFlower_per_Bqt_Order($order_ID)
 	{
-		if(auth::guard('admins')->check() == false){
+		/*if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+        else{*/
 			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
 			Cart::instance('OrderedBqt_Flowers')->destroy();
@@ -447,12 +445,13 @@ foreach($debtDetails as $debtDetails){
 
 	}//end of function
 
-
+}
 	public function Cancel_and_Clear_Bqt_Order()
 	{
-		if(auth::guard('admins')->check() == false){
+		/*if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');//
+      }
         else{
 			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
@@ -463,10 +462,10 @@ foreach($debtDetails as $debtDetails){
 			return redirect()->route('Sales_Qoutation.show');//returns to the creation of flowers
 		//}
 	}//end of function
-
+}
 	public function Cancel_and_Clear_BqtSession_Order()
 	{
-    if(auth::guard('admins')->check() == false){
+    if(auth::check() == false){
         Session::put('loginSession','fail');
         return redirect() -> route('adminsignin');
     }
@@ -487,7 +486,7 @@ foreach($debtDetails as $debtDetails){
 
     public function Clear_Cart()
     {
-     if(auth::guard('admins')->check() == false){
+     if(auth::check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -506,7 +505,7 @@ foreach($debtDetails as $debtDetails){
 
     public function Clear_Bouquet()
     {
-      if(auth::guard('admins')->check() == false){
+      if(auth::check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -523,7 +522,7 @@ foreach($debtDetails as $debtDetails){
 
 	public function saveCustomized_Bqt($order_ID)
 	{
-    if(auth::guard('admins')->check() == false){
+    if(auth::check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -588,7 +587,7 @@ foreach($debtDetails as $debtDetails){
 
 
 	public function saveNewCustomized_Bqt(){
-        if(auth::guard('admins')->check() == false){
+        if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -659,11 +658,11 @@ foreach($debtDetails as $debtDetails){
 
 	public function ConfrimOrder()
 	{//
-		if(auth::guard('admins')->check() == false){
+		/*if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+        else{*/
 
 	          $cities = DB::table('cities')
 	          ->select('*')
@@ -678,10 +677,10 @@ foreach($debtDetails as $debtDetails){
 	        ->with('province',$province);
     	//}
 	}//end of function
-
+}
 	public function return_to_CreationOfOrder()
 	{//
-       if(auth::guard('admins')->check() == false){
+       if(auth::check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
