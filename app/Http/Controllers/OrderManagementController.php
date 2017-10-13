@@ -519,6 +519,7 @@ foreach($debtDetails as $debtDetails){
 
 	public function saveCustomized_Bqt($order_ID)
 	{
+
     if(auth::check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
