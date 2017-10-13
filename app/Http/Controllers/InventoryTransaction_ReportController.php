@@ -8,6 +8,10 @@ use App\Http\Requests;
 
 use Illuminate\Support\Facades\DB;
 
+use \PDF;
+use Carbon\Carbon;
+
+
 class InventoryTransaction_ReportController extends Controller
 {
     /**
@@ -51,8 +55,14 @@ class InventoryTransaction_ReportController extends Controller
         echo 'end date:'.$dates[1].'<br>';
         echo 'itemType: '.$itemType.'<br>';
 
-         //return view('inventory.inventorytransaction')
-          //->with('transactions',$Flower);
+         
+        $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
+        //dd($trans);
+
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans]);
+        $current = Carbon::now('Asia/Manila');
+        return $pdf->download('FlowerInventory_TransactionReport'.$current.'.pdf');
+
     }
 
     /**

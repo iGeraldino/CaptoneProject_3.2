@@ -13,6 +13,9 @@
 				</div>
 				<div class="panel-body">
 					<h4> Total price of Bouquet</h4>
+					<h5>Boquet ID</h5>
+					<h5>Total number of flowers</h5>
+					<h5>Total number of acccessories</h5>
 					<div class="box">
 			          <div class="box-body" style="overflow-x: auto;">
 			            <table id="" class="table table-bordered table-striped">
@@ -72,7 +75,7 @@
 							<div class="col-md-3">
 								<h5>Quantity</h5>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-5">
 							  <div class="input-group">
 							    <input type="number" class="form-control" value="1">
 							  </div>

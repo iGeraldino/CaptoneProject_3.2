@@ -20,19 +20,19 @@
                     <i class="glyphicon glyphicon-picture"></i>
                       <h3>Fresh Flowers</h3>
                       <div class="title_border"></div>
-                      <p>Praediximus enim Montium sub ipso vivendi termino his vocabulis appellatos fabricarum culpasse tribunos ut adminicula futurae molitioni pollicitos</p>
+                      <p style="padding-bottom: 10%;">Wonderbloom Flowershop offered flowers of all varieties, sizes, colors and smells and where freshest flowers in town are being offered </p>
               </div>
                   <div class="col-md-4 feature">
                       <i class="glyphicon glyphicon-globe"></i>
                       <h3>Can deliver Nationwide</h3>
                       <div class="title_border"></div>
-                      <p>Praediximus enim Montium sub ipso vivendi termino his vocabulis appellatos fabricarum culpasse tribunos ut adminicula futurae molitioni pollicitos</p>
+                      <p>Wonderbloom Flowershop is engage in wholesaling and retailing quality flowers adn floral arrangements. It always assures the best when it comes in servicing the customer. The flowershop can deliver flowers nationwide.  </p>
               </div>
                   <div class="col-md-4 feature">
                       <i class="glyphicon glyphicon-briefcase"></i>
                       <h3>Secured</h3>
                       <div class="title_border"></div>
-                      <p>Praediximus enim Montium sub ipso vivendi termino his vocabulis appellatos fabricarum culpasse tribunos ut adminicula futurae molitioni pollicitos</p>
+                      <p style="padding-bottom: 5%;">The customer's information are well monitored and secured. The system produce accurate and reliable data and serves as an effective tool for storing records and transactions. </p>
               </div>
             </div>
           </div>
