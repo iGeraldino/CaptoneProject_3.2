@@ -19,6 +19,53 @@ use App\CustomerDetails;
 class OrderManagementController extends Controller
 {
 
+  public function show_debts($id){
+    $cities = DB::table('cities')
+    ->select('*')
+    ->get();
+
+    $province = DB::table('provinces')
+    ->select('*')
+    ->get();
+
+    $provname = "";
+    $cityname = "";
+
+    $customer = CustomerDetails::find($id);
+    foreach($province as $prov){
+      if($customer->Province == $prov->id){
+        $provname = $prov->name;
+        break;
+      }
+    }
+    foreach($cities as $city){
+      if($customer->Province == $city->id){
+         $cityname = $city->name;
+        break;
+      }
+    }
+
+    $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+    $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+    $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+    $full = DB::select('CALL fully_paidOrders(?)',array($id));
+
+    $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+
+    $debt = 0;
+foreach($debtDetails as $debtDetails){
+  $debt = $debtDetails->Total_Debt;
+}
+
+    return view('Orders.Manage_Payment_forDebts')
+    ->with('cust',$customer)
+    ->with('city',$cityname)
+    ->with('prov',$provname)
+    ->with('b_Orders',$balanced)
+    ->with('debt',$debt);
+    //to be continued
+  }
+
   public function Show_Specific_customerWith_Debt($id){
     //echo $id;
     $cities = DB::table('cities')
@@ -47,17 +94,31 @@ class OrderManagementController extends Controller
     }
 
     $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
-    //$balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+    $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+    $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+    $full = DB::select('CALL fully_paidOrders(?)',array($id));
+
+    $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+
+    $debt = 0;
+foreach($debtDetails as $debtDetails){
+  $debt = $debtDetails->Total_Debt;
+}
 
     return view('Orders.Customers_Orders_WithDebt')
     ->with('cust',$customer)
     ->with('city',$cityname)
     ->with('prov',$provname)
-    ->with('b_Orders',$balanced);
+    ->with('b_Orders',$balanced)
+    ->with('pending',$pending)
+    ->with('closed',$closed_Cancel)
+    ->with('full',$full)
+    ->with('debtDetails',$debtDetails)
+    ->with('debt',$debt);
     //to be continued
   }
 
-  public function ShowSpecific_Confirmed_Orders($id){
+  public function ShowSpecific_Confirmed_Orders($id,$type){
     $cities = DB::table('cities')
       ->select('*')
       ->get();
@@ -101,6 +162,7 @@ class OrderManagementController extends Controller
     $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
       return view('Orders.manageSpecific_ConfirmedOrder')
+      ->with('fromtype',$type)
       ->with('payments',$payments)
       ->with('cityname',$cityname)
       ->with('provname',$provname)

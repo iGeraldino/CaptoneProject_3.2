@@ -92,6 +92,10 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('ManageOrder_Cash','ManageOrder_CashController');
 
+	Route::resource('ManageOrder_Check','ManageOrder_CheckController');
+
+	Route::get('/Specific_Customer_debts/{id}',['uses' => 'OrderManagementController@show_debts', 'as'=>'SalesOrder.Debts']);
+
 	Route::get('/Specific_Customer_Sales_Orders/{id}',['uses' => 'OrderManagementController@Show_Specific_customerWith_Debt', 'as'=>'SalesOrder.UnderCustomer']);
 
 	Route::get('/SpecificSales_OrderPayingLater/{id}',['uses' => 'OrderManagementController@PaylaterSpecific_Order', 'as'=>'SalesOrderManage.PayLater']);
@@ -235,7 +239,7 @@ Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementC
 
 
 
-Route::get('/Mange_Confirmation/{id}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+Route::get('/Mange_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
 
 Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 

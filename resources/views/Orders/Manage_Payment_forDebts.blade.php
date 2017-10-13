@@ -58,73 +58,11 @@
 							<a href = "route('SalesOrder.Debts',['id'=>cust->Cust_ID])" class = "btn btn-md btn-primary">Set Payment for Multiple Orders</a>
 						</div>
 
-						<div style="margin-top: 50px;">
-					        <div class="col-lg-3 col-xs-6">
-					          <!-- small box -->
-					          <div class="small-box Subu">
-					            <div class="inner">
-					              <h3>150</h3>
-
-					              <p>Pending Orders</p>
-					            </div>
-					            <div class="icon">
-					              <i class="ion ion-bag"></i>
-					            </div>
-					            <a id = "pendingBtn" type = "button" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
-					          </div>
-					        </div>
-					        <!-- ./col -->
-					        <div class="col-lg-3 col-xs-6">
-					          <!-- small box -->
-					          <div class="small-box Lush">
-					            <div class="inner">
-					              <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-					              <p>Closed Orders</p>
-					            </div>
-					            <div class="icon">
-					              <i class="ion ion-stats-bars"></i>
-					            </div>
-											<a id = "ClosedBtn" type = "button" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
-					          </div>
-					        </div>
-					        <!-- ./col -->
-					        <div class="col-lg-3 col-xs-6">
-					          <!-- small box -->
-					          <div class="small-box Sulfur">
-					            <div class="inner">
-					              <h3>44</h3>
-
-					              <p>Orders with balance</p>
-					            </div>
-					            <div class="icon">
-					              <i class="ion ion-person-add"></i>
-					            </div>
-					            <a id = "balancedBtn" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
-					          </div>
-					        </div>
-					        <!-- ./col -->
-					        <div class="col-lg-3 col-xs-6">
-					          <!-- small box -->
-					          <div class="small-box Shalala">
-					            <div class="inner">
-					              <h3>65</h3>
-					              <p>Orders Ready to be released</p>
-					            </div>
-					            <div class="icon">
-					              <i class="ion ion-pie-graph"></i>
-					            </div>
-											<a id = "fullBtn" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
-					          </div>
-					        </div>
-					        <!-- ./col -->
-					      </div>
-
 								<div class = "col-md-12">
 									<div id = "balance_TBLDIV" hidden>
 										<div class="box">
 											<div class="box-header Shalala">
-												<h5 class="text-center" style="color: white;"><b>ORDERS WITH BALANCE</b></h5>
+												<h5 class="text-center" style="color: white;"><b>ORDERS WITh BALANCE</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
 												<table id="spoiled_TBL" class="table table-bordered table-striped">
@@ -150,12 +88,12 @@
 															@elseif($b_Orders->Stat == 'A_P_PARTIAL')
 																<td><span class = "btn btn-sm btn-danger">Acquired partially paid</span></td>
 															@elseif($b_Orders->Stat == 'BALANCED')
-																<td><span class = "btn btn-sm btn-danger">No Payment Yet</span></td>
+																<td><span class = "btn btn-sm btn-danger">Acquired partially paid</span></td>
 															@endif
 															<td>Php {{number_format($b_Orders->Total_Amt,2)}}</td>
 															<td>Php {{number_format($b_Orders->BALANCE,2)}}</td>
 															<td>
-																	<a href = "{{route('order.Manage_Confirmed_Order',['id'=>$b_Orders->Order_ID,'type'=>'debts'])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a>
+																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a></td>
 															</td>
 														</tr>
 														@endforeach
@@ -205,80 +143,6 @@
 										<!-- /.box -->
 								<!-- /.col -->
 									</div>
-
-									<div id = "closed_TBLDIV" hidden>
-										<div class="box">
-											<div class="box-header Shalala">
-												<h5 class="text-center" style="color: white;"><b>CLOSED & CANCELED ORDERS</b></h5>
-											</div>
-											<div class="box-body" style="overflow-x: auto;">
-												<table id="spoiled_TBL" class="table table-bordered table-striped">
-													<thead>
-															<th class="text-center"> Order ID</th>
-															<th class="text-center"> Date Created </th>
-															<th class="text-center"> Status</th>
-															<th class="text-center"> Amount</th>
-															<th class="text-center"> ACTION</th>
-													</thead>
-													<tbody>
-														@foreach($closed as $closed)
-														<tr>
-															<td>ORDR-{{$closed->Order_ID}}</td>
-															<td>{{$closed->date_created}}</td>
-															@if($closed->Stat == "CANCELLED")
-																<td><span class = "btn btn-sm btn-danger">Cancelled</span></td>
-															@elseif($closed->Stat == 'CLOSED')
-																<td><span class = "btn btn-sm btn-success">Closed</span></td>
-															@endif
-															<td>Php {{number_format($closed->Total_Amt,2)}}</td>
-																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="View Details" ><i class="material-icons">more_horiz</i></a></td>
-														</tr>
-														@endforeach
-													</tbody>
-												</table>
-											</div>
-											<!-- /.box-body -->
-										</div>
-										<!-- /.box -->
-								<!-- /.col -->
-									</div>
-
-									<div id = "full_TBLDIV" hidden>
-										<div class="box">
-											<div class="box-header Shalala">
-												<h5 class="text-center" style="color: white;"><b>FULLY PAID ORDERS</b></h5>
-											</div>
-											<div class="box-body" style="overflow-x: auto;">
-												<table id="spoiled_TBL" class="table table-bordered table-striped">
-													<thead>
-															<th class="text-center"> Order ID</th>
-															<th class="text-center"> Date Created </th>
-															<th class="text-center"> Status</th>
-															<th class="text-center"> Amount</th>
-															<th class="text-center"> ACTION</th>
-													</thead>
-													<tbody>
-														@foreach($full as $full)
-														<tr>
-															<td>ORDR-{{$full->Order_ID}}</td>
-															<td>{{$full->date_created}}</td>
-															<td><span class = "btn btn-sm btn-info">Fully Paid</span></td>
-															<td>Php {{number_format($full->Total_Amt,2)}}</td>
-															<td class="text-center">
-																 <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="View Details" ><i class="material-icons">more_horiz</i></a>
-																 <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$full->Order_ID,'type'=>'debts'])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a>
-															</td>
-														</tr>
-														@endforeach
-													</tbody>
-												</table>
-											</div>
-											<!-- /.box-body -->
-										</div>
-										<!-- /.box -->
-								<!-- /.col -->
-									</div>
-
 								</div>
 
 					</div>

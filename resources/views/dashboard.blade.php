@@ -333,7 +333,7 @@
                     <tr>
                       <td>ORDR-{{$B_Orders->sales_order_ID}}</td>
                       @if($B_Orders->Status == 'BALANCED')
-                      <td class="text-center"><span   class = "btn btn-sm btn-danger">NO PEYMENT YET</span></td>
+                      <td class="text-center"><span   class = "btn btn-sm btn-danger">No Payment Yet</span></td>
                       @elseif($B_Orders->Status == 'P_PARTIAL')
                       <td class="text-center"><span   class = "btn btn-sm btn-warning">Partially Paid</span></td>
                       @elseif($B_Orders->Status == 'A_UNPAID')
@@ -342,7 +342,7 @@
                       <td class="text-center"><span   class = "btn btn-sm btn-warning">Acquired Partially paid</span></td>
                       @endif
                       <td class = "text-center">
-                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$B_Orders->sales_order_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
+                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$B_Orders->sales_order_ID,'type'=>'dash'])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
                       </td>
                     </tr>
                   @endforeach
@@ -363,7 +363,7 @@
                       <td>ORDR-{{$P_orders->sales_order_ID}}</td>
                       <td class="text-center"><span   class = "btn btn-sm btn-info">Fully Paid</span></td>
                       <td class = "text-center">
-                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$P_orders->sales_order_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
+                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$P_orders->sales_order_ID,'type'=>'dash'])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
                       </td>
                     </tr>
                   @endforeach
@@ -409,7 +409,7 @@
                   @endif
                   <td class="text-center" style = "color:red;"><b>Php {{number_format($debtors_row->Total_Debt,2)}}</b></td>
                   <td class = "text-center">
-                     <a href = "" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
+                     <a href = "{{route('SalesOrder.UnderCustomer',['id'=>$debtors_row->cust_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
                   </td>
                 </tr>
               @endforeach

@@ -20,6 +20,9 @@
 			Session::remove('CashPayment_CompletionSession');
 
 
+			$debt_Payment_Sessions = Session::get('PayDebtOrderSession');
+			Session::remove('PayDebtOrderSession');
+
 		$current = Carbon::now('Asia/Manila');
 
 	?>
@@ -28,6 +31,8 @@
 		<div hidden>
 			<input  type = "text" class = "hidden" name = "paymentCompletion_field" id = "paymentCompletion_field" value = "{{$paymentComplete}}"/>
 			<input  type = "text" class = "hidden" name = "CashpaymentCompletion_field" id = "CashpaymentCompletion_field" value = "{{$CashPaymentComplete}}"/>
+			<input  type = "text" class = "hidden" name = "checkpayment_field" id = "checkpayment_field" value = "{{$debt_Payment_Sessions}}"/>
+
 		</div>
 		<div class="row">
 			<div class="col-md-8" style="margin-left: -7px;">
@@ -58,7 +63,7 @@
                 @elseif($SalesOrder->Status == "P_FULL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-primary">FULLY PAID</span></p>
                 @elseif($SalesOrder->Status == "BALANCED")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">NO PEYMENT YET</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">NO PAYMENT YET</span></p>
                 @elseif($SalesOrder->Status == "A_UNPAID")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">ACQUIRED WITHOUT PAYMENT</span></p>
                 @elseif($SalesOrder->Status == "A_P_PARTIAL")
@@ -96,7 +101,13 @@
 
               </div>
               <div class = "Col-md-6 " style = "color:darkviolet;">
-                <a href = "{{route('dashboard')}}" class = "btn btn-md btn-danger"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Dashboard</a>
+
+								@if($fromtype == 'dash')
+								 <a href = "{{route('dashboard')}}" class = "btn btn-md btn-danger"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Dashboard</a>
+								@elseif($fromtype == 'debts')
+								 <a href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" class = "btn btn-md btn-primary"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Customer Account</a>
+								@endif
+
                 <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
                 <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
 								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
@@ -255,7 +266,12 @@
                   @endif
                 </div>
                 <div class = "col-md-6">
-                  <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Process Balance</a>
+									@if($fromtype == 'dash')
+									 <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Show Related Balance</a>
+								  @elseif($fromtype == 'debts')
+										<a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
+									@endif
+
                 </div>
               </div>
             @elseif($SalesOrder->Status  == "P_PARTIAL")
@@ -267,7 +283,11 @@
                 @if($SalesOrder->cust_Type == 'C')
                   <a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
                 @else
-									<a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Process Balance</a>
+									@if($fromtype == 'dash')
+										<a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Show Related Balance</a>
+									@elseif($fromtype == 'debts')
+										<a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
+									@endif
                 @endif
                 </div>
               </div>
@@ -359,29 +379,31 @@
               <div id = "PaymentDiv" hidden>
                 <div class="radio" hidden>
                   <p class = "text-left"><b>Complete the payment through the following:</b></p>
-                  <label>
-                    <input type="radio" name="optionsPayment" id = "cashRdo">
-                    Pay via Cash
-                  </label>
-                  <label>
-                    <input type="radio" name="optionsPayment" id = "bankRdo">
-                    Pay via Bank
-                  </label>
+		                <label>
+		                  <input type="radio" name="optionsPayment" id = "cashRdo">
+		                  Pay via Cash
+		                </label>
+	                  <label>
+	                    <input type="radio" name="optionsPayment" id = "bankRdo">
+	                    Pay via Bank
+	                  </label>
+									@if($SalesOrder->cust_Type == 'H')
+										<label>
+											<input type="radio" name="optionsPayment" id = "checkRdo">
+											Pay via Check
+										</label>
+									@elseif($SalesOrder->cust_Type == 'S')
+										<label>
+											<input type="radio" name="optionsPayment" id = "checkRdo">
+											Pay via Check
+										</label>
+									@else($SalesOrder->cust_Type == 'C')
+
+									@endif
+
                 </div>
               </div>
             <hr>
-					<div id = "paylaterDiv" hidden>
-						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>
-						<div class="checkbox">
-							<label  style = "color:red;">
-								<input type="checkbox" name="later_ShowSubmitButton" id = "later_ShowSubmitButton">
-								<b>*Important:</b> by checking this, you are sure that you are going to set this order as confirmed even without any payment.
-							</label>
-						</div>
-						<div id = "laterSbmt_BtnDIV" hidden>
-							<a href = "{{route('SalesOrderManage.PayLater',['id'=>$SalesOrder->sales_order_ID])}}" id = "laterSBMT" type = "button" class = "btn btn-md btn-success" disabled>Yes, Pay it Later</a>
-						</div>
-					</div>
 
           <div id = "cashPaymentDiv" hidden>
 					{!! Form::model($SalesOrder, ['route'=>['ManageOrder_Cash.update', $SalesOrder->sales_order_ID],'method'=>'PUT','data-parsley-validate'=>'', 'files' => 'true'])!!}
@@ -448,6 +470,7 @@
                     <span class="form-control-feedback">
                     </span>
                   </div>
+									<input id = 'ordStat' type = "text" class = "hidden" value = "{{$SalesOrder->Status}}">
                   @if($SalesOrder->Status == "PENDING")
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
@@ -481,11 +504,23 @@
               <div class = "row">
                 <div class = "col-md-6">
                   <div class="form-group label-floating">
+										<?php
+											$val = 0;
+											if($SalesOrder->Status == "BALANCED"){
+												$val = $OrderDetails->BALANCE * 0.20;
+											}
+											else{
+												$val = $OrderDetails->BALANCE;
+											}
+										?>
                     <label class="control-label">Enter Amount Paid</label>
                       <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
                         if($SalesOrder->Status == 'PENDING'){
                           $min = $OrderDetails->BALANCE * 0.20;
-                        }else{
+                        }else if($SalesOrder->Status == "BALANCED"){
+													$min = $OrderDetails->BALANCE * 0.20;
+												}
+												else{
                           $min = $OrderDetails->BALANCE;
                         }
                         echo $min;
@@ -611,11 +646,31 @@
 										</span>
 									</div>
 								</div>
+								<?php
+									$val = 0;
+									if($SalesOrder->Status == "BALANCED"){
+										$val = $OrderDetails->BALANCE * 0.20;
+									}
+									else{
+										$val = $OrderDetails->BALANCE;
+									}
 
+								?>
 								<div class = "col-md-6">
 									<div id = "partialDiv" class="form-group label-control">
 										<label class="control-label">Amount Deposited</label>
-											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01" min = "{{$OrderDetails->BALANCE}}" value = "{{$OrderDetails->BALANCE}}" class="form-control" required/>
+											<input name = "D_Amount" id = "D_Amount" type="number" step = "0.01"
+											min = "<?php
+												$min = 0;
+												if($SalesOrder->Status == "BALANCED"){
+													$min = $OrderDetails->BALANCE * 0.20;
+												}
+												else{
+                          $min = $OrderDetails->BALANCE;
+                        }
+                        echo $min;
+											?>"
+											value = "{{$val}}" class="form-control" required/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -632,6 +687,178 @@
 							</div>
 					{!! Form::close() !!}
             </div>
+
+
+						<div id = "check_Div" hidden>
+							@if($SalesOrder->Status == 'BALANCED' OR $SalesOrder->Status == 'A_UNPAID')
+								{!! Form::open(array('route' => 'ManageOrder_Check.store', 'data-parsley-validate'=>'', 'method'=>'POST', 'files' => 'true')) !!}
+							@elseif($SalesOrder->Status == 'P_PARTIAL' OR $SalesOrder->Status == 'A_P_PARTIAL')
+								{!! Form::model($SalesOrder, ['route'=>['ManageOrder_Check.update', $SalesOrder->sales_order_ID],'method'=>'PUT','data-parsley-validate'=>'', 'files' => 'true'])!!}
+							@endif
+									<b>Details of Person who gave the payment:</b>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="samePersonCheckBox3" id = "samePersonCheckBox3">
+											Same Person who placed the order
+										</label>
+									</div>
+
+									<div hidden>
+										<input type = "text" id = "Order_ID3"  name = "Order_ID3" value = "{{$SalesOrder->sales_order_ID}}"/>
+										<input type = "text" id = "Currentcust_ID3" name = "Currentcust_ID3"  value = "{{$SalesOrder->customer_ID}}"/>
+										<input type = "text" id = "Decision_text3"  name = "Decision_text3" value = "N"/>
+										<input type = "text" id = "Current_FName3"  name = "Current_FName3" value = "{{$SalesOrder->Customer_Fname}}"/>
+										<input type = "text" id = "Current_LName3"  name = "Current_LName3" value = "{{$SalesOrder->Customer_LName}}"/>
+										<input type = "text" id = "SubtotalDown3"  name = "SubtotalDown3" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+									</div>
+
+									<div class = "row">
+										<div class = "col-md-6">
+											<div id = "fnameDiv3" class="form-group label-floating">
+												<label class="control-label">First Name</label>
+												<input  name = "nf_namefield3" id = "nf_namefield3" type="text" class="form-control text-right" required/>
+												<input name = "f_namefield3" id = "f_namefield3" type="text" class="hidden form-control text-right" value = "{{$SalesOrder->Customer_Fname}}"/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+
+										<div class = "col-md-6">
+											<div id = "lnameDiv3" class="form-group label-floating">
+												<label class="control-label">Last Name</label>
+												<input name = "nl_namefield3" id = "nl_namefield3" type="text" class="form-control text-right" required/>
+												<input name = "l_namefield3" id = "l_namefield3" type="text" class="hidden form-control text-right" value = '{{$SalesOrder->Customer_LName}}'/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+
+									</div>
+									<hr>
+
+									<p><b>Pay through Bank Check<b></p>
+
+									<div class="form-group" Style = "margin-left: 20%;">
+										<img src= "{{ asset('img/'.'addfile.ico')}}" id="imageBox2" name="imageBox2" style="max-width: 200px; max-height: 200px;" />
+									</div>
+
+									<label for = 'flowerimg'>Check Image: </label>
+									<div class="input-group">
+										<input class ="uploader" type="file" accept="image/*" name = "Checkimg" id = "Checkimg" onchange="preview_image2(event)"  style = "margin-top: 2%;" required>
+									</div>
+									<div class="input-group" hidden>
+										<img class ="uploader" type="file" accept="image/*" name = "Checkimg2" id = "Checkimg2" value = "{{ asset('img/'.'addfile.ico')}}" src = "{{ asset('img/'.'addfile.ico')}}" hidden/>
+									</div>
+
+									<div class = "row">
+										<div class = "col-md-6">
+											<div id = "partialDiv" class="form-group label-floating">
+												<label class="control-label">Bank Name</label>
+												<input name = "Bank_Name3" id = "Bank_Name3" type="text" class="form-control" required maxlength= "40" required/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+
+										<div class = "col-md-6">
+											<div id = "partialDiv" class="form-group label-floating">
+												<label class="control-label">Check Number</label>
+												<input name = "check_Number" id = "check_Number" type="text" class="form-control" maxlength= "20" required/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+									</div>
+
+									<div class = "row">
+										<div class = "col-md-6">
+											<div id = "partialDiv" class="form-group label-control">
+												<label class="control-label">Date of Check</label>
+												<input name = "check_date" id = "check_date" max = "{{date('Y-m-d', strtotime($current))}}" value = "{{date('Y-m-d', strtotime($current))}}" type="date" class="form-control" reqired/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+										<div class = "col-md-6">
+											<div id = "partialDiv" class="form-group label-control">
+												<label class="control-label">Date Recieved</label>
+												<input name = "recieved_date" id = "recieved_date" min = "{{date('Y-m-d', strtotime($SalesOrder->created_at))}}" max = "{{date('Y-m-d', strtotime($current))}}" value = "{{date('Y-m-d', strtotime($current))}}" type="date" class="form-control" reqired/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class = "row">
+										<div class = "col-md-6">
+
+										</div>
+										<div class = "col-md-6">
+											<div id = "partialDiv" class="form-group label-control">
+												<label class="control-label">Time Recieved</label>
+												<input name = "recieved_time" id = "recieved_time"  value = "{{date('H:i', strtotime($current))}}" type="time" class="form-control" reqired/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+									</div>
+									<?php
+										$val2 = 0;
+										if($SalesOrder->Status == "BALANCED"){
+											$val2 = $OrderDetails->BALANCE * 0.20;
+										}
+										else{
+											$val2 = $OrderDetails->BALANCE;
+										}
+										$min2 = 0;
+										if($SalesOrder->Status == "BALANCED"){
+											$min2 = $OrderDetails->BALANCE * 0.20;
+										}
+										else{
+											$min2 = $OrderDetails->BALANCE;
+										}
+										$min2;
+									?>
+									<div class = "row">
+										<div class = "col-md-5">
+											<div id = "partialDiv" class="form-group label-control">
+												<label class="control-label">Amount of Check</label>
+												<input name = "Check_Amount" id = "Check_Amount" type="number" step = "0.01"
+												min = "<?php
+												$min = 0;
+												if($SalesOrder->Status == "BALANCED"){
+													$min = $OrderDetails->BALANCE * 0.20;
+												}
+												else{
+													$min = $OrderDetails->BALANCE;
+												}
+												echo $min;
+												?>"
+												value = "{{$val2}}" class="form-control" required/>
+												<span class="form-control-feedback">
+												</span>
+											</div>
+										</div>
+										<div class = "col-md-7">
+											<div class="form-group label-floating">
+												<label class="control-label">Who Signed the Check?</label>
+												<input name = "asignatory" id = "asignatory" type="text" class="form-control" maxlength= "70" required/>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="checkbox">
+										<label  style = "color:red;">
+											<input type="checkbox" name="check_ShowSubmitButton" id = "check_ShowSubmitButton">
+											*important: by checking this, you are sure about the amount that you entered.
+										</label>
+									</div>
+									<div id = "checkSbmt_BtnDIV" hidden>
+										<button id = "checkSBMT" type = "submit" class = "btn btn-md btn-success" disabled>Submit payment</button>
+									</div>
+									{!! Form::close() !!}
+						</div>
+
+
           </div>
 				</div>
 			</div>
@@ -660,8 +887,7 @@
           "autoWidth": false
         });
       });
-			function preview_image(event)
-		  {
+			function preview_image(event){
 		   var reader = new FileReader();
 		   reader.onload = function()
 		   {
@@ -670,6 +896,16 @@
 		   }
 		   reader.readAsDataURL(event.target.files[0]);
 		  }
+
+			function preview_image2(event){
+				 var reader = new FileReader();
+				 reader.onload = function()
+				 {
+					var output = document.getElementById('imageBox2');
+					output.src = reader.result;
+				 }
+				 reader.readAsDataURL(event.target.files[0]);
+			}
   </script>
 
   <script>
@@ -684,6 +920,18 @@
 		}else if($('#CashpaymentCompletion_field').val() == 'Fail'){
 			swal('Sorry','The payment that you entered is below the minimum required payment which is the balance of the customer in this order, please try again','error');
 		}
+
+		if($('#checkpayment_field').val() == 'Successful'){
+			swal('Success!','The Payment for this order is already complete!, but make it sure that there are enough flowers in the inventory to supply this order','success');
+		}else if($('#checkpayment_field').val() == 'Successful1'){
+			swal('Order Closed!','This sales order is now complete with payment and was also acquired by the customer!','success');
+		}else if($('#checkpayment_field').val() == 'Successful2'){
+			swal('Order partially Paid!','This sales order has been partially paid now!','success');
+		}else if($('#checkpayment_field').val() == 'Successful3'){
+			swal('Order acquired and partially Paid!','This sales acquired order has been partially paid now!','success');
+		}
+
+
 
 
 
@@ -711,20 +959,14 @@
           $('#payment_breakdownBtn2').show("fold");
           });
 
-		$('#laterRdo').click(function(){
-			$('#cashPaymentDiv').hide("fold");
-			$('#bankPaymentDiv').hide("fold");
-			$('#paylaterDiv').show("fold");
-		});
-
 		$('#bankRdo').click(function(){
 			$('#cashPaymentDiv').hide("fold");
-			$('#paylaterDiv').hide("fold");
+			$('#check_Div').hide("fold");
 			$('#bankPaymentDiv').show("fold");
 		});
 
 		$('#cashRdo').click(function(){
-			$('#paylaterDiv').hide("fold");
+			$('#check_Div').hide("fold");
 			$('#bankPaymentDiv').hide("fold");
 			$('#cashPaymentDiv').show("fold");
 		});
@@ -732,8 +974,33 @@
 		$('#checkRdo').click(function(){
 			$('#bankPaymentDiv').hide("fold");
 			$('#cashPaymentDiv').hide("fold");
-			$('#chequePaymentDiv').show("fold");
+			$('#check_Div').show("fold");
 		});
+
+		$('#samePersonCheckBox3').click(function(){
+			if($('#samePersonCheckBox3').is(":checked")){
+				$('#Decision_text3').val("O");
+				$('#fnameDiv3').removeClass("form-group label-floating");
+				$('#fnameDiv3').addClass("form-group label-control");
+				$('#lnameDiv3').removeClass("form-group label-floating");
+				$('#lnameDiv3').addClass("form-group label-control");
+				$("#nf_namefield3").val($('#Current_FName').val());
+				$("#nl_namefield3").val($('#Current_LName').val());
+				$("#nf_namefield3").attr('disabled',true);
+				$("#nl_namefield3").attr('disabled',true);
+			}else{
+				$('#Decision_text3').val("N");
+				$('#fnameDiv3').removeClass("form-group label-control");
+				$('#fnameDiv3').addClass("form-group label-floating");
+				$('#lnameDiv3').removeClass("form-group label-control");
+				$('#lnameDiv3').addClass("form-group label-floating");
+				$("#nf_namefield3").val(null);
+				$("#nl_namefield3").val(null);
+				$("#nf_namefield3").attr('disabled',false);
+				$("#nl_namefield3").attr('disabled',false);
+			}
+		});
+
 
     $('#samePersonCheckBox2').click(function(){
       if($('#samePersonCheckBox2').is(":checked")){
@@ -787,8 +1054,29 @@
       $('#partialCheckbox_DIV').hide();
     }
 
-    var DownPayment = $('#SubtotalDown').val();
+		var DownPayment = $('#SubtotalDown').val();
+    var DownPayment3 = $('#SubtotalDown3').val();
+
 		var change = 0;
+		var ordstat = $('#ordStat').val();
+		var minDown = 0;//variable for balanced orders only
+
+		minDown = parseFloat(DownPayment) * 0.20;
+		//minDown2 = parseFloat(DownPayment3) * 0.20;
+
+		if(ordstat == 'BALANCED'){
+			$("#payment_field").attr('min',parseFloat(minDown).toFixed(2));
+			$("#D_Amount").attr('min',parseFloat(minDown).toFixed(2));
+			$("#D_Amount").val(parseFloat(minDown).toFixed(2));
+			$("#Check_Amount").attr('min',parseFloat(minDown).toFixed(2));
+			$("#Check_Amount").val(parseFloat(minDown).toFixed(2));
+		}else{
+			$("#payment_field").attr('min',parseFloat(DownPayment).toFixed(2));
+			$("#D_Amount").attr('min',parseFloat(DownPayment).toFixed(2));
+			$("#D_Amount").val(parseFloat(DownPayment).toFixed(2));
+			$("#Check_Amount").attr('min',parseFloat(DownPayment).toFixed(2));
+			$("#Check_Amount").val(parseFloat(DownPayment).toFixed(2));
+		}
 
     $('#payment_field').change(function(){
 
@@ -801,7 +1089,16 @@
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
 			}
       else if(parseFloat($(this).val()) < parseFloat(DownPayment)){
-         change = parseFloat($(this).val()) - parseFloat(DownPayment);
+				if(ordstat == 'BALANCED'){
+					if(parseFloat($(this).val()).toFixed(2) < parseFloat(minDown).toFixed(2)){
+						alert(parseFloat($(this).val())+'--------'+parseFloat(minDown));
+						change = parseFloat($(this).val()) - parseFloat(DownPayment);
+					}else if(parseFloat($(this).val()) >= parseFloat(minDown)){
+						change = 0;
+					}
+				}else{
+					change = parseFloat($(this).val()) - parseFloat(DownPayment);
+				}
 
         //$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
@@ -885,6 +1182,16 @@
 			}
 		});
 
+		$('#check_ShowSubmitButton').click(function(){
+			if($('#check_ShowSubmitButton').is(":checked")){
+				//$('#bank_ShowSubmitButton').attr('checked',false);
+        $('#checkSbmt_BtnDIV').show("fold");
+        $('#checkSBMT').attr("disabled",false);
+			}else{
+        $('#checkSBMT').attr("disabled",true);
+        $('#checkSbmt_BtnDIV').hide("fold");
+			}
+		});
 
 
 		$('#bank_ShowSubmitButton').click(function(){
@@ -906,6 +1213,8 @@
         $('#laterSbmt_BtnDIV').hide("fold");
 			}
 		});
+
+
 
 
 
