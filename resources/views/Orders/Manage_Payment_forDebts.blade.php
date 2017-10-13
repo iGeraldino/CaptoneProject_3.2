@@ -105,6 +105,7 @@
 										<!-- /.box -->
 								<!-- /.col -->
 									</div>
+
 									<div id = "pending_TBLDIV" hidden>
 										<div class="box">
 											<div class="box-header Shalala">
@@ -122,19 +123,7 @@
 															<th class="text-center"> ACTION</th>
 													</thead>
 													<tbody>
-														@foreach($pending as $pending)
-														<tr>
-															<td>ORDR-{{$pending->Order_ID}}</td>
-															<td>{{$pending->date_created}}</td>
-															<td>{{$pending->Ship_Method}}</td>
-															<td><span class = "btn btn-sm btn-warning">Pending</span></td>
-															<td>Php {{number_format($pending->Total_Amt,2)}}</td>
-															<td>Php {{number_format($pending->BALANCE,2)}}</td>
-															<td>
-																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a></td>
-															</td>
-														</tr>
-														@endforeach
+														<tr></tr>
 													</tbody>
 												</table>
 											</div>

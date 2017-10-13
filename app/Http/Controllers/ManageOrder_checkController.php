@@ -230,8 +230,94 @@ class ManageOrder_checkController extends Controller
     public function update(Request $request, $id)
     {
         //
-        echo 'ang status mo ay partially paid na';
+        $current = Carbon::now('Asia/Manila');
 
+          //
+          $Order_ID = $id;
+          $decision = $request->Decision_text3;
+          $Minimum_Down = $request->SubtotalDown3;
+
+          $fromId = $request->Currentcust_ID3;
+          $fromFname = $request->Current_FName3;
+          $fromLname = $request->Current_LName3;
+          $nFname = $request->nf_namefield3;
+          $nlname = $request->nl_namefield3;
+          $asignatory = $request->asignatory;
+
+          $bankname = $request->Bank_Name3;
+          $checkNum = $request->check_Number;
+          $dateofCheck = $request->check_date;
+          $dateRecieved = $request->recieved_date;
+          $timeRecieved = $request->recieved_time;
+          $amount = $request->Check_Amount;
+
+
+
+          //$NewSalesOrder = sales_order::find($id);
+          $NewSalesOrder_details = Neworder_details::find($Order_ID);
+          $Change = 0;
+
+
+            //dd($NewSalesOrder_details->Status);
+
+
+            $Change = 0;
+            $Newstatus = "";
+            $Newstat = "";
+
+            if($NewSalesOrder_details->Status == 'P_PARTIAL'){
+              $Newstatus = 'P_FULL';
+              $Newstat = 'PF';
+            }else if($NewSalesOrder_details->Status == 'A_P_PARTIAL'){
+              $Newstatus = 'CLOSED';
+              $Newstat = 'C';
+            }
+
+            //dd('> or equal'.$Newstatus.'-------'.$Newstat);
+
+            $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,$Newstatus,0.00));//updated the status of the order details as well sa the salesorder status
+
+            $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+            array($Order_ID,$current,$Newstat,0.00));
+
+            $customerPayment = new CustomerPayment;
+            $customerPayment->check_Number = $checkNum;
+            $customerPayment->asignatory = $asignatory;
+            $customerPayment->Amount = $amount;
+            $customerPayment->Amount_Used = $amount;
+            $customerPayment->Date_Obtained = $dateRecieved;
+            $customerPayment->date_of_check = $dateofCheck;
+            if($decision == "N"){
+              $customerPayment->From_Id = null;
+              $customerPayment->From_FName = $nFname;
+              $customerPayment->From_LName = $nlname;
+            }else{
+              $customerPayment->From_Id = $fromId;
+              $customerPayment->From_FName = $fromFname;
+              $customerPayment->From_LName = $fromLname;
+            }
+
+            $customerPayment->Type = "CHECK";
+            $customerPayment->bank_name = $bankname;
+            $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
+            if($request -> hasFile('Checkimg')){
+                $image = $request->file('Checkimg');
+                $filename = time().'.' . $image->getClientOriginalExtension();
+                $location = public_path('paymentPictures/' . $filename);
+                Image::make($image)->save($location);
+                $customerPayment->image = $filename;
+            }
+            $customerPayment->save();
+
+            //make a record of customer payment Settlement record
+             $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+             array($Order_ID,$customerPayment->Payment_ID,$amount,$amount,$Change));
+             if($Newstatus == 'P_FULL'){
+               Session::put('PayDebtOrderSession','Successful');
+             }else if($Newstatus == 'CLOSED'){
+               Session::put('PayDebtOrderSession','Successful1');
+             }
+          return redirect()->back();
     }
 
     /**

@@ -53,9 +53,9 @@ class OrderManagementController extends Controller
     $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
 
     $debt = 0;
-foreach($debtDetails as $debtDetails){
-  $debt = $debtDetails->Total_Debt;
-}
+    foreach($debtDetails as $debtDetails){
+      $debt = $debtDetails->Total_Debt;
+    }
 
     return view('Orders.Manage_Payment_forDebts')
     ->with('cust',$customer)
