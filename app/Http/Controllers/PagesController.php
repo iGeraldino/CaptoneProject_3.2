@@ -21,6 +21,7 @@ class PagesController extends Controller
 			return view('supplier/supplierlist');
 		}
 
+	}
 	public function getSupplierMoreDetails() {
 		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
@@ -29,7 +30,7 @@ class PagesController extends Controller
         else{
 			return view('supplier/suppliermoredetails');
 		}
-	}//
+	}
 
 	public function getCustomerList() {
 		    if(auth::guard('admins')->check() == false){
