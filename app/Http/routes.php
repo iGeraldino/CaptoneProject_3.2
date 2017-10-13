@@ -457,6 +457,12 @@ Route::get('view_bouquet', 'PagesController@getViewBouquet');
 
 Route::get('sales_report', 'PagesController@getSalesReport');
 
+Route::get('inventory_reports_batch', 'PagesController@getInventoryReportsBatch');
+
+Route::get('signup_page', 'PagesController@getSignupPage');
+
+Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
+
 
     Route::get('AdminLogin', [
         'uses'=>'PagesController@getLoginPage',
@@ -489,6 +495,7 @@ Route::get('sales_report', 'PagesController@getSalesReport');
         'as' => 'adminlogout',
 
     ]);
+
 
 
 //View Reports

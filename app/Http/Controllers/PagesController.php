@@ -364,4 +364,16 @@ class PagesController extends Controller
 	public function getSalesReport() {
 			return view('reports/sales_reports');
 		}
+
+	public function getInventoryReportsBatch() {
+			return view('reports/inventory_reports_batch');
+		}
+
+	public function getSignupPage() {
+			return view('login/signup_page');
+		}
+
+	public function getInventoryReportsFlower() {
+			return view('reports/inventory_reports_flower');
+		}
 }

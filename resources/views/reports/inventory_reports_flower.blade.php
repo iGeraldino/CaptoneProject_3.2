@@ -44,12 +44,12 @@
 </head>
 	<body class="font">
 		<h2 class="a1"> FLOWER TRANSACTION INVENTORY REPORT</h2>
-		<h4 class="a2"> Wonderbloom Flowershop</h4>
-		<h4 class="a2 a3"> Address: 1600 DIMASALANG, SAMPALOC MANILA</h4>
-		<h4 class="a2 a3">Email: wonder.bloom@yahoo.com</h4>
-		<h4 class="a2 a3"> Tel No:(02)567-3255</h4>
-		<h4 class="a2 a3"> CP No: 09228026806</h4>
-		<h3 class="a4">Date:</h3>
+		<h5 class="a2"> Wonderbloom Flowershop</h5>
+		<h5 class="a2 a3"> Address: 1600 DIMASALANG, SAMPALOC MANILA</h5>
+		<h5 class="a2 a3">Email: wonder.bloom@yahoo.com</h5>
+		<h5 class="a2 a3"> Tel No:(02)567-3255</h5>
+		<h5 class="a2 a3"> CP No: 09228026806</h5>
+		<h3 class="a4">FLOWER NAME:  </h3>
 
 		<table class=" a2 a5 table-striped table-bordered" style="width: 100%;">
 			<thead>
@@ -62,21 +62,14 @@
 			    </tr>
 			</thead>
 			<tbody>
-				@if($trans == null)
+				
 					<tr>
-						No Records Under the Set Date
+				      <td class="font center"></td>
+				      <td class="font center"></td>
+				      <td class="font center"></td>
+				      <td class="font center"></td>
+				      <td class="font center"></td>
 				    </tr>
-			    @else
-					@foreach($trans as $row)
-					<tr>
-				      <td class="font center">{{$row->Transaction_ID}}</td>
-				      <td class="font center">{{$row->Item_ID}}</td>
-				      <td class="font center">{{$row->Quantity}}</td>
-				      <td class="font center">{{$row->Total_Amt}}</td>
-				      <td class="font center">{{$row->Date}}</td>
-				    </tr>
-				    @endforeach
-			    @endif
 			</tbody>
 		</table>
 	</body>
