@@ -161,13 +161,13 @@
                   {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                         <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
                         <div class="form-group">
-                          <label class="pull-left">Date range:</label>
+                          <label class="pull-left"><h4>Date range:</h4></label>
                           <div class="input-group">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
                             <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
-                            <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md btn-success">Generate Report</button>
+                            <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md Lemon">Generate Report</button>
                           </div>
                           <!-- /.input group -->
                         </div>
@@ -177,12 +177,15 @@
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">
-                      <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-4">
                         <div id = "">
                           <input id = "BatchID_Field" class = "form-control"  name="Batch_ID" list="Batch_ID" placeholder="Enter Batch ID"/>
                           <datalist id="customerList_ID">
                           </datalist>
+                          <button type = "submit" id = "" class = "btn btn-md Lemon">Generate Report</button>
                         </div>
+                      </div>
                       </div>
                     </div>
                     <div class="tab-pane" id="flowers">
