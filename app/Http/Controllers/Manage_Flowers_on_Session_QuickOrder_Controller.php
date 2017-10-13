@@ -42,11 +42,11 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
   public function store(Request $request)
   {
       //
-     /* if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
-      else{*/
+      else{
           //dd(Cart::instance('overallFLowers')->content());
                   //
           //$flower_Det = flower_details::find($request->FLowerList);
@@ -266,11 +266,11 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
   public function update(Request $request, $id)
   {
       //
-     /*   if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
-      else{*/
+      else{
       // dd(Cart::instance('overallFLowers')->content());
 
             $newQty = $request->QTY_Field;

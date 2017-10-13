@@ -17,7 +17,7 @@ class InventorySchedulingMaintenance_Controller extends Controller
 
 	public function deleteFlowerOnSched($id,$flower_ID)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -32,7 +32,7 @@ class InventorySchedulingMaintenance_Controller extends Controller
 
 	public function cancelOrdersFromSupplier($id)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -45,7 +45,7 @@ class InventorySchedulingMaintenance_Controller extends Controller
 
 	public function cancelmanaging_RequestedFlowers()
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -58,7 +58,7 @@ class InventorySchedulingMaintenance_Controller extends Controller
 
 	public function Manage_FlowerTo_Submit($Sched_id,$Flwr_id)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
 						Session::put('loginSession','fail');
 						return redirect() -> route('adminsignin');
 				}
@@ -72,7 +72,7 @@ class InventorySchedulingMaintenance_Controller extends Controller
 
 	public function Manage_FlowerTo_Adjust($Sched_id,$Flwr_id)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
 						Session::put('loginSession','fail');
 						return redirect() -> route('adminsignin');
 				}

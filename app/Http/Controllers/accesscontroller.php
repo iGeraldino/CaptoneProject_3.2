@@ -23,7 +23,7 @@ class accesscontroller extends Controller{
      */
     public function index()
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -46,7 +46,7 @@ class accesscontroller extends Controller{
      */
     public function create()
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -63,7 +63,7 @@ class accesscontroller extends Controller{
      */
     public function store(Request $request)
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -133,7 +133,7 @@ class accesscontroller extends Controller{
     public function edit($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -164,7 +164,7 @@ class accesscontroller extends Controller{
         //$this->validate($request, array(
           //          'price' => 'required',
             //    ));
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -205,7 +205,7 @@ class accesscontroller extends Controller{
     public function destroy($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

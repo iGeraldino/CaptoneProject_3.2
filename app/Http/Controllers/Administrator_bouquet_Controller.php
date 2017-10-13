@@ -27,7 +27,7 @@ class Administrator_bouquet_Controller extends Controller
 
     public function DeleteFlower_per_AdminBqt_Session($flower_ID)
     {
-          if(auth::check() == false){
+          if(auth::guard('admins')->check() == false){
               Session::put('loginSession','fail');
               return redirect() -> route('adminsignin');
           }
@@ -45,7 +45,7 @@ class Administrator_bouquet_Controller extends Controller
 
     public function Clear_AdminBouquet()
     {
-          if(auth::check() == false){
+          if(auth::guard('admins')->check() == false){
               Session::put('loginSession','fail');
               return redirect() -> route('adminsignin');
           }
@@ -62,7 +62,7 @@ class Administrator_bouquet_Controller extends Controller
 
   public function DeleteAcessory_per_SessionAdminBqt($Acessory_ID)
   {
-    if(auth::check() == false){
+    if(auth::guard('admins')->check() == false){
         Session::put('loginSession','fail');
         return redirect() -> route('adminsignin');
     }

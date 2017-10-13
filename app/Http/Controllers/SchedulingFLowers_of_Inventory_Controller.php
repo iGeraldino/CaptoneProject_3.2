@@ -40,7 +40,7 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
      */
     public function store(Request $request)
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -119,7 +119,7 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
     public function edit($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -153,7 +153,7 @@ class SchedulingFLowers_of_Inventory_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

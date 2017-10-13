@@ -15,11 +15,11 @@ class CreationOfBouquet_Controller extends Controller
 
     public function show_Order_BQT_CustomizationPage()
 	{//this is for creation of a bouquet for order that is not yet saved in the database
-		/*if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
 				$flowers = 	DB::select('CALL wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 				$accessories = DB::select('CALL Acessories_Records()');
 
@@ -35,11 +35,11 @@ class CreationOfBouquet_Controller extends Controller
 
     public function show_Bouquet_Order_CustomizationPage($Order_id)
 	{//this is for creation of bouquet for existing order
-		/*if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
 			$flowers = 	DB::select('CALL wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 			$accessories = DB::select('CALL Acessories_Records()');
 

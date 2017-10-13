@@ -13,7 +13,7 @@ class PagesController extends Controller
 {
     //
 	public function getSupplierList() {
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -23,7 +23,7 @@ class PagesController extends Controller
 	}//
 
 	public function getSupplierMoreDetails() {
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -33,7 +33,7 @@ class PagesController extends Controller
 	}//
 
 	public function getCustomerList() {
-		    if(auth::check() == false){
+		    if(auth::guard('admins')->check() == false){
             	Session::put('loginSession','fail');
             	return redirect() -> route('adminsignin');
         	}
@@ -43,7 +43,7 @@ class PagesController extends Controller
 		}//
 
 	public function getSupplierPriceList() {
-	        if(auth::check() == false){
+	        if(auth::guard('admins')->check() == false){
 	            Session::put('loginSession','fail');
 	            return redirect() -> route('adminsignin');
 	        }
@@ -53,7 +53,7 @@ class PagesController extends Controller
 		}
 
 	public function getAddingTradeAgreement() {
-        	if(auth::check() == false){
+        	if(auth::guard('admins')->check() == false){
             	Session::put('loginSession','fail');
             	return redirect() -> route('adminsignin');
         	}
@@ -62,7 +62,7 @@ class PagesController extends Controller
 			}
 		}//
 	public function getCustomerTradeAgreement() {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -72,7 +72,7 @@ class PagesController extends Controller
 	}//
 
 	public function getSpecificCustomerAgreement() {
-	        if(auth::check() == false){
+	        if(auth::guard('admins')->check() == false){
             	Session::put('loginSession','fail');
             	return redirect() -> route('adminsignin');
         	}
@@ -82,7 +82,7 @@ class PagesController extends Controller
 		}
 
 	public function getOtherViewOfCustAgreement() {
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -92,7 +92,7 @@ class PagesController extends Controller
 		}
 
 	public function getInventoryTransaction() {
-		  if(auth::check() == false){
+		  if(auth::guard('admins')->check() == false){
 	            Session::put('loginSession','fail');
 	            return redirect() -> route('adminsignin');
 	        }
@@ -103,7 +103,7 @@ class PagesController extends Controller
 
 	public function getDashboard() {
 
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
 			Session::put('loginSession','invalid');
 			return redirect() -> route('adminsignin');
 		}

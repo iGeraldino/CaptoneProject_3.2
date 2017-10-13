@@ -41,11 +41,11 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
     public function store(Request $request)
     {
         //
-       /* if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
                     //
             //$flower_Det = flower_details::find($request->FLowerList);
             $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
@@ -199,7 +199,7 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-/*        if(auth::check() == false){
+/*        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

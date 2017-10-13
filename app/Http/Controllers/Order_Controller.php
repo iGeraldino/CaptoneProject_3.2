@@ -24,11 +24,11 @@ class Order_Controller extends Controller
      */
     public function index()
     {
-        /*if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
             $cities = DB::table('cities')
               ->select('*')
               ->get();
@@ -67,6 +67,7 @@ class Order_Controller extends Controller
         //}
     }
 
+  }
     /**
      * Show the form for creating a new resource.
      *
@@ -85,11 +86,11 @@ class Order_Controller extends Controller
      */
     public function store(Request $request)
     {
-        /*if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
                 //
                 $newQoutation = new Sales_Qoutation;
 
@@ -182,7 +183,7 @@ class Order_Controller extends Controller
              ->with('FlowerList',$AvailableFlowers);
           //  }
     }
-
+}
     /**
      * Display the specified resource.
      *
@@ -192,11 +193,11 @@ class Order_Controller extends Controller
     public function show($id)
     {
         //
-       /*() if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
             /*$Flowers = DB::table('flower_details')
             ->select('*')
             ->get();*/
@@ -227,6 +228,7 @@ class Order_Controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+  }
     public function edit($id)
     {
         //

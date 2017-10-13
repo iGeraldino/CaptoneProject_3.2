@@ -41,11 +41,11 @@ class longorderController extends Controller
 */
 //        dd(auth::user());
 
-        /*if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
 
             $cities = DB::table('cities')
               ->select('*')
@@ -76,13 +76,14 @@ class longorderController extends Controller
             ->with('accessories',$accessories)
             ->with('FlowerList',$AvailableFlowers);
     }
-
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
+    
     {
         //
     }

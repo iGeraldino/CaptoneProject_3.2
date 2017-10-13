@@ -20,11 +20,11 @@ class OrderManagementController_Quick extends Controller
     //
     public function DeleteFlower_per_QuickOrder($flower_ID)
   {
-        /*if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-     else{*/
+     else{
       $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
       $qtytodelete = 0;
       foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
@@ -52,11 +52,11 @@ class OrderManagementController_Quick extends Controller
 
   public function DeleteFlower_per_Bqt_SessionQuickOrder($flower_ID)
   {
-        /*if(auth::check() == false){
+        f(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
       echo $flower_ID;
       $qtytodelete = 0;
       foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
@@ -88,7 +88,7 @@ class OrderManagementController_Quick extends Controller
 
     public function DeleteAcessory_per_SessionBqt_QuickOrder($Acessory_ID)
   	{
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -106,7 +106,7 @@ class OrderManagementController_Quick extends Controller
 
     public function Clear_Cart()
     {
-     if(auth::check() == false){
+     if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -154,7 +154,7 @@ class OrderManagementController_Quick extends Controller
 
     public function Clear_Bouquet()
     {
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -179,7 +179,7 @@ class OrderManagementController_Quick extends Controller
 
 
     	public function saveNewCustomized_Bqt(){
-            if(auth::check() == false){
+            if(auth::guard('admins')->check() == false){
                 Session::put('loginSession','fail');
                 return redirect() -> route('adminsignin');
             }

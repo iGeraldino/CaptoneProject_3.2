@@ -5,11 +5,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\AdminTable;
 use Validator;
-use App\userAcctTable;
+use App\admin_accts;
 use App\Http\Requests;
 use Session;
 use Auth;
 use App\User;
+use App\Admin;
 
 class AdminAccounts_Controller extends Controller
 {
@@ -25,15 +26,22 @@ class AdminAccounts_Controller extends Controller
     public function index()
     {
         //
-        if(auth::check() == false){
+        $admin = auth() ->guard('admins');
+
+        if($admin -> check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
-          $Accounts = DB::select('call view_AdminAccounts()');
-          return view('Administrators/Creating_AdminAcct')
-          ->with('Accts',$Accounts);
+            $Accounts = DB::select('call view_AdminAccounts()');
+
+
+            return view('Administrators/Creating_AdminAcct')
+                ->with('Accts',$Accounts);
+
         }
+
+
 
     }
 
@@ -46,13 +54,18 @@ class AdminAccounts_Controller extends Controller
     {
         //
 
-        if(auth::check() == false){
+        $admin = auth() ->guard('admins');
+
+
+
+        if($admin -> check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
 
         }
+
     }
 
     /**
@@ -71,50 +84,56 @@ class AdminAccounts_Controller extends Controller
         echo $request->contactNumber.'__';
         echo $request->passField.'__';
         echo .$request->confirmPassField.'__';*/
-        if(auth::check() == false){
+
+        $admin = auth() ->guard('admins');
+
+
+        if($admin -> check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
-                    $validator = validator::make($request -> all(), [
-                'email' => 'email|required|unique:users',
-                'passField' => 'required|min:4',
-                'Fname' => 'required',
-                'Lname' => 'required',
-                'username' => 'required|unique:users',
-                'contact_Num' => 'required|unique:administrator_table'
-              ]);
+         else {
 
 
+               $validator = validator::make($request -> all(), [
+              'email' => 'email|required|unique:users',
+              'passField' => 'required|min:4',
+              'Fname' => 'required',
+              'Lname' => 'required',
+              'username' => 'required|unique:users',
+              'contact_Num' => 'required|unique:administrator_table'
+            ]);
 
-              if($validator -> fails()){
-                        Session::put('Adding_newAdminSession','Fail');
-                        return redirect() -> route('Admins.index')
-                        ->withErrors($validator);
-                        //->withInput();
-              }
-              else{
-                    $AdminRec =  new AdminTable;
-                    $AdminRec->FName = trim($request->Fname);
-                    $AdminRec->LName = trim($request->Lname);
-                    $AdminRec->email_address = trim($request->email);
-                    $AdminRec->contact_Num = trim($request->contact_Num);
-                    $AdminRec->type = 'admin';
 
-                    $AdminRec->save();
+             if($validator -> fails()){
+                       Session::put('Adding_newAdminSession','Fail');
+                       return redirect() -> route('Admins.index')
+                       ->withErrors($validator);
+                       //->withInput();
+             }
+             else {
+                 $AdminRec = new AdminTable;
+                 $AdminRec->FName = trim($request->Fname);
+                 $AdminRec->LName = trim($request->Lname);
+                 $AdminRec->email_address = trim($request->email);
+                 $AdminRec->contact_Num = trim($request->contact_Num);
+                 $AdminRec->type = 'admin';
 
-                    $acct = new userAcctTable;
-                    $acct->email = trim($AdminRec->email_address);
-                    $acct->password = trim(bcrypt($request->passField));
-                    $acct->username = trim($request->username);
-                    $acct->type = '1';//this means that this is an admin account
-                    $acct->Admin_ID = $AdminRec->Admin_Id;
+                 $AdminRec->save();
 
-                    $acct->save();
-                    Session::put('Adding_newAdminSession','Successful');
-                    return redirect() -> route('Admins.index');
-                }
-            }
+                 $acct = new Admin;
+                 $acct->email = trim($AdminRec->email_address);
+                 $acct->password = trim(bcrypt($request->passField));
+                 $acct->username = trim($request->username);
+                 $acct->type = '1';//this means that this is an admin account
+                 $acct->Admin_ID = $AdminRec->Admin_Id;
+
+                 $acct->save();
+                  Session::put('Adding_newAdminSession','Successful');
+                 return redirect()->route('Admins.index');
+             }
+         }
+
     }
 
     /**
@@ -138,7 +157,9 @@ class AdminAccounts_Controller extends Controller
     {
         //
         //echo $id;
-        if(auth::check() == false){
+        $admin = auth() ->guard('admins');
+
+        if($admin -> check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -173,7 +194,8 @@ class AdminAccounts_Controller extends Controller
     {
         //
         //echo $id;
-        if(auth::check() == false){
+
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -201,26 +223,33 @@ class AdminAccounts_Controller extends Controller
           }
     */
 
-          if(Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'type' => 1])){
 
+          if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '1'])){
             return redirect() -> route('dashboard');
-
           }
-          else if(Auth::attempt(['username' => $request->input('email'), 'password' => $request->input('password'), 'type' => 1])){
-
-            return redirect() -> route('dashboard');
-
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 1])){
+              return redirect() -> route('dashboard');
           }
+
           else{
-            Session::put('loginSession','invalid');
-            return redirect() -> route('AdminLogin');
+              Session::put('loginSession','invalid');
+              return redirect() -> back();
           }
+
+
+
+
+
+
+
+
+
 
     }
 
     public function AdminLogout(){
 
-        Auth::logout();
+        Auth::guard('admins')->logout();
         Session::put('loginSession','OUT');
         return redirect() -> route('AdminLogin');
 

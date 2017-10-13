@@ -19,7 +19,7 @@ class Trade_Agreement_Controller extends Controller
     public function index()
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -71,7 +71,7 @@ class Trade_Agreement_Controller extends Controller
     public function edit($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -94,7 +94,7 @@ class Trade_Agreement_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -121,7 +121,7 @@ class Trade_Agreement_Controller extends Controller
     public function destroy($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

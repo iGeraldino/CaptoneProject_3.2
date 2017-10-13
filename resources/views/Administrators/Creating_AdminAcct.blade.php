@@ -2,16 +2,17 @@
 
 @section('content')
        <section class="content-header">
-       <?php
-          $AddingAdminSessionValue = Session::get('Adding_newAdminSession');
-          Session::remove('Adding_newAdminSession');//determines the addition of new flower
-          $DeletionAdminSessionValue = Session::get('DeletionSession');
-          Session::remove('DeletionSession');//determines the addition of new flower
-       ?>
 
-       <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingAdminSessionValue}}">
-          <input type = "text" class = "hidden" id = "deletingSessionField" value = "{{$DeletionAdminSessionValue}}">
-              
+           <?php
+           $AddingAdminSessionValue = Session::get('Adding_newAdminSession');
+           Session::remove('Adding_newAdminSession');//determines the addition of new flower
+           $DeletionAdminSessionValue = Session::get('DeletionSession');
+           Session::remove('DeletionSession');//determines the addition of new flower
+           ?>
+
+           <input type = "text" class = "hidden" id = "addingSessionField" value = "<{{$AddingAdminSessionValue}}">
+           <input type = "text" class = "hidden" id = "deletingSessionField" value = "{{$DeletionAdminSessionValue}}">
+
               <!-- Start Modal -->
                 <div class="modal fade" id="addingModal" tabxindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">

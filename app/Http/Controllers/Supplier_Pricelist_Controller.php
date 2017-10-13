@@ -43,7 +43,7 @@ class Supplier_Pricelist_Controller extends Controller
     public function store(Request $request)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -71,7 +71,7 @@ class Supplier_Pricelist_Controller extends Controller
      */
     public function show($id)
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

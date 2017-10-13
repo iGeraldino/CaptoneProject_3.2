@@ -51,7 +51,7 @@ class AcessoriesTransaction_Controller extends Controller
     public function show($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -89,7 +89,7 @@ class AcessoriesTransaction_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

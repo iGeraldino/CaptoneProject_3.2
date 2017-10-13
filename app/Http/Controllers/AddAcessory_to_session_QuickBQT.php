@@ -40,11 +40,11 @@ class AddAcessory_to_session_QuickBQT extends Controller
     public function store(Request $request)
     {
       //
-      /*if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
-      else{*/
+      else{
           $countofAcessories =  Cart::instance('OrderedBqt_Acessories')->count();
 
           $Acessory_ID = $request->AcrsID_Field;
@@ -159,11 +159,11 @@ class AddAcessory_to_session_QuickBQT extends Controller
     public function update(Request $request, $id)
     {
       //
-     /* if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
-      else{*/
+      else{
            $newQty = $request->AcQuantityField;
           $order_ID = $request->ID_Field;
           $descision = $request->Decision_Field;

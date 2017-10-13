@@ -53,7 +53,7 @@ class manageArriving_FLowers_controller extends Controller
     public function show($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

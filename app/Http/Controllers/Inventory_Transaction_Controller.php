@@ -13,7 +13,7 @@ class Inventory_Transaction_Controller extends Controller
 {
   //
     public function FlowerInventory_Trans(){
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -28,7 +28,7 @@ class Inventory_Transaction_Controller extends Controller
 
     //
     public function Inventory_Trans(){
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
@@ -41,7 +41,7 @@ class Inventory_Transaction_Controller extends Controller
 
     //
     public function AcrsInventory_Trans(){
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }

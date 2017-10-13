@@ -13,7 +13,7 @@ class BouquetMaintenanceController extends Controller
     //
     public function DeleteFlower_per_Bouquet($bouquet_ID,$flower_ID,$QTY,$T_PRICE)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -35,7 +35,7 @@ class BouquetMaintenanceController extends Controller
 
 	public function DeleteAcessories_per_Bouquet($bouquet_ID,$acessory_ID)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

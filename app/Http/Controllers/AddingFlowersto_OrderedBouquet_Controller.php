@@ -41,7 +41,7 @@ class AddingFlowersto_OrderedBouquet_Controller extends Controller
     public function store(Request $request)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -186,7 +186,7 @@ class AddingFlowersto_OrderedBouquet_Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

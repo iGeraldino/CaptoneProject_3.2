@@ -17,7 +17,7 @@ class InventoryMonitoringController extends Controller
     //
     public function viewInventory_per_Flower($flower_ID)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -32,7 +32,7 @@ class InventoryMonitoringController extends Controller
 
 	public function View_AddingFlowers_for_Arrival()
 	{
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -56,7 +56,7 @@ class InventoryMonitoringController extends Controller
 
 	public function Delete_requestedflower_insession_toarrive($flower_Id)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -81,7 +81,7 @@ class InventoryMonitoringController extends Controller
 
   public function ManageSpoiledFlowers($ID)
 	{
-		if(auth::check() == false){
+		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
     }
@@ -172,7 +172,7 @@ class InventoryMonitoringController extends Controller
 
 	public function Cancel_requestTo_Supplier()
 	{
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -188,7 +188,7 @@ class InventoryMonitoringController extends Controller
 
 	public function save_requestFrom_Supplier()
 	{
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

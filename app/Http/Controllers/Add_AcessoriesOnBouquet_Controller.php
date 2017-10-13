@@ -39,7 +39,7 @@ class Add_AcessoriesOnBouquet_Controller extends Controller
     public function store(Request $request)
     {
         //CALL add_Acessories_to_Bouquet(?,?,?)
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -73,7 +73,7 @@ class Add_AcessoriesOnBouquet_Controller extends Controller
     public function show($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -118,7 +118,7 @@ class Add_AcessoriesOnBouquet_Controller extends Controller
     public function edit($id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -145,7 +145,7 @@ class Add_AcessoriesOnBouquet_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }

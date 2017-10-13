@@ -452,11 +452,30 @@ Route::get('view_bouquet', 'PagesController@getViewBouquet');
 Route::get('sales_report', 'PagesController@getSalesReport');
 
 
+    Route::get('AdminLogin', [
+        'uses'=>'PagesController@getLoginPage',
+        'as'=>'AdminLogin',
+
+    ]);
+
+    Route::post('AdminLogin', [
+        'uses' => 'AdminAccounts_Controller@postSignin',
+        'as' => 'adminsignin',
+
+    ]);
+
+
+    Route::get('adminlogout',[
+        'uses' => 'AdminAccounts_Controller@AdminLogout',
+        'as' => 'adminlogout',
+
+    ]);
 
 
 //View Reports
 
 Route::group(['prefix' => 'user'], function() {
+
 	Route::group(['middleware' => 'guest'], function (){
 		Route::get('register', [
 			'uses' => 'ClientController@getSignup',
@@ -482,44 +501,28 @@ Route::group(['prefix' => 'user'], function() {
 			'middleware' => 'guest'
 		]);
 
-		 Route::get('AdminLogin', [
-			'uses'=>'PagesController@getLoginPage',
-			'as'=>'AdminLogin',
-			'middleware' => 'guest'
-			]);
-
-
-		Route::post('AdminLogin', [
-			'uses' => 'AdminAccounts_Controller@postSignin',
-			'as' => 'adminsignin',
-			'middleware' => 'guest'
-			]);
 
 
 	});
 
 
 	Route::group(['middleware' => 'auth'], function (){
+
+
+
 		Route::get('logout', [
 			'uses' => 'ClientController@getLogout',
 		  'as' => 'customer_side.pages.logout',
 		  'middleware' => 'auth'
 	 ]);
 
-		Route::get('adminlogout',[
-			'uses' => 'AdminAccounts_Controller@AdminLogout',
-			'as' => 'adminlogout',
-			'middleware' => 'auth'
-
-			]);
 
 
 
- 	});
+    });
+
 
 
 });
-
-
 
 });

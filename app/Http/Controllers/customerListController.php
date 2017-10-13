@@ -25,7 +25,7 @@ class customerListController extends Controller
       //$turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = OFF;");
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
         Session::put('loginSession','fail');
         return redirect() -> route('AdminLogin');
       }
@@ -61,7 +61,7 @@ class customerListController extends Controller
         //
         $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
-          if(auth::check() == false){
+          if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -81,7 +81,7 @@ class customerListController extends Controller
     {
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -120,7 +120,7 @@ class customerListController extends Controller
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
         //
-      if(auth::check() == false){
+      if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -150,7 +150,7 @@ class customerListController extends Controller
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -181,7 +181,7 @@ class customerListController extends Controller
       $turnOnEventScheduler = DB::select("SET GLOBAL event_scheduler = ON;");
 
         //
-        if(auth::check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
