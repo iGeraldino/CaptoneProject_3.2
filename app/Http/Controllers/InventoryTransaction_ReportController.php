@@ -55,7 +55,7 @@ class InventoryTransaction_ReportController extends Controller
         echo 'end date:'.$dates[1].'<br>';
         echo 'itemType: '.$itemType.'<br>';
 
-         
+
         $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
         //dd($trans);
 

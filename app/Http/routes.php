@@ -94,6 +94,12 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('ManageOrder_Check','ManageOrder_CheckController');
 
+	Route::resource('ManageMultipleOrder_Cash','Cash_MultipleOrder_PaymentController');
+
+	Route::get('/remove_debts_topayonlist/{id}',['uses' => 'OrderManagementController@remove_ordertopay', 'as'=>'SalesOrder.removeDebts']);
+
+	Route::get('/Set_debts_topay/{id}',['uses' => 'OrderManagementController@add_ordertopay', 'as'=>'SalesOrder.payDebts']);
+
 	Route::get('/Specific_Customer_debts/{id}',['uses' => 'OrderManagementController@show_debts', 'as'=>'SalesOrder.Debts']);
 
 	Route::get('/Specific_Customer_Sales_Orders/{id}',['uses' => 'OrderManagementController@Show_Specific_customerWith_Debt', 'as'=>'SalesOrder.UnderCustomer']);

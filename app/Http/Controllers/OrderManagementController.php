@@ -19,6 +19,48 @@ use App\CustomerDetails;
 class OrderManagementController extends Controller
 {
 
+
+  public function remove_ordertopay($id){
+    $ERROR = 0;
+      foreach(Cart::instance('ordersTopay')->content() as $ord){
+        if($ord->id == $id){
+          Session::put('settingSession','Deleted');
+          Cart::instance('ordersTopay')->remove($ord->rowId);
+          return redirect()->back();
+          break;
+        }else{
+          $ERROR = 1;
+        }
+      }
+
+      if($ERROR == 1){
+        Session::put('settingSession','Error');
+        return redirect()->back();
+      }
+  }
+
+  public function add_ordertopay($id){
+    $NewSalesOrder_details = Neworder_details::find($id);
+      //dd($NewSalesOrder_details);
+
+
+      foreach(Cart::instance('ordersTopay')->content() as $ord){
+        if($ord->id == $id){
+          Session::put('settingSession','Fail');
+          return redirect()->back();
+          break;
+        }
+      }
+
+      Cart::instance('ordersTopay')
+      ->add(['id' => $id, 'name' => 'ORDR-'.$id,
+      'qty' => 1, 'price' => $NewSalesOrder_details->BALANCE,
+      'options' => ['t_amt' => $NewSalesOrder_details->Total_Amt,'status'=>$NewSalesOrder_details->Status]]);
+      Session::put('settingSession','Successful');
+
+      return redirect()->back();
+  }
+
   public function show_debts($id){
     $cities = DB::table('cities')
     ->select('*')
@@ -57,6 +99,8 @@ class OrderManagementController extends Controller
       $debt = $debtDetails->Total_Debt;
     }
     //dd($customer);
+
+    //dd($balanced);
 
     return view('Orders.Manage_Payment_forDebts')
     ->with('cust',$customer)
@@ -102,9 +146,9 @@ class OrderManagementController extends Controller
     $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
 
     $debt = 0;
-foreach($debtDetails as $debtDetails){
-  $debt = $debtDetails->Total_Debt;
-}
+    foreach($debtDetails as $debtDetails){
+      $debt = $debtDetails->Total_Debt;
+    }
 
     return view('Orders.Customers_Orders_WithDebt')
     ->with('cust',$customer)
@@ -251,52 +295,50 @@ foreach($debtDetails as $debtDetails){
 
   public function PrintReciept($id){
 
-            $cities = DB::table('cities')
-              ->select('*')
-              ->get();
+      $cities = DB::table('cities')
+        ->select('*')
+        ->get();
 
-            $province = DB::table('provinces')
-              ->select('*')
-              ->get();
+      $province = DB::table('provinces')
+        ->select('*')
+        ->get();
 
-            $NewSalesOrder = sales_order::find($id);
-            $NewSalesOrder_details = Neworder_details::find($id);
-            $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+      $NewSalesOrder = sales_order::find($id);
+      $NewSalesOrder_details = Neworder_details::find($id);
+      $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
 
-            $NewOrder_SchedDetails = DB::table('shop_schedule')
-                                       ->where('Order_ID', $id)
-                                       ->first();
+      $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                 ->where('Order_ID', $id)
+                                 ->first();
 
-            $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-                                        ->where('Order_ID', $id)
-                                        ->get();
+      $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                  ->where('Order_ID', $id)
+                                  ->get();
 
-            $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+      $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
 
-            $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+      $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
-            $cityName = "";
-            $provName = "";
-            foreach($cities as $city){
-              if($NewSalesOrder_details->Delivery_City == $city->id){
-                $cityName = $city->name;
-              }
-            }
-            foreach($province as $prov){
-              if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                $provName = $prov->name;
-              }
-            }
+      $cityName = "";
+      $provName = "";
+      foreach($cities as $city){
+        if($NewSalesOrder_details->Delivery_City == $city->id){
+          $cityName = $city->name;
+        }
+      }
+      foreach($province as $prov){
+        if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provName = $prov->name;
+        }
+      }
 
-            //dd($NewOrder_SchedDetails);
-              $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+      //dd($NewOrder_SchedDetails);
+        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+      'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+        'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
-              return $pdf->download('sampleDelivery.pdf');
-              return $pdf->download('sampleDelivery.pdf');
-
-            //
+        return $pdf->download('sampleDelivery.pdf');
+      //
   }
 
 
@@ -329,10 +371,8 @@ foreach($debtDetails as $debtDetails){
 
   }
 
-    public function DeleteFlower_per_Order($flower_ID)
+  public function DeleteFlower_per_Order($flower_ID)
 	{
-        //    Session::put('loginSession','fail');
-          //  return redirect() -> route('adminsignin');
 
 	        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
@@ -347,8 +387,7 @@ foreach($debtDetails as $debtDetails){
 	             //return view('Orders.creationOfOrders')
 	             //->with('FlowerList',$AvailableFlowers);
        	//}
-
-}
+      }
     public function DeleteFlower_per_Bqt_Order($flower_ID,$order_ID)
 	{
           //  Session::put('loginSession','fail');
@@ -368,23 +407,22 @@ foreach($debtDetails as $debtDetails){
 
 	public function DeleteFlower_per_Bqt_SessionOrder($flower_ID)
 	{
-        if(auth::guard('admins')->check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-			echo $flower_ID;
-			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
-				if($row->id == $flower_ID){
-					echo $row->id;
-					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
-		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
+      if(auth::guard('admins')->check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
+  			echo $flower_ID;
+  			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
+  				if($row->id == $flower_ID){
+  					echo $row->id;
+  					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
+  		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
 				}
 			}
-			//echo 'hahaah';
           return redirect()-> route('Long_Sales_Order.index');
           //return redirect()->route('Order.CustomizeaBouquet');
-	    //}
+	    }
 	}//end of function
 
 
@@ -438,7 +476,7 @@ foreach($debtDetails as $debtDetails){
 			Session::put('Buquet_Cancelation', 'Successful');
 	    	 return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
-	     //}
+	     }
 
 	}//end of function
 
@@ -655,7 +693,8 @@ foreach($debtDetails as $debtDetails){
 
 
 	public function ConfrimOrder()
-	{//
+	{
+    //
 		if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
@@ -673,7 +712,7 @@ foreach($debtDetails as $debtDetails){
 	        return view('Orders.confirmation_of_Order')
 			->with('city',$cities)
 	        ->with('province',$province);
-    	//}
+    	}
 	}//end of function
 
 	public function return_to_CreationOfOrder()
