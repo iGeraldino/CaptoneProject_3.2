@@ -56,6 +56,7 @@ class OrderManagementController extends Controller
     foreach($debtDetails as $debtDetails){
       $debt = $debtDetails->Total_Debt;
     }
+    //dd($customer);
 
     return view('Orders.Manage_Payment_forDebts')
     ->with('cust',$customer)

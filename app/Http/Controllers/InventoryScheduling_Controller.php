@@ -38,6 +38,7 @@ class InventoryScheduling_Controller extends Controller
             $supplierdata = supplier_details::all();
 
             $schedule = DB::select('CALL inventory_Schedules()');
+
             $doneschedule = DB::select('CALL doneinventory_Schedules()');
             $canceledschedule = DB::select('CALL canceledinventory_Schedules()');
             $arriving = DB::select('CALL view_Arriving_Inventory()');
