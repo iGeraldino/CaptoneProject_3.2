@@ -55,7 +55,7 @@
             </div>
 						<div class = "btn-group text-center">
 							<a class = "btn btn-md btn-info">Generate Statement of Account</a>
-							<a href = "route('SalesOrder.Debts',['id'=>cust->Cust_ID])" class = "btn btn-md btn-primary">Set Payment for Multiple Debts</a>
+							<a href = "{{route('SalesOrder.Debts',['id'=>$cust->Cust_ID])}}" class = "btn btn-md btn-primary">Set Payment for Multiple Debts</a>
 						</div>
 
 						<div style="margin-top: 50px;">

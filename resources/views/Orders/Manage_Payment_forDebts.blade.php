@@ -13,158 +13,30 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8" style="margin-left: -7px;">
-				<div class="title container" style="margin-top: 5%;">
-					<h3><b>CUSTOMER'S ACCOUNT</b></h3>
-				</div>
-
-				<div class="panel" style="margin-top: 3%">
-					<div class="panel-heading  Sharp">
-						<div class="panel-title">
-        			<div class="row">
-          				<div class="col-xs-6">
-            				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> <b>Order Summary</b></h6>
-          				</div>
-        			</div>
-      			</div>
-					</div>
-					<div class="panel-body">
-            <div class = "row">
-              <div class = "col-md-6">
-								<p><b>Customer: </b>(CUST-{{$cust->Cust_ID}}) {{$cust->Cust_FName}} {{$cust->Cust_MName}}, {{$cust->Cust_LName}}</p>
-								<p><b>Contact No: </b>{{$cust->Contact_Num}}</p>
-								<p><b>Email: </b>{{$cust->Email_Address}}</p>
-
-								@if($cust->Customer_Type == 'C')
-									<p><b>Type: </b>Single Customer</p>
-								@elseif($cust->Customer_Type == 'H')
-								  <p><b>Type: </b>Hotel</p>
-									<p><b>Hotel Name: </b>{{$cust->Hotel_Name}}</p>
-								@elseif($cust->Customer_Type == 'S')
-									<p><b>Type: </b>S</p>
-									<p><b>Shop Name: </b>{{$cust->Shop_Name}}</p>
-								@endif
-									<p><b>Address: </b>{{$cust->Address_Line}}, {{$cust->Baranggay}}, {{$city}}, {{$prov}}</p>
-
-
-
-              </div>
-              <div class = "Col-md-6 " style = "color:darkviolet;">
-									<h4><b>Total Amount of Debt: </b>Php {{number_format($debt,2)}}</h4>
-              </div>
-            </div>
-						<div class = "btn-group text-center">
-							<a class = "btn btn-md btn-info">Generate Statement of Account</a>
-							<a href = "route('SalesOrder.Debts',['id'=>cust->Cust_ID])" class = "btn btn-md btn-primary">Set Payment for Multiple Orders</a>
-						</div>
-
-								<div class = "col-md-12">
-									<div id = "balance_TBLDIV" hidden>
-										<div class="box">
-											<div class="box-header Shalala">
-												<h5 class="text-center" style="color: white;"><b>ORDERS WITh BALANCE</b></h5>
-											</div>
-											<div class="box-body" style="overflow-x: auto;">
-												<table id="spoiled_TBL" class="table table-bordered table-striped">
-													<thead>
-															<th class="text-center"> Order ID</th>
-															<th class="text-center"> Date Created </th>
-															<th class="text-center"> Shipping Method </th>
-															<th class="text-center"> Status</th>
-															<th class="text-center"> Amount</th>
-															<th class="text-center"> Balance</th>
-															<th class="text-center"> ACTION</th>
-													</thead>
-													<tbody>
-														@foreach($b_Orders as $b_Orders)
-														<tr>
-															<td>ORDR-{{$b_Orders->Order_ID}}</td>
-															<td>{{$b_Orders->date_created}}</td>
-															<td>{{$b_Orders->Ship_Method}}</td>
-															@if($b_Orders->Stat == 'P_PARTIAL')
-																<td><span class = "btn btn-sm btn-warning">Partially Paid</span></td>
-															@elseif($b_Orders->Stat == 'A_UNPAID')
-																<td><span class = "btn btn-sm btn-danger">Acquired without paymnent</span></td>
-															@elseif($b_Orders->Stat == 'A_P_PARTIAL')
-																<td><span class = "btn btn-sm btn-danger">Acquired partially paid</span></td>
-															@elseif($b_Orders->Stat == 'BALANCED')
-																<td><span class = "btn btn-sm btn-danger">Acquired partially paid</span></td>
-															@endif
-															<td>Php {{number_format($b_Orders->Total_Amt,2)}}</td>
-															<td>Php {{number_format($b_Orders->BALANCE,2)}}</td>
-															<td>
-																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a></td>
-															</td>
-														</tr>
-														@endforeach
-													</tbody>
-												</table>
-											</div>
-											<!-- /.box-body -->
-										</div>
-										<!-- /.box -->
-								<!-- /.col -->
-									</div>
-
-									<div id = "pending_TBLDIV" hidden>
-										<div class="box">
-											<div class="box-header Shalala">
-												<h5 class="text-center" style="color: white;"><b>NEWLY MADE ORDERS</b></h5>
-											</div>
-											<div class="box-body" style="overflow-x: auto;">
-												<table id="spoiled_TBL" class="table table-bordered table-striped">
-													<thead>
-															<th class="text-center"> Order ID</th>
-															<th class="text-center"> Date Created </th>
-															<th class="text-center"> Shipping Method </th>
-															<th class="text-center"> Status</th>
-															<th class="text-center"> Amount</th>
-															<th class="text-center"> Balance</th>
-															<th class="text-center"> ACTION</th>
-													</thead>
-													<tbody>
-														<tr></tr>
-													</tbody>
-												</table>
-											</div>
-											<!-- /.box-body -->
-										</div>
-										<!-- /.box -->
-								<!-- /.col -->
-									</div>
-								</div>
-
-					</div>
-				</div>
-			</div>
 			<div class="col-md-4">
 				<div class="panel" style="margin-top: 35%; margin-left: -5%;">
 					<div class="panel-heading  Sharp">
 						<div class="panel-title">
-              <h6 style="color: white"><span class="glyphicon glyphicon-user text-center" style="color: white;"></span>
-                <b>Manage the order Now</b></h6>
-            </div>
+							<h6 style="color: white"><span class="glyphicon glyphicon-user text-center" style="color: white;"></span>
+								<b>Types of Payment</b></h6>
+						</div>
 					</div>
-          <div class = "panel-body">
-            <p><b>Total Purchase:</b> Php </p>
-            <p><b>Vat(12%):</b> Php </p>
-            <p><b>Delivery Charge:</b> Php </p>
-						<p><b>Total Amount:</b> Php </p>
+					<div class = "panel-body">
+						<p><b>Total Debt:</b> Php  {{number_format($debt,2)}}</p>
+						<hr>
+						<div class="radio">
+							<p class = "text-left"><b>Choose From the following:</b></p>
+							<label>
+								<input type="radio" name="optionsPayment" id = "cashRdo">
+								Pay via Cash
+							</label>
+							<label>
+								<input type="radio" name="optionsPayment" id = "bankRdo">
+								Pay via Bank
+							</label>
+						</div>
 
-            <hr>
-            <div class="radio">
-              <p class = "text-left"><b>Choose From the following:</b></p>
-              <label>
-                <input type="radio" name="optionsPayment" id = "cashRdo">
-                Pay via Cash
-              </label>
-              <label>
-                <input type="radio" name="optionsPayment" id = "bankRdo">
-                Pay via Bank
-              </label>
-            </div>
-
-            <hr>
+						<hr>
 					<div id = "paylaterDiv" hidden>
 						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>
 						<div class="checkbox">
@@ -178,145 +50,145 @@
 						</div>
 					</div>
 
-          <div id = "cashPaymentDiv" hidden>
-          {!! Form::open(array('route' => 'ManageOrder_Cash.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
-              <h6><b>Pay through Cash:</b></h6>
-                <b>Details of Person who gave the payment:</b>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="samePersonCheckBox" id = "samePersonCheckBox">
-                    Same Person who placed the order
-                  </label>
-                </div>
-                <div hidden>
+					<div id = "cashPaymentDiv" hidden>
+					{!! Form::open(array('route' => 'ManageOrder_Cash.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+							<h6><b>Pay through Cash:</b></h6>
+								<b>Details of Person who gave the payment:</b>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" name="samePersonCheckBox" id = "samePersonCheckBox">
+										Same Person who placed the order
+									</label>
+								</div>
+								<div hidden>
 									<input type = "text" id = "Order_ID"  name = "Order_ID" value = ""/>
-                  <input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = ""/>
-                  <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
-                  <input type = "text" id = "Current_FName" name = "Current_FName" value = ""/>
-                  <input type = "text" id = "Current_LName" name = "Current_LName" value = ""/>
-                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = ""/>
-                </div>
-                <div class = "row">
+									<input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = ""/>
+									<input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
+									<input type = "text" id = "Current_FName" name = "Current_FName" value = ""/>
+									<input type = "text" id = "Current_LName" name = "Current_LName" value = ""/>
+									<input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = ""/>
+								</div>
+								<div class = "row">
 
-                  <div class = "col-md-6">
-                    <div id = "fnameDiv" class="form-group label-floating">
-                      <label class="control-label">First Name</label>
-                      <input  name = "nf_namefield" id = "nf_namefield" type="text" class="form-control text-right" required/>
-                      <input name = "f_namefield" id = "f_namefield" type="text" class="hidden form-control text-right" value = ""/>
-                      <span class="form-control-feedback">
-                      </span>
-                    </div>
-                  </div>
-                  <div class = "col-md-6">
-                    <div id = "lnameDiv" class="form-group label-floating">
-                      <label class="control-label">Last Name</label>
-                      <input name = "nl_namefield" id = "nl_namefield" type="text" class="form-control text-right" required/>
-                      <input name = "l_namefield" id = "l_namefield" type="text" class="hidden form-control text-right" value = ''/>
-                      <span class="form-control-feedback">
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-              <div class = "row">
-                <div class = "col-md-6">
-                </div>
-                <div class = "col-md-6">
-                  <div class="form-group label-floating">
-                    <label class="control-label">Amount of Purchase</label>
-                      <input type="text" class="form-control text-right" value = "Php " disabled/>
-                      <input type="number" class="hidden form-control text-right" value = ""/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                  <div class="form-group label-floating">
-                    <label class="control-label">(12%)VAT</label>
-                      <input type="text" class="form-control text-right" value = "Php " disabled/>
-                      <input type="number" class="hidden form-control text-right" value = ""/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                  <div class="form-group label-control">
-                    <label class="control-label">Delivery Charge</label>
-                      <input type="text" class="form-control text-right" value = "Php " disabled/>
-                      <input type="number" class="hidden form-control text-right" value = ""/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
+									<div class = "col-md-6">
+										<div id = "fnameDiv" class="form-group label-floating">
+											<label class="control-label">First Name</label>
+											<input  name = "nf_namefield" id = "nf_namefield" type="text" class="form-control text-right" required/>
+											<input name = "f_namefield" id = "f_namefield" type="text" class="hidden form-control text-right" value = ""/>
+											<span class="form-control-feedback">
+											</span>
+										</div>
+									</div>
+									<div class = "col-md-6">
+										<div id = "lnameDiv" class="form-group label-floating">
+											<label class="control-label">Last Name</label>
+											<input name = "nl_namefield" id = "nl_namefield" type="text" class="form-control text-right" required/>
+											<input name = "l_namefield" id = "l_namefield" type="text" class="hidden form-control text-right" value = ''/>
+											<span class="form-control-feedback">
+											</span>
+										</div>
+									</div>
+								</div>
+								<hr>
+							<div class = "row">
+								<div class = "col-md-6">
+								</div>
+								<div class = "col-md-6">
+									<div class="form-group label-floating">
+										<label class="control-label">Amount of Purchase</label>
+											<input type="text" class="form-control text-right" value = "Php " disabled/>
+											<input type="number" class="hidden form-control text-right" value = ""/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+									<div class="form-group label-floating">
+										<label class="control-label">(12%)VAT</label>
+											<input type="text" class="form-control text-right" value = "Php " disabled/>
+											<input type="number" class="hidden form-control text-right" value = ""/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+									<div class="form-group label-control">
+										<label class="control-label">Delivery Charge</label>
+											<input type="text" class="form-control text-right" value = "Php " disabled/>
+											<input type="number" class="hidden form-control text-right" value = ""/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
 
-                  <div class="form-group label-control">
-                    <label class="control-label">Total Amount</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                  <div class="form-group label-control">
-                    <label class="control-label">Total Amount</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                  <div class="form-group label-control">
-                    <label class="control-label">Balance</label>
-                    <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
+									<div class="form-group label-control">
+										<label class="control-label">Total Amount</label>
+										<input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+									<div class="form-group label-control">
+										<label class="control-label">Total Amount</label>
+										<input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+									<div class="form-group label-control">
+										<label class="control-label">Balance</label>
+										<input type="text" id = "display_balanceField" class="form-control text-right" value = "Php " disabled/>
+										<span class="form-control-feedback">
+										</span>
+									</div>
 									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = ""/>
-                </div>
-              </div>
-              <div id = "partialCheckbox_DIV" class="checkbox">
-                <label  style = "color:red;">
-                  <input type="checkbox" name="partial_PaymentCheckBox" id = "partial_PaymentCheckBox">
-                   Use only the partial of the entered payment
-                </label>
-              </div>
-              <div class = "row">
-                <div class = "col-md-6">
-                  <div class="form-group label-floating">
-                    <label class="control-label">Enter Amount Paid</label>
-                      <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
+								</div>
+							</div>
+							<div id = "partialCheckbox_DIV" class="checkbox">
+								<label  style = "color:red;">
+									<input type="checkbox" name="partial_PaymentCheckBox" id = "partial_PaymentCheckBox">
+									 Use only the partial of the entered payment
+								</label>
+							</div>
+							<div class = "row">
+								<div class = "col-md-6">
+									<div class="form-group label-floating">
+										<label class="control-label">Enter Amount Paid</label>
+											<input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
 
-                          $min = 0 * 0.20;
+													$min = 0 * 0.20;
 
-                        echo $min;
-                       ?>" required/>
+												echo $min;
+											 ?>" required/>
 											 <input id = "payment" name = "payment" type="number" step = "0.01" class="hidden form-control">
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                  <div class="form-group label-control">
-                    <label class="control-label">Change</label>
-                      <input id = "DisplaychangeField" type="text" class="form-control" disabled value = "Php 0.00"/>
-                      <input id = "changeField" name = "changeField" type="text" class="hidden form-control" />
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                </div>
+										<span class="form-control-feedback">
+										</span>
+									</div>
+									<div class="form-group label-control">
+										<label class="control-label">Change</label>
+											<input id = "DisplaychangeField" type="text" class="form-control" disabled value = "Php 0.00"/>
+											<input id = "changeField" name = "changeField" type="text" class="hidden form-control" />
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
 
-                <div class = "col-md-6">
-                  <div id = "partialDiv" class="form-group label-floating" hidden>
-                    <label class="control-label">Partial</label>
-                      <input id = "PartialField" name = "PartialField" type="number" step = "0.01" value = "0.00" class="form-control" />
-                    <span class="form-control-feedback">
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="checkbox">
-                <label  style = "color:red;">
-                  <input type="checkbox" name="cash_ShowSubmitButton" id = "cash_ShowSubmitButton">
-                  *important: by checking this, you are sure about the amount that you entered.
-                </label>
-              </div>
-              <div id = "cashSbmt_BtnDIV" hidden>
-                <button id = "cashSBMT" type = "submit" class = "btn btn-md btn-success" disabled>submit payment</button>
-              </div>
-              {!! Form::close() !!}
-            </div>
+								<div class = "col-md-6">
+									<div id = "partialDiv" class="form-group label-floating" hidden>
+										<label class="control-label">Partial</label>
+											<input id = "PartialField" name = "PartialField" type="number" step = "0.01" value = "0.00" class="form-control" />
+										<span class="form-control-feedback">
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="checkbox">
+								<label  style = "color:red;">
+									<input type="checkbox" name="cash_ShowSubmitButton" id = "cash_ShowSubmitButton">
+									*important: by checking this, you are sure about the amount that you entered.
+								</label>
+							</div>
+							<div id = "cashSbmt_BtnDIV" hidden>
+								<button id = "cashSBMT" type = "submit" class = "btn btn-md btn-success" disabled>submit payment</button>
+							</div>
+							{!! Form::close() !!}
+						</div>
 
 
-            <div id = "bankPaymentDiv" hidden>
+						<div id = "bankPaymentDiv" hidden>
 					{!! Form::open(array('route' => 'ManageOrder_Bank.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
 							<b>Details of Person who gave the payment:</b>
 							<div class="checkbox">
@@ -362,8 +234,8 @@
 							<p><b>Pay through Bank Deposite<b></p>
 
 							<div class="form-group" Style = "margin-left: 20%;">
-                <img src= "{{ asset('img/'.'addfile.ico')}}" id="imageBox" name="imageBox" style="max-width: 200px; max-height: 200px;" />
-              </div>
+								<img src= "{{ asset('img/'.'addfile.ico')}}" id="imageBox" name="imageBox" style="max-width: 200px; max-height: 200px;" />
+							</div>
 
 							<label for = 'flowerimg'>Slip Image: </label>
 							<div class="input-group">
@@ -422,8 +294,113 @@
 								<button id = "bankSBMT" type = "submit" class = "btn btn-md btn-success" disabled>Submit payment</button>
 							</div>
 					{!! Form::close() !!}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-8" style="margin-left: -7px;">
+				<div class="title container" style="margin-top: 5%;">
+					<h3><b>CUSTOMER'S DEBTS</b></h3>
+				</div>
+
+				<div class="panel" style="margin-top: 3%">
+					<div class="panel-heading  Sharp">
+						<div class="panel-title">
+        			<div class="row">
+          				<div class="col-xs-6">
+            				<h6 style="color: white"><span class="glyphicon glyphicon-user" style="color: white;"></span> <b>Order Summary</b></h6>
+          				</div>
+        			</div>
+      			</div>
+					</div>
+					<div class="panel-body">
+            <div class = "row">
+              <div class = "col-md-6">
+								<p><b>Customer: </b>(CUST-{{$cust->Cust_ID}}) {{$cust->Cust_FName}} {{$cust->Cust_MName}}, {{$cust->Cust_LName}}</p>
+								<p><b>Contact No: </b>{{$cust->Contact_Num}}</p>
+								<p><b>Email: </b>{{$cust->Email_Address}}</p>
+
+								@if($cust->Customer_Type == 'C')
+									<p><b>Type: </b>Single Customer</p>
+								@elseif($cust->Customer_Type == 'H')
+								  <p><b>Type: </b>Hotel</p>
+									<p><b>Hotel Name: </b>{{$cust->Hotel_Name}}</p>
+								@elseif($cust->Customer_Type == 'S')
+									<p><b>Type: </b>S</p>
+									<p><b>Shop Name: </b>{{$cust->Shop_Name}}</p>
+								@endif
+									<p><b>Address: </b>{{$cust->Address_Line}}, {{$cust->Baranggay}}, {{$city}}, {{$prov}}</p>
+
+
+
+              </div>
+              <div class = "Col-md-6 " style = "color:darkviolet;">
+									<h4><b>Total Amount of Debt: </b>Php {{number_format($debt,2)}}</h4>
+              </div>
             </div>
-          </div>
+
+
+						<div class = "row">
+							<div class = "col-md-6">
+								<div id = "pending_TBLDIV" >
+									<div class="box">
+										<div class="box-header Shalala">
+											<h5 class="text-center" style="color: white;"><b>NEWLY MADE ORDERS</b></h5>
+										</div>
+										<div class="box-body" style="overflow-x: auto;">
+											<table id="spoiled_TBL" class="table table-bordered table-striped">
+												<thead>
+														<th class="text-center"> Order ID</th>
+														<th class="text-center"> Date Created </th>
+														<th class="text-center"> Shipping Method </th>
+														<th class="text-center"> Status</th>
+														<th class="text-center"> Amount</th>
+														<th class="text-center"> Balance</th>
+														<th class="text-center"> ACTION</th>
+												</thead>
+												<tbody>
+													<tr></tr>
+												</tbody>
+											</table>
+										</div>
+										<!-- /.box-body -->
+									</div>
+									<!-- /.box -->
+							<!-- /.col -->
+								</div>
+							</div>
+								<div class = "col-md-6">
+									<div id = "pending_TBLDIV">
+										<div class="box">
+											<div class="box-header Shalala">
+												<h5 class="text-center" style="color: white;"><b>NEWLY MADE ORDERS</b></h5>
+											</div>
+											<div class="box-body" style="overflow-x: auto;">
+												<table id="spoiled_TBL" class="table table-bordered table-striped">
+													<thead>
+															<th class="text-center"> Order ID</th>
+															<th class="text-center"> Date Created </th>
+															<th class="text-center"> Shipping Method </th>
+															<th class="text-center"> Status</th>
+															<th class="text-center"> Amount</th>
+															<th class="text-center"> Balance</th>
+															<th class="text-center"> ACTION</th>
+													</thead>
+													<tbody>
+														<tr></tr>
+													</tbody>
+												</table>
+											</div>
+											<!-- /.box-body -->
+										</div>
+										<!-- /.box -->
+								<!-- /.col -->
+									</div>
+								</div>
+							</div>
+
+					</div>
 				</div>
 			</div>
 		</div>
