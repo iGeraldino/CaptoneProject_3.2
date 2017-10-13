@@ -158,26 +158,22 @@
                     <div class="tab-pane active" id="date">
                       <div class="col-md-6" style="margin-top: -6%;">
                         <!-- Date range -->
-                    {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
-                        <input type="text" value="{{$trans->TypeOfItem}}" name="itemtype" class="hidden">
+                  {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                        <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
                         <div class="form-group">
                           <label class="pull-left">Date range:</label>
                           <div class="input-group">
                             <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                             </div>
-                          {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                             <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
                             <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md btn-success">Generate Report</button>
-                          {!! Form::close() !!}
                           </div>
                           <!-- /.input group -->
                         </div>
                         <!-- /.form group -->
 
-                        <button type="submit" id= submit_rangeBTN class="btn btn-md btn-success">... </button>
-                    {!! Form::close() !!}
-
+                          {!! Form::close() !!}
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">
