@@ -23,6 +23,8 @@
 			$debt_Payment_Sessions = Session::get('PayDebtOrderSession');
 			Session::remove('PayDebtOrderSession');
 
+      $ReleaseSession = Session::get('ReleaseOrder_Session');
+
 		$current = Carbon::now('Asia/Manila');
 
 	?>
@@ -31,7 +33,8 @@
 		<div hidden>
 			<input  type = "text" class = "hidden" name = "paymentCompletion_field" id = "paymentCompletion_field" value = "{{$paymentComplete}}"/>
 			<input  type = "text" class = "hidden" name = "CashpaymentCompletion_field" id = "CashpaymentCompletion_field" value = "{{$CashPaymentComplete}}"/>
-			<input  type = "text" class = "hidden" name = "checkpayment_field" id = "checkpayment_field" value = "{{$debt_Payment_Sessions}}"/>
+      <input  type = "text" class = "hidden" name = "checkpayment_field" id = "checkpayment_field" value = "{{$debt_Payment_Sessions}}"/>
+			<input  type = "text" class = "hidden" name = "Release_field" id = "Release_field" value = "{{$ReleaseSession}}"/>
 
 		</div>
 		<div class="row">
@@ -937,6 +940,16 @@
 			swal('Order partially Paid!','This sales order has been partially paid now!','success');
 		}else if($('#checkpayment_field').val() == 'Successful3'){
 			swal('Order acquired and partially Paid!','This sales acquired order has been partially paid now!','success');
+		}
+
+    if($('#Release_field').val() == 'Fail'){
+			swal('Sorry!','There seems to be insufficient flowers and accessories in your inventory, please order flowers  immediately to supply this order','warning');
+		}else if($('#Release_field').val() == 'Fail2'){
+			swal('Sorry!','There seems to be insufficient accessories in your inventory, please order acessories  immediately to supply this order','warning');
+		}else if($('#Release_field').val() == 'Fail3'){
+			swal('Sorry!','There seems to be insufficient flowers in your inventory, please order flowers immediately to supply this order','warning');
+		}else if($('#Release_field').val() == 'Invalid'){
+			swal('Sorry!','The order cannot be released yet, please wait for the date that is is origianlly required to be released','error');
 		}
 
 

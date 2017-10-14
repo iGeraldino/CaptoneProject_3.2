@@ -22,6 +22,8 @@ class OrderManagementController extends Controller
 
   public function release_Order($id){
     //echo $id;
+    $current = Carbon::now('Asia/Manila');
+
     $NewSalesOrder = sales_order::find($id);
 
     $NewSalesOrder_details = Neworder_details::find($id);
@@ -42,7 +44,16 @@ class OrderManagementController extends Controller
     $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
     $Acrs_inINventory = DB::select('call wonderbloomdb2.Acessories_Records()');
 
-    dd($Flower_inInventory);
+      $dateToacquire = date('m-d-Y H:i:s',strtotime($NewOrder_SchedDetails->Time));
+      $dateNow = date('m-d-Y H:i:s',strtotime($current));
+
+      //dd($dateToacquire.'------------------------'.$dateNow);
+      if($dateToacquire > $dateNow){
+        Session::put('ReleaseOrder_Session','Invalid');
+        return redirect()->back();
+      }
+
+    //dd($Flower_inInventory);
 
     Cart::instance('flowersOnOrder')->destroy();
     Cart::instance('acessoriesOnOrder')->destroy();
@@ -106,11 +117,43 @@ class OrderManagementController extends Controller
       }
     }//end of foreach($NewOrder_Bouquet as $bqt)
 
-    dd(Cart::instance('flowersOnOrder')->content());
+    //dd(Cart::instance('flowersOnOrder')->content());
+    $acrsValidator = 0;
+    $flwrValidator = 0;
     foreach(Cart::instance('acessoriesOnOrder')->content() as $Oacrs){
       foreach($Acrs_inINventory as $AcrsInventory){
-
+        if($Oacrs->id == $AcrsInventory->ACC_ID){
+          if($Oacrs->qty > $AcrsInventory->qty){
+            $acrsValidator = 1;
+            break;
+          }
+        }
       }
+    }
+
+    foreach(Cart::instance('flowersOnOrder')->content() as $Oflwr){
+      foreach($Flower_inInventory as $flwr_row){
+        if($flwr_row->flower_ID == $Oflwr->id){
+          if($Oflwr->qty > $flwr_row->QTY){
+            $flwrValidator = 1;
+            break;
+          }
+        }
+      }
+    }
+
+
+    if($flwrValidator == 1 AND $acrsValidator == 1){
+      Session::put('ReleaseOrder_Session','Fail');
+      return redirect()->back();
+    }else if($flwrValidator == 0 AND $acrsValidator == 1){
+      Session::put('ReleaseOrder_Session','Fail2');
+      return redirect()->back();
+    }else if($flwrValidator == 1 AND $acrsValidator == 0){
+      Session::put('ReleaseOrder_Session','Fail3');
+      return redirect()->back();
+    }else{
+
     }
 
 
