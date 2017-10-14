@@ -34,7 +34,7 @@
 
 <script src="{{asset('material-kit/assets/js/nouislider.min.js')}}"></script>
 <!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
 <script src="{{asset('admin/plugins/morris/morris.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{asset('admin/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
@@ -46,6 +46,13 @@
 
 <script src="{{asset('sweetalert-master/dist/sweetalert.min.js') }} "></script>
 <script src="http://js.pusher.com/3.0/pusher.min.js"></script><!--for the development of notifications-->
+
+<!--for morris Charts-->
+
+
+
+ <!--for morris Charts-->
+
 
 <script>
 $(document).ready(function(){

@@ -17,7 +17,8 @@
         "barryvdh/laravel-ide-helper": "v2.4.1",
         "pusher/pusher-php-server": "^3.0",
         "khill/lavacharts": "~3.1",
-        "consoletvs/charts": "^5.4"
+        "consoletvs/charts": "^5.4",
+        "paulvl/backup": "3.*"
         
     },
     "require-dev": {
