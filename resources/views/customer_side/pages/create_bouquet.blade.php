@@ -5,6 +5,37 @@
     <link href="_CSS/flower.css" rel="stylesheet">
 @endsection
 @section('content')
+
+<?php
+    $AddingFlowertoBouquetSession = Session::get('Adding_FlowertoBouquetSession');
+    Session::Remove('Adding_FlowertoBouquetSession');
+
+    $UpdatingFlowertoBouquetSession = Session::get('Updating_FlowertoBouquetSession');
+    Session::Remove('Updating_FlowertoBouquetSession');
+
+    $DeleteFlowertoBouquetSession = Session::get('Delete_FlowertoBouquetSession');
+    Session::Remove('Delete_FlowertoBouquetSession');
+
+    $UpdateAcctoBouquetSession = Session::get('Update_AcctoBouquetSession');
+    Session::Remove('Update_AcctoBouquetSession');
+
+    $AddingAcctoBouquetSession = Session::get('Adding_AcctoBouquetSession');
+    Session::Remove('Adding_AcctoBouquetSession');
+    
+    $DeleteAcctoBouquetSession = Session::get('Delete_AcctoBouquetSession');
+    Session::Remove('Delete_AcctoBouquetSession');
+    
+  ?>
+
+  <div hidden>
+    <input id = "addflowertobouquetSession" value = "{{$AddingFlowertoBouquetSession}}">
+    <input id = "updateflowertobouquetSession" value = "{{$UpdatingFlowertoBouquetSession}}">
+    <input id = "deleteflowertobouquetSession" value = "{{$DeleteFlowertoBouquetSession}}">
+    <input id = "updateacctobouquetSession" value = "{{$UpdateAcctoBouquetSession}}">
+    <input id = "addacctobouquetSession" value = "{{$AddingAcctoBouquetSession}}">
+    <input id = "deleteacctobouquetSession" value = "{{$DeleteAcctoBouquetSession}}">
+  
+</div>
 	<div class="container cols" style="margin-top: 60px;">
 	    <div class="row">
 			<div class="col-md-8">
@@ -93,7 +124,8 @@
                             <input type="hidden" value="{{ $bouq -> Final_SellingPrice }}" name="fp">
                             <input type="hidden" value="{{ $bouq -> flower_ID }}" name="ID" >
 
-                            <input type="number" class="form-control" placeholder="0" name="qty" min = "1">
+                            <input type="number" class="form-control" placeholder="0" name="qty" 
+                              min = "1" required>
 
           								</div>
           					    	</div>
@@ -342,6 +374,27 @@
     <script>
 
         $(document).ready(function (){
+
+          if($('#addflowertobouquetSession').val() == 'Successful'){
+        swal('Success!','the flower was successfully added to the Bouquet','success');
+         }
+         if($('#updateflowertobouquetSession').val() == 'Successful'){
+        swal('Success!','the quantity was successfully updated to the Bouquet','success');
+         }
+         if($('#deleteflowertobouquetSession').val() == 'Successful'){
+        swal('Success!','the flower was successfully removed to the Bouquet','success');
+         }
+         if($('#updateacctobouquetSession').val() == 'Successful'){
+        swal('Success!','the quantity was successfully updated to the Bouquet','success');
+        }
+        if($('#addacctobouquetSession').val() == 'Successful'){
+        swal('Success!','the accessories was successfully addded to the Bouquet','success');
+        }
+        if($('#deleteacctobouquetSession').val() == 'Successful'){
+        swal('Success!','the accessories was successfully removed to the Bouquet','success');
+        }
+
+
 
           $("#but1").attr('disabled',true);
 

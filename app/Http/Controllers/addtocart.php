@@ -10,6 +10,7 @@ use Session;
 use Cart;
 use App\flower_details;
 
+
 class addtocart extends Controller
 {
     /**
@@ -136,6 +137,7 @@ class addtocart extends Controller
         }//end of insertion 1
       }//end of
 
+        Session::put('Addding_FlowertoCartSession','Successful');
         return redirect('addtocart');
 
     }
@@ -214,6 +216,10 @@ class addtocart extends Controller
        foreach(Cart::instance('flowerwish')->content() as $row){
 
          if($row->id == $id){
+          if($qty == $row->qty){
+             Session::put('Update_FlowertoCartSession','Fail');
+             return back();
+          }
 //            Cart::instance('tempflowercart')->update($row->rowId, ['qty' => $qty]); // Will update the name
            $final_total_Amount = 0;//for the finalprice to be inserted in the cart
            $derived_Sellingprice = 0;//for the price
@@ -234,6 +240,9 @@ class addtocart extends Controller
            'price' => $derived_Sellingprice, 'options' => ['Orig_Amt'=>$row->options['Orig_Amt'],'T_Amt'=>$final_total_Amount,'image' =>$row->options['image']]]);
          }
        }
+
+       Session::put('Update_FlowertoCartSession','Successful');
+
 
        return back();
 

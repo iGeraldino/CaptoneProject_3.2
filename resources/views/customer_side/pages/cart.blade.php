@@ -4,9 +4,25 @@
     <link href="_CSS/cart1.css" rel="stylesheet">
 @endsection
 @section('content')
+	<?php
+		$AddingFlowertoCartSession = Session::get('Addding_FlowertoCartSession');
+		Session::Remove('Addding_FlowertoCartSession');
 
+		$UpdateflowertoCartSession = Session::get('Update_FlowertoCartSession');
+		Session::Remove('Update_FlowertoCartSession');
+
+		$DeleteFlowertoCartSession = Session::get('Delete_FlowertoCartSession');
+		Session::Remove('Delete_FlowertoCartSession');
+
+
+	?>
 		<!-- cart -->
-
+<div hidden>
+		<input id = "addflowerSession" value = "{{$AddingFlowertoCartSession}}">
+		<input id = "updateflowerSession" value = "{{$UpdateflowertoCartSession}}">
+		<input id = "deleteflowerSession" value = "{{$DeleteFlowertoCartSession}}">
+	
+</div>
 		<div class="container" style="margin-top: 100px;">
 		    <div class="row">
 		        <div class="col-sm-12 col-md-10 col-md-offset-1">
@@ -151,6 +167,24 @@
 			return true;
 		});
 	}
+	
+	</script>
+	<script>
+		$(document).ready(function(){
+			if($('#addflowerSession').val() == 'Successful'){
+				swal('Success!','the flower was successfully added to the cart','success');
+			}
+
+			if($('#updateflowerSession').val() == 'Successful'){
+				swal('Take Note!','the quantity was successfully added to the cart','info');
+			}else if($('#updateflowerSession').val() == 'Fail'){
+				swal('Warning!','the inputted quantity is equal to the previous quantity, therefore no changes was made','warning');
+			}
+
+			if($('#deleteflowerSession').val() == 'Successful'){
+				swal('Success!','the flower was successfully deleted to the cart','success');
+			}
+		});
 	</script>
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Db;
+use Session;
 use App\Http\Controllers\Controller;
 use App\accessories;
 use App\flower_details;
@@ -120,6 +121,7 @@ class create_bouquet extends Controller
         }//end of insertion 1
       }//end of
 
+      Session::put('Adding_FlowertoBouquetSession','Successful');
       return redirect('createbouquet');
     }
 
@@ -186,6 +188,8 @@ class create_bouquet extends Controller
           }
         }
 
+        Session::put('Adding_AcctoBouquetSession','Successful');
+
     return redirect('createbouquet');
 
     }
@@ -221,6 +225,9 @@ class create_bouquet extends Controller
           }
         }
 
+
+        Session::put('Updating_FlowertoBouquetSession','Successful');
+
         return back();
     }
 
@@ -232,6 +239,8 @@ class create_bouquet extends Controller
           Cart::instance('tempflowercart')->remove($row->rowId);
         }
       }
+
+      Session::put('Delete_FlowertoBouquetSession','Successful');
       return back();
     }
 
@@ -243,6 +252,7 @@ class create_bouquet extends Controller
           Cart::instance('tempacccart')->remove($row->rowId);
         }
       }
+      Session::put('Delete_AcctoBouquetSession','Successful');
       return back();
     }
 
@@ -262,6 +272,7 @@ class create_bouquet extends Controller
         }//end of foreach
         //Session::put('Update_AcessoryToBQT_Order', 'Successful');
         //return redirect()->route('Order.CustomizeaBouquet');
+        Session::put('Update_AcctoBouquetSession','Successful');
         return back();
     }
 
