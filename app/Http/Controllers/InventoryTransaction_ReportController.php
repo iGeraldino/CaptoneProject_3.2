@@ -55,10 +55,10 @@ class InventoryTransaction_ReportController extends Controller
         echo 'end date:'.$dates[1].'<br>';
         echo 'itemType: '.$itemType.'<br>';
 
-
+         
         $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
         
-        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans]);
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$dates[0],'end'=>$dates[1]]);
         $current = Carbon::now('Asia/Manila');
         return $pdf->download('FlowerInventory_TransactionReport'.$current.'.pdf');
 

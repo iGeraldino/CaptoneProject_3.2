@@ -49,7 +49,7 @@
 		<h4 class="a2 a3">Email: wonder.bloom@yahoo.com</h4>
 		<h4 class="a2 a3"> Tel No:(02)567-3255</h4>
 		<h4 class="a2 a3"> CP No: 09228026806</h4>
-		<h3 class="a4">Date:</h3>
+		<h3 class="a4">Date: {{date('M d, Y',strtotime($start))}} - {{date('M d, Y',strtotime($end))}}</h3>
 
 		<table class=" a2 a5 table-striped table-bordered" style="width: 100%;">
 			<thead>
@@ -58,6 +58,7 @@
 			      <th class="center color1 font">ITEM ID</th>
 			      <th class="center color1 font">QUANTITY</th>
 			      <th class="center color1 font">TOTAL AMOUNT</th>
+			      <th class="center color1 font">DESCRIPTION</th>
 			      <th class="center color1 font">DATE</th>
 			    </tr>
 			</thead>
@@ -73,6 +74,15 @@
 				      <td class="font center">{{$row->Item_ID}}</td>
 				      <td class="font center">{{$row->Quantity}}</td>
 				      <td class="font center">{{$row->Total_Amt}}</td>
+				      @if($row->Type_of_changes == 'S')
+				      	<td class="font center">Spoilage</td>
+				      @elseif($row->Type_of_changes == 'O')
+				      	<td class="font center">Order</td>
+				 	  @elseif($row->Type_of_changes == 'I')
+				      	<td class="font center">Inventory</td>
+				 	  @elseif($row->Type_of_changes == 'A')
+				      	<td class="font center">Inventory</td>
+				      @endif
 				      <td class="font center">{{$row->Date}}</td>
 				    </tr>
 				    @endforeach
