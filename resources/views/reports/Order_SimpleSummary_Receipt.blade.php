@@ -245,8 +245,8 @@
 							@else
 							@endif
 							<div class="receipt-left">
-									<h6 >(Bouquet) Total Amount: PHP {{number_format($totalAmt_Bqt,2)}}</h6>
-									<h6 >(Flower) Total Amount: PHP {{number_format($Total_AmtFlwr,2)}}</h6>
+									<h6 >(Bouquet) Total Amount: PHP {{ number_format($totalAmt_Bqt,2)}}</h6>
+									<h6 >(Flower) Total Amount: PHP {{ number_format($Total_AmtFlwr,2)}}</h6>
 									<h4 style = "color:red;"><b>Total Amount: {{ number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
 							</div>
 						</div>
