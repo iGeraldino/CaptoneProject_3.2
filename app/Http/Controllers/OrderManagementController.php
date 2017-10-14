@@ -20,6 +20,126 @@ use App\Customer_Payment;
 class OrderManagementController extends Controller
 {
 
+  public function release_Order($id){
+    //echo $id;
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+
+    Cart::instance('flowersOnOrder')->destroy();
+    Cart::instance('acessoriesOnOrder')->destroy();
+    $total_Flowers = 0;
+    $total_acrs = 0;
+
+    //dd($SalesOrder_Bqtflowers);
+
+    foreach($SalesOrder_flowers as $flwr){
+      Cart::instance('flowersOnOrder')->add(['id'=>$flwr->flwr_ID,
+      'name'=>$flwr->name,'qty'=>$flwr->qty,'price'=>$flwr->Price,'options'=>[]]);
+    }
+
+    foreach($SalesOrder_Bqtflowers as $Bflwr){
+      foreach(Cart::instance('flowersOnOrder')->content() as $forders){
+        $Nqty = 0;
+        if($forders->id == $Bflwr->FLwr_ID){
+          $Nqty = $forders->qty + $Bflwr->qty;
+          Cart::instance('flowersOnOrder')->update($Bflwr->rowId,['qty'=>$Nqty]);
+        }
+        else{
+          Cart::instance('flowersOnOrder')->add(['id'=>$Bflwr->Flwr_ID,
+          'name'=>$Bflwr->name,'qty'=>$Bflwr->qty,'price'=>$Bflwr->price,'options'=>[]]);
+        }
+      }
+    }
+
+
+
+    foreach($SalesOrder_BqtAccessories as $acrs){
+      Cart::instance('acessoriesOnOrder')->add(['id'=>$acrs->Acrs_ID,'name'=>$acrs->name,
+      'qty'=>$acrs->qty
+      ,'price'=>$acrs->price,'options'=>[]]);
+    }
+
+    dd(Cart::instance('acessoriesOnOrder')->content().'-----------------------'.Cart::instance('flowersOnOrder')->content());
+
+    //looks for the total count of flowers in the order;
+
+}//
+
+  public function show_Order_ToRelease($id,$type){
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+      $cityname = "";
+      $provname = "";
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+    foreach($cities as $city){
+      if($city->id == $NewSalesOrder_details->Delivery_City){
+          $cityname = $city->name;
+          break;
+      }
+    }
+    foreach($province as $prov){
+      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provname = $prov->name;
+          break;
+      }
+    }
+
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+    //dd($NewOrder_Bouquet);
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+      return view('Orders.Order_Torelease')
+      ->with('fromtype',$type)
+      ->with('payments',$payments)
+      ->with('cityname',$cityname)
+      ->with('provname',$provname)
+      ->with('cities',$cities)
+      ->with('province',$province)
+      ->with('SalesOrder',$NewSalesOrder)
+      ->with('Sched_Details',$NewOrder_SchedDetails)
+      ->with('OrderDetails',$NewSalesOrder_details)
+      ->with('Flowers',$SalesOrder_flowers)
+      ->with('Bouquet',$NewOrder_Bouquet)
+      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+  }
+
   public function print_paymentSummary($id){
 
     $current = Carbon::now('Asia/Manila');

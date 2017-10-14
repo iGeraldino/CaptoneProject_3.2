@@ -300,7 +300,7 @@
                   @endif
                   <td class="text-center">{{date("M d, Y @ h:i a",strtotime($T_Aorders->Date_to_Acquire))}}</td>
                   <td class = "text-center">
-                    <a href = "" type="buttonView" class="btn btn-just-icon Subu" data-toggle="tooltip" title="VIEW DETAILS" ><i class="material-icons">more_horiz</i></a>
+                    <a href = "{{route('order.Manage_Releasing_Order',['id'=>$T_Aorders->Order_ID,'type'=>'dash'])}}" type="buttonView" class="btn btn-just-icon Subu" data-toggle="tooltip" title="VIEW DETAILS" ><i class="material-icons">more_horiz</i></a>
                   </td>
                 </tr>
               @endforeach
