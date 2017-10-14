@@ -539,7 +539,7 @@ class OrderManagementController extends Controller
 	}//end of function
 
 	public function DeleteFlower_per_Bqt_SessionOrder($flower_ID)
-<<<<<<< HEAD
+
     {
         if (auth::guard('admins')->check() == false) {
             Session::put('loginSession', 'fail');
@@ -559,26 +559,6 @@ class OrderManagementController extends Controller
             //}
         }//end of function
     }
-=======
-	{
-      if(auth::guard('admins')->check() == false){
-          Session::put('loginSession','fail');
-          return redirect() -> route('adminsignin');
-      }
-      else{
-  			echo $flower_ID;
-  			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
-  				if($row->id == $flower_ID){
-  					echo $row->id;
-  					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
-  		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
-				}
-			}
-          return redirect()-> route('Long_Sales_Order.index');
-          //return redirect()->route('Order.CustomizeaBouquet');
-	    }
-	}//end of function
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
         public function DeleteAcessory_per_Bqt_Order($Acessory_ID, $order_ID)
         {
@@ -625,22 +605,16 @@ class OrderManagementController extends Controller
     } else {
         $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
-<<<<<<< HEAD
         Cart::instance('OrderedBqt_Flowers')->destroy();
-=======
 			Session::put('Buquet_Cancelation', 'Successful');
 	    	 return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
 	     }
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
-        Session::put('Buquet_Cancelation', 'Successful');
-        return view('Orders.creationOfOrders')
-            ->with('FlowerList', $AvailableFlowers);
-        //}
 
     }//end of function
-}
+
+
 
 	public function Cancel_and_Clear_Bqt_Order()
 	{
@@ -854,13 +828,7 @@ class OrderManagementController extends Controller
 
 
 	public function ConfrimOrder()
-<<<<<<< HEAD
-    {//
-        if (auth::guard('admins')->check() == false) {
-            Session::put('loginSession', 'fail');
-            return redirect()->route('adminsignin');
-        } else {
-=======
+
 	{
     //
 		if(auth::guard('admins')->check() == false){
@@ -868,7 +836,6 @@ class OrderManagementController extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
             $cities = DB::table('cities')
                 ->select('*')
@@ -878,20 +845,12 @@ class OrderManagementController extends Controller
                 ->select('*')
                 ->get();
 
-<<<<<<< HEAD
             return view('Orders.confirmation_of_Order')
                 ->with('city', $cities)
                 ->with('province', $province);
             //}
         }
     }//end of function
-=======
-	        return view('Orders.confirmation_of_Order')
-			->with('city',$cities)
-	        ->with('province',$province);
-    	}
-	}//end of function
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
 	public function return_to_CreationOfOrder()
 	{//
