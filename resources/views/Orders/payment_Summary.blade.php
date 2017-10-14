@@ -37,11 +37,11 @@
               <p><b>Type of Payment:</b> {{$P_Details->type}}</p>
             @if($P_Details->type == 'CASH')
             @elseif($P_Details->type == 'BANK')
-              <img src="{{ asset('flowerimage/'.$P_Details->image)}}" class="img-rounded img-responsive img-raised">
+              <img src="{{ asset('paymentPictures/'.$P_Details->image)}}" class="img-rounded img-responsive img-raised">
               <p><b>Deposite Slip Number:</b> {{$P_Details->deposite_SlipNum}}</p>
               <p><b>Bank Name:</b> {{$P_Details->bank_name}}</p>
             @elseif($P_Details->type == 'CHECK')
-              <img src="{{ asset('flowerimage/'.$P_Details->image)}}" class="img-rounded img-responsive img-raised">
+              <img src="{{ asset('paymentPictures/'.$P_Details->image)}}" class="img-rounded img-responsive img-raised">
               <p><b>Check Number:</b> {{$P_Details->check_Number}}</p>
               <p><b>Bank Name:</b> {{$P_Details->bank_name}}</p>
               <p><b>Date of check:</b> {{date('M d, Y',strtotime($P_Details->date_of_check))}}</p>

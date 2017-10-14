@@ -171,12 +171,15 @@
         				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
         					<i class="material-icons">clear</i>
         				</button>
+                <?php
+                  $subtotal = str_replace(',','',Cart::instance('ordersTopay')->subtotal());
+                ?>
         				<h4 class="modal-title">Set Payment for the Orders</h4>
         			</div>
         			<div class="modal-body">
                 <div class="panel-body">
                     <p><b>Total Debt:</b> Php  {{number_format($debt,2)}}</p>
-                    <p><b>Amount to Pay:</b> Php  {{number_format($debt,2)}}</p>
+                    <p><b>Amount to Pay:</b> Php  {{number_format($subtotal,2)}}</p>
                     <hr>
                     <div class="radio">
                       <p class = "text-left"><b>Choose From the following:</b></p>
@@ -205,9 +208,7 @@
                             Same Person who placed the order
                           </label>
                         </div>
-                        <?php
-                          $subtotal = str_replace(',','',Cart::instance('ordersTopay')->subtotal());
-                        ?>
+
                         <div hidden>
                           <input type = "text" id = "Currentcust_ID" name = "Currentcust_ID" value = "{{$cust->Cust_ID}}"/>
                           <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
@@ -398,7 +399,7 @@
                     </div>
 
                     <div id = "check_Div" hidden>
-
+                    {!! Form::open(array('route' => 'ManageMultipleOrder_Check.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
         									<b>Details of Person who gave the payment:</b>
         									<div class="checkbox">
         										<label>
@@ -537,7 +538,7 @@
         									<div id = "checkSbmt_BtnDIV" hidden>
         										<button id = "checkSBMT" type = "submit" class = "btn btn-md btn-success" disabled>Submit payment</button>
         									</div>
-
+                      {!! Form::close() !!}
         						</div>
 
                   </div>
