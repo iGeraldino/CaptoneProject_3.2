@@ -28,7 +28,7 @@
           </button>
         </div>
         <div class="col-md-3" style="margin-top: 1%;">
-          <a href="http://localhost:8000/TradeAgreements">
+          <a href="http://localhost:8000/customers">
             <button type="button" class="btn btn-round btn-pressure pull-right Inbox"> 
                 Return to the Customer List
               <i class="material-icons">account_circle</i>

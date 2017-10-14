@@ -94,6 +94,16 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('ManageOrder_Check','ManageOrder_CheckController');
 
+	Route::resource('ManageMultipleOrder_Cash','Cash_MultipleOrder_PaymentController');
+
+	Route::resource('ManageMultipleOrder_Bank','Bank_MultipleOrder_PaymentController');
+
+	Route::resource('ManageMultipleOrder_Check','Check_MultipleOrder_PaymentController');
+
+	Route::get('/remove_debts_topayonlist/{id}',['uses' => 'OrderManagementController@remove_ordertopay', 'as'=>'SalesOrder.removeDebts']);
+
+	Route::get('/Set_debts_topay/{id}',['uses' => 'OrderManagementController@add_ordertopay', 'as'=>'SalesOrder.payDebts']);
+
 	Route::get('/Specific_Customer_debts/{id}',['uses' => 'OrderManagementController@show_debts', 'as'=>'SalesOrder.Debts']);
 
 	Route::get('/Specific_Customer_Sales_Orders/{id}',['uses' => 'OrderManagementController@Show_Specific_customerWith_Debt', 'as'=>'SalesOrder.UnderCustomer']);
@@ -104,6 +114,8 @@ Route::group(['middleware' => ['web']], function() {
 
 //checkot of longorder
   Route::get('/LongorderSummary',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
+
+	Route::get('/PaymentReceipt/{id}',['uses' => 'OrderManagementController@print_paymentSummary', 'as'=>'Payment.GenerateReceipt']);
 
 	Route::get('/Receipt/{id}',['uses' => 'OrderManagementController@PrintReciept', 'as'=>'LongOrder.GenerateReceipt']);
 
@@ -239,7 +251,11 @@ Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementC
 
 
 
-Route::get('/Mange_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+Route::get('/Release_Order/{id}',['uses' => 'OrderManagementController@release_Order', 'as'=>'order.Release_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Manage_ReleasingOrder/{id},{type}',['uses' => 'OrderManagementController@show_Order_ToRelease', 'as'=>'order.Manage_Releasing_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Manage_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
 
 Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 
@@ -443,13 +459,19 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
-Route::get('landing_page', 'PagesController@getLandingPage');
+Route::get('WonderbloomFlowershop', 'PagesController@getLandingPage');
 
 Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
 
 Route::get('view_bouquet', 'create_bouquet@getViewBouquet');
 
 Route::get('sales_report', 'PagesController@getSalesReport');
+
+Route::get('inventory_reports_batch', 'PagesController@getInventoryReportsBatch');
+
+Route::get('signup_page', 'PagesController@getSignupPage');
+
+Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
 
 
     Route::get('AdminLogin', [
@@ -483,6 +505,7 @@ Route::get('sales_report', 'PagesController@getSalesReport');
         'as' => 'adminlogout',
 
     ]);
+
 
 
 //View Reports

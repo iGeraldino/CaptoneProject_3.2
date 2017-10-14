@@ -2,65 +2,60 @@
 
 @section('content')
 
-  <div class="container" style="margin-top: 50px;">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="background-color: #C93756">
-            <h3 class="panel-title">Flower Details</h3>
-          </div>
-          <div class="panel-body">
-          <div class = "row">
-			<div class="col-md-3">
+  <div class="col-xs-12" style="margin-top: 50px;">
+    <div class="panel panel-primary">
+      <div class="panel-heading Subu">
+        <h3 class="panel-title">Flower Details</h3>
+      </div>
+      <div class="panel-body">
+        <div class = "row">
+            <div class="col-md-3">
           	  <div class="col-sm-offset-1">
-	 		    <img src="{{ asset('flowerimage/'. $flowerDet->Image)}}" alt="Circle Image" class="img-rounded img-raised img-responsive" style="min-width: 200px; max-height: 200px;">
-	          </div>
+	 		          <img src="{{ asset('flowerimage/'. $flowerDet->Image)}}" alt="Circle Image" class="img-rounded img-raised img-responsive" style="min-width: 200px; max-height: 200px;">
+	            </div>
           	</div><!--end of column-->
-
             <div class="col-md-3">
               <div class="form-group">
                 <div>
-                	<label class="control-label">Flower ID: </label>
-                    <span class="label" style="font-size: 100%; background-color: #F62459">FLWR-{{$flowerDet->flower_ID}}</span>
+                	<span class="control-label"><b>FLOWER ID:</b> </span>
+                  <span><b>FLWR-{{$flowerDet->flower_ID}}</b></span>
                 </div>
                 <div>
-	                <label class="control-label">Flower Name: </label>
-	                <span class="label" style="font-size: 100%; background-color: #F62459">{{$flowerDet->flower_name}}</span>
+	                <span class="control-label"><b>FLOWER NAME: </b></span>
+	                <span style="text-transform: uppercase;"><b>{{$flowerDet->flower_name}}</b></span>
 	            </div>
 	            <div>
-	                <label class="control-label">Date Created: </label>
-	                <span class="label" style="font-size: 100%; background-color: #F62459">
-	                {{date('M d,Y' , strtotime($flowerDet->date_Created))}}</span>
+	                <span class="control-label"><b>DATE CREATED: </b></span>
+	                <span style="text-transform: uppercase;">
+	                <b>{{date('M d,Y' , strtotime($flowerDet->date_Created))}}</b></span>
 	            </div>
-				<div>
-	                <label class="control-label">Default Price: </label>
-	                <span class="label" style="font-size: 100%; background-color: #F62459">
-	                Php {{number_format($flowerDet->Initial_Price,2)}}</span>
-	            </div>
+              <div>
+                  <span class="control-label"><b>DEFAULT PRICE: </b></span>
+                  <span style="text-transform: uppercase;">
+                  <b>Php {{number_format($flowerDet->Initial_Price,2)}}</b></span>
+              </div>
 	           </div>
             </div><!--End of column-->
             <div class = "col-md-4">
             	<div class = "form-group">
-	                <label class="control-label">Description: </label>
-	                <textarea class = "form-control" rows="4" cols="50" disabled style = "color: white; background-color: #F62459;">
+	                <span class="control-label"><b>DESCRIPTION: </b></span>
+	                <textarea class = "form-control" rows="4" cols="50" disabled">
                     {{$flowerDet->Description}}
                   </textarea>
 	            </div>
             </div>
           </div>
-
-          </div>
-        </div>
-  </div>
-
-  <div class = "row">
+<div class = "row">
     <div class = "col-md-9">
     <br>
-      <span class="label" style="font-size: 120%; background-color: #F62459; margin-left: 10px;">Inventory Per Batch</span>
+      <h3 class="container"><b>INVENTORY PER BATCH</b></h3>
     </div>
     <div class = "col-md-3">
-      <a href=" {{ route ('floweradd.index') }} " class="btn btn-md btn-danger"><span class = "glyphicon glyphicon-return"></span> Return to Flowerlist </a>
+      <a href=" {{ route ('floweradd.index') }} " class="btn btn-md btn-round twitch"><span class = "glyphicon glyphicon-return"></span> Return to Flowerlist </a>
     </div>
   </div>
-<br>
+
+  <br>
     <!-- Start of Table-->
         <div class="col-xs-12">
           <div class="box">
@@ -110,6 +105,12 @@
             </div>
             <!-- /.box -->
           </div>
+          </div>
+        </div>
+  </div>
+
+  
+
   </div>
 @endsection
 

@@ -54,8 +54,8 @@
               </div>
             </div>
 						<div class = "btn-group text-center">
-							<a class = "btn btn-md btn-info">Generate Statement of Account</a>
-							<a href = "{{route('SalesOrder.Debts',['id'=>$cust->Cust_ID])}}" class = "btn btn-md btn-primary">Set Payment for Multiple Debts</a>
+							<a class = "btn btn-md Subu">Generate Statement of Account</a>
+							<a href = "{{route('SalesOrder.Debts',['id'=>$cust->Cust_ID])}}" class = "btn btn-md twitch">Set Payment for Multiple Debts</a>
 						</div>
 
 						<div style="margin-top: 50px;">
@@ -63,9 +63,8 @@
 					          <!-- small box -->
 					          <div class="small-box Subu">
 					            <div class="inner">
-					              <h3>150</h3>
+					              <h6><b>Newly made orders</b></h6>
 
-					              <p>Pending Orders</p>
 					            </div>
 					            <div class="icon">
 					              <i class="ion ion-bag"></i>
@@ -78,12 +77,11 @@
 					          <!-- small box -->
 					          <div class="small-box Lush">
 					            <div class="inner">
-					              <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-					              <p>Closed Orders</p>
+					              <h6><b>CLOSED </b></h6>
+					              <h6 style="margin-top: -10%;"><b> ORDERS </b></h6>
 					            </div>
 					            <div class="icon">
-					              <i class="ion ion-stats-bars"></i>
+					              <i class="ion ion-close-circled"></i>
 					            </div>
 											<a id = "ClosedBtn" type = "button" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
 					          </div>
@@ -93,12 +91,11 @@
 					          <!-- small box -->
 					          <div class="small-box Sulfur">
 					            <div class="inner">
-					              <h3>44</h3>
 
-					              <p>Orders with balance</p>
+					              <h6><b>ORDERS WITH BALANCE</b></h6>
 					            </div>
 					            <div class="icon">
-					              <i class="ion ion-person-add"></i>
+					              <i class="ion ion-clipboard"></i>
 					            </div>
 					            <a id = "balancedBtn" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
 					          </div>
@@ -108,11 +105,10 @@
 					          <!-- small box -->
 					          <div class="small-box Shalala">
 					            <div class="inner">
-					              <h3>65</h3>
-					              <p>Orders Ready to be released</p>
+					            	<h6><b>ORDERS READY TO BE RELEASED</b></h6>
 					            </div>
 					            <div class="icon">
-					              <i class="ion ion-pie-graph"></i>
+					              <i class="ion ion-android-checkmark-circle"></i>
 					            </div>
 											<a id = "fullBtn" class="small-box-footer">View Details <i class="fa fa-arrow-circle-right"></i></a>
 					          </div>
@@ -123,7 +119,7 @@
 								<div class = "col-md-12">
 									<div id = "balance_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Sulfur">
 												<h5 class="text-center" style="color: white;"><b>ORDERS WITH BALANCE</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
@@ -169,7 +165,7 @@
 									</div>
 									<div id = "pending_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Subu">
 												<h5 class="text-center" style="color: white;"><b>NEWLY MADE ORDERS</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
@@ -208,7 +204,7 @@
 
 									<div id = "closed_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Lush">
 												<h5 class="text-center" style="color: white;"><b>CLOSED & CANCELED ORDERS</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
@@ -310,7 +306,6 @@
                 Pay via Bank
               </label>
             </div>
-
             <hr>
 					<div id = "paylaterDiv" hidden>
 						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>

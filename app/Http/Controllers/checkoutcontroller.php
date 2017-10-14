@@ -251,7 +251,6 @@ class checkoutcontroller extends Controller
       foreach(Cart::instance('finalacccart')->content() as $row3){
 
           $bouquet_accessories = new bouquet_acessories([
-
             'bouquet_ID' => $bouquet_ID,
             'acessory_ID' => $row3->id,
             'qty' => $row3->qty,
@@ -366,12 +365,12 @@ class checkoutcontroller extends Controller
         $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
-        
+
       return $pdf->download('sampleDelivery.pdf');
-        
+
       }
 
-    
+
       return redirect()->route('homepages');
 
 
@@ -623,7 +622,7 @@ class checkoutcontroller extends Controller
         return $pdf->download('sampleDelivery.pdf');
 
         return redirect()->route('homepages');
-     
+
 
 
 

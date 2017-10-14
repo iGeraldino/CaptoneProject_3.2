@@ -15,9 +15,184 @@ use App\Newshop_Schedule;
 use App\Neworder_details;
 use Auth;
 use App\CustomerDetails;
+use App\Customer_Payment;
 
 class OrderManagementController extends Controller
 {
+
+  public function release_Order($id){
+    //echo $id;
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+
+    Cart::instance('flowersOnOrder')->destroy();
+    Cart::instance('acessoriesOnOrder')->destroy();
+    $total_Flowers = 0;
+    $total_acrs = 0;
+
+    //dd($SalesOrder_Bqtflowers);
+
+    foreach($SalesOrder_flowers as $flwr){
+      Cart::instance('flowersOnOrder')->add(['id'=>$flwr->flwr_ID,
+      'name'=>$flwr->name,'qty'=>$flwr->qty,'price'=>$flwr->Price,'options'=>[]]);
+    }
+
+    foreach($SalesOrder_Bqtflowers as $Bflwr){
+      foreach(Cart::instance('flowersOnOrder')->content() as $forders){
+        $Nqty = 0;
+        if($forders->id == $Bflwr->FLwr_ID){
+          $Nqty = $forders->qty + $Bflwr->qty;
+          Cart::instance('flowersOnOrder')->update($Bflwr->rowId,['qty'=>$Nqty]);
+        }
+        else{
+          Cart::instance('flowersOnOrder')->add(['id'=>$Bflwr->Flwr_ID,
+          'name'=>$Bflwr->name,'qty'=>$Bflwr->qty,'price'=>$Bflwr->price,'options'=>[]]);
+        }
+      }
+    }
+
+
+
+    foreach($SalesOrder_BqtAccessories as $acrs){
+      Cart::instance('acessoriesOnOrder')->add(['id'=>$acrs->Acrs_ID,'name'=>$acrs->name,
+      'qty'=>$acrs->qty
+      ,'price'=>$acrs->price,'options'=>[]]);
+    }
+
+    dd(Cart::instance('acessoriesOnOrder')->content().'-----------------------'.Cart::instance('flowersOnOrder')->content());
+
+    //looks for the total count of flowers in the order;
+
+}//
+
+  public function show_Order_ToRelease($id,$type){
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+      $cityname = "";
+      $provname = "";
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+    foreach($cities as $city){
+      if($city->id == $NewSalesOrder_details->Delivery_City){
+          $cityname = $city->name;
+          break;
+      }
+    }
+    foreach($province as $prov){
+      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provname = $prov->name;
+          break;
+      }
+    }
+
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+    //dd($NewOrder_Bouquet);
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+      return view('Orders.Order_Torelease')
+      ->with('fromtype',$type)
+      ->with('payments',$payments)
+      ->with('cityname',$cityname)
+      ->with('provname',$provname)
+      ->with('cities',$cities)
+      ->with('province',$province)
+      ->with('SalesOrder',$NewSalesOrder)
+      ->with('Sched_Details',$NewOrder_SchedDetails)
+      ->with('OrderDetails',$NewSalesOrder_details)
+      ->with('Flowers',$SalesOrder_flowers)
+      ->with('Bouquet',$NewOrder_Bouquet)
+      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+  }
+
+  public function print_paymentSummary($id){
+
+    $current = Carbon::now('Asia/Manila');
+    $payment_Details = Customer_Payment::find($id);
+
+    $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
+    //dd($p_settlements);
+
+    $pdf = \PDF::loadView("reports\paymentSummary_reciept",['P_Settlements'=>$p_settlements,'P_Details'=>$payment_Details]);
+
+    return $pdf->download($current.'-PMNT'.$id.'paymentReciept.pdf');
+  }
+
+  public function remove_ordertopay($id){
+    $ERROR = 0;
+      foreach(Cart::instance('ordersTopay')->content() as $ord){
+        if($ord->id == $id){
+          Session::put('settingSession','Deleted');
+          Cart::instance('ordersTopay')->remove($ord->rowId);
+          return redirect()->back();
+          break;
+        }else{
+          $ERROR = 1;
+        }
+      }
+
+      if($ERROR == 1){
+        Session::put('settingSession','Error');
+        return redirect()->back();
+      }
+  }
+
+  public function add_ordertopay($id){
+    $NewSalesOrder_details = Neworder_details::find($id);
+      //dd($NewSalesOrder_details);
+
+
+      foreach(Cart::instance('ordersTopay')->content() as $ord){
+        if($ord->id == $id){
+          Session::put('settingSession','Fail');
+          return redirect()->back();
+          break;
+        }
+      }
+
+      Cart::instance('ordersTopay')
+      ->add(['id' => $id, 'name' => 'ORDR-'.$id,
+      'qty' => 1, 'price' => $NewSalesOrder_details->BALANCE,
+      'options' => ['t_amt' => $NewSalesOrder_details->Total_Amt,'status'=>$NewSalesOrder_details->Status]]);
+      Session::put('settingSession','Successful');
+
+      return redirect()->back();
+  }
 
   public function show_debts($id){
     $cities = DB::table('cities')
@@ -57,6 +232,8 @@ class OrderManagementController extends Controller
       $debt = $debtDetails->Total_Debt;
     }
     //dd($customer);
+
+    //dd($balanced);
 
     return view('Orders.Manage_Payment_forDebts')
     ->with('cust',$customer)
@@ -102,9 +279,9 @@ class OrderManagementController extends Controller
     $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
 
     $debt = 0;
-foreach($debtDetails as $debtDetails){
-  $debt = $debtDetails->Total_Debt;
-}
+    foreach($debtDetails as $debtDetails){
+      $debt = $debtDetails->Total_Debt;
+    }
 
     return view('Orders.Customers_Orders_WithDebt')
     ->with('cust',$customer)
@@ -251,52 +428,50 @@ foreach($debtDetails as $debtDetails){
 
   public function PrintReciept($id){
 
-            $cities = DB::table('cities')
-              ->select('*')
-              ->get();
+      $cities = DB::table('cities')
+        ->select('*')
+        ->get();
 
-            $province = DB::table('provinces')
-              ->select('*')
-              ->get();
+      $province = DB::table('provinces')
+        ->select('*')
+        ->get();
 
-            $NewSalesOrder = sales_order::find($id);
-            $NewSalesOrder_details = Neworder_details::find($id);
-            $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+      $NewSalesOrder = sales_order::find($id);
+      $NewSalesOrder_details = Neworder_details::find($id);
+      $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
 
-            $NewOrder_SchedDetails = DB::table('shop_schedule')
-                                       ->where('Order_ID', $id)
-                                       ->first();
+      $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                 ->where('Order_ID', $id)
+                                 ->first();
 
-            $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-                                        ->where('Order_ID', $id)
-                                        ->get();
+      $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                  ->where('Order_ID', $id)
+                                  ->get();
 
-            $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+      $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
 
-            $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+      $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
-            $cityName = "";
-            $provName = "";
-            foreach($cities as $city){
-              if($NewSalesOrder_details->Delivery_City == $city->id){
-                $cityName = $city->name;
-              }
-            }
-            foreach($province as $prov){
-              if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                $provName = $prov->name;
-              }
-            }
+      $cityName = "";
+      $provName = "";
+      foreach($cities as $city){
+        if($NewSalesOrder_details->Delivery_City == $city->id){
+          $cityName = $city->name;
+        }
+      }
+      foreach($province as $prov){
+        if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provName = $prov->name;
+        }
+      }
 
-            //dd($NewOrder_SchedDetails);
-              $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+      //dd($NewOrder_SchedDetails);
+        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+      'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+        'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
-              return $pdf->download('sampleDelivery.pdf');
-              return $pdf->download('sampleDelivery.pdf');
-
-            //
+        return $pdf->download('sampleDelivery.pdf');
+      //
   }
 
 
@@ -329,10 +504,8 @@ foreach($debtDetails as $debtDetails){
 
   }
 
-    public function DeleteFlower_per_Order($flower_ID)
+  public function DeleteFlower_per_Order($flower_ID)
 	{
-        //    Session::put('loginSession','fail');
-          //  return redirect() -> route('adminsignin');
 
 	        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
@@ -347,8 +520,7 @@ foreach($debtDetails as $debtDetails){
 	             //return view('Orders.creationOfOrders')
 	             //->with('FlowerList',$AvailableFlowers);
        	//}
-
-}
+      }
     public function DeleteFlower_per_Bqt_Order($flower_ID,$order_ID)
 	{
           //  Session::put('loginSession','fail');
@@ -367,6 +539,7 @@ foreach($debtDetails as $debtDetails){
 	}//end of function
 
 	public function DeleteFlower_per_Bqt_SessionOrder($flower_ID)
+<<<<<<< HEAD
     {
         if (auth::guard('admins')->check() == false) {
             Session::put('loginSession', 'fail');
@@ -386,6 +559,26 @@ foreach($debtDetails as $debtDetails){
             //}
         }//end of function
     }
+=======
+	{
+      if(auth::guard('admins')->check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
+  			echo $flower_ID;
+  			foreach(Cart::instance('OrderedBqt_Flowers')->content() as $row){
+  				if($row->id == $flower_ID){
+  					echo $row->id;
+  					Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
+  		        	Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
+				}
+			}
+          return redirect()-> route('Long_Sales_Order.index');
+          //return redirect()->route('Order.CustomizeaBouquet');
+	    }
+	}//end of function
+>>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
         public function DeleteAcessory_per_Bqt_Order($Acessory_ID, $order_ID)
         {
@@ -432,7 +625,14 @@ foreach($debtDetails as $debtDetails){
     } else {
         $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
+<<<<<<< HEAD
         Cart::instance('OrderedBqt_Flowers')->destroy();
+=======
+			Session::put('Buquet_Cancelation', 'Successful');
+	    	 return view('Orders.creationOfOrders')
+	     	->with('FlowerList',$AvailableFlowers);
+	     }
+>>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
         Session::put('Buquet_Cancelation', 'Successful');
         return view('Orders.creationOfOrders')
@@ -654,11 +854,21 @@ foreach($debtDetails as $debtDetails){
 
 
 	public function ConfrimOrder()
+<<<<<<< HEAD
     {//
         if (auth::guard('admins')->check() == false) {
             Session::put('loginSession', 'fail');
             return redirect()->route('adminsignin');
         } else {
+=======
+	{
+    //
+		if(auth::guard('admins')->check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{
+>>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
             $cities = DB::table('cities')
                 ->select('*')
@@ -668,12 +878,20 @@ foreach($debtDetails as $debtDetails){
                 ->select('*')
                 ->get();
 
+<<<<<<< HEAD
             return view('Orders.confirmation_of_Order')
                 ->with('city', $cities)
                 ->with('province', $province);
             //}
         }
     }//end of function
+=======
+	        return view('Orders.confirmation_of_Order')
+			->with('city',$cities)
+	        ->with('province',$province);
+    	}
+	}//end of function
+>>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
 	public function return_to_CreationOfOrder()
 	{//
