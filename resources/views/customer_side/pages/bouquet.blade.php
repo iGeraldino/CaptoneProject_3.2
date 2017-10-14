@@ -29,7 +29,7 @@
                                     <span class="label label-danger"> {{ $bouq-> count_ofFlowers }} pcs</span>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success" href="/view_bouquet">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
+                                    <a class="btn btn-sm btn-success" href="{{ route('viewbouquet', ['id' => $bouq -> bouquet_ID ]) }}">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>
                                 </div>
                             </div>
                         </div>

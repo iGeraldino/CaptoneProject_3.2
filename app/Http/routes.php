@@ -463,7 +463,9 @@ Route::get('WonderbloomFlowershop', 'PagesController@getLandingPage');
 
 Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
 
-Route::get('view_bouquet', 'create_bouquet@getViewBouquet');
+Route::get('view_bouquet/{id}', ['uses'=>'create_bouquet@getViewBouquet', 'as' => 'viewbouquet']);
+
+Route::post('Add Default Boquet', ['uses' => 'create_bouquet@defaultboqadd', 'as' => 'adddefaultboq']);
 
 Route::get('sales_report', 'PagesController@getSalesReport');
 

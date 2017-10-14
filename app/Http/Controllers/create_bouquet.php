@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Db;
 use App\Http\Controllers\Controller;
 use App\accessories;
 use App\flower_details;
+use App\bouquet_details;
 use Cart;
 use PDF;
 use App;
@@ -355,8 +356,79 @@ class create_bouquet extends Controller
 
     }
 
-    public function getViewBouquet() {
-        return view('customer_side/pages/view_bouquet');
+    public function getViewBouquet($id) {
+
+        $bouquet = db::table('bouquet_details')->where('bouquet_ID', $id)->get();
+        $bouquetflowers =  db::select('call flowers_PerSpecificBouquet(?)', array($id));
+        $bouquetaccessories = db::select('call acessories_PerBouquet(?)', array($id));
+
+        $totalflowers = 0;
+        $totalaccessories = 0;
+        $accessories_ID = 0;
+        $price1 = 0;
+        $price2 = 0;
+        $price3 = 0;
+
+        foreach($bouquetflowers as $bouquetflowers123){
+
+            $totalflowers += $bouquetflowers123 -> QTY ;
+            $price1 += $bouquetflowers123 -> Total_Amount;
+        }
+
+        foreach($bouquetaccessories as $bouquetaccessories123){
+
+            $totalaccessories += $bouquetaccessories123 -> QTY;
+            $price2 += $bouquetaccessories123 -> Total_Amt;
+
+        }
+
+        $price3 = $price1 + $price2;
+
+
+
+
+
+
+        //dd($bouquet);
+
+        return view('customer_side/pages/view_bouquet')
+            ->with(['bouquetdetails' => $bouquet, 'totalflowers' => $totalflowers, 'totalaccessories' => $totalaccessories,
+            'bouquetflowers' => $bouquetflowers, 'bouquetaccessories' => $bouquetaccessories, 'TotalPrice' => $price3]);
+
+
+
+    }
+
+    public function defaultboqadd(Request $request){
+
+        $totalprice = $request -> total;
+        $totalcount = $request -> totalcount;
+        $quantity = $request -> quantity;
+
+        if(Cart::instance('finalboqcart')->count() == 0) {
+            $bqt_Id = mt_rand();//generates a random id
+            $bqtname = 'BQT-' . $bqt_Id;
+
+            Cart::instance('finalboqcart')
+                ->add(['id' => $bqt_Id, 'name' => $bqtname, 'qty' => $quantity, 'price' => $totalprice,
+                    'options' => ['count' => $totalcount]]);
+
+        }
+        else{
+            $newBqt_Id = '';
+            foreach(Cart::instance('finalboqcart')->content() as $row){
+                $newBqt_Id = $row->id;
+            }
+            $newBqt_Id += 1;
+
+            $newBqtName = 'BQT-'.$newBqt_Id;
+            Cart::instance('finalboqcart')
+                ->add(['id' => $newBqt_Id, 'name' => $newBqtName, 'qty' => $quantity, 'price' => $totalprice,
+                    'options' => ['count' => $totalcount]]);
+        }
+
+        return redirect('addtocart');
+
     }
 
 
