@@ -27,7 +27,7 @@
                         <div class ="slide1"></div>
                         <div class="carousel-caption">
                             <h1>Decorate your life with Flowers</h1>
-                            <p><a href="/flower" class="btn btn-danger btn-sm coolvetica">Browse Gallery</a></p>
+                            <p><a href="/flowers" class="btn btn-danger btn-sm coolvetica">Browse Gallery</a></p>
                         </div>
                     </div>
                     <div class="item">

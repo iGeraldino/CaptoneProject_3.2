@@ -24,6 +24,8 @@ class addtocartprod extends Controller
 
 
       }
+
+      Session::put('Delete_FlowertoCartSession','Successful');
       return back();
     }
 
