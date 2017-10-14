@@ -13,6 +13,7 @@ use Session;
 use Auth;
 use Image;
 use \Cart;
+use App\Customer_Payment;
 
 
 class Cash_MultipleOrder_PaymentController extends Controller
@@ -119,8 +120,8 @@ class Cash_MultipleOrder_PaymentController extends Controller
               array($orders->id,$customerPayment->Payment_ID,$amt_Paid2,$orders->price,$Derived_Change));
               Session::put('CashMulti_Payment_CompletionSession','Successful');
             }
-            return redirect()->back();
-
+            Cart::instance('ordersTopay')->destroy();
+            return redirect()->route('ManageMultipleOrder_Cash.show',$customerPayment->Payment_ID);
     }
 
     /**
@@ -132,6 +133,15 @@ class Cash_MultipleOrder_PaymentController extends Controller
     public function show($id)
     {
         //
+        //Cart::instance('ordersTopay')->destroy();
+        $payment_Details = Customer_Payment::find($id);
+        //dd($payment_Details);
+        $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
+        //dd($p_settlements);
+       return view('orders.payment_Summary')
+        ->with('P_Settlements',$p_settlements)
+        ->with('P_Details',$payment_Details);
+
     }
 
     /**

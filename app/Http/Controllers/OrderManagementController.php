@@ -15,10 +15,23 @@ use App\Newshop_Schedule;
 use App\Neworder_details;
 use Auth;
 use App\CustomerDetails;
+use App\Customer_Payment;
 
 class OrderManagementController extends Controller
 {
 
+  public function print_paymentSummary($id){
+
+    $current = Carbon::now('Asia/Manila');
+    $payment_Details = Customer_Payment::find($id);
+
+    $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
+    //dd($p_settlements);
+
+    $pdf = \PDF::loadView("reports\paymentSummary_reciept",['P_Settlements'=>$p_settlements,'P_Details'=>$payment_Details]);
+
+    return $pdf->download($current.'-PMNT'.$id.'paymentReciept.pdf');
+  }
 
   public function remove_ordertopay($id){
     $ERROR = 0;

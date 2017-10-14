@@ -111,6 +111,8 @@ Route::group(['middleware' => ['web']], function() {
 //checkot of longorder
   Route::get('/LongorderSummary',['uses' => 'OrderManagementController@ViewOrderSummary', 'as'=>'LongOrder.OrderSummary']);
 
+	Route::get('/PaymentReceipt/{id}',['uses' => 'OrderManagementController@print_paymentSummary', 'as'=>'Payment.GenerateReceipt']);
+
 	Route::get('/Receipt/{id}',['uses' => 'OrderManagementController@PrintReciept', 'as'=>'LongOrder.GenerateReceipt']);
 
 	Route::get('/QuickReceipt/{id}',['uses' => 'OrderManagementController_Quick@PrintReciept', 'as'=>'QuickOrder.GenerateReceipt']);
