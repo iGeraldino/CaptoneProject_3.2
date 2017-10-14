@@ -874,6 +874,10 @@
   <script>
   $(document).ready(function(){
 
+		$('#orderSubmit_Btn').click(function(){
+			$('#orderSubmit_Btn').hide("fold");
+		});
+
 			if($('#importantCheckBox').is(":checked")){
 				$('#orderSubmit_Btn').attr("disabled",false);
 			}
