@@ -655,6 +655,8 @@ class OrderManagementController extends Controller
 	}//end of function
 
 
+
+
 	public function Cancel_and_Clear_Bqt_Order()
 	{
 		if(auth::guard('admins')->check() == false){
@@ -883,11 +885,12 @@ class OrderManagementController extends Controller
 	          ->select('*')
 	          ->get();
 
-	        return view('Orders.confirmation_of_Order')
-			->with('city',$cities)
-	        ->with('province',$province);
-    	}
-	}//end of function
+            return view('Orders.confirmation_of_Order')
+                ->with('city', $cities)
+                ->with('province', $province);
+            //}
+        }
+    }//end of function
 
 	public function return_to_CreationOfOrder()
 	{//
