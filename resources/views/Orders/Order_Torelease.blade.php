@@ -950,7 +950,9 @@
 			swal('Sorry!','There seems to be insufficient flowers in your inventory, please order flowers immediately to supply this order','warning');
 		}else if($('#Release_field').val() == 'Invalid'){
 			swal('Sorry!','The order cannot be released yet, please wait for the date that is is origianlly required to be released','error');
-		}
+		}else if($('#Release_field').val() == 'Successful'){
+      swal('Good Job!','The order has been successfully released!','success');
+    }
 
 
 

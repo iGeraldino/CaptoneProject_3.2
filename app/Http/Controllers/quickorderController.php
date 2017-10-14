@@ -243,7 +243,7 @@ class quickorderController extends Controller
               $message = 'Flowers sold Under the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
               $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-              ,array($Flwr->id,'-'.$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+              ,array($Flwr->id,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
               break;
               //to be continued here
             }//end of if statement where the remaining flowers of this batch is equal to the flowers ordered
@@ -255,7 +255,7 @@ class quickorderController extends Controller
               $message = 'Flowers sold Under the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
               $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-              ,array($Flwr->id,'-'.$flwrDet->QTY_Remaining,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+              ,array($Flwr->id,$flwrDet->QTY_Remaining,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
               $QTYToFulfill = $QTYToFulfill - $flwrDet->QTY_Remaining;
             }//end of the if which determines if the qty ordered is greater that the qty in the inventory this tells the system that the flower is not yet fulfilled
 
@@ -268,7 +268,7 @@ class quickorderController extends Controller
               $message = 'Flowers sold Under the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
               $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-              ,array($Flwr->id,'-'.$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+              ,array($Flwr->id,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
               $QTYToFulfill = $QTYToFulfill - $QTYToFulfill;
               break;
             }//end of else if that breaks from the inner loop when the flower ordered was lesser than the flwerin the specific batch...
@@ -278,7 +278,7 @@ class quickorderController extends Controller
 
 //less the bqt flowers flowers from the inventroy-------------------------------------------------------------------------------------------------------------------------------------------
 
-        foreach(Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->content() as $Flwr){
+  foreach(Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->content() as $Flwr){
           $BqtQty = 0;
           foreach(Cart::instance('TobeSubmitted_BqtQuick')->content() as $bqtcontent){
             if($bqtcontent->id == $Flwr->options->bqt_ID){
@@ -296,7 +296,7 @@ class quickorderController extends Controller
             $message = 'Flowers sold Under the bouquet on sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
             $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-            ,array($Flwr->id,'-'.$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+            ,array($Flwr->id,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
             break;
             //to be continued here
           }//end of if statement where the remaining flowers of this batch is equal to the flowers ordered
@@ -308,7 +308,7 @@ class quickorderController extends Controller
             $message = 'Flowers sold Under the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
             $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-            ,array($Flwr->id,'-'.$flwrDet->QTY_Remaining,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+            ,array($Flwr->id,$flwrDet->QTY_Remaining,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
             $QTYToFulfill = $QTYToFulfill - $flwrDet->QTY_Remaining;
           }//end of the if which determines if the qty ordered is greater that the qty in the inventory this tells the system that the flower is not yet fulfilled
 
@@ -321,7 +321,7 @@ class quickorderController extends Controller
             $message = 'Flowers sold Under the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
             $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-            ,array($Flwr->id,'-'.$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
+            ,array($Flwr->id,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$salesorder->sales_order_ID,$message));
             $QTYToFulfill = $QTYToFulfill - $QTYToFulfill;
             break;
           }//end of else if that breaks from the inner loop when the flower ordered was lesser than the flwerin the specific batch...
@@ -347,7 +347,7 @@ class quickorderController extends Controller
             $message = 'Accessories sold Under a bouquet in the sales order ID: ORDR_'.$salesorder->sales_order_ID.' through Quick Ordering';
 
             $newInvTrans2 = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-            ,array($AcrsDet->id,'-'.$AcrsDet->qty,$Acrs2->price,$AcrsDet->price,$current,'O','Acessories',null,$salesorder->sales_order_ID,$message));
+            ,array($AcrsDet->id,$AcrsDet->qty,$Acrs2->price,$AcrsDet->price,$current,'O','Acessories',null,$salesorder->sales_order_ID,$message));
           }
         }//looping al of the acrs that are going to be used
       }

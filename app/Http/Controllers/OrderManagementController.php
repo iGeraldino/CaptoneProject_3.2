@@ -37,9 +37,14 @@ class OrderManagementController extends Controller
                                 ->where('Order_ID', $id)
                                 ->get();
 
+
     $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
 
+
+
     $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+    //dd($SalesOrder_BqtAccessories);
 
     $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
     $Acrs_inINventory = DB::select('call wonderbloomdb2.Acessories_Records()');
@@ -152,17 +157,146 @@ class OrderManagementController extends Controller
     }else if($flwrValidator == 1 AND $acrsValidator == 0){
       Session::put('ReleaseOrder_Session','Fail3');
       return redirect()->back();
-    }else{
+    }else{ //this will release the flowers and the accessories under the specific order
+      $status = "";
+      $stat = "";
+      if($NewSalesOrder_details->Status == 'P_PARTIAL'){
+        $status = "A_P_Partial";
+        $stat = "APP";
+      }else if($NewSalesOrder_details->Status == 'BALANCED'){
+        $status = "A_UNPAID";
+        $stat = "AU";
+      }else if($NewSalesOrder_details->Status == 'P_FULL'){
+        $status = "CLOSED";
+        $stat = "C";
+      }
 
-    }
+      $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($id,$status,$NewSalesOrder_details->BALANCE));//updated the status of the order details as well sa the salesorder status
+      $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+      array($id,$current,$stat,$NewSalesOrder_details->BALANCE));
+      $UpdateShopSched=  DB::select('CALL  SetStatus_of_shopSchedule(?,?)',array('DONE',$id));
+
+      foreach($SalesOrder_flowers as $flwr){
+        $QTYToFulfill = $flwr->qty;
+        $flowersInv = DB::select("CALL availableBatchOfFLowers(?)",array($flwr->flwr_ID));
+        foreach($flowersInv as $flwrDet){
+          if($flwrDet->QTY_Remaining == $QTYToFulfill){
+            $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$flwr->flwr_ID,$QTYToFulfill));
+            $message = '';
+            $message = 'Flowers sold Under the sales order ID: ORDR_'.$id.' through Long Ordering';
+
+            $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+            ,array($flwr->flwr_ID,$QTYToFulfill,$flwrDet->Cost,$flwr->Price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+            break;
+            //to be continued here
+          }
+
+          else if($flwrDet->QTY_Remaining < $QTYToFulfill){
+            $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$flwr->flwr_ID,$flwrDet->QTY_Remaining));
+            $message = '';
+            $message = 'Flowers sold Under the sales order ID: ORDR_'.$id.' through Long Ordering';
+
+            $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+            ,array($flwr->flwr_ID,$flwrDet->QTY_Remaining,$flwrDet->Cost,$flwr->Price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+            $QTYToFulfill = $QTYToFulfill - $flwrDet->QTY_Remaining;
+          }//end of the if which determines if the qty ordered is greater that the qty in the inventory this tells the system that the flower is not yet fulfilled
+
+          else if($flwrDet->QTY_Remaining > $QTYToFulfill){
+            $newQty_Remaining  = $flwrDet->QTY_Remaining - $QTYToFulfill;
+
+            $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$flwr->flwr_ID,$QTYToFulfill));
+            $message = '';
+            $message = 'Flowers sold Under the sales order ID: ORDR_'.$id.' through Long Ordering';
 
 
+            $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+            ,array($flwr->flwr_ID,$QTYToFulfill,$flwrDet->Cost,$flwr->Price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+            $QTYToFulfill = $QTYToFulfill - $QTYToFulfill;
+            break;
+          }//end of else if that breaks from the inner loop when the flower ordered was lesser than the flwerin the specific batch...
+        }//
+      }//
+
+      foreach($SalesOrder_Bqtflowers as $Flwr){
+              $BqtQty = 0;
+              foreach($NewOrder_Bouquet as $bqtcontent){
+                if($bqtcontent->Bqt_ID == $Flwr->BQT_ID){
+                  $BqtQty = $bqtcontent->QTY;
+                }
+              }
+    //less the ordered flowers from the inventory
+          for($ctr = 0; $ctr <= $BqtQty-1;$ctr++  ){
+            $QTYToFulfill = $Flwr->qty;
+            $flowersInv = DB::select("CALL availableBatchOfFLowers(?)",array($Flwr->FLwr_ID));
+            foreach($flowersInv as $flwrDet){
+              if($flwrDet->QTY_Remaining == $QTYToFulfill){
+                $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$Flwr->FLwr_ID,$QTYToFulfill));
+                $message = '';
+                $message = 'Flowers sold Under the bouquet on sales order ID: ORDR_'.$id.' through Long Ordering';
+
+                $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+                ,array($Flwr->FLwr_ID,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+                break;
+                //to be continued here
+              }//end of if statement where the remaining flowers of this batch is equal to the flowers ordered
+
+              else if($flwrDet->QTY_Remaining < $QTYToFulfill){
+
+                $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$Flwr->FLwr_ID,$flwrDet->QTY_Remaining));
+                $message = '';
+                $message = 'Flowers sold Under the sales order ID: ORDR_'.$id.' through Quick Ordering';
+
+                $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+                ,array($Flwr->FLwr_ID,$flwrDet->QTY_Remaining,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+                $QTYToFulfill = $QTYToFulfill - $flwrDet->QTY_Remaining;
+              }//end of the if which determines if the qty ordered is greater that the qty in the inventory this tells the system that the flower is not yet fulfilled
+
+              else if($flwrDet->QTY_Remaining > $QTYToFulfill){
+                $newQty_Remaining  = $flwrDet->QTY_Remaining - $QTYToFulfill;
 
 
+                $SellFlowers = DB::select('CALL Sell_Flowers_PerBatch(?, ?, ?)',array($flwrDet->Sched_ID,$Flwr->FLwr_ID,$QTYToFulfill));
+                $message = '';
+                $message = 'Flowers sold Under the sales order ID: ORDR_'.$id.' through Quick Ordering';
 
+                $newInvTrans = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+                ,array($Flwr->FLwr_ID,$QTYToFulfill,$flwrDet->Cost,$Flwr->price,$current,'O','Flower',$flwrDet->Sched_ID,$id,$message));
+                $QTYToFulfill = $QTYToFulfill - $QTYToFulfill;
+                break;
+              }//end of else if that breaks from the inner loop when the flower ordered was lesser than the flwerin the specific batch...
+            }//end of inner foreach looking for the batches of flowers
+          }//end of for
+        }//end of foreach looking for the flowers under a each bouquets in the order
 
+        $Acrs = DB::select('call AvailableAcessories_Records()');
+        //dd($Acrs);
+    foreach($SalesOrder_BqtAccessories as $AcrsDet){
+          $BqtQty = 0;
+          foreach($NewOrder_Bouquet as $bqtcontent){
+            if($bqtcontent->Bqt_ID == $AcrsDet->bqt_ID){
+              $BqtQty = $bqtcontent->QTY;
+            }
+          }
+//less the ordered flowers from the inventory
+      for($ctr = 0; $ctr <= $BqtQty-1;$ctr++){
+        foreach($Acrs as $Acrs2){
+          if($Acrs2->ACC_ID == $AcrsDet->id){
+            $SellAcrs = DB::select('CALL Sell_AcrsFrom_Inventory(?, ?)',array($Acrs2->ACC_ID,$AcrsDet->qty));
+            $message = '';
+            $message = 'Accessories sold Under a bouquet in the sales order ID: ORDR_'.$id.' through Long Ordering';
+
+            $newInvTrans2 = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
+            ,array($AcrsDet->id,$AcrsDet->qty,$Acrs2->price,$AcrsDet->price,$current,'O','Acessories',null,$id,$message));
+          }
+        }//looping al of the acrs that are going to be used
+      }
+    }//end of foreach looking for the flowers under a each bouquets in the order
+
+    }//
+
+    Session::put('ReleaseOrder_Session','Successful');
+    return redirect() ->back();
     //looks for the total count of flowers in the order;
-
 }//
 
   public function show_Order_ToRelease($id,$type){
@@ -493,7 +627,6 @@ class OrderManagementController extends Controller
     //dd($NewOrder_Bouquet);
 
     $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
-
 
       return view('Orders.ManageSpecificOrder')
       ->with('cityname',$cityname)
