@@ -455,7 +455,7 @@ Route::put('EditAccountDetails/{id}', ['uses' => 'ClientController@postEditAccou
 
 Route::get('pickup', ['uses' => 'create_bouquet@pickupreports', 'as' => 'summarypickup']);
 
-Route::get('landing_page', 'PagesController@getLandingPage');
+Route::get('WonderbloomFlowershop', 'PagesController@getLandingPage');
 
 Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
 

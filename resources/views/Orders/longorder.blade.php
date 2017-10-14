@@ -121,7 +121,7 @@
 							<div class="tab-pane active" id="Flowers">
 							  @foreach($FlowerList as $Fdetails)
 								<div class="col-sm-3" style="margin-bottom: 3%;">
-									<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field">
+									<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
 									<div hidden>
 										<input class = "Flwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 										<input class = "Flwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
@@ -139,7 +139,7 @@
 									<div class="row">
 							  @foreach($FlowerList as $Fdetails)
 										<div class="col-md-6" style="margin-bottom: 3%;">
-											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised"  style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
 										<div hidden>
 											<input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
@@ -159,7 +159,7 @@
 									<div class="row">
 									@foreach($accessories as $accessories)
 										<div class="col-md-6" style="margin-bottom: 3%;">
-											<img src="{{ asset('accimage/'.$accessories->image)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+											<img src="{{ asset('accimage/'.$accessories->image)}}" alt="Raised Image" class="img-rounded img-responsive img-raised"  style="min-height: 105px; min-width: 105px;max-height: 105px; max-width: 105px;">
 											<div hidden>
 												<input class = "BqtAcrs_ID_Field" value = "{{ $accessories->ACC_ID }}">
 												<input class = "BqtAcrs_pic_Field" value = "{{ asset('accimage/'.$accessories->image)}}">

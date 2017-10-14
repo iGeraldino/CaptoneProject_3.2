@@ -181,8 +181,12 @@
                         <div class="col-md-4">
                         <div id = "">
                           <input id = "BatchID_Field" class = "form-control"  name="Batch_ID" list="Batch_ID" placeholder="Enter Batch ID"/>
-                          <datalist id="customerList_ID">
-                          </datalist>
+                          
+
+                          <!--  -->
+
+
+
                           <button type = "submit" id = "" class = "btn btn-md Lemon">Generate Report</button>
                         </div>
                       </div>

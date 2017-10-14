@@ -210,7 +210,7 @@
       <!-- sidebar menu: Online shop -->
       <ul class="sidebar-menu">
         <li class="treeview">
-          <a href="/landing_page">
+          <a href="/WonderbloomFlowershop">
             <i class="material-icons">store_directory</i> <span>Online Shop</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
