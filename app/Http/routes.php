@@ -251,7 +251,11 @@ Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementC
 
 
 
-Route::get('/Mange_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+Route::get('/Release_Order/{id}',['uses' => 'OrderManagementController@release_Order', 'as'=>'order.Release_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Manage_ReleasingOrder/{id},{type}',['uses' => 'OrderManagementController@show_Order_ToRelease', 'as'=>'order.Manage_Releasing_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Manage_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
 
 Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 

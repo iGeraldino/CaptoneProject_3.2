@@ -306,7 +306,6 @@
                 Pay via Bank
               </label>
             </div>
-
             <hr>
 					<div id = "paylaterDiv" hidden>
 						<h5>This function is only available for <b>Hotel</b> and <b>Shop owner</b> customers. In this function, the order will be delivered to the customer without any downpayment but will be listed as one of the debts of the customer with the Wonderbloom shop</h5>
