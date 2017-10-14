@@ -40,42 +40,83 @@ class OrderManagementController extends Controller
     $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
     $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+    $Acrs_inINventory = DB::select('call wonderbloomdb2.Acessories_Records()');
+
+    dd($Flower_inInventory);
 
     Cart::instance('flowersOnOrder')->destroy();
     Cart::instance('acessoriesOnOrder')->destroy();
     $total_Flowers = 0;
     $total_acrs = 0;
 
-    //dd($SalesOrder_Bqtflowers);
-
     foreach($SalesOrder_flowers as $flwr){
       Cart::instance('flowersOnOrder')->add(['id'=>$flwr->flwr_ID,
       'name'=>$flwr->name,'qty'=>$flwr->qty,'price'=>$flwr->Price,'options'=>[]]);
     }
 
-    foreach($SalesOrder_Bqtflowers as $Bflwr){
-      foreach(Cart::instance('flowersOnOrder')->content() as $forders){
-        $Nqty = 0;
-        if($forders->id == $Bflwr->FLwr_ID){
-          $Nqty = $forders->qty + $Bflwr->qty;
-          Cart::instance('flowersOnOrder')->update($Bflwr->rowId,['qty'=>$Nqty]);
+    foreach($NewOrder_Bouquet as $bqt){
+      foreach($SalesOrder_Bqtflowers as $Bflwr){
+        //
+        if($bqt->Bqt_ID == $Bflwr->BQT_ID){
+          if(Cart::instance('flowersOnOrder')->count() < 1){
+            Cart::instance('flowersOnOrder')->add(['id'=>$Bflwr->FLwr_ID,
+            'name'=>$Bflwr->name,'qty'=>$Bflwr->qty*$bqt->QTY,'price'=>$Bflwr->price,'options'=>[]]);
+          }else{
+            foreach(Cart::instance('flowersOnOrder')->content() as $forders){
+              $Nqty = 0;
+              if($forders->id == $Bflwr->FLwr_ID){
+                $Nqty = $forders->qty + ($Bflwr->qty*$bqt->QTY);
+                Cart::instance('flowersOnOrder')->update($forders ->rowId,['qty'=>$Nqty]);
+                break;
+              }
+              else{
+                Cart::instance('flowersOnOrder')->add(['id'=>$Bflwr->FLwr_ID,
+                'name'=>$Bflwr->name,'qty'=>$Bflwr->qty*$bqt->QTY,'price'=>$Bflwr->price,
+                'options'=>[]]);
+                break;
+              }
+            }
+          }
         }
-        else{
-          Cart::instance('flowersOnOrder')->add(['id'=>$Bflwr->Flwr_ID,
-          'name'=>$Bflwr->name,'qty'=>$Bflwr->qty,'price'=>$Bflwr->price,'options'=>[]]);
+      }//end of foreach($SalesOrder_Bqtflowers as $Bflwr)
+
+      foreach($SalesOrder_BqtAccessories as $acrs){
+        if($bqt->Bqt_ID == $acrs->bqt_ID){
+          if(Cart::instance('acessoriesOnOrder')->count < 1){
+            Cart::instance('acessoriesOnOrder')->add(['id'=>$acrs->Acrs_ID,'name'=>$acrs->name,
+            'qty'=>$acrs->qty*$bqt->QTY
+            ,'price'=>$acrs->Price,'options'=>[]]);
+          }else{
+            foreach(Cart::instance('acessoriesOnOrder')->content() as $a_orders){
+              $Nqty = 0;
+              if($a_orders->id == $acrs->FLwr_ID){
+                $Nqty = $a_orders->qty + ($acrs->qty*$bqt->QTY);
+                Cart::instance('acessoriesOnOrder')->update($a_orders ->rowId,['qty'=>$Nqty]);
+                break;
+              }
+              else{
+                Cart::instance('acessoriesOnOrder')->add(['id'=>$acrs->Acrs_ID,'name'=>$acrs->name,
+                'qty'=>$acrs->qty*$bqt->QTY
+                ,'price'=>$acrs->Price,'options'=>[]]);
+                break;
+              }
+            }
+          }
         }
+      }
+    }//end of foreach($NewOrder_Bouquet as $bqt)
+
+    dd(Cart::instance('flowersOnOrder')->content());
+    foreach(Cart::instance('acessoriesOnOrder')->content() as $Oacrs){
+      foreach($Acrs_inINventory as $AcrsInventory){
+
       }
     }
 
 
 
-    foreach($SalesOrder_BqtAccessories as $acrs){
-      Cart::instance('acessoriesOnOrder')->add(['id'=>$acrs->Acrs_ID,'name'=>$acrs->name,
-      'qty'=>$acrs->qty
-      ,'price'=>$acrs->price,'options'=>[]]);
-    }
 
-    dd(Cart::instance('acessoriesOnOrder')->content().'-----------------------'.Cart::instance('flowersOnOrder')->content());
+
 
     //looks for the total count of flowers in the order;
 
@@ -539,27 +580,6 @@ class OrderManagementController extends Controller
 	}//end of function
 
 	public function DeleteFlower_per_Bqt_SessionOrder($flower_ID)
-<<<<<<< HEAD
-    {
-        if (auth::guard('admins')->check() == false) {
-            Session::put('loginSession', 'fail');
-            return redirect()->route('adminsignin');
-        } else {
-            echo $flower_ID;
-            foreach (Cart::instance('OrderedBqt_Flowers')->content() as $row) {
-                if ($row->id == $flower_ID) {
-                    echo $row->id;
-                    Cart::instance('OrderedBqt_Flowers')->remove($row->rowId);
-                    Session::put('Deleted_FlowerfromBQT_Order', 'Successful');
-                }
-            }
-            //echo 'hahaah';
-            return redirect()->route('Long_Sales_Order.index');
-            //return redirect()->route('Order.CustomizeaBouquet');
-            //}
-        }//end of function
-    }
-=======
 	{
       if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
@@ -578,25 +598,24 @@ class OrderManagementController extends Controller
           //return redirect()->route('Order.CustomizeaBouquet');
 	    }
 	}//end of function
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
-        public function DeleteAcessory_per_Bqt_Order($Acessory_ID, $order_ID)
-        {
-            if (auth::guard('admins')->check() == false) {
-                Session::put('loginSession', 'fail');
-                return redirect()->route('adminsignin');
-            } else {
-                echo $Acessory_ID;
-                foreach (Cart::instance('OrderedBqt_Acessories')->content() as $row) {
-                    if ($row->id == $Acessory_ID) {
-                        Cart::instance('OrderedBqt_Acessories')->remove($row->rowId);
-                        Session::put('Deleted_AcessoryfromBQT_Order', 'Successful');
-                    }
-                }
-                return redirect()->route('Order.CreateaBouquet', $order_ID);//returns to the creation of flowers*/
-            }//end of function
-        }
 
+    public function DeleteAcessory_per_Bqt_Order($Acessory_ID,$order_ID)
+	{
+      if(auth::guard('admins')->check() == false){
+              Session::put('loginSession','fail');
+              return redirect() -> route('adminsignin');
+      }else{
+        			echo $Acessory_ID;
+        			foreach(Cart::instance('OrderedBqt_Acessories')->content() as $row){
+        				if($row->id == $Acessory_ID){
+        					Cart::instance('OrderedBqt_Acessories')->remove($row->rowId);
+        					Session::put('Deleted_AcessoryfromBQT_Order', 'Successful');
+  				        }
+  			       }
+  			return redirect()->route('Order.CreateaBouquet', $order_ID);//returns to the creation of flowers*/
+  	   }//end of function
+  }
 
   public function DeleteAcessory_per_SessionBqt_Order($Acessory_ID)
 	{
@@ -618,29 +637,23 @@ class OrderManagementController extends Controller
 
 
 	public function Cancel_and_ClearFlower_per_Bqt_Order($order_ID)
-{
-    if (auth::guard('admins')->check() == false) {
-        Session::put('loginSession', 'fail');
-        return redirect()->route('adminsignin');
-    } else {
-        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+	{
+		if(auth::guard('admins')->check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{
+			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
-<<<<<<< HEAD
-        Cart::instance('OrderedBqt_Flowers')->destroy();
-=======
+			Cart::instance('OrderedBqt_Flowers')->destroy();
+
 			Session::put('Buquet_Cancelation', 'Successful');
 	    	 return view('Orders.creationOfOrders')
 	     	->with('FlowerList',$AvailableFlowers);
 	     }
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
-        Session::put('Buquet_Cancelation', 'Successful');
-        return view('Orders.creationOfOrders')
-            ->with('FlowerList', $AvailableFlowers);
-        //}
+	}//end of function
 
-    }//end of function
-}
 
 	public function Cancel_and_Clear_Bqt_Order()
 	{
@@ -854,13 +867,6 @@ class OrderManagementController extends Controller
 
 
 	public function ConfrimOrder()
-<<<<<<< HEAD
-    {//
-        if (auth::guard('admins')->check() == false) {
-            Session::put('loginSession', 'fail');
-            return redirect()->route('adminsignin');
-        } else {
-=======
 	{
     //
 		if(auth::guard('admins')->check() == false){
@@ -868,30 +874,20 @@ class OrderManagementController extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
-            $cities = DB::table('cities')
-                ->select('*')
-                ->get();
+	          $cities = DB::table('cities')
+	          ->select('*')
+	          ->get();
 
-            $province = DB::table('provinces')
-                ->select('*')
-                ->get();
+	          $province = DB::table('provinces')
+	          ->select('*')
+	          ->get();
 
-<<<<<<< HEAD
-            return view('Orders.confirmation_of_Order')
-                ->with('city', $cities)
-                ->with('province', $province);
-            //}
-        }
-    }//end of function
-=======
 	        return view('Orders.confirmation_of_Order')
 			->with('city',$cities)
 	        ->with('province',$province);
     	}
 	}//end of function
->>>>>>> a869c165268e21431ee7666d96146e2c6cd4ec53
 
 	public function return_to_CreationOfOrder()
 	{//
