@@ -77,7 +77,8 @@
 					          <!-- small box -->
 					          <div class="small-box Lush">
 					            <div class="inner">
-					              <h6><b>CLOSED ORDERS</b></h6>
+					              <h6><b>CLOSED </b></h6>
+					              <h6 style="margin-top: -10%;"><b> ORDERS </b></h6>
 					            </div>
 					            <div class="icon">
 					              <i class="ion ion-close-circled"></i>
@@ -91,7 +92,7 @@
 					          <div class="small-box Sulfur">
 					            <div class="inner">
 
-					              <p>Orders with balance</p>
+					              <h6><b>ORDERS WITH BALANCE</b></h6>
 					            </div>
 					            <div class="icon">
 					              <i class="ion ion-clipboard"></i>
@@ -118,7 +119,7 @@
 								<div class = "col-md-12">
 									<div id = "balance_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Sulfur">
 												<h5 class="text-center" style="color: white;"><b>ORDERS WITH BALANCE</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
@@ -164,7 +165,7 @@
 									</div>
 									<div id = "pending_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Subu">
 												<h5 class="text-center" style="color: white;"><b>NEWLY MADE ORDERS</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">
@@ -203,7 +204,7 @@
 
 									<div id = "closed_TBLDIV" hidden>
 										<div class="box">
-											<div class="box-header Shalala">
+											<div class="box-header Lush">
 												<h5 class="text-center" style="color: white;"><b>CLOSED & CANCELED ORDERS</b></h5>
 											</div>
 											<div class="box-body" style="overflow-x: auto;">

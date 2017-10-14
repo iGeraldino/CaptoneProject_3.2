@@ -78,9 +78,35 @@
                       <th class="text-center" align="center"><img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 50px; max-height: 50px; margin-left: 100px;">
                       </th>
                       <th  class="text-center">
-                        <button type="button" rel="tooltip" title="EDIT" class="btn btn-just-icon Subu">
-                          <i class="material-icons">mode_edit</i>
+                        <button type="button" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#flowerdetModal{{$price->flower_ID}}" class="btn btn-just-icon Subu">
+                          <i class="material-icons">search</i>
                         </button>
+                         <!-- Modal Core -->
+                            <div class="modal fade" id="flowerdetModal{{$price->flower_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">More Details</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="col-md-6">
+                                      <h5>Flower ID: <b>{{$price->flower_ID}}</b></h5>
+                                      <h5>Flower Name: <b>{{$price->flower_name}}</b></h5></h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <img  class = "img-rounded img-responsive img-raised" src="{{ asset('flowerimage/'. $price->Img)}}" style="max-width: 100px; max-height: 200px; margin-left: 100px;">
+                                      <br><br><br><br>
+                                    </div>
+                                    
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-info btn-simple">Save</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                       </th>
                     </tr>
                   @endforeach
@@ -147,6 +173,8 @@
 
 
         <!-- End of Modal -->
+
+       
       </div>
   </div>
 @endsection

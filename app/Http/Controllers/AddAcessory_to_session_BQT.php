@@ -133,7 +133,7 @@ class AddAcessory_to_session_BQT extends Controller
               return redirect()-> route('Long_Sales_Order.index');
             //return redirect()->route('Order.CustomizeaBouquet');
         //
-          //}
+          }
     }
 
     /**
@@ -205,7 +205,7 @@ class AddAcessory_to_session_BQT extends Controller
             Session::put('Update_AcessoryToBQT_Order', 'Successful');
             return redirect()-> route('Long_Sales_Order.index');
             //return redirect()->route('Order.CustomizeaBouquet');
-        //}
+        }
     }
 
     /**
