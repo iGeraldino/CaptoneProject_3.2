@@ -153,13 +153,13 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                         ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                         'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
                 }
-        }//end of outer else
+              }//end of outer else
 
             Session::put('AddFlower_To_myOrder', 'Successful');
             return redirect()-> route('Long_Sales_Order.index');
                  //return view('Orders.creationOfOrders')
                  //->with('FlowerList',$AvailableFlowers);
-          // }
+           }
     }
 
     /**
@@ -199,11 +199,11 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-/*        if(auth::guard('admins')->check() == false){
+       if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{*/
+        else{
               $newQty = $request->QTY_Field;
               $New_Price = $request->NewPrice_Field;
               $descision = $request->Decision_Field;
@@ -247,10 +247,10 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                   }//end of if
                 //echo '$Original_Price  = '.$Original_Price;
                Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
-          }
+             }
           Session::put('update_O_FlowerQty_Session','Successful');
           return redirect()->route('Orders_Flowers.edit',$id);
-            //}
+          }
     }
 
     /**
