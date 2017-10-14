@@ -357,9 +357,7 @@ class PagesController extends Controller
 			return view('customer/create_account');
 		}
 
-	public function getViewBouquet() {
-			return view('customer_side/pages/view_bouquet');
-		}
+
 
 	public function getSalesReport() {
 			return view('reports/sales_reports');

@@ -353,14 +353,12 @@ class create_bouquet extends Controller
 
     public function defaultBouquetAdd(){
 
-
     }
 
-    public function pickupreports(){
-
-
-
+    public function getViewBouquet() {
+        return view('customer_side/pages/view_bouquet');
     }
+
 
 
 

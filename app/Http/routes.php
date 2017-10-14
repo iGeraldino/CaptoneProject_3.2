@@ -447,7 +447,7 @@ Route::get('landing_page', 'PagesController@getLandingPage');
 
 Route::post('Change Password', ['uses'=> 'ClientController@changepassword', 'as' => 'changepassword']);
 
-Route::get('view_bouquet', 'PagesController@getViewBouquet');
+Route::get('view_bouquet', 'create_bouquet@getViewBouquet');
 
 Route::get('sales_report', 'PagesController@getSalesReport');
 
