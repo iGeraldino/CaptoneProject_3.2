@@ -290,7 +290,7 @@
 
 
                     <div id = "bankPaymentDiv" hidden>
-                  {!! Form::open(array('route' => 'ManageOrder_Bank.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
+                  {!! Form::open(array('route' => 'ManageMultipleOrder_Bank.store', 'data-parsley-validate'=>'', 'files' => 'true' , 'method'=>'POST')) !!}
                       <b>Details of Person who gave the payment:</b>
                       <div class="checkbox">
                         <label>
@@ -370,7 +370,7 @@
                         <div class = "col-md-6">
                           <div id = "partialDiv" class="form-group label-control">
                             <label class="control-label">Date Deposited</label>
-                            <input name = "D_date" id = "D_date" min = "" max = "" value = "" type="date" class="form-control" reqired/>
+                            <input name = "D_date" id = "D_date"  type="date" class="form-control" reqired/>
                             <span class="form-control-feedback">
                             </span>
                           </div>
