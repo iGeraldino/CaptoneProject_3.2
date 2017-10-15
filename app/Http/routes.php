@@ -475,6 +475,8 @@ Route::get('signup_page', 'PagesController@getSignupPage');
 
 Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
 
+Route::get('order_confirmation', 'PagesController@getOrderConfirmation');
+
 
     Route::get('AdminLogin', [
         'uses'=>'PagesController@getLoginPage',

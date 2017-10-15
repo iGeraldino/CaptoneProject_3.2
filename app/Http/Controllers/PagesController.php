@@ -374,4 +374,7 @@ class PagesController extends Controller
 	public function getInventoryReportsFlower() {
 			return view('reports/inventory_reports_flower');
 		}
+	public function getOrderConfirmation() {
+			return view('customer_side/pages/order_confirmation');
+		}
 }
