@@ -590,7 +590,7 @@
 											<!--Form() open dito-->
                       <form method="post" action="{{ route('checkoutfinalpickup') }}">
 											<div class="row pull-right">
-												<div hidden=""><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -624,7 +624,7 @@
 					                        		<a type="button" class="btn btn-danger btn-lg prev-step"> Edit Order Details</a><!--redirects you to the previous steps-->
 				                       			</div>
 				                       			<div class = 'col-md-6'>
-				                        			<button type="submit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
+				                        			<button type="submit" id ="pickupsubmit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
 				                        	</div>
@@ -803,7 +803,7 @@
 
 											<!--Form() open dito-->
 											<div class="row pull-right">
-												<div  hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div  ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -907,7 +907,7 @@
 															<div class = "row">
 																<div class = "col-md-6">
 																	<h5><b>Date to deliver:</b></h5>
-																	<input type="text" name="devdate" id="devdate" class="form-control input-lg" disabled>
+																	<input type="text" name="devdate" id="devdate" class="form-control input-lg" value="" disabled>
 																</div>
 																<div class = "col-md-6">
 																	<h5><b>Time:</b></h5>
@@ -1127,6 +1127,7 @@
 						$('#deliveryshowdiv').hide("fold");
 						$('#deliverySummaryDiv').hide("fold");
 						$('#pickupSummaryDiv').show("fold");
+                        $('#guestDetails').hide();
 					});
 
 
@@ -1138,7 +1139,7 @@
 						$('#pickupshowdiv').hide("fold");
 						$('#pickupSummaryDiv').hide("fold");
 						$('#deliverySummaryDiv').show("fold");
-
+                        $('#guestDetails').hide	();
 					});
 
 					$("#guestRdoBtn").click(function(){
@@ -1155,7 +1156,7 @@
 						$("#signUpshowdiv").show("fold");
 						$("#savBtnAcct").hide("fold");
 						$("#Guestshowdiv").hide("fold");
-						$("#useMyAcctDetailsDiv").show();
+						$("#useMyAcctDetailsDiv").hide();
 						$("#guestDetails").hide();
 					});
 
@@ -1283,7 +1284,13 @@
             $('#DeliveryProvinceField option[value ='+Prov+']').attr("selected","selected")
             $('#DeliveryTownField option[value ='+town+']').attr("selected","selected")
 
-            $('#R_first_name').val(firstName);
+			  var e = document.getElementById("DeliveryTownField");
+			  var c = document.getElementById("DeliveryProvinceField");
+            	var townies = e.options[e.selectedIndex].text;
+            	var prownies = c.options[c.selectedIndex].text;
+
+
+              $('#R_first_name').val(firstName);
             $('#R_mid_name').val(middlename);
             $('#R_last_name').val(lastname);
             $('#R_contact').val(contact);
@@ -1339,7 +1346,7 @@
 
                               document.getElementById('devdate').value = deliverdate;
                               document.getElementById('devtime').value = delivertime;
-                              document.getElementById('delivadd').value = addline;
+                              document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
 
 
                             });
@@ -1380,7 +1387,7 @@
 
                                 document.getElementById('devdate').value = deliverdate;
                                 document.getElementById('devtime').value = delivertime;
-                                document.getElementById('delivadd').value = addline;
+                                document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
 
 
                               });
@@ -1605,7 +1612,14 @@
                     });
                 });//end of form
 
-				
+
+
+				$('#pickupsubmit').click(function(){
+
+				    window.location.href = "{{ URL::to('/home') }}";
+
+
+				});
 	
 
 

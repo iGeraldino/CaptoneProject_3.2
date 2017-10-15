@@ -23,6 +23,7 @@ use App\sales_order_bouquet_flowers;
 use App\sales_order_acessories;
 use App\Neworder_details;
 use Cart;
+use Session;
 
 class checkoutcontroller extends Controller
 {
@@ -193,10 +194,10 @@ class checkoutcontroller extends Controller
 
       $lastid = $orderdetails->id;
 
-      $deliverydate = Carbon::createFromFormat('d/m/Y', $request->input('Cust_Date'));
-      $deliverytime = $request->input('Cust_Time');
-      $Scheduletype = $request->input('Cust_shippingMethod');
-      $schedulestatus = "pending";
+        $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
+        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
+        $Scheduletype = $request->input('Cust_shippingMethod');
+        $schedulestatus = "pending";
 
       $shop_schedule = new shop_schedule([
         'Order_ID' => $sales_order_ID,
@@ -269,7 +270,7 @@ class checkoutcontroller extends Controller
                 'Order_ID' => $sales_order_ID,
                 'Bqt_ID' => $bouquet_ID,
                 'Unit_Price' => $row4->price,
-                'QTY' => $row4->options->count,
+                'QTY' => $row4->qty,
                 'Amt' => $row4->qty * $row4->price,
             ]);
 
@@ -366,12 +367,12 @@ class checkoutcontroller extends Controller
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
-      return $pdf->download('sampleDelivery.pdf');
 
       }
+        return $pdf->download('sampleDelivery.pdf');
 
 
-      return redirect()->route('homepages');
+      //return redirect()->route('homepages');
 
 
 
@@ -455,9 +456,8 @@ class checkoutcontroller extends Controller
       $orderdetails->save();
       $lastid = $orderdetails -> id;
 
-
-      $deliverydate = Carbon::createFromFormat('d/m/Y', $request->input('finalPickup_Date'));
-      $deliverytime = $request->input('finalPickup_Time');
+      $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
+      $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
       $Scheduletype = $request->input('final_shippingMethod');
       $schedulestatus = "pending";
 
@@ -522,7 +522,7 @@ class checkoutcontroller extends Controller
                 'Order_ID' => $sales_order_ID,
                 'Bqt_ID' => $bouquet_ID,
                 'Unit_Price' => $row4->price,
-                'QTY' => $row4->options->count,
+                'QTY' => $row4->qty,
                 'Amt' => $row4->qty * $row4->price,
             ]);
 
@@ -611,9 +611,7 @@ class checkoutcontroller extends Controller
             }
         }
 
-
         //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
-        //return $pdf->download('sampleDelivery.pdf');
 
         $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
@@ -621,15 +619,8 @@ class checkoutcontroller extends Controller
 
         return $pdf->download('sampleDelivery.pdf');
 
-        return redirect()->route('homepages');
-
-
-
-
-
 
     }//end
-
 
 
 
