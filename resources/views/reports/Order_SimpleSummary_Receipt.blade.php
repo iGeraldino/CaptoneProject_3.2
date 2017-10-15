@@ -234,10 +234,10 @@
 												<td style = "color:red;">Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
 											</tr>
 										@endif
-											<?php
-												$totalAmt_Bqt += $Bqt->QTY*$Bqt->Unit_Price;
-											?>
 										@endforeach
+										<?php
+										$totalAmt_Bqt +=  $Bqt->QTY*$Bqt->Unit_Price;
+										?>
 									@endforeach
 								</tbody>
 							</table>
