@@ -271,9 +271,40 @@ class ManageOrder_CashController extends Controller
 
           $NewSalesOrder_details = Neworder_details::find($Order_ID);
           if($amt_Paid2 >= $NewSalesOrder_details->BALANCE){
-            if($amt_Used > 0){
-              $Derived_Change = $amt_Paid2 - $amt_Used;
-              $Balance = 0.00;//gets the balance even they paid greater but uses partial of the payment only
+              if($amt_Used > 0){
+                $Derived_Change = $amt_Paid2 - $amt_Used;
+                $Balance = 0.00;//gets the balance even they paid greater but uses partial of the payment only
+                $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,'P_FULL',$Balance));//updated the status of the order details as well sa the salesorder status
+
+                $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+                array($id,$current,'PF',0.00));
+                //update the invoice
+
+                $customerPayment = new CustomerPayment;
+                $customerPayment->Amount = $amt_Paid2;
+                $customerPayment->Amount_Used = $amt_Used;
+                $customerPayment->Date_Obtained = $current;
+                if($decision == "N"){
+                  $customerPayment->From_Id = null;
+                  $customerPayment->From_FName = $nFname;
+                  $customerPayment->From_LName = $nLname;
+                }else{
+                  $customerPayment->From_Id = $cust_ID;
+                  $customerPayment->From_FName = $currentFname;
+                  $customerPayment->From_LName = $currentLname;
+                }
+                $customerPayment->Type = "CASH";
+                $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
+                $customerPayment->save();
+
+                //make a record of customer payment settlement record
+                $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+                array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Used,$Derived_Change));
+                Session::put('CashPayment_CompletionSession','Successful');
+            }//if they used partial payment only
+            else if($amt_Used == 0 OR $amt_Used < 1){
+              $Derived_Change =   $NewSalesOrder_details->BALANCE - $amt_Paid2;
+              $Balance = 0;//gets the balance even they paid greater but uses partial of the payment only
               $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,'P_FULL',$Balance));//updated the status of the order details as well sa the salesorder status
 
               $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
@@ -282,7 +313,7 @@ class ManageOrder_CashController extends Controller
 
               $customerPayment = new CustomerPayment;
               $customerPayment->Amount = $amt_Paid2;
-              $customerPayment->Amount_Used = $amt_Used;
+              $customerPayment->Amount_Used = $amt_Paid2;
               $customerPayment->Date_Obtained = $current;
               if($decision == "N"){
                 $customerPayment->From_Id = null;
@@ -299,47 +330,93 @@ class ManageOrder_CashController extends Controller
 
               //make a record of customer payment settlement record
               $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
-              array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Used,$Derived_Change));
+              array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Paid2,$Derived_Change));
               Session::put('CashPayment_CompletionSession','Successful');
-          }//if they used partial payment only
-          else if($amt_Used == 0 OR $amt_Used < 1){
-            $Derived_Change =  $amt_Paid2 - $NewSalesOrder_details->BALANCE;
-            $Balance = 0;//gets the balance even they paid greater but uses partial of the payment only
-            $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,'P_FULL',$Balance));//updated the status of the order details as well sa the salesorder status
-
-            $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
-            array($id,$current,'PF',0.00));
-            //update the invoice
-
-            $customerPayment = new CustomerPayment;
-            $customerPayment->Amount = $amt_Paid2;
-            $customerPayment->Amount_Used = $amt_Paid2;
-            $customerPayment->Date_Obtained = $current;
-            if($decision == "N"){
-              $customerPayment->From_Id = null;
-              $customerPayment->From_FName = $nFname;
-              $customerPayment->From_LName = $nLname;
-            }else{
-              $customerPayment->From_Id = $cust_ID;
-              $customerPayment->From_FName = $currentFname;
-              $customerPayment->From_LName = $currentLname;
             }
-            $customerPayment->Type = "CASH";
-            $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
-            $customerPayment->save();
-
-            //make a record of customer payment settlement record
-            $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
-            array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Paid2,$Derived_Change));
-            Session::put('CashPayment_CompletionSession','Successful');
-          }
         }//end of if
         else if($amt_Paid2 < $NewSalesOrder_details->BALANCE){
-          Session::put('CashPayment_CompletionSession','Fail');
-          return redirect()->back();
-        }
-        return redirect()->back();
+          if($NewSalesOrder_details->Status == 'BALANCED' OR $NewSalesOrder_details->Status == 'A_UNPIAD'){
+            $Status = "";
+            $Stat = "";
+            if($NewSalesOrder_details->Status == 'BALANCED'){
+              $Status = "P_PARTIAL";
+              $Stat = "PP";
+            }else if($NewSalesOrder_details->Status == 'A_UNPAID'){
+              $Status = "A_P_PARTIAL";
+              $Stat = "APP";
+            }
 
+            if($amt_Paid2 >= $NewSalesOrder_details->BALANCE*0.20){
+              if($amt_Used > 0){
+                $Derived_Change = $amt_Paid2 - $amt_Used;
+                $Balance = $NewSalesOrder_details->BALANCE - $amt_Used;//gets the balance even they paid greater but uses partial of the payment only
+                $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,$Status,$Balance));//updated the status of the order details as well sa the salesorder status
+
+                $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+                array($id,$current,$Stat,$Derived_Change));
+                //update the invoice
+
+                $customerPayment = new CustomerPayment;
+                $customerPayment->Amount = $amt_Paid2;
+                $customerPayment->Amount_Used = $amt_Used;
+                $customerPayment->Date_Obtained = $current;
+                if($decision == "N"){
+                  $customerPayment->From_Id = null;
+                  $customerPayment->From_FName = $nFname;
+                  $customerPayment->From_LName = $nLname;
+                }else{
+                  $customerPayment->From_Id = $cust_ID;
+                  $customerPayment->From_FName = $currentFname;
+                  $customerPayment->From_LName = $currentLname;
+                }
+                $customerPayment->Type = "CASH";
+                $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
+                $customerPayment->save();
+
+                //make a record of customer payment settlement record
+                $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+                array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Used,$Derived_Change));
+                Session::put('CashPayment_CompletionSession','Successful');
+            }//if they used partial payment only
+            else if($amt_Used == 0 OR $amt_Used < 1){
+              $Derived_Change =  $NewSalesOrder_details->BALANCE - $amt_Paid2;
+              $Balance = 0;//gets the balance even they paid greater but uses partial of the payment only
+              $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($Order_ID,$Status, $Balance - $amt_Paid2));//updated the status of the order details as well sa the salesorder status
+
+              $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",array($id,$current,$Stat,$Balance - $amt_Paid2));
+              //update the invoice
+
+              $customerPayment = new CustomerPayment;
+              $customerPayment->Amount = $amt_Paid2;
+              $customerPayment->Amount_Used = $amt_Paid2;
+              $customerPayment->Date_Obtained = $current;
+              if($decision == "N"){
+                $customerPayment->From_Id = null;
+                $customerPayment->From_FName = $nFname;
+                $customerPayment->From_LName = $nLname;
+              }else{
+                $customerPayment->From_Id = $cust_ID;
+                $customerPayment->From_FName = $currentFname;
+                $customerPayment->From_LName = $currentLname;
+              }
+              $customerPayment->Type = "CASH";
+              $customerPayment->BALANCE = $NewSalesOrder_details->BALANCE;
+              $customerPayment->save();
+
+              //make a record of customer payment settlement record
+              $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+              array($id,$customerPayment->Payment_ID,$amt_Paid2,$amt_Paid2,$Derived_Change));
+              Session::put('CashPayment_CompletionSession','Successful');
+            }
+          }else{
+            Session::put('CashPayment_CompletionSession','Fail');
+            return redirect()->back();
+          }
+        }else{
+          //kapag hinid BALANCED or A_UNPAID
+        }
+      }
+      return redirect()->back();
     }
 
     /**
