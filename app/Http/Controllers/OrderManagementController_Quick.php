@@ -20,7 +20,7 @@ class OrderManagementController_Quick extends Controller
     //
     public function DeleteFlower_per_QuickOrder($flower_ID)
   {
-        if(auth::guard('admins')->check() == false){
+    if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
@@ -43,20 +43,19 @@ class OrderManagementController_Quick extends Controller
            break;
         }//
       }
-
               return redirect()-> back();
                //return view('Orders.creationOfOrders')
                //->with('FlowerList',$AvailableFlowers);
-        //}
+    }
   }
 
   public function DeleteFlower_per_Bqt_SessionQuickOrder($flower_ID)
   {
-        f(auth::guard('admins')->check() == false){
+    if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+    else{
       echo $flower_ID;
       $qtytodelete = 0;
       foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
@@ -68,21 +67,16 @@ class OrderManagementController_Quick extends Controller
         }
       }
 
-    foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
-      if($inCartflowers->id == $flower_ID){
-            $newQty = $inCartflowers->qty - $qtytodelete;
-         Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
-         break;
-      }//
-    }
-
-
-
-
-      //echo 'hahaah';
+      foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
+        if($inCartflowers->id == $flower_ID){
+              $newQty = $inCartflowers->qty - $qtytodelete;
+           Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
+           break;
+        }//
+      }
           return redirect()-> back();
           //return redirect()->route('Order.CustomizeaBouquet');
-      //}
+    }
   }//end of function
 
 
@@ -101,7 +95,7 @@ class OrderManagementController_Quick extends Controller
   				}
   			}
         return redirect()-> back();
-      	}
+      }
   	}//end of function
 
     public function Clear_Cart()
@@ -116,9 +110,9 @@ class OrderManagementController_Quick extends Controller
             if($inCartflowers->id == $ordereFlwr->id){
               $newQty2 = $inCartflowers->qty - $ordereFlwr->qty;
               Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty2]);
-            }//
+              }//
+            }
           }
-        }
 
           foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $BqtFLwr){
             $count = 0;
@@ -178,12 +172,12 @@ class OrderManagementController_Quick extends Controller
     }//end of function
 
 
-    	public function saveNewCustomized_Bqt(){
-            if(auth::guard('admins')->check() == false){
-                Session::put('loginSession','fail');
-                return redirect() -> route('adminsignin');
-            }
-            else{
+    public function saveNewCustomized_Bqt(){
+      if(auth::guard('admins')->check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
     			$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
     				$BQT_Flower_Count = 0;
@@ -247,9 +241,9 @@ class OrderManagementController_Quick extends Controller
         }
     	}//end of function
 
-      public function Delete_Bouquet($Bouquet_ID){
-        $qtytofulfill = 0;
+  public function Delete_Bouquet($Bouquet_ID){
 
+    $qtytofulfill = 0;
 
           foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
             if($Bqt->id == $Bouquet_ID){
