@@ -35,14 +35,13 @@ class InventoryScheduling_Controller extends Controller
                 ]);
             }*/
             Cart::instance('Flowers_to_Arrive')->destroy();
-            $supplierdata = supplier_details::all();
+            $supplierdata = DB::select('CALL suppliers_withFlowers()');
 
             $schedule = DB::select('CALL inventory_Schedules()');
 
             $doneschedule = DB::select('CALL doneinventory_Schedules()');
             $canceledschedule = DB::select('CALL canceledinventory_Schedules()');
             $arriving = DB::select('CALL view_Arriving_Inventory()');
-            //dd($arriving);
            return view('flower.inventoryScheduling.schedule_Inventory')
            ->with('arriving',$arriving)
            ->with('schedInv',$schedule)

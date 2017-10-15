@@ -256,7 +256,7 @@
             <hr>
 
             <p class = "text-left"><b>Complete what would you like to do?</b></p>
-            @if($SalesOrder->Status == "BALANCED" OR $SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+          @if($SalesOrder->Status == "BALANCED" OR $SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
               <div class="row">
                 <div class = "col-md-6">
                   @if($SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
@@ -274,7 +274,7 @@
 
                 </div>
               </div>
-            @elseif($SalesOrder->Status  == "P_PARTIAL")
+          @elseif($SalesOrder->Status  == "P_PARTIAL")
               <div class="row">
                 <div class = "col-md-6">
                   <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</button>
@@ -328,7 +328,7 @@
               </div>
               <br>
               <br>
-            @elseif($SalesOrder->Status  == "P_FULL")
+          @elseif($SalesOrder->Status  == "P_FULL")
                 <div class="row">
                   <div class = "col-md-6" style = "margin-left:-3%;">
 
@@ -374,6 +374,51 @@
                 <hr>
                 <p style = "color:green;"><b>*Closing this Order?</b></p>
                 <p>This order will be shown at the table of orders to be acquired within 24 hours which is located at the dashboard. Closing of this order is a function not available in this page, but is available at  the page of releasing the orders</p>
+						@elseif($SalesOrder->Status  == "CLOSED")
+										<div class="row">
+											<div class = "col-md-6" style = "margin-left:-7%;">
+												<button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+													Payment Breakdown <span class = "glyphicon glyphicon-list"></span></button>
+											</div>
+										</div>
+										<div id = "p_breakdownDIV" hidden>
+										<div class = "col-md-12">
+											<button id = "payment_buildupBtn" type = "button" class = "btn btn-md pull-right" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+												Hide Breakdown of Payments<span class = "glyphicon glyphicon-chevron-up"></span>
+											</button>
+										</div>
+											<hr>
+											<br>
+											<p style = "color:green"><b>*Breakdown of payments made by the customer to this Order</b></p>
+											<table id="paymentsTbl" class="table table-bordered table-striped">
+												<thead>
+														<th class="text-center"> ID</th>
+														<th class="text-center"> Amount </th>
+														<th class="text-center"> Amount Used</th>
+														<th class="text-center"> Change</th>
+														<th class="text-center"> Balance paid for</th>
+
+												</thead>
+												<tbody>
+												@foreach($payments as $pay)
+													<tr>
+														<td>{{$pay->P_ID}}</td>
+														<td>Php {{number_format($pay->Amount_Paid,2)}}</td>
+														<td>Php {{number_format($pay->Amt_Used,2)}}</td>
+														<td>Php {{number_format($pay->change,2)}}</td>
+														<td>Php {{number_format($pay->BALANCE,2)}}</td>
+												</button>
+												@endforeach
+												</tbody>
+											</table>
+										</div>
+										<hr>
+										<p style = "color:green;"><b>*This Order was already done/closed</b></p>
+										@if($SalesOrder->customer_ID != NULL)
+											<p>The order was already acquired and completely paid by the customer named {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}} with the customer ID CUST-{{$SalesOrder->customer_ID}}</p>
+										@else
+											<p>The order was already acquired and completely paid by the customer named {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
+										@endif
             @endif
 
               <div id = "PaymentDiv" hidden>

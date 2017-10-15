@@ -286,8 +286,8 @@ class ManageOrder_bankController extends Controller
                             $change = 0.00;
                           }
                         }else if($NewSalesOrder_details->Status == 'P_PARTIAL'){
-                          $Status = '';
-                          $Stat = '';
+                          $Status = 'P_FULL';
+                          $Stat = 'PF';
                         }
                         $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($id,$Status,$balance));//updated the status of the order details as well sa the salesorder status
 
