@@ -168,6 +168,7 @@ class ClientController extends Controller
 
         }
 
+
         public function getLogout(){
           Auth::logout();
           Cart::instance('finalboqcart')->destroy();

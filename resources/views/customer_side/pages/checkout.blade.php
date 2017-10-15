@@ -73,18 +73,18 @@
 								        </div>
 								        </div>
 
-      							     <p class="text-center fontxx">Already have an account? <a id="loginshow" href="#" type="button"> Sign in now!</a> </p>
+      							     <p class="text-center fontxx">Already have an account? <a href="{{ route('customer_side.pages.signin') }}" type="button"> Sign in now!</a> </p>
                        @endif
 							    </div>
 
 							     <div id="loginshowdiv" hidden="" class="row">
 					                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-					                    <form role="form">
+					                    <form method="POST" action="{{ route('customer_side.pages.signin') }}">
 					                        <fieldset>
 					                            <h2 class="text-center fontx">Sign In</h2>
 					                            <hr class="colorgraph">
 					                            <div class="form-group">
-					                                <input type="email" name="email" id="email" class="form-control input-lg fontxx" placeholder="Email Address">
+					                                <input type="text" name="email" id="email" class="form-control input-lg fontxx" placeholder="Email Address">
 					                            </div>
 					                            <div class="form-group">
 					                                <input type="password" name="password" id="password" class="form-control input-lg fontxx" placeholder="Password">
@@ -92,12 +92,13 @@
 					                            <hr class="colorgraph">
 					                            <div class="row">
 					                                <div class="col-xs-6 col-sm-6 col-md-6">
-					                                    <input type="submit" class="btn btn-lg btn-success btn-block fontxx" value="Sign In">
+					                                    <button type="submit"  class="btn btn-lg btn-success btn-block fontxx" > Sign in </button>
 					                                </div>
 					                                <div class="col-xs-6 col-sm-6 col-md-6">
 					                                    <a href="register.php" class="btn btn-lg btn-primary btn-block fontxx">Register</a>
 					                                </div>
 					                            </div>
+												{{ csrf_field() }}
 					                            <a href="" class="btn btn-link pull-right fontxx">Forgot Password?</a>
 					                        </fieldset>
 					                    </form>
