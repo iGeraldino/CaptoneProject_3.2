@@ -12,118 +12,54 @@
    ?>
     <!-- Content Header (Page header) -->
   <section class="content-header">
-      <h2> List of Flowers to Order</h2>
-
         <div hidden>
             <input id = "AddFlower_result" value = "{{$AddSessionValue}}">
             <input id = "DelFlower_result" value = "{{$deleteSessionValue}}">
         </div>
 
 
-       <div class="container" style="margin-top: 50px;">
+       <div class="col-xs-12" style="margin-top: 3%;">
         <div class="panel panel-primary">
-          <div class="panel-heading" style="background-color: #C93756">
+          <div class="panel-heading Subu">
             <h3 class="panel-title">Scheduled Inventory Delivery</h3>
           </div>
           <div class="panel-body">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label">Schedule ID: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">CUST-{{$SuppDet->supplier_ID}}</span>
+            <div class="row">
+              <div class="col-md-4">
+                <h3><b>LIST OF FLOWERS TO ORDER</b></h3>
+              </div>
+              <div class="col-md-8"> 
+                <button type="button" class="btn twitch btn-md pull-right" data-toggle="modal" data-target="#newFlower">
+                  Order Flower
+                </button>
+
+                <a href="{{route('InventorySched.Save_requestCreated')}}" class="btn btn-md Lush btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be saved and monitored by the system for, you will be redirected to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-floppy-save"></span>  Save the request </a>
+
+
+                <a href=" {{ route ('InventorySched.Cancel_requestCreation') }}" class="btn btn-md Shalala btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be reset for you have cancelled the creation, and will redirect you to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-remove"></span> Cancel request creation </a>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Supplier Name: </label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$SuppDet->supplier_FName}} {{$SuppDet->supplier_MName}}, {{$SuppDet->supplier_LName}}</span>
+                <span class="control-label"><b>SCHEDULE ID: </b></span>
+                <span style="text-transform: uppercase;"><b>CUST-{{$SuppDet->supplier_ID}}</b></span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <span class="control-label"><b>SUPPLIER NAME: </b></label>
+                <span style="text-transform: uppercase;"><b>{{$SuppDet->supplier_FName}} {{$SuppDet->supplier_MName}}, {{$SuppDet->supplier_LName}}</b></span>
               </div>
             </div>
 
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Date to be Delivered</label>
-                <span class="label" style="font-size: 100%; background-color: #F62459">{{$Schedule_details['0']}}</span>
+                <span class="control-label"><b>DATE TO BE DELIVERED: </b></span>
+                <span style="text-transform: uppercase;"><b>{{$Schedule_details['0']}}</b></span>
               </div>
             </div>
-          </div>
-        </div>
-  </div>
 
-
-    <div class="col-md-8 ">
-      <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#newFlower">
-        Order Flower
-      </button>
-
-      <a href="{{route('InventorySched.Save_requestCreated')}}" class="btn btn-md btn-success btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be saved and monitored by the system for, you will be redirected to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-floppy-save"></span>  Save the request </a>
-
-
-      <a href=" {{ route ('InventorySched.Cancel_requestCreation') }}" class="btn btn-md btn-danger btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be reset for you have cancelled the creation, and will redirect you to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-remove"></span> Cancel request creation </a>
-
-      <br>
-      <br>
-    </div>
-          <div class="modal fade" id="newFlower" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                      <h3 class="modal-title" id="lineModalLabel">Add Flower for this Qoutation</h3>
-                    </div>
-                  <!--form open here-->
-                      {!! Form::open(array('route' => 'InventoryScheduling_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
-
-                            <div class="modal-body">
-                                    <!-- content goes here -->
-                                    <div id = 'FLower_ListDiv' class = "row">
-                                      <div class = "col-md-7">
-                                        <select id = 'FLowerList' name = 'FLowerList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID" required>
-                                            <option value = '-1' data-tag ='-1' disabled selected>Please Choose one Flower </option>
-                                          @foreach($FlowerList as $Fdetails)
-                                            <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->F_Image}}'>
-                                            {{$Fdetails->Flwr_Name}}
-                                            </option>
-                                          @endforeach
-                                        </select>
-                                         <img class="img-responsive" height="70%" width="70%" alt="" src="http://placehold.it/320x320" />
-                                      </div>
-                                      <div class = 'col-md-4'>
-                                        <div class="form-group label-floating">
-
-                                        </div>
-                                        <div class="form-group label-floating">
-                                            <label for = "QTY_Field" class="control-label">Desired Quantity:</label>
-                                            <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" required/>
-                                        </div>
-                                      </div>
-                                      <div hidden>
-                                        <input id = "SchedID_field" name = "SchedID_field" value = "">
-                                      </div>
-                                   </div>
-                              </div>
-                            <div class="modal-footer">
-                              <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-                                <div class="btn-group" role="group">
-                                  <button type="button" class="btn btn-danger" data-dismiss="modal"  role="button">Cancel</button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                   <button type = "submit" name = "AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add to list</button>
-
-                                </div>
-                              </div>
-                            </div>
-                            </div>
-                              {!! Form::close() !!}
-                           <!--Form close here-->
-                          </div>
-                          </div>
-  </section>
-
-
-
-  <div class="container">
-    <div class="row" >
-        <div class="col-xs-12">
+            <div class="col-xs-12">
           <div class="box">
 
             <!-- /.box-header -->
@@ -161,13 +97,7 @@
                       </tr>
                   @endforeach
                     <!--end of foreach-->
-              </div>
-            </div>
-          </div>
-
-
                 </tbody>
-
               </table>
             </div>
             <!-- /.box-body -->
@@ -175,13 +105,76 @@
           <!-- /.box -->
 
           </div>
+
+
+          </div>
+
         </div>
-        <!-- /.col -->
-      </div>
-
-
-
   </div>
+
+  <div class="modal fade" id="newFlower" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="lineModalLabel">Add Flower for this Qoutation</h3>
+      </div>
+    <!--form open here-->
+        {!! Form::open(array('route' => 'InventoryScheduling_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
+
+              <div class="modal-body">
+                      <!-- content goes here -->
+                      <div id = 'FLower_ListDiv' class = "row">
+                        <div class = "col-md-7">
+                          <select id = 'FLowerList' name = 'FLowerList' class = 'btn btn-primary btn-md' placeholder = "choose Customer ID" required>
+                              <option value = '-1' data-tag ='-1' disabled selected>Please Choose one Flower </option>
+                            @foreach($FlowerList as $Fdetails)
+                              <option value = '{{$Fdetails->flower_ID}}' data-tag ='{{$Fdetails->F_Image}}'>
+                              {{$Fdetails->Flwr_Name}}
+                              </option>
+                            @endforeach
+                          </select>
+                           <img class="img-responsive" height="70%" width="70%" alt="" src="http://placehold.it/320x320" />
+                        </div>
+                        <div class = 'col-md-4'>
+                          <div class="form-group label-floating">
+
+                          </div>
+                          <div class="form-group label-floating">
+                              <label for = "QTY_Field" class="control-label">Desired Quantity:</label>
+                              <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" required/>
+                          </div>
+                        </div>
+                        <div hidden>
+                          <input id = "SchedID_field" name = "SchedID_field" value = "">
+                        </div>
+                     </div>
+                </div>
+              <div class="modal-footer">
+                <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"  role="button">Cancel</button>
+                  </div>
+                  <div class="btn-group" role="group">
+                     <button type = "submit" name = "AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add to list</button>
+
+                  </div>
+                </div>
+              </div>
+              </div>
+                {!! Form::close() !!}
+             <!--Form close here-->
+            </div>
+            </div>
+
+  </section>
+
+
+
+
+
+
+
 @endsection
 
 

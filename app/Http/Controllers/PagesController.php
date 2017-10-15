@@ -270,7 +270,32 @@ class PagesController extends Controller
 		}
 
 	public function getCashierDashboard() {
-			return view('cashier/pages/cashier_dashboard');
+			$Pending_salesOrders = DB::table('sales_order')
+			->select('*')
+			->where('Status','PENDING')
+			->get();
+
+			$arriving = DB::select('CALL view_Arriving_Inventory()');
+
+			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+
+			$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+
+			$order_Paid = DB::select('CALL fullyPaid_Orders()');
+			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
+			//
+			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+			return view('cashier/pages/cashier_dashboard')
+			 ->with('p_Orders',$order_Paid)
+			 ->with('b_Orders',$orderWith_Bal)
+			 ->with('debtors',$Customers_WithDebts)
+			 ->with('tobeAcquired',$tobeAcquired_Orders)
+			 ->with('CriticalFLowers',$CriticalFLowers)
+       ->with('arriving',$arriving)
+			 ->with('Porders',$Pending_salesOrders)
+			 ->with('SpoiledFLowers',$SpoiledFLowers);
+			 //->with('charts',$charts);
 		}
 
 	public function getCashierSalesOrder() {
