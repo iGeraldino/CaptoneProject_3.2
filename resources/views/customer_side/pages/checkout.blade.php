@@ -590,7 +590,7 @@
 											<!--Form() open dito-->
                       <form method="post" action="{{ route('checkoutfinalpickup') }}">
 											<div class="row pull-right">
-												<div ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?
@@ -803,7 +803,7 @@
 
 											<!--Form() open dito-->
 											<div class="row pull-right">
-												<div  ><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div  hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?

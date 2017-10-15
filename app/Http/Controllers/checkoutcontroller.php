@@ -194,8 +194,8 @@ class checkoutcontroller extends Controller
 
       $lastid = $orderdetails->id;
 
-        $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
-        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
+        $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
+        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
         $schedulestatus = "pending";
 
