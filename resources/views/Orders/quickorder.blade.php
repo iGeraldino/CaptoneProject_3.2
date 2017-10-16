@@ -248,19 +248,17 @@
                       ?>
             			@foreach(Cart::instance('QuickOrdered_Flowers')->content() as $Flwr)
             			<div class="row">
-                      <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
+                      <div class="col-xs-1" style="margin-right: 2%">
+                        <img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
                       </div>
-                      <div class="col-xs-1">
-                        <p class="product-name"><strong>BATCH_{{$Flwr->options->batchID}}</strong></p>
-                      </div>
-                      <div class="col-xs-2">
-                        <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
+                      <div class="col-xs-3">
+                        <h6 class="product-name">(BATCH_{{$Flwr->options->batchID}}) <strong>{{$Flwr->name}}</strong></h6>
                       </div>
                       <div class="col-xs-3" style = "color:red; margin-top:3%;">
-                        <h7>{{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+                        <h7>Php {{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
                       </div>
                       <div class="col-md-1" style = "margin-top:3%; margin-left:-10%;">
-                        <label>{{$Flwr->qty}}</label>
+                        <label> {{$Flwr->qty}}</label>
                       </div>
                       <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
                         <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
