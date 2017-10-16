@@ -16,6 +16,9 @@
      Cart::instance('QuickFinalBqt_Acessories')->destroy();
 */
 
+  $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
+  Session::remove('AddingFlowerTocartSession');
+
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
    Session::remove('QuickBqtClearSession');
 
@@ -101,6 +104,9 @@
   <input id = "DeleteBqt_result" value = "{{$DeletionofBouquetSessionValue}}">
 
 
+  <input id = "InvalidAddingFlwr_result" value = "{{$addingFlower_ValueSession}}">
+
+
   <input id = "AddFlower_result" value = "{{$sessionValue}}">
   <input id = "AddAcessory_result" value = "{{$sessionAcValue}}">
   <input id = "UpdateFlower_result" value = "{{$sessionUpdateFValue}}">
@@ -156,7 +162,7 @@
 							  @foreach($FlowerList as $Fdetails)
 									<div class="col-sm-3">
 										<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
-										<div>
+										<div hidden>
 											<input class = "Flwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "Flwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 											<input class = "Flwr_name_Field" value = "{{ $Fdetails->flower_name}}">
@@ -244,14 +250,17 @@
             			<div class="row">
                       <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
                       </div>
+                      <div class="col-xs-1">
+                        <p class="product-name"><strong>BATCH_{{$Flwr->options->batchID}}</strong></p>
+                      </div>
                       <div class="col-xs-2">
                         <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
                       </div>
                       <div class="col-xs-3" style = "color:red; margin-top:3%;">
                         <h7>{{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
                       </div>
-                      <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-                        <label>{{$Flwr->qty}} pcs.</label>
+                      <div class="col-md-1" style = "margin-top:3%; margin-left:-10%;">
+                        <label>{{$Flwr->qty}}</label>
                       </div>
                       <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
                         <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
@@ -696,10 +705,11 @@
                     <input id = "batch_ID" class = "form-control"  name="batch_ID" list="batch_IDList" placeholder="Enter Batch number of the selected flower"/>
                     <datalist id="batch_IDList">
                     <!--Loop data Here-->
-                  </datalist>
-                </div>
+                    </datalist>
+                  </div>
                 <div id = "details_Div"></div>
                 <div id = "sellingPrice_Div" hidden>
+                  <button id = "showbatch_Chooser" class = "btn btn-md btn-primary">Choose Other Batch</button>
                   <div class="form-group">
                     <label class="control-label">Current Selling Price</label>
                     <input name="ViewPrice_Field" id="ViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
@@ -1006,6 +1016,12 @@
  	   }
 
 
+     if($('#InvalidAddingFlwr_result').val()=='Fail'){
+ 	    //Show popup
+ 	    swal("Sorry","The request cannot be accepted, this is because the batch that you have chosen to get flowers from cannot cupply the request based on the flowers on the cart!","error");
+ 	   }
+
+
 	  if($('#DeleteAcessory_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Acessory has been removed!","success");
@@ -1126,6 +1142,7 @@
 
 
 		$(document).on('click', '.Flower_Tab_Btn', function(){
+      $('#batch_Chooser').show('fold');
       $('#sellingPrice_Div').hide();
       $('#flwr_AddTocartBTN').hide();
 			$("#Flwr_ID").remove();
@@ -1146,13 +1163,10 @@
       $('.Flwr_batches_Field').eq(index).find('option').each(function(){
         options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).val()).toFixed(2) +'</option>';
       });
-      alert(options);
+      //alert(options);
 
       document.getElementById('batch_IDList').innerHTML = options;
 
-			//$('#ViewPrice_Field').val("Php " + Flwr_Price);
-			//$('#OrigInputPrice_Field').val(Flwr_Price);
-			//$('#NewPrice_Field').val(Flwr_Price);
 			$('#FlwrID_Field').val(Flwr_ID);
 			$('#FlWR_tab_Image').attr("src",Flwr_IMG);
 			//$('#AvailableQty_Field').val(Flwr_QTY + " pcs.");
@@ -1177,6 +1191,7 @@
       });
 
       if(Found == 1){
+
         $('#ViewPrice_Field').val("Php " + parseFloat(price).toFixed(2));
         $('#OrigInputPrice_Field').val(price);
         $('#NewPrice_Field').val(price);
@@ -1187,7 +1202,9 @@
         $('#sellingPrice_Div').show("fold");
         $('#flwr_AddTocartBTN').show('fold');
         $('#flwr_AddTocartBTN').attr('disabled',false);
+        $('#batch_Chooser').hide('fold');
       }else{
+        if('')
         //the batch ID that you have chosen does not exist
         $('#ViewPrice_Field').val("");
         $('#OrigInputPrice_Field').val("");
@@ -1199,6 +1216,12 @@
         $('#sellingPrice_Div').hide("fold");
       }
 
+    });
+    $('#showbatch_Chooser').click(function(){
+      $('#sellingPrice_Div').hide("fold");
+      $('#batch_Chooser').show('fold');
+      $('#flwr_AddTocartBTN').attr('disabled',true);
+      $('#flwr_AddTocartBTN').hide('fold');
     });
 
 
