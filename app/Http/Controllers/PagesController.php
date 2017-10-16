@@ -544,7 +544,10 @@ class PagesController extends Controller
 		}
 
 	public function getInventoryFlowerList() {
-			return view('inventory_side/pages/inventory_flower_list');
+			$flower = DB::select('CALL Viewing_Flowers_With_UpdatedPrice()');
+           // dd($flower);
+            return view('inventory_side/pages/inventory_flower_list')
+            -> with ('flower', $flower);
 		}
 
 	public function getInventorySideTransaction() {
