@@ -176,7 +176,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
               echo 'may laman';
               $Insertion = 0;
           foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
-              if($row->id == $Flower_ID AND $row->options->batchID == $batchID){
+              if($row->id == $Flower_ID AND $row->options->batchID == $Rbatch_ID){
                   // echo $row->rowId;
                   //for existing item in the cart update a specific record
                   $TotalQty = $row->qty + $Qty;
@@ -313,7 +313,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
        }
        else{
          $newQty = $request->QuantityField;
-         $order_ID = $request->ID_Field;
+         $Rbatch_ID = $request->batch_Field;
          $descision = $request->Decision_Field;
          $flower_details = flower_details::find($id);
          $oldQty = 0;
@@ -321,31 +321,74 @@ class AddFlowers_to_session_QuickBQT extends Controller
 
                    $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
-                   foreach($AvailableFlowers as $Aflwrs){
-                     if($Aflwrs->flower_ID == $id){
-                       if($newQty > $Aflwrs->QTY){
-                         Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
-                         return redirect()->back();
-                       }else{
-                         foreach(Cart::instance('overallFLowers')->content() as $flwr){
-                           //dd($Aflwrs->flower_ID);
-                           $qtyWhenAdded = 0;
-                           if($flwr->id == $Aflwrs->flower_ID){
-                             $qtyWhenAdded = $flwr->qty + $newQty;
-                             if($qtyWhenAdded > $Aflwrs->QTY){
-                               //dd($qtyWhenAdded,$Aflwrs->QTY);
-                               Session::put('Update_FlowerToBQT_QuickOrder', 'Fail3');
-                               return redirect()->back();
-                             }//determines if the inventory cannot sustain the order anymore....
-                           }//end of inner if
+                   //-------------------------------------------------------------sends the data to the session cart.
+                         Cart::instance('BatchesofFLowers')->destroy();
+                         $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+                         foreach($batches_ofFlowers as $batch){
+                             $batchID = $batch->Batch.'_'.$batch->flower_ID;
+                             $batchname = 'batch-'.$batch->Batch.'_'.$batch->Name;
+
+                             Cart::instance('BatchesofFLowers')->add(['id'=>$batchID,'name' =>$batchname,
+                              'qty'=> $batch->QTYRemaining, 'price' => $batch->SellingPrice,'options'=>['qtyR'=>$batch->QTYRemaining]]);
+                         }
+
+                  //------------------------------------------------------------------------deducts all of the flowers that are in the cart from the flowers available in the list
+                         foreach(Cart::instance('BatchesofFLowers')->content() as $batches){
+                           $batchID = explode('_',$batches->id);
+                           $qtyremaining =  $batches->options->qtyR;
+                           foreach(Cart::instance('QuickOrdered_Flowers')->content() as $flwr){
+                             if($flwr->id == $batchID[1] AND $flwr->options->batchID == $batchID[0]){
+                               $newQty = 0;
+                               $qtyremaining = $qtyremaining - $flwr->qty;
+                               Cart::instance('BatchesofFLowers')->update($batches->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                             }//end of if the flower and batch id is equal to the flower that is in the list
+                           }//end of foreach that loops the flowers under that specific bouquet
+
+                           foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $Unset_bqtFlwr){
+                             if($Unset_bqtFlwr->id == $batchID[1] AND $Unset_bqtFlwr->options->batchID == $batchID[0]){
+                               $newQty = 0;
+                               $qtyremaining = $qtyremaining - $Unset_bqtFlwr->qty;
+                               Cart::instance('BatchesofFLowers')->update($batches->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                             }//end of if the flower id and the batch id is equal to the flower in the list of available flowers
+                           }//end of foreach that searches for the flowers under this order
+
+                           if(Cart::instance('QuickOrdered_Bqt')->count() > 0){
+                             foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
+                               foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $bqtFlwr){
+                                 if($Bqt->id == $bqtFlwr->options->bqt_ID){
+                                   if($flwr->id == $batchID[1] AND $flwr->options->batchID == $batchID[0]){
+                                     $newQty = 0;
+                                     $qtyremaining = $qtyremaining - ($bqtFlwr->qty * $Bqt->qty);
+                                     Cart::instance('BatchesofFLowers')->update($batches->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                                   }//end of if the flower under the bouet is equal to the flower _
+                                 }//loops the flowers under a specific bqt
+                               }//end of searching for flowers under the bouquets
+                             }//end of searching for bouquets
+                           }//if there is a content of the bqt_cart
+                         }//end of foreach that loop all of the flowers available in the database
+
+                 //---------------------------------------------------------------------------------checks if the values entered are still abled to be added to the cart
+                     foreach(Cart::instance('BatchesofFLowers')->content() as $batches){
+                       $batchID = explode('_',$batches->id);
+                       if($Rbatch_ID == $batchID[0] AND $id == $batchID[1]){
+                         if($newQty > $batches->options->qtyR){
+                           Session::put('AddingFlowerTocartSession','Fail');
+                           return redirect()-> back();
                          }
                        }
                      }
-                   }//end of main foreach
+                   //dd(Cart::instance('overallFLowers')->content());R
+
+
 
 
         foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
-             if($row->id == $id){
+          //dd(Cart::instance('QuickOrderedBqt_Flowers')->content());
+             if($row->id == $id AND $Rbatch_ID == $row->options->batchID){
+                $idOfRow = $row->rowId;
+                echo $idOfRow.'<br>';
+
+               //dd($Rbatch_ID);
                  // echo $row->rowId
                  $final_total_Amount = 0;
                  $derived_Sellingprice = 0;
@@ -356,10 +399,62 @@ class AddFlowers_to_session_QuickBQT extends Controller
                    Session::put('Update_FlowerToBQT_QuickOrder', 'Fail');
                    return redirect()->back();
                  }else{
-                   if($descision == 'O'){
+                   if($newQty > $oldQty){
+                     $qtyadded = $newQty - $oldQty;
+                    foreach($AvailableFlowers as $Aflwrs){
+                      if($Aflwrs->flower_ID == $id){
+                        if($qtyadded > $Aflwrs->QTY){
+                          Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
+                          return redirect()->back();
+                        }else{
+                          foreach(Cart::instance('overallFLowers')->content() as $flwr){
+                            //dd($Aflwrs->flower_ID);
+                            $qtyWhenAdded = 0;
+                            if($flwr->id == $Aflwrs->flower_ID){
+                              $qtyWhenAdded = $flwr->qty + $newQty;
+                              if($qtyWhenAdded > $Aflwrs->QTY){
+                                //dd($qtyWhenAdded,$Aflwrs->QTY);
+                                Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
+                                return redirect()->back();
+                              }//determines if the inventory cannot sustain the order anymore....
+                            }//end of inner if
+                          }
+                        }
+                      }
+                    }//end of main foreach
+                    if($descision == 'O'){
+                      dd('hi1');
+                      if($newQty>=$flower_details->QTY_of_Wholesale){
+                        $derived_Sellingprice =
+                        $row->options['orig_price'] - ($row->options['orig_price'] * 0.10);
+                        //computes for the selling price that reached the required qty for wholesale pricing
+                        $final_total_Amount = $derived_Sellingprice * $newQty;
+                      }//checks if the qty reached the Limit of the needed qty for wholesale
+                      else{
+                        $derived_Sellingprice = $row->options['orig_price'];
+                        $final_total_Amount = $derived_Sellingprice * $newQty;
+                      }//end of inner else
+                    }//end of if
+                    else{
+                      $derived_Sellingprice = $row->price;
+                      $final_total_Amount = $row->price * $newQty;
+                    }//end of outer else(this is automatically understood that it is newPrice)
+
+                    echo $idOfRow.'<br>';
+                    Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,
+                    'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
+                    'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision,'batchID'=>$row->options->batchID]]);
+                    Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
+
+                    $Insertion = 0;
+                    break;
+                   }else{
+                     if($descision == 'O'){
+
                        if($newQty>=$flower_details->QTY_of_Wholesale){
+
                          $derived_Sellingprice =
-                           $row->options['orig_price'] - (($row->options['orig_price'] * $flower_details->WholeSalePrice_Decrease)/100);
+                         $row->options['orig_price'] - ($row->options['orig_price'] * 0.10);
                          //computes for the selling price that reached the required qty for wholesale pricing
                          $final_total_Amount = $derived_Sellingprice * $newQty;
                        }//checks if the qty reached the Limit of the needed qty for wholesale
@@ -367,34 +462,26 @@ class AddFlowers_to_session_QuickBQT extends Controller
                          $derived_Sellingprice = $row->options['orig_price'];
                          $final_total_Amount = $derived_Sellingprice * $newQty;
                        }//end of inner else
-                   }//end of if
-                   else{
-                         $derived_Sellingprice = $row->price;
-                         $final_total_Amount = $row->price * $newQty;
-                   }//end of outer else(this is automatically understood that it is newPrice)
+                     }//end of if
+                     else{
+                       $derived_Sellingprice = $row->price;
+                       $final_total_Amount = $row->price * $newQty;
+                                                dd('hi2');
+                     }//end of outer else(this is automatically understood that it is newPrice)
 
-                   Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision]]);
-                   $Insertion = 0;
-                   break;
+                     echo $idOfRow.'<br>';
+                     Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,
+                     'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
+                     'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision,'batchID'=>$row->options->batchID]]);
+                     Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
+
+                     $Insertion = 0;
+                     break;
+                   }
                  }
              }//end of if
          }//end of foreach*/
 
-         foreach(Cart::instance('overallFLowers')->content() as $inCartflowers){
-           if($inCartflowers->id == $id){
-               if($newQty > $oldQty){
-                 $newQty = $inCartflowers->qty + ($newQty - $oldQty);
-               }else if($newQty < $oldQty){
-                 $newQty = $inCartflowers->qty - ($oldQty - $newQty);
-               }else if($oldQty == $newQty){
-                 $newQty = $inCartflowers->qty;
-               }
-              Cart::instance('overallFLowers')->update($inCartflowers->rowId,['qty' => $newQty]);
-              break;
-           }//
-         }
-
-         Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
              return redirect()-> back();
 
          //return redirect()->route('Order.CustomizeaBouquet');

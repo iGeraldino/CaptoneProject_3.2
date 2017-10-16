@@ -11,10 +11,11 @@
 
      Cart::instance('QuickOrdered_Flowers')->destroy();
 
-     Cart::instance('QuickOrdered_Bqt')->destroy();
      Cart::instance('QuickFinalBqt_Flowers')->destroy();
      Cart::instance('QuickFinalBqt_Acessories')->destroy();
 */
+Cart::instance('Quick OrderedBqt_Flowers')->destroy();
+
 
   $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
   Session::remove('AddingFlowerTocartSession');
@@ -367,7 +368,8 @@
   			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
   			                        </div>
                                 <div class="col-md-2"  hidden>
-  			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+                                  <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+  			                          <input id = 'batch_Field' name = 'batch_Field' class="form-control input-sm" value="{{$BQT_Flowers->options->batchID}}">
   			                        </div>
   			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;  margin-left:-2%;">
   			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
