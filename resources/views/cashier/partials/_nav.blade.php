@@ -125,7 +125,6 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/cashier_flower_list"><i class="fa fa-circle-o"></i> Flower List</a></li>
-                <li><a href="/cashier_inventory_transaction"><i class="fa fa-circle-o"></i> Inventory Transaction</a></li>
                 <li><a href="/cashier_flower_price_list"><i class="fa fa-circle-o"></i> Flower Price List</a></li>
               </ul>
             </li>
@@ -137,7 +136,7 @@
       <!-- sidebar menu: Online shop -->
       <ul class="sidebar-menu">
         <li class="treeview">
-          <a href="/home">
+          <a href="/WonderbloomFlowershop">
             <i class="material-icons">store_directory</i> <span>Online Shop</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

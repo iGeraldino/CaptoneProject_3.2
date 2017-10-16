@@ -82,32 +82,34 @@
                     </div>
                     <div class="modal-body">
                       <div id = "summaryDiv" hidden>
-                        <table id="finalSummary_Tbl" class="table table-bordered table-striped">
-                          <thead>
-                              <th class="text-center"> ID </th>
-                              <th class="text-center"> Name </th>
-                              <th class="text-center"> Expected</th>
-                              <th class="text-center"> Recieved</th>
-                              <th class="text-center"> Good Qty</th>
-                              <th class="text-center"> Spoiled Qty</th>
-                              <th class="text-center"> Cost</th>
-                          </thead>
-                          <tbody>
-                          <!--foreach here-->
-                          @foreach(Cart::instance('Flowers_to_Arrive')->content() as $processed)
-                                <tr>
-                                  <td class="text-center"> FLWR-{{$processed->id}}  </td>
-                                  <td class="text-center"> {{$processed->name}} </td>
-                                  <td class="text-center">  {{$processed->options->expected}} pcs </td>
-                                  <td class="text-center">  {{$processed->qty}} pcs </td>
-                                  <td class="text-center">  {{$processed->options->goodQty}} pcs </td>
-                                  <td class="text-center">  {{$processed->options->spoiledQty}} pcs </td>
-                                  <td class="text-center"> Php {{number_format($processed->price,2)}}</td>
-                                 </tr>
-                            @endforeach
-                                <!--end of foreach-->
-                            </tbody>
-                          </table>
+                          <div class="box-body" style="overflow-x: auto;">
+                          <table id="finalSummary_Tbl" class="table table-bordered table-striped">
+                            <thead>
+                                <th class="text-center"> ID </th>
+                                <th class="text-center"> Name </th>
+                                <th class="text-center"> Expected</th>
+                                <th class="text-center"> Recieved</th>
+                                <th class="text-center"> Good Qty</th>
+                                <th class="text-center"> Spoiled Qty</th>
+                                <th class="text-center"> Cost</th>
+                            </thead>
+                            <tbody>
+                            <!--foreach here-->
+                            @foreach(Cart::instance('Flowers_to_Arrive')->content() as $processed)
+                                  <tr>
+                                    <td class="text-center"> FLWR-{{$processed->id}}  </td>
+                                    <td class="text-center"> {{$processed->name}} </td>
+                                    <td class="text-center">  {{$processed->options->expected}} pcs </td>
+                                    <td class="text-center">  {{$processed->qty}} pcs </td>
+                                    <td class="text-center">  {{$processed->options->goodQty}} pcs </td>
+                                    <td class="text-center">  {{$processed->options->spoiledQty}} pcs </td>
+                                    <td class="text-center"> Php {{number_format($processed->price,2)}}</td>
+                                   </tr>
+                              @endforeach
+                                  <!--end of foreach-->
+                              </tbody>
+                            </table>
+                          </div>
                           <button id = "hidetbl_BTN" type="button" class="pull-left btn btn-round twitch btn-md"  data-toggle="tooltip" data-placement="bottom" title="This Button will hide the summary of the requests in for the inventory" data-container="body">
                             Hide Summary
                           </button>
@@ -239,7 +241,7 @@
                 <div class="col-xs-7">
                   <div class="box">
                     <!-- /.box-header -->
-                    <div class="box-body">
+                    <div class="box-body" style="overflow-x: auto;">
                       <h4><b>Current Progress: </b></h4>
                       <table id="flowersToSaveTable" class="table table-bordered table-striped">
                         <thead>
