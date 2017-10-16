@@ -119,8 +119,6 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
       }
 
 
-
-
         if(Cart::instance('QuickOrdered_Flowers')->count() == 0){
           echo 'wala pang laman';
               $derived_Sellingprice = 0;
