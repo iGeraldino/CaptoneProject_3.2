@@ -393,7 +393,27 @@ class PagesController extends Controller
 		}
 
 	public function getSignupPage() {
-			return view('login/signup_page');
+
+	        $code = db::table('admins')->select('Random_Code')->get();
+            $signcode = "";
+            $validator = "";
+
+	        if($code == null){
+
+	            $signcode = "1234";
+                $validator = 0;
+
+            }
+            else{
+
+	            $signcode = '';
+	            $validator = 1;
+
+
+            }
+
+
+			return view('login/signup_page')->with(['signcode' => $signcode, 'validator' => $validator]);
 		}
 
 	public function getInventoryReportsFlower() {

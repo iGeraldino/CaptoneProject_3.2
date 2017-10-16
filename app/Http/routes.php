@@ -471,7 +471,7 @@ Route::get('sales_report', 'PagesController@getSalesReport');
 
 Route::get('inventory_reports_batch', 'PagesController@getInventoryReportsBatch');
 
-Route::get('signup_page', 'PagesController@getSignupPage');
+Route::get('signup_page', ['uses' => 'PagesController@getSignupPage', 'as' => 'postsignin']);
 
 Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
 
@@ -510,6 +510,10 @@ Route::post('CheckoutSignin', ['uses' => 'ClientController@CheckoutSignin', 'as'
         'as' => 'adminlogout',
 
     ]);
+
+    Route::post('AdminSignup', ['uses' => 'AdminAccounts_Controller@AdminPostSignup', 'as' => 'AdminSignup']);
+
+    Route::post('AdminSignin', ['uses' => 'AdminAccounts_Controller@AdminPostSignin', 'as' => 'AdminSignin']);
 
 
 

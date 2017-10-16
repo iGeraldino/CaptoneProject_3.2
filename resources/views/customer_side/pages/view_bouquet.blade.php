@@ -85,6 +85,7 @@
 						<h4>Price of Bouquet</h4>
 							<input type="number" class="form-control hidden"   name ="totalcount" value="{{ $totalflowers + $totalaccessories }}">
 
+							<input type="text" value="{{ $bouq -> bouquet_ID }}" name="boqid" class="hidden">
 							<div class="row">
 							<div class="col-md-3">
 								<h5>Quantity</h5>

@@ -12,7 +12,7 @@
 		 <div class="row">
 			<div class="col-md-4 col-md-offset-2">
 				<div class="card card-signup">
-					<form class="form" method="" action="">
+					<form class="form" method="post" action="{{ route('AdminSignin') }}">
 						<div class="header header-primary text-center">
 							<h4>LOGIN</h4>
 						</div>
@@ -38,12 +38,12 @@
 								<button type="submit"  class="btn btn-simple btn-primary btn-lg">Login</button>
 							</div>
 						</div>
+						{{ csrf_field() }}
 					</form>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="card card-signup">
-					<form class="form" method="" action="">
 						<div class="header header-primary text-center">
 							<h4>CREATE ACCOUNT</h4>
 						</div>
@@ -53,30 +53,49 @@
 
 							<div class="input-group" style="margin-top: -15%;">
 								<span class="input-group-addon">
-									<i class="material-icons">face</i>
+									<i class="material-icons"> person </i>
 								</span>
-								<input type="text" class="form-control" name="email" placeholder="User Name...">
+								<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="1" required>
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">email</i>
+								</span>
+								<input type="email" id="email" placeholder = "Email Address..." class = "form-control" tabindex="2" required/>
+							</div>
+
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">lock_outline</i>
+								</span>
+								<input type="password" id="password" placeholder = "Password..." class = "form-control" tabindex="3"/>
 							</div>
 
 							<div class="input-group">
 								<span class="input-group-addon">
 									<i class="material-icons">lock_outline</i>
 								</span>
-								<input type="password" name="password" placeholder = "Password..." class = "form-control"/>
+								<input type="password"  id="password2" placeholder = "Confirm Password..." class = "form-control" tabindex="4"/>
+								<h7 id="error" style="color: red"> Password is not the same</h7>
 							</div>
 
-							<div class="input-group">
+							<div class="input-group hidden">
 								<span class="input-group-addon">
-									<i class="material-icons">lock_outline</i>
+									<i class="material-icons">people</i>
 								</span>
-								<input type="password" name="password" placeholder = "Confirm Password..." class = "form-control"/>
+								<select class="form-control" id="admintype" tabindex="5">
+									<option value="1"> Admin </option>
+								</select>
+
 							</div>
+
 
 							<div class="text-center">
-								<button data-toggle="modal" data-target="#myModal" type=""  class="btn btn-simple btn-primary btn-lg">Generate Random Code</button>
+								<button data-toggle="modal" data-target="#myModal" id="signupbutt" type="submit" class="btn btn-simple btn-primary btn-lg" tabindex="7">Signup</button>
 							</div>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -85,22 +104,43 @@
 
 
 <!-- Modal Core -->
+
+<!-- Modal Core -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info btn-simple">Save</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Sign-up Code</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" action="{{ route('AdminSignup') }}">
+
+				<div class="input-group col-md-6" style="margin-left: 120px;">
+								<span class="input-group-addon">
+									<i class="material-icons">code</i>
+								</span>
+					<input type="text" name="randomcode" placeholder = "Signup Code..." class = "form-control" tabindex="1" maxlength="4" required/>
+				</div>
+					<input type="text" name="username" id="username1" value="">
+					<input type="text" name="email" id="email1" value="">
+					<input type="text" name="password" id="password1" value="">
+					<input type="text" name="admintype" id="admintype1" value="">
+
+				<div class="input-group col-md-6" style="margin-left: 120px;">
+								<span class="input-group-addon">
+									<button type="submit" class="btn btn-primary btn-md"> Sign-Up </button>
+								</span>
+				</div>
+					{{ csrf_field() }}
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" type="submit" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
 </div>
 
 <div class="background-wrap">
@@ -111,4 +151,69 @@
 
 
 @endsection
+
+@section('scripts')
+
+	<script>
+
+        $(document).ready(function(){
+
+           // $('#signupbutt').attr('disabled', true);
+
+			$('#error').hide();
+
+			$('#password').change(function(){
+
+                $('#password2').change(function(){
+
+                    var password = $('#password').val();
+                    var password2 = $('#password2').val();
+
+
+                    if(password == password2){
+
+						$('#error').slideUp();
+						$('#signupbutt').attr('disabled', false);
+
+					}
+					else{
+
+                        $('#error').slideDown();
+
+					}
+
+            }); //password change script
+
+
+
+
+        }); // password change script
+
+
+			$('#signupbutt').click(function(){
+
+			     var username = $('#username').val();
+			    $('#username1').val(username);
+			    var email = $('#email').val();
+			    $('#email1').val(email);
+			    var password = $('#password').val();
+			    $('#password1').val(password);
+			    var usertype = $('#admintype').val();
+			    $('#admintype1').val(usertype);
+
+
+
+
+			});
+
+
+
+
+
+        });
+
+	</script>
+
+
+	@endsection
 

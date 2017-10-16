@@ -21,7 +21,7 @@
           <div class = "row">
             <div class = "col-md-4">
               <label>Type: </label>
-              <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden></input>
+              <input id = "custTypeLbl" value = "{{$customerDetails->Customer_Type}}" hidden>
             </div>
             <div class = "col-md-4">
               <label>Contact Number: </label>
@@ -30,9 +30,24 @@
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
             <select class="form-control" name ="custTypeField2" id ="custTypeField2" >
-                <option value ="C" > Single </option>
-                <option value ="S" > Shop </option>
-                <option value ="H" > Hotel </option>
+                @if ( $type == "" )
+
+                    <option value ="C" > Single </option>
+                    <option value ="S" > Shop </option>
+                    <option value ="H" > Hotel </option>
+
+                 @elseif ( $type == "C" )
+                    <option value ="C" > Single </option>
+
+                  @elseif ( $type == "H" or $type == "S")
+
+                    <option value ="S" > Shop </option>
+                    <option value ="H" > Hotel </option>
+
+                @endif
+
+
+
             </select>
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
             <input type="text" class="form-control" name="ContactNumField2" id="ContactNumField2"  placeholder="+639..." Value = "{{$customerDetails->Contact_Num}}" required/>
