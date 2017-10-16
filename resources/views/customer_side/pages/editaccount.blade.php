@@ -304,7 +304,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="form-group">
-                      <input type="text" name="fname" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1" value="{{$details -> Cust_LName}}">
+                      <input type="text" name="fname" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1" value="{{$details -> Cust_FName}}">
                     </div>
                   </div>
                   <div class="col-xs-12 col-sm-4 col-md-4">

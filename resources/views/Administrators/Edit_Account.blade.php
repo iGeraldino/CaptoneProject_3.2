@@ -13,7 +13,6 @@
                     @foreach($AdminAcct as $AdminAcct)
                         {!! Form::model($AdminAcct,['route'=>['Admins.update', $AdminAcct->Acct_ID],'id' => 'Acctform','method'=>'PUT'])!!}
                         <div class = "row">
-                            <input type="text">
                             <div class = "col-md-5">
                                 <div class="form-group label-floating">
                                     <label class="control-label">First Name</label>
@@ -148,6 +147,15 @@
                         return false;
                     }
                 });
+
+
+            });
+
+
+            $('#passfield').change(function(){
+
+
+
 
 
             });
