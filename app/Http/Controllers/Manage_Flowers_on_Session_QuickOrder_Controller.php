@@ -138,7 +138,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                   if($Qty >= $flower_details->QTY_of_Wholesale){
                     $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
                     $final_total_Amount = $derived_Sellingprice * $Qty;
-                    if($Qty == $flower_details->QTY_of_Wholesale){
+                    if($Original_Price == $newInputted_price){
                       $decision = 'O';
                     }
                   }//checks if the qty reached the Limit of the needed qty for wholesale
@@ -297,7 +297,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
   public function update(Request $request, $id)
   {
       //
-        if(auth::guard('admins')->check() == false){
+      if(auth::guard('admins')->check() == false){
           Session::put('loginSession','fail');
           return redirect() -> route('adminsignin');
       }
