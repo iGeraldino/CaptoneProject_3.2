@@ -49,9 +49,9 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
       else{
           //dd(Cart::instance('overallFLowers')->content());
                   //
-          //$flower_Det = flower_details::find($request->FLowerList);
+
           $AvailableFlowers = DB::select  ('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-           Cart::instance('QuickOrdered_Flowers')->count();
+          Cart::instance('QuickOrdered_Flowers')->count();
           //this must view only the flowers that are not critical in qty
 
           $Flower_ID = $request->FlwrID_Field;
@@ -86,10 +86,9 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                       return redirect()->back();
                     }//determines if the inventory cannot sustain the order anymore....
                   }//end of inner if
-                }
-              }
-
-            }
+                }//inner foreach
+              }//else
+            }//available flowers
           }//end of main foreach
 
 
@@ -213,13 +212,13 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                       ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
                       'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
               }
-      }//end of outer else
+            }//end of outer else
 
           Session::put('AddFlower_To_myQuickOrder', 'Successful');
           return redirect()-> back();
                //return view('Orders.creationOfOrders')
                //->with('FlowerList',$AvailableFlowers);
-        // }
+      }
   }
 
   /**
@@ -375,7 +374,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
         //dd(Cart::instance('overallFLowers')->content());
         Session::put('update_O_FlowerQuickQty_Session','Successful');
         return redirect()->back();
-          //}
+    }
   }
 
   /**

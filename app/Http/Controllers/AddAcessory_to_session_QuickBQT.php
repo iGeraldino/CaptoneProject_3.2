@@ -123,8 +123,7 @@ class AddAcessory_to_session_QuickBQT extends Controller
           Session::put('Added_AcessoryToBQT_QuickOrder', 'Successful');
             return redirect()-> back();
           //return redirect()->route('Order.CustomizeaBouquet');
-      //
-        //}
+      }
     }
 
     /**
@@ -196,7 +195,7 @@ class AddAcessory_to_session_QuickBQT extends Controller
           Session::put('Update_AcessoryToBQT_QuickOrder', 'Successful');
           return redirect()-> back();
           //return redirect()->route('Order.CustomizeaBouquet');
-      //}
+      }
     }
 
     /**
