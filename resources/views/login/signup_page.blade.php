@@ -51,11 +51,49 @@
 						<br>
 						<div class="content">
 
+
+							<div class="input-group" style="margin-top: -15%;">
+								<span class="input-group-addon">
+									<i class="material-icons"> person </i>
+								</span>
+								<input type="text" class="form-control" id="fname" placeholder="First Name..." tabindex="1" required>
+
+
+							</div>
+
+							<br>
+							<br>
+
+							<div class="input-group" style="margin-top: -15%;">
+								<span class="input-group-addon">
+									<i class="material-icons"> person </i>
+								</span>
+								<input type="text" class="form-control" id="lname" placeholder="Last Name..." tabindex="1" required>
+
+
+							</div>
+
+							<br>
+							<br>
+
+							<div class="input-group" style="margin-top: -15%;">
+								<span class="input-group-addon">
+									<i class="material-icons"> phone </i>
+								</span>
+								<input type="text" class="form-control" id="contno" placeholder="Contact Number..." tabindex="1" maxlength="13" required>
+
+
+							</div>
+							<br>
+							<br>
+
 							<div class="input-group" style="margin-top: -15%;">
 								<span class="input-group-addon">
 									<i class="material-icons"> person </i>
 								</span>
 								<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="1" required>
+
+
 							</div>
 
 							<div class="input-group">
@@ -95,6 +133,7 @@
 							<div class="text-center">
 								<button data-toggle="modal" data-target="#myModal" id="signupbutt" type="submit" class="btn btn-simple btn-primary btn-lg" tabindex="7">Signup</button>
 							</div>
+
 						</div>
 				</div>
 			</div>
@@ -122,12 +161,17 @@
 								</span>
 					<input type="text" name="randomcode" placeholder = "Signup Code..." class = "form-control" tabindex="1" maxlength="4" required/>
 				</div>
+					<div hidden>
 					<input type="text" name="username" id="username1" value="">
 					<input type="text" name="email" id="email1" value="">
 					<input type="text" name="password" id="password1" value="">
 					<input type="text" name="admintype" id="admintype1" value="">
+					<input type="text" name="fname" id="fname1" value="">
+					<input type="text" name="lname" id="lname1" value="">
+					<input type="text" name="contno" id="contno1" value="">
+					</div>
 
-				<div class="input-group col-md-6" style="margin-left: 120px;">
+					<div class="input-group col-md-6" style="margin-left: 120px;">
 								<span class="input-group-addon">
 									<button type="submit" class="btn btn-primary btn-md"> Sign-Up </button>
 								</span>
@@ -157,6 +201,15 @@
 	<script>
 
         $(document).ready(function(){
+
+                //called when key is pressed in textbox
+            $("#contno").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    return false;
+                }
+            });
 
            // $('#signupbutt').attr('disabled', true);
 
@@ -200,6 +253,12 @@
 			    $('#password1').val(password);
 			    var usertype = $('#admintype').val();
 			    $('#admintype1').val(usertype);
+			    var fname = $('#fname').val();
+			    $('#fname1').val(fname);
+			    var lname = $('#lname').val();
+			    $('#lname1').val(lname);
+			    var contno = $('#contno').val();
+			    $('#contno1').val(contno);
 
 
 
