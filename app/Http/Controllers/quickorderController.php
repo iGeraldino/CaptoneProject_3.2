@@ -43,6 +43,10 @@ class quickorderController extends Controller
         ->select('*')
         ->get();
 
+        $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+
+        //dd($batches_ofFlowers);
+
         $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
 
         $accessories = DB::select('CALL AvailableAcessories_Records()');
@@ -50,7 +54,9 @@ class quickorderController extends Controller
         $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
 
 
+
         return view('Orders.quickorder')
+        ->with('batches',$batches_ofFlowers)
         ->with('CustTradeAgreements',$CustWith_TradeAgreement)
         ->with('orders',$salesOrders)
         ->with('cust',$customers)

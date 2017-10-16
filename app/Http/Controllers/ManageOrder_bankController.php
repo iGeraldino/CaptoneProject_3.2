@@ -201,7 +201,8 @@ class ManageOrder_bankController extends Controller
           $NewSalesOrder_details = Neworder_details::find($id);
 
           if($NewSalesOrder_details->Status == 'BALANCED' OR $NewSalesOrder_details->Status == 'A_UNPAID'){
-            $Change = 0;
+            $change = 0;
+            $balance = 0;
               if($NewSalesOrder_details->Status == 'BALANCED'){
                 $Status = '';
                 $Stat = '';
@@ -265,12 +266,13 @@ class ManageOrder_bankController extends Controller
 
               //make a record of customer payment Settlement record
                $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
-               array($id,$customerPayment->Payment_ID,$amount,$amount,$Change));
+               array($id,$customerPayment->Payment_ID,$amount,$amount,$change));
                Session::put('PaymentCompletion_Session','Successful');
 
             return redirect()->back();
           }else if($NewSalesOrder_details->Status == 'A_P_PARTIAL' OR $NewSalesOrder_details->Status == 'P_PARTIAL'){
-                      $Change = 0;
+                      $change = 0;
+                      $balance = 0;
                         if($NewSalesOrder_details->Status == 'A_P_PARTIAL'){
                           if($NewSalesOrder_details->BALANCE > $amount){
                             $Status = 'CLOSED';
@@ -284,8 +286,8 @@ class ManageOrder_bankController extends Controller
                             $change = 0.00;
                           }
                         }else if($NewSalesOrder_details->Status == 'P_PARTIAL'){
-                          $Status = '';
-                          $Stat = '';
+                          $Status = 'P_FULL';
+                          $Stat = 'PF';
                         }
                         $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($id,$Status,$balance));//updated the status of the order details as well sa the salesorder status
 
@@ -321,7 +323,7 @@ class ManageOrder_bankController extends Controller
 
                         //make a record of customer payment Settlement record
                          $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
-                         array($id,$customerPayment->Payment_ID,$amount,$amount,$Change));
+                         array($id,$customerPayment->Payment_ID,$amount,$amount,$change));
                          Session::put('PaymentCompletion_Session','Successful');
 
                       return redirect()->back();

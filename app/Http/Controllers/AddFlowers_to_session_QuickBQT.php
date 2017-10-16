@@ -48,7 +48,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
           return redirect() -> route('adminsignin');
           Cart::instance('OrderedBqt_Flowers')->destroy();
       }
-      else{     
+      else{
 
       //dd(Cart::instance('overallFLowers')->content());
 
@@ -267,7 +267,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
            return redirect() -> route('adminsignin');
            Cart::instance('OrderedBqt_Flowers')->destroy();
        }
-       else{  
+       else{
          $newQty = $request->QuantityField;
          $order_ID = $request->ID_Field;
          $descision = $request->Decision_Field;

@@ -476,7 +476,12 @@ Route::get('signup_page', ['uses' => 'PagesController@getSignupPage', 'as' => 'p
 Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
 
 Route::get('order_confirmation', 'PagesController@getOrderConfirmation');
+
 Route::post('CheckoutSignin', ['uses' => 'ClientController@CheckoutSignin', 'as' => 'checkoutsignin']);
+
+Route::get('inventory_side_flower_transaction', 'PagesController@getInventorySideFlowerTransaction');
+
+Route::get('inventory_side_acc_transaction', 'PagesController@getInventorySideAccTransaction');
 
 
     Route::get('AdminLogin', [

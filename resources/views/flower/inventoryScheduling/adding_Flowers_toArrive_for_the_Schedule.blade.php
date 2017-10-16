@@ -28,13 +28,15 @@
               <div class="col-md-4">
                 <h3><b>LIST OF FLOWERS TO ORDER</b></h3>
               </div>
-              <div class="col-md-8"> 
+              <div class="col-md-8">
                 <button type="button" class="btn twitch btn-md pull-right" data-toggle="modal" data-target="#newFlower">
                   Order Flower
                 </button>
-
-                <a href="{{route('InventorySched.Save_requestCreated')}}" class="btn btn-md Lush btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be saved and monitored by the system for, you will be redirected to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-floppy-save"></span>  Save the request </a>
-
+                @if(Cart::instance('Schedule_Flowers')->count() == 0)
+                  <a type = "button" href="{{route('InventorySched.Save_requestCreated')}}" class="hidden btn btn-md Lush btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be saved and monitored by the system for, you will be redirected to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-floppy-save"></span>  Save the request </a>
+                @else
+                  <a href="{{route('InventorySched.Save_requestCreated')}}" class="btn btn-md Lush btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be saved and monitored by the system for, you will be redirected to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-floppy-save"></span>  Save the request </a>
+                @endif
 
                 <a href=" {{ route ('InventorySched.Cancel_requestCreation') }}" class="btn btn-md Shalala btn-tooltip pull-right" data-toggle="tooltip" data-placement="bottom" title="Upon clicking this button please be aware that everything you made in this page will now be reset for you have cancelled the creation, and will redirect you to the main page of requests for inventory" data-container="body"><span class = "glyphicon glyphicon-remove"></span> Cancel request creation </a>
               </div>

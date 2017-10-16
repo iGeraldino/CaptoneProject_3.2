@@ -162,6 +162,14 @@
 											<input class = "Flwr_name_Field" value = "{{ $Fdetails->flower_name}}">
 											<input class = "Flwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
 											<input class = "Flwr_QTY_Field" value = "{{$Fdetails->QTY}}">
+                      <select class = "Flwr_batches_Field">
+                        @foreach($batches as $batch)
+                          @if($Fdetails->flower_ID == $batch->flower_ID)
+                            <option value = "{{$batch->Batch}}" data-tag = "{{$batch->flower_ID}}" data-qty = "{{$batch->QTYRemaining}}" data-price = "{{$batch->SellingPrice}}">BATCH_({{$batch->Batch}}): Php {{number_format($batch->SellingPrice,2)}}</option>
+                          @else
+                          @endif
+                        @endforeach
+                      </select>
 										</div>
 										<a class="btn btn-sm Lemon Flower_Tab_Btn" data-toggle="modal" data-target="#flowerTab_modal"> QUICK VIEW</a>
 	                </div>
@@ -674,7 +682,7 @@
 	    	<div class="modal-content">
         {!! Form::open(array('route' => 'QuickOrders_Flowers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
 
-	      		<div class="modal-header">
+	      	<div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title text-center" id="myModalLabel"><b>FLOWER DETAILS</b></h4>
 			    </div>
@@ -684,59 +692,68 @@
 	        				<img id = "FlWR_tab_Image" src="" class="img-rounded img-responsive img-raised">
 	        			</div>
 	        			<div class="col-md-6 text-left">
+                  <div id = "batch_Chooser">
+                    <input id = "batch_ID" class = "form-control"  name="batch_ID" list="batch_IDList" placeholder="Enter Batch number of the selected flower"/>
+                    <datalist id="batch_IDList">
+                    <!--Loop data Here-->
+                  </datalist>
+                </div>
+                <div id = "details_Div"></div>
+                <div id = "sellingPrice_Div" hidden>
+                  <div class="form-group">
+                    <label class="control-label">Current Selling Price</label>
+                    <input name="ViewPrice_Field" id="ViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
+                  </div>
 
-			        		<div id = "sellingPrice_Div" class="form-group">
-								<label class="control-label">Current Selling Price</label>
-								<input name="ViewPrice_Field" id="ViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
-							</div>
-                                <div hidden> <!--start of hidden input field-->
-                                <input type="number" class="form-control" name="OrigInputPrice_Field" id="OrigInputPrice_Field" step = '0.01'/>
-                                <input type="number" class="form-control" name="FlwrID_Field" id="FlwrID_Field"/>
+                  <div hidden> <!--start of hidden input field-->
+                    <input type="number" class="form-control" name="OrigInputPrice_Field" id="OrigInputPrice_Field" step = '0.01'/>
+                    <input type="number" class="form-control" name="FlwrID_Field" id="FlwrID_Field"/>
 
-                                <input type="text" class="form-control" name="orderID_Field" id="orderID_Field" value = ""/>
+                    <input type="text" class="form-control" name="batch_IDField" id="batch_IDField" value = ""/>
 
-                                <label>The decision</label>
-                                <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->
-							<div class="togglebutton">
-								<label>
-							    	<input type="checkbox" name = "NewPriceCheckBox" id = "NewPriceCheckBox">
-									<b>New Price?</b>
-								</label>
-							</div>
-							<div id = 'NewPrice_Div' hidden>
-                               <div class="form-group">
-                                <label class = 'control-label'>New Price:</label>
-                                <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field" value = '' step = "0.01" min = '1.00'/>
-                               </div>
-                            </div>
-							<div id = 'availableQTYDIV'>
-                                <div  class="input-group" >
-                                  <label class = 'control-label'>Available Quantity:</label>
-                                  <input type="text" class="form-control" name="AvailableQty_Field" id="AvailableQty_Field" disabled/>
-                                </div>
-                            </div>
-                             <div id = 'QTY_Div'>
-                               <div class="form-group label-floating">
-                                <label class = 'control-label'>Quantity:</label>
-                                <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
-                              </div>
-                            </div>
-                            <div id = 'TAmt_Div'>
-								<div class="input-group">
-                              		<label class = 'control-label'>Total Amount: </label>
-                              		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="total_Amt" id="total_Amt"  value ="Php 0.00" disabled/>
-                            	</div>
-                            </div>
-			        	</div>
-	        		</div>
+                    <label>The decision</label>
+                    <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
+                  </div>      <!--end of hidden input field-->
+                  <div class="togglebutton">
+                    <label>
+                      <input type="checkbox" name = "NewPriceCheckBox" id = "NewPriceCheckBox">
+                      <b>New Price?</b>
+                    </label>
+                  </div>
+                  <div id = 'NewPrice_Div' hidden>
+                    <div class="form-group">
+                      <label class = 'control-label'>New Price:</label>
+                      <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field" value = '' step = "0.01" min = '1.00'/>
+                    </div>
+                  </div>
+                  <div id = 'availableQTYDIV'>
+                    <div  class="input-group" >
+                      <label class = 'control-label'>Available Quantity:</label>
+                      <input type="text" class="form-control" name="AvailableQty_Field" id="AvailableQty_Field" disabled/>
+                    </div>
+                  </div>
+                  <div id = 'QTY_Div'>
+                    <div class="form-group label-floating">
+                      <label class = 'control-label'>Quantity:</label>
+                      <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
+                    </div>
+                  </div>
+                  <div id = 'TAmt_Div'>
+                    <div class="input-group">
+                      <label class = 'control-label'>Total Amount: </label>
+                      <input type="text" class="form-control text-right" style ="color:darkviolet;" name="total_Amt" id="total_Amt"  value ="Php 0.00" disabled/>
+                    </div>
+                  </div>
+                </div>
+			        </div>
+	        	</div>
 	    		</div>
 
 	    		<div class="modal-footer">
 			    	<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 			    	<br> <br> <br>
 			        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
-			        <button type="submit" class="btn btn-success btn-simple">Add To Cart</button>
+			        <button id = "flwr_AddTocartBTN" type="submit" class="btn btn-success btn-simple">Add To Cart</button>
 			    </div>
 
             {!! Form::close() !!}
@@ -1109,6 +1126,8 @@
 
 
 		$(document).on('click', '.Flower_Tab_Btn', function(){
+      $('#sellingPrice_Div').hide();
+      $('#flwr_AddTocartBTN').hide();
 			$("#Flwr_ID").remove();
 			$("#Flwr_Name").remove();
 
@@ -1117,21 +1136,70 @@
 			var Flwr_ID = $('.Flwr_ID_Field').eq(index).val();
 			var Flwr_IMG = $('.Flwr_pic_Field').eq(index).val();
 			var Flwr_Name = $('.Flwr_name_Field').eq(index).val();
-			var Flwr_Price = $('.Flwr_currentPrice_Field').eq(index).val();
-			var Flwr_QTY = $('.Flwr_QTY_Field').eq(index).val();
+			//var Flwr_Price = $('.Flwr_currentPrice_Field').eq(index).val();
+			//var Flwr_QTY = $('.Flwr_QTY_Field').eq(index).val();
+      //options += '<option value="'+mycars[i]+'" />';
+      //''<option value = "{{$batch->Batch}}" data-tag = "'{{$batch->flower_ID}}" data-qty = "{{$batch->QTYRemaining}}" data-price = "{{$batch->SellingPrice}}">BATCH_({{$batch->Batch}}): Php {{number_format($batch->SellingPrice,2)}}</option>
 
-			$('#ViewPrice_Field').val("Php " + Flwr_Price);
-			$('#OrigInputPrice_Field').val(Flwr_Price);
-			$('#NewPrice_Field').val(Flwr_Price);
+      var options = '';
+      document.getElementById('batch_IDList').innerHTML = options;
+      $('.Flwr_batches_Field').eq(index).find('option').each(function(){
+        options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).val()).toFixed(2) +'</option>';
+      });
+      alert(options);
+
+      document.getElementById('batch_IDList').innerHTML = options;
+
+			//$('#ViewPrice_Field').val("Php " + Flwr_Price);
+			//$('#OrigInputPrice_Field').val(Flwr_Price);
+			//$('#NewPrice_Field').val(Flwr_Price);
 			$('#FlwrID_Field').val(Flwr_ID);
 			$('#FlWR_tab_Image').attr("src",Flwr_IMG);
-			$('#AvailableQty_Field').val(Flwr_QTY + " pcs.");
+			//$('#AvailableQty_Field').val(Flwr_QTY + " pcs.");
 
-			$('#sellingPrice_Div').prepend('<h5 id = "Flwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "Flwr_Name">'+Flwr_Name+'</h5>');
-
-			//alert(Flwr_IMG+ "---" +Flwr_Name +'----' + Flwr_ID + '---' +  Flwr_Price);
+			$('#details_Div').prepend('<h5 id = "Flwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "Flwr_Name">'+Flwr_Name+'</h5>');
 		});
 
+
+    $('#batch_ID').change(function(){
+      var Found = 0;
+      var price = 0;
+      var qty = 0;
+      var batch = 0;
+      batchID = $('#batch_ID').val();
+      $('#batch_IDList option').each(function(item){
+        if(batchID == $(this).val()){
+          Found = 1;
+          price  = $(this).data("price");
+          qty  = $(this).data("qty");
+          batch = $(this).val();
+        }
+      });
+
+      if(Found == 1){
+        $('#ViewPrice_Field').val("Php " + parseFloat(price).toFixed(2));
+        $('#OrigInputPrice_Field').val(price);
+        $('#NewPrice_Field').val(price);
+        $('#AvailableQty_Field').val(qty + "pcs");
+        $('#QTY_Field').attr('min',1);
+        $('#QTY_Field').attr('max',qty);
+        $('#batch_IDField').val(batch);
+        $('#sellingPrice_Div').show("fold");
+        $('#flwr_AddTocartBTN').show('fold');
+        $('#flwr_AddTocartBTN').attr('disabled',false);
+      }else{
+        //the batch ID that you have chosen does not exist
+        $('#ViewPrice_Field').val("");
+        $('#OrigInputPrice_Field').val("");
+        $('#NewPrice_Field').val("");
+        $('#AvailableQty_Field').val("");
+        $('#batch_IDField').val("");
+        $('#flwr_AddTocartBTN').attr('disabled',true);
+        $('#flwr_AddTocartBTN').hide('fold');
+        $('#sellingPrice_Div').hide("fold");
+      }
+
+    });
 
 
 		$(document).on('click', '.BqtFlower_Btn', function(){

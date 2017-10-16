@@ -45,7 +45,6 @@ class OrderManagementController extends Controller
     $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
     //dd($SalesOrder_BqtAccessories);
-
     $Flower_inInventory = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
     $Acrs_inINventory = DB::select('call wonderbloomdb2.Acessories_Records()');
 
@@ -280,13 +279,13 @@ class OrderManagementController extends Controller
 //less the ordered flowers from the inventory
       for($ctr = 0; $ctr <= $BqtQty-1;$ctr++){
         foreach($Acrs as $Acrs2){
-          if($Acrs2->ACC_ID == $AcrsDet->id){
+          if($Acrs2->ACC_ID == $AcrsDet->Acrs_ID){
             $SellAcrs = DB::select('CALL Sell_AcrsFrom_Inventory(?, ?)',array($Acrs2->ACC_ID,$AcrsDet->qty));
             $message = '';
             $message = 'Accessories sold Under a bouquet in the sales order ID: ORDR_'.$id.' through Long Ordering';
 
             $newInvTrans2 = DB::select('CALL Insert_OrderInventoryTrans(?,?,?,?,?,?,?,?,?,?)'
-            ,array($AcrsDet->id,$AcrsDet->qty,$Acrs2->price,$AcrsDet->price,$current,'O','Acessories',null,$id,$message));
+            ,array($AcrsDet->Acrs_ID,$AcrsDet->qty,$Acrs2->price,$AcrsDet->Price,$current,'O','Acessories',null,$id,$message));
           }
         }//looping al of the acrs that are going to be used
       }
@@ -295,7 +294,7 @@ class OrderManagementController extends Controller
     }//
 
     Session::put('ReleaseOrder_Session','Successful');
-    return redirect() ->back();
+    return redirect()->back();
     //looks for the total count of flowers in the order;
 }//
 
