@@ -67,6 +67,21 @@
                           </div>
                         </div>
 
+                          <div class = "row">
+                              <div class = "col-md-8">
+                                  <div class="form-group label-floating">
+                                      <label class="control-label">Username</label>
+                                      <select class="form-control" name="admintype" tabindex="5">
+                                          <option value="1"> Admin </option>
+                                          <option value="2"> Cashier </option>
+                                          <option value="2"> Warehouse Man </option>
+
+                                      </select>
+
+                                  </div>
+                              </div>
+                          </div>
+
                         <div class = "row">
                           <div class = "col-md-6">
                             <div class="input-group">
