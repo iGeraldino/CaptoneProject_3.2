@@ -341,11 +341,75 @@ class PagesController extends Controller
 		}
 
 	public function getCashierQuickOrder() {
-			return view('cashier/pages/cashier_quick_order');
+			$cities = DB::table('cities')
+          ->select('*')
+          ->get();
+
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+
+        $salesOrders = DB::table('sales_order')
+        ->select('*')
+        ->get();
+
+        $customers = DB::table('customer_details')
+        ->select('*')
+        ->get();
+
+        $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+
+        //dd($batches_ofFlowers);
+
+        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
+
+        $accessories = DB::select('CALL AvailableAcessories_Records()');
+
+        $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
+
+
+
+        return view('cashier/pages/cashier_quick_order')
+        ->with('batches',$batches_ofFlowers)
+        ->with('CustTradeAgreements',$CustWith_TradeAgreement)
+        ->with('orders',$salesOrders)
+        ->with('cust',$customers)
+        ->with('city',$cities)
+        ->with('city2',$cities)
+        ->with('province',$province)
+        ->with('accessories',$accessories)
+        ->with('FlowerList',$AvailableFlowers);
 		}
 
 	public function getCashierLongOrder() {
-			return view('cashier/pages/cashier_long_order');
+			$cities = DB::table('cities')
+              ->select('*')
+              ->get();
+
+            $province = DB::table('provinces')
+              ->select('*')
+              ->get();
+
+            $salesOrders = DB::table('sales_order')
+            ->select('*')
+            ->get();
+
+            $customers = DB::table('customer_details')
+            ->select('*')
+            ->get();
+
+            $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+            $accessories = DB::select('CALL Acessories_Records()');
+
+            //
+            return view('cashier/pages/cashier_long_order')
+            ->with('orders',$salesOrders)
+            ->with('cust',$customers)
+            ->with('city',$cities)
+            ->with('city2',$cities)
+            ->with('province',$province)
+            ->with('accessories',$accessories)
+            ->with('FlowerList',$AvailableFlowers);
 		}
 
 	public function getCashierCustomerList() {
