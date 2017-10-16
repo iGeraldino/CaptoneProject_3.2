@@ -230,7 +230,17 @@ class PagesController extends Controller
 		}
 
 	public function getLoginPage() {
-			return view('login/login_page');
+
+        $admin = auth() ->guard('admins');
+
+
+            if($admin->check() == true){
+                return redirect()->route('dashboard');
+
+            }
+            else{
+                return view('login/login_page');
+            }
 		}
 
 	public function getQuickOrder() {

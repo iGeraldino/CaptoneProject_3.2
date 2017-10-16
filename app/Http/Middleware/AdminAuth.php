@@ -18,6 +18,7 @@ class AdminAuth
     {
 
         if (Auth::guard($guard)->guest()) {
+
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
@@ -26,6 +27,10 @@ class AdminAuth
             }
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        return $response->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma','no-cache')
+            ->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
     }
 }
