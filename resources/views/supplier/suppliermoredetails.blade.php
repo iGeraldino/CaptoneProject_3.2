@@ -1,6 +1,13 @@
 @extends('main')
-
+Add_FlowertoSupplierSession
 @section('content')
+<?php
+    $AddFlowertoSupplierSession = Session::get('Add_FlowertoSupplierSession');
+    Session::Remove('Add_FlowertoSupplierSession');
+  ?>
+  <div hidden>
+    <input id = "addflowerSupplierSession" value = "{{$AddFlowertoSupplierSession}}">
+  </div>
 
   <div class="" style="margin-top: 50px;">
     <div class="col-xs-12">
@@ -184,6 +191,9 @@
 
 
  $(document).ready(function(){
+  if($('#addflowerSupplierSession').val() == 'Successful'){
+        swal('Success!','the flower was successfully added to the Supplier','success');
+      }
     $('#FlowersField').change(function(){
           //$("#imageBox").removeAttr("disabled");
           //getting the element of the Province's dropdown

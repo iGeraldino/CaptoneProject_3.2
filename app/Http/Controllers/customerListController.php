@@ -163,9 +163,13 @@ class customerListController extends Controller
           ->select('*')
           ->get();
 
+
+
         $customerDetails = CustomerDetails::find($id);
+        $type = $customerDetails -> Customer_Type;
+
         return view('customer.EditCustomerDetails')->with('customerDetails',$customerDetails)->with('city',$cities)
-        ->with('province',$province);
+        ->with('province',$province)->with('type', $type);
       }
     }
 

@@ -89,13 +89,13 @@
                                 <div hidden>
                                   <input id = "prov_ID" name = "prov_ID" value = "{{ $details -> Province }}">
                                   <input id = "town_ID" name = "town_ID" value = "{{ $details -> Town }}">
-                                  <select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search">
+                                  <select class="form-control" name ="ProvinceField_Search" id ="ProvinceField_Search" disabled="true">
                                     @foreach($province as $prov2)
                                       <option value ="{{$prov2->id}}" data-tag = "{{$prov2->name}}"> {{$prov2->name}} </option>
                                     @endforeach
                                   </select>
 
-                                  <select name="TownField_Search" id="TownField_Search" class="form-control" disabled>
+                                  <select name="TownField_Search" id="TownField_Search" class="form-control" disabled="true">
                                     @foreach($cities as $cities2)
                                       <option value ="{{$cities2->id}}" data-tag = "{{$cities2->name}}"> {{$cities2->name}} </option>
                                     @endforeach
@@ -103,12 +103,12 @@
                                 </div>
 						                    <div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-                                    <input type="text" name="TownField" id="TownField" class="form-control input-lg" placeholder="City" tabindex="2">
+                                    <input type="text" name="TownField" id="TownField" class="form-control input-lg" placeholder="City" tabindex="2" disabled="true">
 						                    	</div>
 						                    </div>
 						                  	<div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-                                    <input type="text" name="ProvinceField" id="ProvinceField" class="form-control input-lg" placeholder="Province" tabindex="2" >
+                                    <input type="text" name="ProvinceField" id="ProvinceField" class="form-control input-lg" placeholder="Province" tabindex="2" disabled="true">
 						                    	</div>
 						                    </div>
 						                </div>
@@ -142,12 +142,12 @@
 						                    </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                   <div class="form-group">
-                                    <input type="text" name="TownField2" id="TownField2" class="form-control input-lg" placeholder="City" tabindex="2">
+                                    <input type="text" name="TownField2" id="TownField2" class="form-control input-lg" placeholder="City" tabindex="2" disabled="true">
                                   </div>
                                 </div>
 						                    <div class="col-xs-12 col-sm-6 col-md-6">
 						                    	<div class="form-group">
-						                      		<input type="text" name="ProvinceField2" id="ProvinceField2" class="form-control input-lg" placeholder="Province" tabindex="2">
+						                      		<input type="text" name="ProvinceField2" id="ProvinceField2" class="form-control input-lg" placeholder="Province" tabindex="2" disabled="true">
 						                    	</div>
 						                    </div>
 						                </div>
@@ -199,9 +199,22 @@
                                                 <td> {{ $past -> created_at }}</td>
                                                 <td>
 
-                                                    @if ( $past -> Status == "pe" )
+                                                    @if ( $past -> Status == "pending" )
 
                                                         <span class="label label-warning"> Pending </span>
+
+                                                        @elseif ( $past -> Status == "CLOSED")
+
+                                                        <span class="label label-danger"> Closed </span>
+
+                                                        @elseif ( $past-> Status == "P_FULL")
+
+                                                        <span class="label label-success"> Paid Full </span>
+
+                                                        @elseif ( $past-> Status == "P_PARTIAL")
+
+                                                        <span class="label label-success"> Paid Partial </span>
+
 
                                                     @endif
 
@@ -358,7 +371,7 @@
                   <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
                 </div>
                   {!! Form::close() !!}
-x
+
               </div>
           </div>
 

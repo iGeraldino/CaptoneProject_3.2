@@ -12,7 +12,7 @@ class Admin extends Authenticatable
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'username', 'email','password',
+        'username', 'email','password','type','Random_Code'
     ];
 
     /**

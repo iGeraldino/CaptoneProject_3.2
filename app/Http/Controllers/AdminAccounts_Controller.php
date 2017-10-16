@@ -230,6 +230,20 @@ class AdminAccounts_Controller extends Controller
           else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 1])){
               return redirect() -> route('dashboard');
           }
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 2])){
+              return redirect() -> route('dashboard');
+          }
+          else if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 2])){
+              return redirect() -> route('dashboard');
+          }
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 3])){
+              return redirect() -> route('dashboard');
+          }
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 3])){
+              return redirect() -> route('dashboard');
+          }
+
+
 
           else{
               Session::put('loginSession','invalid');
@@ -238,14 +252,150 @@ class AdminAccounts_Controller extends Controller
 
 
 
-
-
-
-
-
-
-
     }
+
+    public function AdminPostSignup(Request $request)
+    {
+
+
+        $randomcode = rand(1, 9999);
+        $code = 0;
+        $rancode = intval($request->randomcode);
+
+        $admin = auth()->guard('admins');
+
+        $randexist = db::table('admins')->where('Random_Code', $randomcode)->select('Random_Code')->get();
+
+        foreach ($randexist as $existcode) {
+            $code = $existcode->Random_Code;
+        }
+
+        $admintableexist = db::table('admins')->get();
+
+        if ($admintableexist == null and $request->randomcode == "1234") {
+
+            dd("table is null");
+
+        } elseif ($admintableexist <> null and $request->randomcode == "1234") {
+
+            dd("table is null and code is 1234", $rancode);
+
+        } elseif ($admintableexist <> null and $request->randomcode <> "1234") {
+
+            $randomcodeexist = db::table('admins')->where('Random_Code', '=', $rancode)->get();
+
+            if ($randomcodeexist == null) {
+                dd("di kita mahal"); // Swal pag kasi di makita yung value ng code sa loob
+            } else {
+
+                foreach ($randomcodeexist as $randcodeexist) {
+
+                    $randcode = $randcodeexist->Random_Code;
+
+                    if ($randcode == $rancode) {
+                        if ($code == $randomcode) {
+
+
+                            $newcode = $randomcode + 1;
+
+
+
+                                $validator = validator::make($request->all(), [
+                                    'email' => 'email|required|unique:admins',
+                                    'username' => 'required|unique:admins',
+
+                                ]);
+
+
+                                if ($validator->fails()) {
+                                    Session::put('Adding_newAdminSession', 'Fail');
+                                    return redirect()->route('AdminSignup')
+                                        ->withErrors($validator);
+                                    //->withInput();
+                                } else {
+
+
+                                    $acct = new Admin;
+                                    $acct->email = trim($request->email);
+                                    $acct->password = trim(bcrypt($request->password));
+                                    $acct->username = trim($request->username);
+                                    $acct->type = $request->admintype;//this means that this is an admin account
+                                    $acct->Random_Code = $newcode;
+                                    $acct->save();
+                                    $admin->login($acct);
+                                    Session::put('Adding_newAdminSession', 'Successful');
+                                    return redirect()->route('dashboard');
+                                }
+                            }
+
+                        }
+                        else{
+
+
+
+                                $validator = validator::make($request->all(), [
+                                    'email' => 'email|required|unique:admins',
+                                    'username' => 'required|unique:admins',
+
+                                ]);
+
+
+                                if ($validator->fails()) {
+                                    Session::put('Adding_newAdminSession', 'Fail');
+                                    return redirect()->route('AdminSignup')
+                                        ->withErrors($validator);
+                                    //->withInput();
+                                } else {
+
+
+                                    $acct = new Admin;
+                                    $acct->email = trim($request->email);
+                                    $acct->password = trim(bcrypt($request->password));
+                                    $acct->username = trim($request->username);
+                                    $acct->type = $request->admintype;//this means that this is an admin account
+                                    $acct->Random_Code = $randomcode;
+                                    $acct->save();
+                                    $admin->login($acct);
+                                    Session::put('Adding_newAdminSession', 'Successful');
+                                    return redirect()->route('dashboard');
+
+                            }
+
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+
+        }
+
+        public function AdminPostSignin(Request $request){
+
+            if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '1'])){
+                return redirect() -> route('dashboard');
+            }
+            else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 1])){
+                return redirect() -> route('dashboard');
+            }
+
+            else{
+                return redirect() -> route('AdminLogin');
+            }
+
+        }
+
+
+
+
+
+
+
+
 
     public function AdminLogout(){
 
