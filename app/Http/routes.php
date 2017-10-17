@@ -177,6 +177,10 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::post('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
 
+	Route::post('guestfinalpickup', ['uses' =>'checkoutcontroller@guestfinalpickup', 'as' => 'guestfinalpickup']);
+
+	Route::post('guestdeliver', ['uses'=>'checkoutcontroller@guestdeliver','as'=> 'guestdeliver']);
+
 	Route::get('PrintSummary/{id}', ['uses' => 'checkoutcontroller@PrintSummary', 'as' => 'printsummary']);
 
 	Route::resource('Orders_Flowers','Manage_Flowers_on_Session_Order_Controller');
@@ -490,7 +494,9 @@ Route::get('signup_page', ['uses' => 'PagesController@getSignupPage', 'as' => 'p
 
 Route::get('inventory_reports_flower', 'PagesController@getInventoryReportsFlower');
 
-Route::get('order_confirmation', 'PagesController@getOrderConfirmation');
+Route::get('order_confirmation/{id}', ['uses'=>'PagesController@getOrderConfirmation','as'=>'guestorder']);
+
+Route::get('guestprinting/{id}', ['uses' => 'PagesController@guestprint', 'as'=>'guestprint']);
 
 Route::post('CheckoutSignin', ['uses' => 'ClientController@CheckoutSignin', 'as' => 'checkoutsignin']);
 

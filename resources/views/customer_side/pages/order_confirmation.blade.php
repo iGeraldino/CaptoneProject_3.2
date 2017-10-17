@@ -3,6 +3,8 @@
 @section('css')
     <link href="_CSS/checkout1.css" rel="stylesheet">
 @endsection
+
+@section('content')
 	<div class="container" style="margin-top: 10%;">
 		<h3 class="fontx text-center">Summary</h3>
         <hr class="colorgraph">
@@ -13,62 +15,117 @@
         <div>
         	<div class="row pull-right">
        			<div class = "col-md-6 ">
-            		<a type="button" class="btn btn-success btn-lg"> Done </a>
+            		<a href="{{ route('homepages') }}"type="button" class="btn btn-success btn-lg"> Done </a>
        			</div>
        			<div class = 'col-md-6'>
-        			<button type="submit"  class="btn btn-info btn-lg"> Print</button>
+        			<a href="{{ route('guestprint', ['id' => $NewSalesOrder_details -> Order_ID]) }}" type="submit" id="Print"  class="btn btn-info btn-lg"> Print</a>
        			</div>
         	</div>
         </div>
         <div class="col-md-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
+					@if($NewSalesOrder_details->shipping_method == "delivery")
+						<h3 class="panel-title">Order Summary (Delivery)</h3>
+					@else
 					<h3 class="panel-title">Order Summary (Pickup)</h3>
+					@endif
 					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 				</div>
 				<div class="panel-body">
 					<div class="col-md-8">
   								<h5><b>Customer Name:</b></h5>
 								<div class="form-group">
-		                      		<input type="text" name="fullname1" id="fullname1" class="form-control input-lg"  disabled>
+		                      		<input type="text" name="fullname1" id="fullname1" class="form-control input-lg" value="{{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}"  disabled>
 		                    	</div>
 							</div>
 							<br>
 							<div class="col-md-3 ">
-                              	<h5><b>Customer Cpntact:</b></h5>
+                              	<h5><b>Customer Contact:</b></h5>
 								<div class="form-group">
-		                      		<input type="text" name="contact1" id="contact1" class="form-control input-lg"  disabled>
+		                      		<input type="text" name="contact1" id="contact1" class="form-control input-lg" value="{{$NewSalesOrder->Contact_Num}}" disabled>
 		                    	</div>
 							</div>
 							<div class="col-md-4 ">
                             	<h5><b>Customer Mode of Payment:</b></h5>
 								<div class="form-group">
-		                      		<input type="text" name="mode1" id="mode1" class="form-control input-lg"  disabled>
+		                      		<input type="text" name="mode1" id="mode1" class="form-control input-lg" value="{{$NewSalesOrder_details->Payment_Mode}}"  disabled>
 		                    	</div>
 							</div>
 							<div class="col-md-3 ">
                               	<h5><b>Customer email:</b></h5>
 								<div class="form-group">
-		                      		<input type="textr" name="email1" id="email1" class="form-control input-lg" va disabled>
+		                      		<input type="text" name="email1" id="email1" class="form-control input-lg" value="{{$NewSalesOrder->email_Address}}" disabled>
 		                    	</div>
 							</div>
 							<div class="col-md-5">
 								<p> <b> Note: Please send a picture of your Deposit Slip through our email-address. <a href="#"> See example!</a> </b></p>
 							</div>
+							@if($NewSalesOrder_details->shipping_method == "delivery")
+						<div class = "col-md-12">
+							<h3 class="fontx text-left">Delivery Details</h3>
+							<hr class="colorgraph">
+
+							<div class = "row">
+								<div class = "col-md-8">
+									<h5><b>Recipient Name:</b></h5>
+									<input type="text" name="recipientName" id="recipientName" value="{{$NewSalesOrder_details->Recipient_Fname}} {{$NewSalesOrder_details->Recipient_Mname}} , {{$NewSalesOrder_details->Recipient_Lname}}" class="form-control input-lg"  disabled>
+								</div>
+								<div class = "col-md-3">
+									<h5><b>Recipient Contact Number:</b></h5>
+									<input type="text" name="reccontact" value="{{$NewSalesOrder->Contact_Num}}" id="reccontact" class="form-control input-lg"  disabled>
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col-md-6">
+									<h5><b>Date to deliver:</b></h5>
+									<input type="text" name="devdate" value="<?php
+                                    echo $dateTime_to_beOut = date('M d, Y ',strtotime($NewOrder_SchedDetails->Date_of_Event));
+                                    //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+                                    ?>" id="devdate" class="form-control input-lg" value="" disabled>
+								</div>
+								<div class = "col-md-6">
+									<h5><b>Time:</b></h5>
+									<input type="text" name="devtime" value="<?php
+                                    echo $dateTime_to_beOut = date('h:i a',strtotime($NewOrder_SchedDetails->Time));
+                                    //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+                                    ?>" id="devtime" class="form-control input-lg"   disabled>
+								</div>
+							</div>
+							<div class = "row">
+								<div class = "col-md-12">
+									<h5><b>Delivery Address:</b></h5>
+									<input type="text" name="delivadd" value="{{$NewSalesOrder_details->Delivery_Address}}, {{$NewSalesOrder_details->Delivery_Baranggay}}, {{$city}},{{$province}}" id="delivadd" class="form-control input-lg"  disabled>
+								</div>
+
+							</div>
+						</div>
+
+					@else
+
 							<div class = "col-md-12">
+
 								<h3 class="fontx text-left">Pickup Details</h3>
 								<hr class="colorgraph">
 								<div class = "row">
 									<div class = "col-md-6">
 										<h5><b>Date of pickup:</b></h5>
-										<input type="text" name="SummarypickupDate" id="SummarypickupDate" class="form-control input-lg"  disabled>
+										<input type="text"  value="<?php
+                                        echo $dateTime_to_beOut = date('M d, Y ',strtotime($NewOrder_SchedDetails->Date_of_Event));
+                                        //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+                                        ?>" name="SummarypickupDate" id="SummarypickupDate" class="form-control input-lg"  disabled>
 									</div>
 									<div class = "col-md-6">
 										<h5><b>Time:</b></h5>
-										<input type="text" name="SummarypickupTime" id="SummarypickupTime" class="form-control input-lg"  disabled>
+										<input type="text" value="<?php
+                                        echo $dateTime_to_beOut = date('h:i a',strtotime($NewOrder_SchedDetails->Time));
+                                        //echo 'Date and time to get= '.date('Y-m-d h:i:s a', strtotime($newdate));
+                                        ?>
+												" name="SummarypickupTime" id="SummarypickupTime" class="form-control input-lg"  disabled>
 									</div>
 								</div>
 							</div>
+					@endif
 							<div class="col-md-12" style="margin-top: 40px;overflow-x:auto;">
 								<h3 class="fontx text-center">Flower Summary</h3>
 								<hr class="colorgraph">
@@ -82,17 +139,18 @@
 									      <th class="text-center">Total Amount</th>
 										</tr>
 								  	</thead>
-								  	<tbody>
-	                                	<tr>
-	                                  		<th scope="row" class="text-center">id</th>
-			                                    <td class="text-center">Name</td>
-			                                    <td class="text-center">Price}</td>
-			                                    <td class="text-center">Quantity</td>
-			                                    <td class="text-center">Price</td>
+								  	<tbody class="text-center">
+									@foreach($SalesOrder_flowers as $flwr)
+										<tr>
+											<td>{{$flwr->flwr_ID}}</td>
+											<td>{{$flwr->name}}</td>
+											<td>Php {{number_format($flwr->Price,2)}}</td>
+											<td>{{$flwr->qty}} pcs</td>
+											<td >Php {{number_format($flwr->Tamt,2)}}</td>
+										</tr>
 
-	                                  </tr>
-
-								  </tbody>
+									@endforeach
+									</tbody>
 								</table>
 							</div>
 							<div class="col-md-12" style="margin-top: 40px;overflow-x:auto;">
@@ -111,13 +169,13 @@
 
                               <tbody>
                                  <tr>
+								 @foreach($NewOrder_Bouquet as $Bqt)
+										 <th scope="row">BQT-{{$Bqt->Bqt_ID}}</th>
+										 <td>Php {{number_format($Bqt->Unit_Price,2)}}</td>
+										 <td>{{$Bqt->QTY}}</td>
+										 <td style = "color:red;">Php {{Number_format($Bqt->QTY * $Bqt->Unit_Price,2)}}</td>
 
-		                            <th scope="row">id</th>
-		                            <td>name</td>
-		                            <td>price</td>
-		                            <td>quantity</td>
-
-                                    <td>
+									 <td>
                                     <table class="table table-bordered" style="overflow-x:auto;">
                                     	<thead>
 	                                        <th class="text-center">Item ID</th>
@@ -128,20 +186,31 @@
 	                                   </thead>
 
 	                                   <tbody>
-	                                    <th scope="row">id</th>
-	                                      <td>name</td>
-	                                      <td>price</td>
-	                                      <td>qty</td>
-	                                      <td>price</td>
-
+									   @foreach($SalesOrder_Bqtflowers as $row1)
+										   @if($Bqt->Bqt_ID == $row1->BQT_ID)
+											   <tr>
+												   <td>{{ $row1 -> FLwr_ID }}</td>
+												   <td>{{ $row1 -> name}}</td>
+												   <td>Php {{ number_format($row1->price,2)}}</td>
+												   <td>{{ $row1 -> qty}} pcs.</td>
+												   <td style = "color:red;">Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
+											   </tr>
+										   @endif
+									   @endforeach
 	                                   </tbody>
 		                                <tbody>
-		                                  <th scope="row">id</th>
-		                                    <td>name</td>
-		                                    <td>price</td>
-		                                    <td>qty</td>
-		                                    <td>qty</td>
-
+										@foreach($SalesOrder_BqtAccessories as $row2)
+											@if($Bqt->Bqt_ID == $row2->bqt_ID)
+												<tr>
+													<td> {{ $row2 -> Acrs_ID }}</td>
+													<td>{{ $row2 -> name}}</td>
+													<td>Php {{ Number_format($row2 -> Price,2)}}</td>
+													<td>{{ $row2 -> qty}}</td>
+													<td style = "color:red;">Php {{ Number_format($row2 -> Price * $row2 -> qty,2)}}</td>
+												</tr>
+											@endif
+										@endforeach
+									@endforeach
 		                                </tbody>
 
                                 	</table>
@@ -152,10 +221,29 @@
 				</div>
 			</div>
 			<div class="col-md-offset-6">
-					<h3 class="fontx text-center"> TOTAL AMOUNT: </h3>
+					<h3 class="fontx text-center"> TOTAL AMOUNT: PHP {{ number_format($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge,2) }} </h3>
+					<h3 class="fontx text-center"> VAT : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PHP  {{ number_format($NewSalesOrder_details -> Subtotal * .12,2) }}</h3>
+					<h3 class="fontx text-center" id="DeliveryCharge" > Delivery Charge : PHP {{ number_format($NewSalesOrder_details -> Delivery_Charge,2) }} </h3>
 				</div>
 		</div>
 	</div>
 </div>
 
-@section('content')
+@endsection
+
+@section('scripts')
+
+	<script>
+
+
+       $('#print').click(function(){
+
+           $('#print').hide();
+
+	   });
+
+	</script>
+
+
+@endsection
+

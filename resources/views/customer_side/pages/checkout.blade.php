@@ -214,50 +214,50 @@
 
 					        	<div id="Guestshowdiv" hidden="" class="row">
 					                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-					                    <form  id="guest_form" name="guest_form" method="POST">
+					                    <form  id="guest_form" name="guest_form" method="POST" data-parsley-validate>
 					                        <fieldset>
 								                <h2 class="text-center fontx">Provide Customer Information</h2>
 								                <hr class="colorgraph">
-								                <div class="row">
+								                <div class="row input-lg">
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Fname" id="Guest_Fname" class="form-control input-lg" placeholder="First Name" tabindex="1" required/>
+								                      <input type="text" name="Guest_Fname" id="Guest_Fname" class="form-control" placeholder="First Name" tabindex="1" />
 								                    </div>
 								                  </div>
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Mname" id="Guest_Mname" class="form-control input-lg" placeholder="Middle Name" tabindex="2" required/>
+								                      <input type="text" name="Guest_Mname" id="Guest_Mname" class="form-control" placeholder="Middle Name" tabindex="2" />
 								                    </div>
 								                  </div>
 								                  <div class="col-xs-12 col-sm-4 col-md-4">
 								                    <div class="form-group">
-								                      <input type="text" name="Guest_Lname" id="Guest_Lname" class="form-control input-lg" placeholder="Last Name" tabindex="3" required/>
+								                      <input type="text" name="Guest_Lname" id="Guest_Lname" class="form-control" placeholder="Last Name" tabindex="3" />
 								                    </div>
 								                  </div>
 								                </div>
 								                <div class="form-group">
-								                  <input type="contact" name="Guest_contact" id="Guest_contact" class="form-control input-lg" placeholder="Contact Number" tabindex="4" required/>
+								                  <input type="text" name="Guest_contact" id="Guest_contact" class="form-control" placeholder="Contact Number" tabindex="4" />
 								                </div>
 
 								                <div class="form-group">
-								                  <input type="email" name="Guest_email" id="Guest_email" class="form-control input-lg" placeholder="Email Address" tabindex="5" required/>
+								                  <input type="email" name="Guest_email" id="Guest_email" class="form-control" placeholder="Email Address" data-parsley-type="email" tabindex="5" />
 								                </div>
 								                <!--start of customer Address-->
 								                <hr>
 												<h4 class="text-center fontx">Customer Address</h4>
 												<div class = "row">
 									                <div class="col-md-6">
-									                  <input type="contact" name="Guestaddress_Line" id="Guestaddress_Line" class="form-control input-lg" placeholder="House No./Street Name" tabindex="6" required>
+									                  <input type="text" name="Guestaddress_Line" id="Guestaddress_Line" class="form-control" placeholder="House No./Street Name" tabindex="6" >
 									               </div>
 
 									                <div class="col-md-6">
-									                  <input type="contact" name="Guest_baranggay" id="Guest_baranggay" class="form-control input-lg" placeholder="Baranggay" tabindex="7" required>
+									                  <input type="text" name="Guest_baranggay" id="Guest_baranggay" class="form-control" placeholder="Baranggay" tabindex="7" >
 									                </div>
 												</div>
 
 												<div class = "row">
 									                <div class="form-group col-md-6">
-									                  <select name="ProvinceField0" id="ProvinceField0" class="form-control input-lg" tabindex="5" required>
+									                  <select name="ProvinceField0" id="ProvinceField0" class="form-control" tabindex="8" >
 									                  	<option value = "-1" data-tag = "-1" disabled selected> Choose Province</option>
 									                  @foreach($province3 as $prov)
 								                        <option value ="{{$prov->id}}" > {{$prov->name}} </option>
@@ -266,7 +266,7 @@
 									                </div>
 
 									                <div class="form-group col-md-6">
-									                  <select name="TownField0" id="TownField0" class="form-control input-lg" tabindex="6" required>
+									                  <select name="TownField0" id="TownField0" class="form-control" tabindex="9" required>
 									                  	<option value = "-1" data-tag = "-1" disabled selected> Choose City</option>
 									                  @foreach($city3 as $city)
 								                        <option value ="{{$city->id}}" data-tag = "{{$city->province_id}}"> {{$city->name}} </option>
@@ -327,6 +327,8 @@
 
 
 								                <!--Maghahide to kapag ang pinili ay guest checkout pero once na nakalogin automatic na nakacheck to at laman ng mga fields ay ang mga details ng user's acct., tanging yung delivery date at time lang ang naka enabled kapag inuncheck to ay magkiclear yung fields for delivery details at maeenabled-->
+														@if(Auth::check() == true)
+
 														<div id="useMyAcctDetailsDiv">
 															<label>
 																<input type="checkbox" name="UseMydetailsCheckboxe" id="UseMydetailsCheckboxe">
@@ -334,12 +336,16 @@
 															</label>
 														</div>
 
+														@else
+
 														<div id="guestDetails">
 															<label>
 																<input type="checkbox" name="guestDetailscheck" id="guestDetailscheck">
 																		Use my Account's Details
 															</label>
 														</div>
+
+														@endif
 
 
 								                <label for="" class="text-center fontx">Recipient Details</label>
@@ -505,8 +511,12 @@
 						        <br>
 		                        <ul class="list-inline center">
 		                            <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+									@if(Auth::check() == true)
 		                            <li><button id = 'PickUpDeliverybtn' type="button" class="btn btn-primary next-step" onclick="getData()">Save and continue</button></li>
-		                        </ul>
+		                        	@else
+									<li><button id = 'PickUpDeliverybtn1' type="button" class="btn btn-primary next-step" onclick="getData()">Save and continue</button></li>
+									@endif
+								</ul>
 		                    </div>
 		                    <div class="tab-pane" role="tabpanel" id="step3">
 		                    	<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
@@ -594,8 +604,12 @@
 			                        <br>
 			                        <div id = "pickupSummaryDiv">
 											<!--Form() open dito-->
+						@if(Auth::check() == true)
                       <form method="post" action="{{ route('checkoutfinalpickup') }}">
-											<div class="row pull-right">
+						 @else
+							  <form method="post" action="{{ route('guestfinalpickup') }}">
+						@endif
+							  <div class="row pull-right">
 												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
@@ -611,6 +625,7 @@
 
 													 <input id = 'finalPickup_Date' name = 'finalPickup_Date'>
 													 <input id = 'finalPickup_Time' name = 'finalPickup_Time'>
+													<input id="guestpickupemail" name="guestemail">
 
 													 <input id = 'cust_type' name = 'cust_type' ><!-- pag guest ang lalagay mo dito ay guest means walang acct. tong si customer-->
 													 <input id = 'customer_ID' name = 'customer_ID' ><!-- pag guest ang lalagay mo dito ay none-->
@@ -668,7 +683,7 @@
 														<div class="col-md-3 ">
                               <h5><b>Customer email:</b></h5>
 															<div class="form-group">
-									                      		<input type="textr" name="email1" id="email1" class="form-control input-lg" va disabled>
+									                      		<input type="textr" name="email1" id="email1" class="form-control input-lg"  disabled>
 									                    	</div>
 														</div>
 														<div class="col-md-5">
@@ -806,9 +821,14 @@
 										</div>
 										</div>
 										<div id = "deliverySummaryDiv">
+						@if(Auth::check() == true)
                       <form method="post" action="{{ route('checkoutfinal')}}">
+						@else
 
-											<!--Form() open dito-->
+							  <form method="post" action="{{ route('guestdeliver')}}">
+
+						@endif
+							  <!--Form() open dito-->
 											<div class="row pull-right">
 												<div  hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
@@ -837,6 +857,7 @@
 
 													 <input id = 'Cust_Date' name = 'Cust_Date'>
 													 <input id = 'Cust_Time' name = 'Cust_Time'>
+													 <input id ="guestemaildeliver" name="deliveremail">
 
 													 <input id = 'finalrecipient_FName' name = 'finalrecipient_FName'>
 													 <input id = 'finalrecipient_MName' name = 'finalrecipient_MName'>
@@ -1032,7 +1053,8 @@
 													</div>
 													<div class="col-md-offset-6">
 														<h3 class="fontx text"> TOTAL AMOUNT: {{(number_format (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
-                            Cart::instance('flowerwish')->subtotal()), 0 ))}}</h3>
+
+                            Cart::instance('flowerwish')->subtotal()) , 0 ))}} </h3>
 													</div>
 													<p class="text-center"><b>Take Note: You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</b></p>
 												</div>
@@ -1146,8 +1168,7 @@
 						$('#pickupshowdiv').hide("fold");
 						$('#pickupSummaryDiv').hide("fold");
 						$('#deliverySummaryDiv').show("fold");
-                        $('#guestDetails').hide	();
-					});
+                     	});
 
 					$("#guestRdoBtn").click(function(){
 						$("#loginshowdiv").hide("fold");
@@ -1164,7 +1185,7 @@
 						$("#savBtnAcct").hide("fold");
 						$("#Guestshowdiv").hide("fold");
 						$("#useMyAcctDetailsDiv").hide();
-						$("#guestDetails").hide();
+						$("#guestDetails").show();
 					});
 
 					$("#loginshow").click (function(){
@@ -1231,8 +1252,6 @@
 				    });
 
 
-				});
-
 				function nextTab(elem) {
 				    $(elem).next().find('a[data-toggle="tab"]').click();
 				}
@@ -1243,8 +1262,10 @@
         // Registering
 
         $('#PickUpDeliverybtn').attr('disabled', true);
+		$('#PickUpDeliverybtn1').attr('disabled', true);
 
-        if($("#count").val() <= 3000){
+
+                    if($("#count").val() <= 3000){
           $('#deliveryshow').attr('disabled', true);
         }
 
@@ -1286,7 +1307,9 @@
 
 			  var e = document.getElementById("DeliveryTownField");
 			  var c = document.getElementById("DeliveryProvinceField");
-            	var townies = e.options[e.selectedIndex].text;
+
+
+			  	var townies = e.options[e.selectedIndex].text;
             	var prownies = c.options[c.selectedIndex].text;
 
 
@@ -1299,11 +1322,7 @@
 
             $(function() {
 
-                if($('#deliverydate').val() != null){
 
-                    $('#PickUpDeliverybtn').attr('disabled', false);
-
-                }
 
                 $("#deliverydate").change(function(){
                     var selected = $(this).val();
@@ -1347,6 +1366,7 @@
                               document.getElementById('fullname').value = firstName +" "+ middlename +". "+ lastname;
                               document.getElementById('cust_contact').value = contact;
                               document.getElementById('cust_mode').value = "Cash On Delivery";
+
                               document.getElementById('cust_email').value = email;
                               document.getElementById('recipientName').value = firstName +" "+ middlename +". "+ lastname;
                               document.getElementById('reccontact').value = contact;
@@ -1354,6 +1374,26 @@
                               document.getElementById('devdate').value = deliverdate;
                               document.getElementById('devtime').value = delivertime;
                               document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
+
+                                var method = "delivery";
+
+                                if(method == 'delivery')
+                                {
+                                    if(c == 47 && e == 969)
+                                    {
+                                        $('.DeliveryCharge').html("0");
+                                    }
+                                    else if(c == 47 && e != 969)
+                                    {
+                                        $('.DeliveryCharge').html("300");
+                                    }
+                                    else
+                                    {
+                                        $('.DeliveryCharge').html("0");
+                                    }
+                                }else{
+                                    $('.DeliveryCharge').html("0");
+                                };
 
 
                             });
@@ -1395,6 +1435,26 @@
                                 document.getElementById('devdate').value = deliverdate;
                                 document.getElementById('devtime').value = delivertime;
                                 document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
+
+                                  var method = "delivery";
+
+                                  if(method == 'delivery')
+                                  {
+                                      if(c == 47 && e == 969)
+                                      {
+                                          $('.DeliveryCharge').html("0");
+                                      }
+                                      else if(c == 47 && e != 969)
+                                      {
+                                          $('.DeliveryCharge').html("300");
+                                      }
+                                      else
+                                      {
+                                          $('.DeliveryCharge').html("0");
+                                      }
+                                  }else{
+                                      $('.DeliveryCharge').html("0");
+                                  };
 
 
                               });
@@ -1609,12 +1669,11 @@
 
           });
 
-		/*		$(function(){
+			$(function(){
 
 					$('#guest_form').submit(function(event){
 
 						event.preventDefault();
-						alert('haahahh');
                         var fname = document.getElementById('Guest_Fname').value;
                         var mname = document.getElementById('Guest_Mname').value;
                         var lname = document.getElementById('Guest_Lname').value;
@@ -1627,18 +1686,405 @@
                     });
 
 				});
-*/
+
                 $(function(){
                     $("#guest_form").submit(function(event){
                         event.preventDefault();
-								alert('ahhahhaa');
                     });
                 });//end of form
 
 
+                    $("#Guest_contact").keypress(function (e) {
+                        //if the letter is not digit then display error and don't type anything
+                        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                            //display error message
+                            return false;
+                        }
+                    });
+
+                    var town = "";
+
+                    $('#Guestshowdiv').ready(function(){
+
+                        $('#savBtnAcct').attr('disabled', true);
+
+
+                        $('#Guestshowdiv input.form-control').each(function(){
 
 
 
+                            if($(this).change(function(){
+
+                                    $("#TownField0").change(function() {
+
+                                        town = $("#TownField0").val();
+
+
+                                        if ($(this).val() == null) {
+
+                                            $('#savBtnAcct').attr('disabled', true);
+
+                                        }
+                                        else if($('#Guest_baranggay').val() != "" && town != "")
+                                        {
+
+                                            $('#savBtnAcct').attr('disabled', false);
+
+
+                                            // button ng next step for guest
+
+
+											if($('#savBtnAcct').click(function(){
+
+
+                                                    $("#guestDetailscheck").click(function() { // WITH USER
+
+                                                        $('#PickUpDeliverybtn1').attr('disabled', true);
+
+
+                                                        if ($('#guestDetailscheck').is(':checked') == true) {
+
+                                                            var fname = document.getElementById('Guest_Fname').value;
+                                                            var mname = document.getElementById('Guest_Mname').value;
+                                                            var lname = document.getElementById('Guest_Lname').value;
+                                                            var contact = document.getElementById('Guest_contact').value;
+                                                            var email = document.getElementById('Guest_email').value;
+                                                            var addline = document.getElementById('Guestaddress_Line').value;
+                                                            var brgy = document.getElementById('Guest_baranggay').value;
+                                                            var prov = document.getElementById('ProvinceField0').value;
+                                                            var town = document.getElementById('TownField0').value;
+
+
+                                                            $('#DeliveryProvinceField option[value ='+prov+']').attr("selected","selected")
+                                                            $('#DeliveryTownField option[value ='+town+']').attr("selected","selected")
+
+                                                            var e = document.getElementById("ProvinceField0");
+                                                            var c = document.getElementById("TownField0");
+                                                            var townies = e.options[e.selectedIndex].text;
+                                                            var prownies = c.options[c.selectedIndex].text;
+
+
+                                                            $('#R_first_name').val(fname);
+                                                            $('#R_mid_name').val(mname);
+                                                            $('#R_last_name').val(lname);
+                                                            $('#R_contact').val(contact);
+                                                            $('#R_DeliveryAddressLine').val(addline);
+                                                            $('#R_DeliveryBrgy').val(brgy);
+
+                                                            $(function() {
+
+
+
+                                                                $("#deliverydate").change(function(){
+                                                                    var selected = $(this).val();
+
+
+                                                                    if($('#deliverydate').val() == selected){
+
+                                                                        if($('#guestDetailscheck').is(':checked') == true){
+
+
+                                                                            $('#PickUpDeliverybtn1').attr('disabled', false);
+
+
+                                                                            $("#PickUpDeliverybtn1").click(function(){
+
+                                                                                var deliverdate = $('#deliverydate').val();
+                                                                                var delivertime = $('#timepicker1').val();
+
+                                                                                $('#paydelivery').attr('disabled',true);
+
+                                                                                $('#radiocod').click(function(){
+                                                                                    if($('#radiocod').is(':checked') == true){
+
+                                                                                        $("#paydelivery").click(function() {
+                                                                                            document.getElementById('Cust_FName').value = fname;
+                                                                                            document.getElementById('Cust_MName').value = mname;
+                                                                                            document.getElementById('Cust_LName').value = lname;
+                                                                                            document.getElementById('Cust_Number').value = contact;
+                                                                                            document.getElementById('Cust_AddrsLine').value = addline;
+                                                                                            document.getElementById('Cust_Brgy').value = brgy;
+                                                                                            document.getElementById('Cust_prov').value = prov;
+                                                                                            document.getElementById('Cust_city').value = town;
+                                                                                            document.getElementById('Cust_Date').value = deliverdate;
+                                                                                            document.getElementById('Cust_Time').value = delivertime;
+                                                                                            document.getElementById('finalrecipient_FName').value = fname;
+                                                                                            document.getElementById('finalrecipient_MName').value = mname;
+                                                                                            document.getElementById('finalrecipient_LName').value = lname;
+                                                                                            document.getElementById('finalrecipient_Number').value = contact;
+                                                                                            document.getElementById('Cust_paymentMethod').value = "cash";
+
+                                                                                            document.getElementById('fullname').value = fname +" "+ mname +". "+ lname;
+                                                                                            document.getElementById('cust_contact').value = contact;
+                                                                                            document.getElementById('cust_mode').value = "Cash On Delivery";
+                                                                                            document.getElementById('cust_email').value = email;
+																							document.getElementById('guestemaildeliver').value = email;
+                                                                                            document.getElementById('recipientName').value = fname +" "+ mname +". "+ lname;
+                                                                                            document.getElementById('reccontact').value = contact;
+
+                                                                                            document.getElementById('devdate').value = deliverdate;
+                                                                                            document.getElementById('devtime').value = delivertime;
+                                                                                            document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
+
+
+                                                                                        });
+
+                                                                                        $('#paydelivery').attr('disabled', false);
+
+
+
+                                                                                    }
+                                                                                });
+
+                                                                                $('#radiobk').click(function(){
+                                                                                    if($('#radiobk').is(':checked') == true){
+
+                                                                                        $("#paydelivery").click(function() {
+                                                                                            document.getElementById('Cust_FName').value = fname;
+                                                                                            document.getElementById('Cust_MName').value = mname;
+                                                                                            document.getElementById('Cust_LName').value = lname;
+                                                                                            document.getElementById('Cust_Number').value = contact;
+                                                                                            document.getElementById('Cust_AddrsLine').value = addline;
+                                                                                            document.getElementById('Cust_Brgy').value = brgy;
+                                                                                            document.getElementById('Cust_prov').value = prov;
+                                                                                            document.getElementById('Cust_city').value = town;
+                                                                                            document.getElementById('Cust_Date').value = deliverdate;
+                                                                                            document.getElementById('Cust_Time').value = delivertime;
+                                                                                            document.getElementById('finalrecipient_FName').value = fname;
+                                                                                            document.getElementById('finalrecipient_MName').value = mname;
+                                                                                            document.getElementById('finalrecipient_LName').value = lname;
+                                                                                            document.getElementById('finalrecipient_Number').value = contact;
+                                                                                            document.getElementById('Cust_paymentMethod').value = "bank";
+
+                                                                                            document.getElementById('fullname').value = fname +" "+ mname +". "+ lname;
+                                                                                            document.getElementById('cust_contact').value = contact;
+                                                                                            document.getElementById('cust_mode').value = "Bank";
+                                                                                            document.getElementById('cust_email').value = email;
+                                                                                            document.getElementById('guestemaildeliver').value = email;
+                                                                                            document.getElementById('recipientName').value = fname +" "+ mname +". "+ lname;
+                                                                                            document.getElementById('reccontact').value = contact;
+
+                                                                                            document.getElementById('devdate').value = deliverdate;
+                                                                                            document.getElementById('devtime').value = delivertime;
+                                                                                            document.getElementById('delivadd').value = addline +" "+  brgy +" "+ townies +" "+ prownies;
+
+
+                                                                                        });
+
+                                                                                        $('#paydelivery').attr('disabled', false);
+
+
+
+                                                                                    }
+                                                                                });
+
+                                                                            });
+
+                                                                        }
+
+                                                                        else {
+
+                                                                            $('#PickUpDeliverybtn1').attr('disabled', true);
+
+
+                                                                        }
+
+                                                                    }
+                                                                    else{
+                                                                        $('#PickUpDeliverybtn1').attr('disabled', true);
+
+                                                                    }
+
+
+                                                                });
+
+
+
+
+
+
+
+                                                            }); // Dulo
+
+
+                                                        }
+
+                                                        else{
+
+                                                            var prov = "-1";
+                                                            var town = "-1";
+
+                                                            $('#DeliveryProvinceField option[value ='+prov+']').attr("selected","selected")
+                                                            $('#DeliveryTownField option[value ='+town+']').attr("selected","selected")
+
+                                                            $('#R_first_name').val(fname);
+                                                            $('#R_mid_name').val(mname);
+                                                            $('#R_last_name').val(lname);
+                                                            $('#R_contact').val(contact);
+                                                            $('#R_DeliveryAddressLine').val(addline);
+                                                            $('#R_DeliveryBrgy').val(brgy);
+
+
+                                                        }
+
+
+                                                    });
+
+                                                    $(function() {
+
+
+
+                                                        var dtToday = new Date();
+
+                                                        var month = dtToday.getMonth() + 1;
+                                                        var day = dtToday.getDate();
+                                                        var year = dtToday.getFullYear();
+                                                        if(month < 10)
+                                                            month = '0' + month.toString();
+                                                        if(day < 10)
+                                                            day = '0' + day.toString();
+
+                                                        var maxDate = year + '-' + month + '-' + day;
+
+                                                        $('#datepickup').attr('min', maxDate);
+
+                                                        $("#datepickup").change(function(){
+                                                            var selected2 = $(this).val();
+
+                                                            if($('#datepickup').val() == selected2){
+
+                                                                $('#PickUpDeliverybtn1').attr('disabled', false);
+
+                                                                var fname = document.getElementById('Guest_Fname').value;
+                                                                var mname = document.getElementById('Guest_Mname').value;
+                                                                var lname = document.getElementById('Guest_Lname').value;
+                                                                var contact = document.getElementById('Guest_contact').value;
+                                                                var email = document.getElementById('Guest_email').value;
+                                                                var addline = document.getElementById('Guestaddress_Line').value;
+                                                                var brgy = document.getElementById('Guest_baranggay').value;
+                                                                var prov = document.getElementById('ProvinceField0').value;
+                                                                var town = document.getElementById('TownField0').value;
+
+                                                                var deliverdate2 = $('#datepickup').val();
+                                                                var delivertime2 = $('#timepicker2').val();
+
+                                                                $('#step3button').attr('disabled', true);
+
+                                                                $("#PickUpDeliverybtn1").click(function(){
+
+                                                                    $('#radio1').click(function(){
+
+
+                                                                        if($('#radio1').is(':checked') == true){
+
+                                                                            $("#step3button").click(function() {
+
+                                                                                document.getElementById('finalPickup_Date').value = deliverdate2;
+                                                                                document.getElementById('finalPickup_Time').value = delivertime2;
+
+                                                                                document.getElementById('cust_type').value = "Guest";
+
+
+                                                                                document.getElementById('finalCustomer_FName').value = fname;
+                                                                                document.getElementById('finalCustomer_MName').value = mname;
+                                                                                document.getElementById('finalCustomer_LName').value = lname;
+                                                                                document.getElementById('finalCustomer_Number').value = contact;
+                                                                                document.getElementById('final_paymentMethod').value = "Bank";
+
+                                                                                document.getElementById('fullname1').value = fname +" "+ mname +". "+ lname;
+                                                                                document.getElementById('contact1').value = contact;
+                                                                                document.getElementById('mode1').value = "Bank";
+                                                                                document.getElementById('email1').value = email;
+                                                                                document.getElementById('guestpickupemail').value = email;
+                                                                                document.getElementById('SummarypickupDate').value = deliverdate2;
+                                                                                document.getElementById('SummarypickupTime').value = delivertime2;
+
+
+
+
+
+
+
+
+                                                                            }); // step3button
+
+                                                                            $('#step3button').attr('disabled', false);
+
+
+                                                                        } // if else
+
+                                                                    }); // Radio
+
+                                                                    $('#radio2').click(function(){
+                                                                        if($('#radio2').is(':checked') == true){
+
+                                                                            $("#step3button").click(function() {
+
+                                                                                document.getElementById('finalPickup_Date').value = deliverdate2;
+                                                                                document.getElementById('finalPickup_Time').value = delivertime2;
+
+                                                                                document.getElementById('cust_type').value = "Guest";
+                                                                                document.getElementById('customer_ID').value = "";
+
+                                                                                document.getElementById('finalCustomer_FName').value = fname;
+                                                                                document.getElementById('finalCustomer_MName').value = mname;
+                                                                                document.getElementById('finalCustomer_LName').value = lname;
+                                                                                document.getElementById('finalCustomer_Number').value = contact;
+                                                                                document.getElementById('final_paymentMethod').value = "Cash";
+
+                                                                                document.getElementById('fullname1').value = fname +" "+ mname +". "+ lname;
+                                                                                document.getElementById('contact1').value = contact;
+                                                                                document.getElementById('mode1').value = "Cash";
+                                                                                document.getElementById('email1').value = email;
+                                                                                document.getElementById('guestpickupemail').value = email;
+                                                                                document.getElementById('SummarypickupDate').value = deliverdate2;
+                                                                                document.getElementById('SummarypickupTime').value = delivertime2;
+
+
+
+
+
+
+
+
+                                                                            }); // step3button
+
+
+                                                                            $('#step3button').attr('disabled', false);
+
+                                                                        } // if else
+
+                                                                    });
+
+
+                                                                }); //PickUpDeliverybtn
+
+
+                                                            }
+
+
+
+                                                        });
+
+                                                    });
+
+
+
+                                                }));
+
+
+                                        }
+
+                                    });
+
+                            }));
+                        });
+                    });
+
+
+
+
+                });
 
 
 

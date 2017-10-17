@@ -9,6 +9,20 @@ use Auth;
 use Session;
 use Charts;
 
+use App\sales_order;
+use App\shop_schedule;
+use App\order_details;
+use App\sales_order_flowers;
+use App\bouquet_details;
+use App\bouquet_flowers;
+use App\bouquet_acessories;
+use App\sales_order_bouquet;
+use App\sales_order_bouquet_flowers;
+use App\sales_order_acessories;
+use App\Neworder_details;
+
+use Carbon\Carbon;
+
 class PagesController extends Controller
 {
     //
@@ -653,9 +667,103 @@ class PagesController extends Controller
 	public function getInventoryReportsFlower() {
 			return view('reports/inventory_reports_flower');
 		}
-	public function getOrderConfirmation() {
-			return view('customer_side/pages/order_confirmation');
+	public function getOrderConfirmation($id) {
+
+        $cities = DB::table('cities')
+            ->select('*')
+            ->get();
+
+        $province = DB::table('provinces')
+            ->select('*')
+            ->get();
+
+        $NewSalesOrder = sales_order::find($id);
+        $NewSalesOrder_details = Neworder_details::find($id);
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+            ->where('Order_ID', $id)
+            ->first();
+
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+            ->where('Order_ID', $id)
+            ->get();
+
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+        $cityName = "";
+        $provName = "";
+
+        foreach($cities as $city){
+            if($NewSalesOrder_details->Delivery_City == $city->id){
+                $cityName = $city->name;
+            }
+        }
+        foreach($province as $prov){
+            if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                $provName = $prov->name;
+            }
+        }
+
+        $current = Carbon::now('Asia/Manila')->toDateString();
+
+        return view('customer_side/pages/order_confirmation', ['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+            'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 		}
+
+		public function guestprint($id){
+            $cities = DB::table('cities')
+                ->select('*')
+                ->get();
+
+            $province = DB::table('provinces')
+                ->select('*')
+                ->get();
+
+            $NewSalesOrder = sales_order::find($id);
+            $NewSalesOrder_details = Neworder_details::find($id);
+            $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+            $NewOrder_SchedDetails = DB::table('shop_schedule')
+                ->where('Order_ID', $id)
+                ->first();
+
+            $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                ->where('Order_ID', $id)
+                ->get();
+
+            $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+            $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+            $cityName = "";
+            $provName = "";
+
+            foreach($cities as $city){
+                if($NewSalesOrder_details->Delivery_City == $city->id){
+                    $cityName = $city->name;
+                }
+            }
+            foreach($province as $prov){
+                if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                    $provName = $prov->name;
+                }
+            }
+
+            $current = Carbon::now('Asia/Manila')->toDateString();
+
+
+            Session::remove('orderid');
+
+            $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+                'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+                'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+
+            return $pdf->download('GUESTRECEIPT-'.$id.'-'.$current.'.pdf');
+        }
 
 	public function getInventorySideFlowerTransaction() {
 
