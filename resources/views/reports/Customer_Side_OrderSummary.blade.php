@@ -128,7 +128,7 @@
 
 									@if($NewSalesOrder_details->shipping_method == "delivery")
 										<p><b>Shipping Method :</b> {{$NewSalesOrder_details->shipping_method}}</p>
-										<p><b>Recipient Name :</b> {{$NewSalesOrder->Customer_Fname}} {{$NewSalesOrder->Customer_MName}}, {{$NewSalesOrder->Customer_LName}}</p>
+										<p><b>Recipient Name :</b> {{$NewSalesOrder_details->Recipient_Fname}} {{$NewSalesOrder_details->Recipient_Mname}} , {{$NewSalesOrder_details->Recipient_Lname}}</p>
 										<p><b>Delivery Address :</b> {{$NewSalesOrder_details->Delivery_Address}}, {{$NewSalesOrder_details->Delivery_Baranggay}}, {{$city}},{{$province}}</p>
 										<p><b>Delivery Date :</b>
 											<?php

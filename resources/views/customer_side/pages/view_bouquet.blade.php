@@ -111,7 +111,7 @@
 						</div>
 						<div class="row" style="margin-top: 13%; margin-left: 5%;">
 							<button type="submit" id="submitboq" class="btn btn-sm btn-success"> Submit </button>
-							<button type="" class="btn btn-sm btn-danger"> Back </button>
+							<a href="{{ route('bouquets')}}" class="btn btn-sm btn-danger"> Back </a>
 						</div>
 							{{ csrf_field() }}
 						</form>

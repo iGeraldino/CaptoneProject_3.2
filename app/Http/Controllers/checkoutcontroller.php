@@ -588,6 +588,462 @@ class checkoutcontroller extends Controller
 
     }
 
+    public function guestfinalpickup(Request $request){
+
+        $fname = $request->input('finalCustomer_FName');
+        $mname = $request->input('finalCustomer_MName');
+        $lname = $request->input('finalCustomer_LName');
+        $contact = $request->input('finalCustomer_Number');
+        $email = $request->guestemail;
+        $status = "pending";
+        $type = "online";
+
+        $sales_order = new sales_order([
+            'Customer_Fname' => $fname,
+            'Customer_Mname' => $mname,
+            'Customer_Lname' => $lname,
+            'Contact_Num' => $contact,
+            'email_Address' => $email,
+            'Status' => $status,
+            'Type' => $type,
+
+        ]);
+
+        $sales_order -> save();
+
+        $sales_order_ID = $sales_order -> sales_order_ID;
+
+        foreach(Cart::instance('flowerwish')->content() as $row){
+
+            $salesflower = new sales_order_flowers([
+
+                'Sales_Order_ID' => $sales_order_ID,
+                'Flower_ID' => $row -> id,
+                'QTY' => $row -> qty,
+                'Unit_Price' => $row -> price,
+                'Total_Amt' => $row -> options -> T_Amt,
+
+            ]);
+
+            $salesflower->save();
+        }
+
+        $customer_ID = $request->input('customer_ID');
+        $recipientfname = $request->input('finalCustomer_FName');
+        $recipientmname = $request->input('finalCustomer_MName');
+        $recipientlname = $request->input('finalCustomer_LName');
+        $paymentmethod = $request->input('final_paymentMethod');
+        $orderdetailstatus = "pending";
+        $orderdetailmethod = $request->input('final_shippingMethod');
+        $orderdetailcontact = $request->input('finalCustomer_Number');
+        $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                Cart::instance('flowerwish')->subtotal()) );
+
+        $orderdetails = new order_details([
+
+            'Order_ID' => $sales_order_ID,
+            'Recipient_Fname' => $recipientfname,
+            'Recipient_Mname' => $recipientmname,
+            'Recipient_Lname' => $recipientlname,
+            'Status' => $orderdetailstatus,
+            'Payment_Mode' => $paymentmethod,
+            'Subtotal' => $amount ,
+            'Delivery_Charge' => "0",
+            'Total_Amt' => $amount,
+            'email_Addresss' => $email,
+            'Contact_Num' => $orderdetailcontact,
+            'shipping_method' => $orderdetailmethod,
+
+        ]);
+
+        $orderdetails->save();
+        $lastid = $orderdetails -> id;
+
+        $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
+        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
+        $Scheduletype = $request->input('final_shippingMethod');
+        $schedulestatus = "pending";
+
+        $shop_schedule = new shop_schedule([
+            'Order_ID' => $sales_order_ID,
+            'Date_of_Event' => $deliverydate,
+            'Time' => $deliverytime,
+            'Schedule_Type' => $Scheduletype,
+            'shedule_status' => "P",
+        ]);
+
+        $shop_schedule -> save();
+
+        if(Cart::instance('finalboqcart')->count() == 0){
+
+            Cart::instance('flowerwish')->destroy();
+            Cart::instance('finalboqcart')->destroy();
+            Cart::instance('finalacccart')->destroy();
+            Cart::instance('finalflowerbqt')->destroy();
+
+
+            Return redirect() -> route('guestorder', ['id' => $sales_order_ID]);
+        }
+
+        else{
+
+
+            foreach(Cart::instance('finalboqcart')->content() as $row1){
+
+                $bouquet_details = new bouquet_details([
+
+                    'price' => $row1-> price,
+                    'count_ofFlowers' => $row1->options->count,
+                    'Type' => "custom",
+                    'Order_ID' => $sales_order_ID,
+                ]);
+
+                $bouquet_details->save();
+                $bouquet_ID = $bouquet_details -> bouquet_ID;
+
+            }
+
+            foreach(Cart::instance('finalflowerbqt')->content() as $row2){
+
+                $bouquet_flowers = new bouquet_flowers([
+
+                    'bouquet_ID' => $bouquet_ID,
+                    'flower_id' => $row2->id,
+                    'qty' => $row2->qty,
+
+                ]);
+
+                $bouquet_flowers->save();
+
+            }
+
+            foreach(Cart::instance('finalacccart')->content() as $row3){
+
+                $bouquet_accessories = new bouquet_acessories([
+                    'bouquet_ID' => $bouquet_ID,
+                    'acessory_ID' => $row3->id,
+                    'qty' => $row3->qty,
+
+                ]);
+
+                $bouquet_accessories->save();
+
+            }
+
+
+            foreach(Cart::instance('finalboqcart')->content() as $row4){
+
+                $salesboquet = new sales_order_bouquet([
+
+                    'Order_ID' => $sales_order_ID,
+                    'Bqt_ID' => $bouquet_ID,
+                    'Unit_Price' => $row4->price,
+                    'QTY' => $row4->qty,
+                    'Amt' => $row4->qty * $row4->price,
+                ]);
+
+                $salesboquet->save();
+
+
+            }
+
+            foreach(Cart::instance('finalflowerbqt')->content() as $row5){
+
+                $salesbouquetflower = new sales_order_bouquet_flowers([
+
+                    'Order_ID' => $sales_order_ID,
+                    'Bqt_ID' => $bouquet_ID,
+                    'Flower_ID' => $row5->id,
+                    'Price' => $row5->price,
+                    'QTY' => $row5->qty,
+                    'Total_Amt' => $row5->qty * $row5->price,
+
+                ]);
+
+                $salesbouquetflower->save();
+
+            }
+
+            foreach(Cart::instance('finalacccart')->content() as $row6){
+
+                $salesbouquetacc = new sales_order_acessories([
+
+                    'Order_ID' => $sales_order_ID,
+                    'BQT_ID' => $bouquet_ID,
+                    'Acessories_ID' => $row6->id,
+                    'Price' => $row6->price,
+                    'QTY' => $row6->qty,
+                    'Amt' => $row6->qty * $row6->price,
+
+                ]);
+
+                $salesbouquetacc->save();
+
+            }
+
+            Cart::instance('flowerwish')->destroy();
+            Cart::instance('finalboqcart')->destroy();
+            Cart::instance('finalacccart')->destroy();
+            Cart::instance('finalflowerbqt')->destroy();
+
+
+            Return redirect() -> route('guestorder', ['id' => $sales_order_ID]);
+
+        }
+
+
+    }
+
+    public function guestdeliver(Request $request){
+
+        $fname = $request->input('Cust_FName');
+        $mname = $request->input('Cust_MName');
+        $lname = $request->input('Cust_LName');
+        $contact = $request->input('Cust_Number');
+        $email = $request->deliveremail;
+        $status = "pending";
+        $type = "online";
+        $check = 0;
+
+        $sales_order = new sales_order([
+            'Customer_Fname' => $fname,
+            'Customer_Mname' => $mname,
+            'Customer_Lname' => $lname,
+            'Contact_Num' => $contact,
+            'email_Address' => $email,
+            'Status' => $status,
+            'Type' => $type,
+
+        ]);
+
+        $sales_order -> save();
+
+
+
+        // Shop Schedule
+
+        $sales_order_ID = $sales_order -> sales_order_ID;
+
+        foreach(Cart::instance('flowerwish')->content() as $row){
+
+            $salesflower = new sales_order_flowers([
+
+                'Sales_Order_ID' => $sales_order_ID,
+                'Flower_ID' => $row -> id,
+                'QTY' => $row -> qty,
+                'Unit_Price' => $row -> price,
+                'Total_Amt' => $row -> options -> T_Amt,
+
+            ]);
+            $salesflower->save();
+        }
+
+        //order_details
+        $deliveryadd = $request->input('Cust_AddrsLine');
+        $deliverybrgy = $request->input('Cust_Brgy');
+        $deliverycity = $request->input('Cust_city');
+        $deliverprov = $request->input('Cust_prov');
+        $recipientfname = $request->input('finalrecipient_FName');
+        $recipientmname = $request->input('finalrecipient_MName');
+        $recipientlname = $request->input('finalrecipient_LName');
+        $paymentmethod = $request->input('Cust_paymentMethod');
+        $orderdetailstatus = "pending";
+        $orderdetailmethod = $request->input('Cust_shippingMethod');
+        $orderdetailcontact = $request->input('finalrecipient_Number');
+        $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                Cart::instance('flowerwish')->subtotal()) );
+
+        if($orderdetailmethod == 'delivery'){
+            if($deliverprov == 47 AND $deliverycity == 969){
+                $deliveryCharge = 0;
+            }
+            else if($deliverprov == 47 AND $deliverycity != 969){
+                $deliveryCharge = 300;
+            }
+            else{
+                $deliveryCharge = 0.0;
+            }
+        }else{
+            $deliveryCharge = 0.0;
+        }
+
+        $vat = ($amount * .12) ;
+
+        $orderdetails = new order_details([
+
+            'Order_ID' => $sales_order_ID,
+            'Delivery_Address' => $deliveryadd,
+            'Delivery_Baranggay' => $deliverybrgy,
+            'Delivery_City' => $deliverycity,
+            'Delivery_Province' => $deliverprov,
+            'Recipient_Fname' => $recipientfname,
+            'Recipient_Mname' => $recipientmname,
+            'Recipient_Lname' => $recipientlname,
+            'Status' => $orderdetailstatus,
+            'Payment_Mode' => $paymentmethod,
+            'Subtotal' => $amount ,
+            'Delivery_Charge' => $deliveryCharge,
+            'Total_Amt' => $amount + $vat,
+            'email_Addresss' => $email,
+            'Contact_Num' => $orderdetailcontact,
+            'shipping_method' => $orderdetailmethod,
+            'VAT' => $vat,
+
+        ]);
+
+
+
+        $orderdetails -> save();
+
+
+        $lastid = $orderdetails->id;
+
+        $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
+        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
+        $Scheduletype = $request->input('Cust_shippingMethod');
+        $schedulestatus = "pending";
+
+        $shop_schedule = new shop_schedule([
+            'Order_ID' => $sales_order_ID,
+            'Customer_fname' => $fname,
+            'Customer_lname' => $lname,
+            'Date_of_Event' => $deliverydate,
+            'Time' => $deliverytime,
+            'Schedule_Type' => $Scheduletype,
+            'shedule_status' => "P",
+        ]);
+
+        $shop_schedule -> save();
+
+
+        //flower cart
+
+
+
+        //bouquet cart
+
+        if(Cart::instance('finalboqcart')->count() == 0){
+
+            Cart::instance('flowerwish')->destroy();
+            Cart::instance('finalboqcart')->destroy();
+            Cart::instance('finalacccart')->destroy();
+            Cart::instance('finalflowerbqt')->destroy();
+
+
+            Return redirect() -> route('guestorder', ['id' => $sales_order_ID]);
+
+
+        }
+
+        else{
+
+
+            foreach(Cart::instance('finalboqcart')->content() as $row1){
+
+                $bouquet_details = new bouquet_details([
+
+                    'price' => $row1-> price,
+                    'count_ofFlowers' => $row1->options->count,
+                    'Type' => "custom",
+                    'Order_ID' => $sales_order_ID,
+                ]);
+
+                $bouquet_details->save();
+                $bouquet_ID = $bouquet_details -> bouquet_ID;
+
+            }
+
+            foreach(Cart::instance('finalflowerbqt')->content() as $row2){
+
+                $bouquet_flowers = new bouquet_flowers([
+
+                    'bouquet_ID' => $bouquet_ID,
+                    'flower_id' => $row2->id,
+                    'qty' => $row2->qty,
+
+                ]);
+
+                $bouquet_flowers->save();
+
+            }
+
+            foreach(Cart::instance('finalacccart')->content() as $row3){
+
+                $bouquet_accessories = new bouquet_acessories([
+                    'bouquet_ID' => $bouquet_ID,
+                    'acessory_ID' => $row3->id,
+                    'qty' => $row3->qty,
+
+                ]);
+
+                $bouquet_accessories->save();
+
+            }
+
+
+            foreach(Cart::instance('finalboqcart')->content() as $row4){
+
+                $salesboquet = new sales_order_bouquet([
+
+                    'Order_ID' => $sales_order_ID,
+                    'Bqt_ID' => $bouquet_ID,
+                    'Unit_Price' => $row4->price,
+                    'QTY' => $row4->qty,
+                    'Amt' => $row4->qty * $row4->price,
+                ]);
+
+                $salesboquet->save();
+
+
+            }
+
+            foreach(Cart::instance('finalflowerbqt')->content() as $row5){
+
+                $salesbouquetflower = new sales_order_bouquet_flowers([
+
+                    'Order_ID' => $sales_order_ID,
+                    'Bqt_ID' => $bouquet_ID,
+                    'Flower_ID' => $row5->id,
+                    'Price' => $row5->price,
+                    'QTY' => $row5->qty,
+                    'Total_Amt' => $row5->qty * $row5->price,
+
+                ]);
+
+                $salesbouquetflower->save();
+
+            }
+
+            foreach(Cart::instance('finalacccart')->content() as $row6){
+
+                $salesbouquetacc = new sales_order_acessories([
+
+                    'Order_ID' => $sales_order_ID,
+                    'BQT_ID' => $bouquet_ID,
+                    'Acessories_ID' => $row6->id,
+                    'Price' => $row6->price,
+                    'QTY' => $row6->qty,
+                    'Amt' => $row6->qty * $row6->price,
+
+                ]);
+
+                $salesbouquetacc->save();
+
+            }
+
+            Cart::instance('flowerwish')->destroy();
+            Cart::instance('finalboqcart')->destroy();
+            Cart::instance('finalacccart')->destroy();
+            Cart::instance('finalflowerbqt')->destroy();
+
+
+            Return redirect() -> route('guestorder', ['id' => $sales_order_ID]);
+            // dulo
+
+        }
+
+    }
+
     public function PrintSummary($id){
 
                     $cities = DB::table('cities')
@@ -640,6 +1096,7 @@ class checkoutcontroller extends Controller
                 return $pdf->download('RECEIPT-'.$id.'-'.$current.'.pdf');
 
     }
+
 
 
 
