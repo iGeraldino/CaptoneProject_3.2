@@ -493,37 +493,54 @@ class PagesController extends Controller
 			return view('reports/OrderSummary_Delivery_Design');
 		}
 
-	public function getInventoryDashboard() {
-			$Pending_salesOrders = DB::table('sales_order')
-			->select('*')
-			->where('Status','PENDING')
-			->get();
+	public function getInventoryDashboard()
+    {
 
-			$arriving = DB::select('CALL view_Arriving_Inventory()');
+        if (Auth::guard('admins')->user()->type == 3) {
 
-			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
-			$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+            $Pending_salesOrders = DB::table('sales_order')
+                ->select('*')
+                ->where('Status', 'PENDING')
+                ->get();
 
-			$order_Paid = DB::select('CALL fullyPaid_Orders()');
-			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
-			//
-			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-			return view('inventory_side/pages/inventory_dashboard')
-			 ->with('p_Orders',$order_Paid)
-			 ->with('b_Orders',$orderWith_Bal)
-			 ->with('debtors',$Customers_WithDebts)
-			 ->with('tobeAcquired',$tobeAcquired_Orders)
-			 ->with('CriticalFLowers',$CriticalFLowers)
-       ->with('arriving',$arriving)
-			 ->with('Porders',$Pending_salesOrders)
-			 ->with('SpoiledFLowers',$SpoiledFLowers);
-			 //->with('charts',$charts);]
-		}
+            $arriving = DB::select('CALL view_Arriving_Inventory()');
+
+            $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+
+            $tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+            $Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+
+            $order_Paid = DB::select('CALL fullyPaid_Orders()');
+            $orderWith_Bal = DB::select('CALL withBalance_Orders()');
+            //
+            $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+            return view('inventory_side/pages/inventory_dashboard')
+                ->with('p_Orders', $order_Paid)
+                ->with('b_Orders', $orderWith_Bal)
+                ->with('debtors', $Customers_WithDebts)
+                ->with('tobeAcquired', $tobeAcquired_Orders)
+                ->with('CriticalFLowers', $CriticalFLowers)
+                ->with('arriving', $arriving)
+                ->with('Porders', $Pending_salesOrders)
+                ->with('SpoiledFLowers', $SpoiledFLowers);
+            //->with('charts',$charts);]
+        } elseif (Auth::guard('admins')->user()->type == 1) {
+
+            return redirect()->route('dashboard');
+
+        }
+        elseif(Auth::guard('admins')->user()->type == 2){
+
+            return redirect()->route('cashierdashboard');
+        }
+    }
 
 	public function getInventorySalesOrder() {
-			$cities = DB::table('cities')
+
+	        dd(Auth::guest('admins'));
+
+	        $cities = DB::table('cities')
               ->select('*')
               ->get();
 

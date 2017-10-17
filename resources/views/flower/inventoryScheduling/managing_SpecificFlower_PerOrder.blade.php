@@ -3,9 +3,9 @@
 
 @section('content')
 	<section class="content">
-	<div class="container" style="margin-top: 50px;">
+	<div class="" style="margin-top: 2%;">
 			<div class="panel panel-primary">
-					  <div class="panel-heading" style="background-color: #C93756">
+					  <div class="panel-heading Subu">
 			            <h3 class="panel-title"><b>Manage Flower To be added to the Inventory</b></h3>
 			          </div>
 
@@ -60,8 +60,8 @@
                           </div>
 
                           <div class = "pull-right">
-                            <a href = "{{route('InventoryArriving_Flowers.show',$Flower->Sched_ID)}}" id = "cancel_btn" type = "button" class = "btn btn-md btn-danger">Cancel</a>
-                            <button id = "sbmt_btn" type = "submit" class = "btn btn-md btn-success">Submit</button>
+                            <a href = "{{route('InventoryArriving_Flowers.show',$Flower->Sched_ID)}}" id = "cancel_btn" type = "button" class = "btn btn-md Shalala">Cancel</a>
+                            <button id = "sbmt_btn" type = "submit" class = "btn btn-md Lush">Submit</button>
                           </div>
                           {!! Form::close() !!}
 

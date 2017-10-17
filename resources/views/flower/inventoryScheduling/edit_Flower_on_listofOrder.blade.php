@@ -11,16 +11,15 @@
     <input id = "UpdateFlower_result" value = "{{$UpdtSessionValue}}">
 </div>
 	<section class="content">
-	<div class="container" style="margin-top: 50px;">
+	<div class="" style="margin-top: 2%;">
 			<div class="panel panel-primary">
-					  <div class="panel-heading" style="background-color: #C93756">
-			            <h3 class="panel-title">Update Flower quantity</h3>
-			          </div>
+			  	<div class="panel-heading Subu">
+	            	<h3 class="panel-title">Update Flower quantity</h3>
+	          	</div>
+            <br>
+          <div  Style = "margin-left: 32%;">
 
-            		<br>
-		              <div  Style = "margin-left: 32%;">
-
-                      </div>
+          </div>
 
 		              <div hidden>
 		              	<input id = "imageName"  name = "imageName" value = "">
@@ -52,14 +51,14 @@
 
 	                     <div class = "row control-label" style="color: #C93756; margin-left: 7%;">
 		                     <div class = "col-md-3">
-		                    	<span class="label" style="font-size: 100%; background-color: #F62459"><input id = "UpdateCheckbox" name = "UpdateCheckbox" type = "checkbox"/>Want to update the Qty?</span>
+		                    	<span class="label Inbox" style="font-size: 100%;"><input id = "UpdateCheckbox" name = "UpdateCheckbox" type = "checkbox"/>Want to update the Qty?</span>
 		                     </div>
 		                     <div class = "col-md-1"></div>
 		                     <div class = "col-md-7">
 		                     	<div id = "QTY_Update_Div" hidden>
 		                     	<!--form open here-->
                      		{!! Form::model($flower, ['route'=>['InventoryScheduling_Flowers.update', $flower->id],'method'=>'PUT','data-parsley-validate' => ''])!!}
-	                					<span class="label" style="margin-left: 5%; font-size: 100%; background-color: darkviolet">Enter New qty for this item</span>
+	                					<span class="label Inbox" style="margin-left: 5%; font-size: 100%;">Enter NEW QTY FOR THIS ITEM</span>
 
 											<div class = "row" style = "margin-left: 5%;">
 

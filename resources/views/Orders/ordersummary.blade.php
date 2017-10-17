@@ -543,12 +543,12 @@
 												<input id = "DeliveryDate_Field" class="form-control" type="date"
 													value = "<?php
 														$min = new DateTime();
-														$min->modify("+2 days");
+														$min->modify("+4 days");
 														$max = new DateTime();
 														echo $min->format("Y-m-d");
 														?>" min ="<?php
 															$min = new DateTime();
-															$min->modify("+2 days");
+															$min->modify("+4 days");
 															$max = new DateTime();
 															echo $min->format("Y-m-d");
 															?>"  required/>

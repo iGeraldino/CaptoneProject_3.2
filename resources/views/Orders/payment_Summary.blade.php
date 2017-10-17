@@ -52,7 +52,7 @@
             <p><b>Change:</b> Php {{number_format($P_Details->Amount-$P_Details->BALANCE,2)}}</p>
 
             <div class = "btn-group pull-right">
-                <button class = "btn btn-md btn-primary">Return to dashboard</button>
+                <a href="{{ route('dashboard') }}"class = "btn btn-md btn-primary">Return to dashboard</a>
                 <a  href = "{{route('Payment.GenerateReceipt',['id'=>$P_Details->Payment_ID])}}" class = "btn btn-md btn-success">Print Reciept</a>
             </div>
           </div>

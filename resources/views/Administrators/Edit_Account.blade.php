@@ -6,7 +6,7 @@
         <div>
             <div class="panel panel-primary">
                 <div class="panel-heading" style="background-color: #26a69a">
-                    <h3 class="panel-title">Supplier Information</h3>
+                    <h3 class="panel-title">Account Information</h3>
                 </div>
                 <div class="panel-body">
 

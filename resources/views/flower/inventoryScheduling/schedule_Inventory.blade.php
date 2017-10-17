@@ -44,7 +44,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-static">
-                  <label class="control-label">What date Dou you want it to arrive?</label>
+                  <label class="control-label">What date do you want it to arrive?</label>
                   <input type="date" id = "datetoArriveField" name = "datetoArriveField" class="form-control"
                   value = "<?php
                     $min = new DateTime();
