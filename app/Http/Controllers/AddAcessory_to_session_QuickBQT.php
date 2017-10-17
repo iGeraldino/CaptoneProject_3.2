@@ -45,6 +45,8 @@ class AddAcessory_to_session_QuickBQT extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
+          $accessories = DB::select('CALL AvailableAcessories_Records()');
+
           $countofAcessories =  Cart::instance('OrderedBqt_Acessories')->count();
 
           $Acessory_ID = $request->AcrsID_Field;
@@ -56,6 +58,48 @@ class AddAcessory_to_session_QuickBQT extends Controller
           $Qty = $request->AcessoryQTY_Field;
           $image = $request->Acrs_Image_Field;
 
+
+
+    //-------------------------------------------------------------sends the data to the session cart.
+          Cart::instance('AllofAcrs')->destroy();
+          foreach($accessories as $Acrs){
+              Cart::instance('AllofAcrs')->add(['id'=>$Acrs->ACC_ID,'name' =>$Acrs->name,
+               'qty'=> $Acrs->qty, 'price' => $Acrs->price,'options'=>['qtyR'=>$Acrs->qty]]);
+          }
+
+          //dd(Cart::instance('AllofAcrs')->content());
+
+          foreach(Cart::instance('AllofAcrs')->content() as $acrs){
+            $qtyRemaining = $acrs->options->qtyR;
+            foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $a_row){
+              if($a_row->id == $acrs->id){
+                $qtyRemaining = $qtyRemaining - $a_row->qty;
+                Cart::instance('AllofAcrs')->update($acrs->rowId,['options'=>['qtyR'=>$qtyRemaining]]);
+              }
+            }
+
+            foreach(Cart::instance('QuickOrdered_Bqt')->content() as $row){
+              foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $Acrow){
+                if($Acrow->options->bqt_ID == $row->id){
+                  $qtyRemaining = $qtyRemaining - ($Acrow->qty*$row->qty);
+                  Cart::instance('AllofAcrs')->update($row->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                }
+              }//end of foreach of the acessories cart
+            }
+          }
+
+          foreach(Cart::instance('AllofAcrs')->content() as $R_acrs){
+            if($R_acrs->id == $Acessory_ID){
+              if($Qty > $R_acrs->options->qtyR){
+                Session::put('Added_AcessoryToBQT_QuickOrder', 'Fail');
+                return redirect()->back();
+              }
+            }
+          }
+
+//dd(Cart::instance('AllofAcrs')->content());
+
+          //dd(Cart::instance('AllofAcrs')->content());
           if(Cart::instance('QuickOrderedBqt_Acessories')->count() == 0){
               echo 'wala pang laman';
                   $final_total_Amount = 0;
@@ -166,6 +210,57 @@ class AddAcessory_to_session_QuickBQT extends Controller
            $newQty = $request->AcQuantityField;
           $order_ID = $request->ID_Field;
           $descision = $request->Decision_Field;
+          $accessories = DB::select('CALL AvailableAcessories_Records()');
+
+
+          //-------------------------------------------------------------sends the data to the session cart.
+                Cart::instance('AllofAcrs')->destroy();
+                foreach($accessories as $Acrs){
+                    Cart::instance('AllofAcrs')->add(['id'=>$Acrs->ACC_ID,'name' =>$Acrs->name,
+                     'qty'=> $Acrs->qty, 'price' => $Acrs->price,'options'=>['qtyR'=>$Acrs->qty]]);
+                }
+
+                //dd(Cart::instance('AllofAcrs')->content());
+
+                foreach(Cart::instance('AllofAcrs')->content() as $acrs){
+                  $qtyRemaining = $acrs->options->qtyR;
+                  foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $a_row){
+                    if($a_row->id == $acrs->id){
+                      $qtyRemaining = $qtyRemaining - $a_row->qty;
+                      Cart::instance('AllofAcrs')->update($acrs->rowId,['options'=>['qtyR'=>$qtyRemaining]]);
+                    }
+                  }
+
+                  foreach(Cart::instance('QuickOrdered_Bqt')->content() as $row){
+                    foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $Acrow){
+                      if($Acrow->options->bqt_ID == $row->id){
+                        $qtyRemaining = $qtyRemaining - ($Acrow->qty*$row->qty);
+                        Cart::instance('AllofAcrs')->update($row->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                      }
+                    }//end of foreach of the acessories cart
+                  }
+                }
+                //dd(Cart::instance('AllofAcrs')->content());
+                $oldQTY = 0;
+                foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $row){
+                  if($id == $row->id){
+                    $oldQTY = $row->qty;
+                  }
+                }
+
+
+                foreach(Cart::instance('AllofAcrs')->content() as $R_acrs){
+                  if($R_acrs->id == $id){
+                    if($oldQTY < $newQty){
+                      $qtyadded = $newQty - $oldQTY;
+                      if($qtyadded > $R_acrs->options->qtyR){
+                        Session::put('Added_AcessoryToBQT_QuickOrder', 'Fail');
+                        return redirect()->back();
+                      }
+                    }
+                  }
+                }
+
 
          foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $row){
               if($row->id == $id){

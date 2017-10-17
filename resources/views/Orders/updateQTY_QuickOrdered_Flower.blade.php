@@ -14,6 +14,8 @@
 	$Flower_SellingPrice = 0;
   $updateQTYsessionValue = Session::get('update_O_FlowerQuickQty_Session');
   Session::remove('update_O_FlowerQuickQty_Session');//determines the addition of new flower
+
+
 ?>
 
 			@foreach($flower_Det as $orderFlower)
@@ -94,19 +96,23 @@
 
 							{!! Form::model($OFlower_ID, ['route'=>['QuickOrders_Flowers.update', $batchDetails[1]],'method'=>'PUT'])!!}
                             <div>
-                              <div class="form-group label-floating">
+                             <div class="form-group label-floating">
                              	<label class="control-label">Original Price</label>
                               	 <input type="text" class="form-control" name="ViewPrice_Field" id="ViewPrice_Field"  value = "Php {{number_format($batchDetails[4],2)}}" disabled/>
                              </div>
 
+														 <div class="form-group label-floating">
+															 <label>Wholesale QTY</label>
+															 <input type="text" class="form-control" name="WholesaleQTY_Field" id="WholesaleQTY_Field" value = '{{$orderFlower->QTY_Wholesale}} pcs' disabled/>
+														 </div>
+
+
                               <div hidden> <!--start of hidden input field-->
+																<input type="number" class="form-control" name="BatchID_Field" id="BatchID_Field" value = "{{$batchDetails[0]}}"/>
                                 <input type="number" class="form-control" name="OrigInputPrice_Field" id="OrigInputPrice_Field" step = '0.01' value = "{{$batchDetails[4]}}"/>
 
                                 <label>The decision</label>
                                 <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>
-
-                                <label>The WholesaleQTY</label>
-                                <input type="text" class="form-control" name="WholesaleQTY_Field" id="WholesaleQTY_Field" value = '{{$orderFlower->QTY_Wholesale}}'/>
 
                                 <label>The Decrease</label>
                                 <input type="text" class="form-control" name="Decrease_Field" id="Decrease_Field" value = '{{$orderFlower->Decrease}}'/>
@@ -134,7 +140,7 @@
                              <div id = 'QTY_Div'>
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>Quantity:</label>
-                                <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' max = '$batchDetails[3]' required/>
+                                <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' max = '{{$batchDetails[3]}}' required/>
                               </div><!--end of form-group -->
                              </div><!--end of QTY_DIV-->
 

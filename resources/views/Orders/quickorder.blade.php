@@ -2,7 +2,7 @@
 
 @section('content')
    <?php
-    /*Cart::instance('overallFLowers')->destroy();
+Cart::instance('overallFLowers')->destroy();
 
 
      Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
@@ -16,7 +16,6 @@
 
        Cart::instance('QuickOrderedBqt_Flowers')->destroy();
        Cart::instance('BatchesofFLowers')->destroy();
-       */
 
   $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
   Session::remove('AddingFlowerTocartSession');
@@ -890,9 +889,8 @@
 	        			<div class="col-md-6">
 	        				<img id = "Acrs_tab_Image" src="" class="img-rounded img-responsive img-raised">
 	        			</div>
-	        			<div class="col-md-6">
-
-			        		<div id = "AcrssellingPrice_Div" class="form-group">
+	        	<div class="col-md-6">
+			        <div id = "AcrssellingPrice_Div" class="form-group">
 								<label class= "control-label">Current Selling Price</label>
 								<input name="AcessoryViewPrice_Field" id="AcessoryViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
 							</div>
@@ -917,33 +915,34 @@
 								</label>
 							</div>
 
-	                       	<div id = 'NewPrice_DivforAcessories' hidden>
-	                         <div class="form-group label-floating">
-	                          <label class = 'control-label'>New Price:</label>
-	                          <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01" min = "0.0"/>
-	                         </div>
-	                       	</div>
+             	<div id = 'NewPrice_DivforAcessories' hidden>
+                 <div class="form-group label-floating">
+                    <label class = 'control-label'>New Price:</label>
+                    <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01" min = "0.0"/>
+                 </div>
+             	</div>
 
-							<div id = 'BqtavailableQTYDIV' hidden>
-                                <div  class="input-group" >
-                                  <label class = 'control-label'>Available Quantity:</label>
-                                  <input type="text" class="form-control" name="AcrsAvailableQty_Field" id="AcrsAvailableQty_Field"  placeholder="" disabled/>
-                                </div>
-                            </div>
+							<div id = 'BqtavailableQTYDIV'>
+                  <div  class="input-group" >
+                    <label class = 'control-label'>Available Quantity:</label>
+                    <input type="text" class="form-control" name="AcrsAvailableQty_Field" id="AcrsAvailableQty_Field"  placeholder="" disabled/>
+                  </div>
+              </div>
 
-	                        <div id = 'QTY_Div'>
+	            <div id = 'QTY_Div'>
 								<div class="form-group label-floating">
 									<label class="control-label">Quantity</label>
 									<input type="number" class="form-control" name = "AcessoryQTY_Field" id= "AcessoryQTY_Field" placeholder="" min = '1' required/>
 								</div>
-	                        </div>
+	            </div>
 
-                            <div id = 'BqtTAmt_Div'>
-								<div class="input-group">
-                              		<label class = 'control-label'>Total Amount: </label>
-                              		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="Acessorytotal_Amt" id="Acessorytotal_Amt"  value ="Php 0.00" disabled/>
-                            	</div>
-                            </div>
+              <div id = 'BqtTAmt_Div'>
+		             <div class="input-group">
+                  		<label class = 'control-label'>Total Amount: </label>
+                  		<input type="text" class="form-control text-right" style ="color:darkviolet;"
+                        name="Acessorytotal_Amt" id="Acessorytotal_Amt"  value ="Php 0.00" disabled/>
+                	</div>
+                </div>
 
 			        	</div>
 	        		</div>
@@ -1103,8 +1102,10 @@
 	  if($('#AddAcessory_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Acessory has been successfully added to your Bouquet!","success");
-	   }
-
+    }else if($('#AddAcessory_result').val()=='Fail'){
+	    //Show popup
+	    swal("Sorry!","The request cannot be accomplished because the inventory could not supply that quantty based on the items that you've listed at at the cart before!","error");
+    }
 
       if($('#Delete_FlowerSessionValue').val()=='Successful'){
          //Show popup
@@ -1160,8 +1161,10 @@
 			$('#AcrsName_Field').val(Acrs_Name);
 			$('#Acrs_tab_Image').attr("src",Acrs_IMG);
       $('#Acrs_Image_Field').val(Acrs_Pic);
-			$('#Acrs_Availableqty_Field').val(Acrs_Qty);
+      $('#Acrs_Availableqty_Field').val(Acrs_Qty);
+			$('#AcrsAvailableQty_Field').val(Acrs_Qty + 'pcs');
 
+      $('#AcessoryQTY_Field').attr('max',Acrs_Qty);
 
 			$('#AcrssellingPrice_Div').prepend('<h5 id = "Acrs_ID">FLWR-'+Acrs_ID+'</h5>'+'<h5 id = "Acrs_Name">'+Acrs_Name+'</h5>');
 		});//
@@ -1271,6 +1274,7 @@
         options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).data("price")).toFixed(2) +'</option>';
       });
       //alert(options);
+
 
       document.getElementById('bqtbatch_IDList').innerHTML = options;
 

@@ -224,7 +224,8 @@ class OrderManagementController_Quick extends Controller
     				        foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
     						    //this foreach will transafer all of their content to another session
     			                Cart::instance('QuickFinalBqt_Flowers')
-    			                ->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $row->price,'options' => ['orig_price' => $row->options['orig_price'],'T_Amt' => $row->options['T_Amt'],'image'=>$row->options['image'],'priceType'=>$row->options['priceType'], 'bqt_ID' => $newBqt_Id]]);
+    			                ->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $row->price,'options' => ['orig_price' => $row->options['orig_price'],'T_Amt' => $row->options['T_Amt'],
+                          'image'=>$row->options['image'],'priceType'=>$row->options['priceType'], 'bqt_ID' => $newBqt_Id]]);
     				        }//END OF INNER FOREACH of flower cart
 
     				        foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $Acrow){
