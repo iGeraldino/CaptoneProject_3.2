@@ -9,7 +9,7 @@ Add_FlowertoSupplierSession
     <input id = "addflowerSupplierSession" value = "{{$AddFlowertoSupplierSession}}">
   </div>
 
-  <div class="" style="margin-top: 50px;">
+  <div class="" style="margin-top: 2%;">
     <div class="col-xs-12">
       <div class="panel">
           <div class="panel-heading Subu">
