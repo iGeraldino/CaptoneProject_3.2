@@ -292,7 +292,7 @@ Route::get('/OrderCreationofCart/{Order_Id}',['uses' =>
 
 	Route::get('/OrderManagement/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Order', 'as'=>'Flowerorder.DelOrderFlowers']);//deletes a specific flower of a specific order
 
-	Route::get('/QuickOrderManagement/{flower_ID}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_QuickOrder', 'as'=>'Flowerorder.DelQuickOrderFlowers']);//deletes a specific flower of a specific quickorder
+	Route::get('/QuickOrderManagement/{flower_ID},{batch}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_QuickOrder', 'as'=>'Flowerorder.DelQuickOrderFlowers']);//deletes a specific flower of a specific quickorder
 
 Route::get('/OrderBouquet_Acessories/{Acessory_ID},{order_ID}',['uses' => 'OrderManagementController@DeleteAcessory_per_Bqt_Order', 'as'=>'BqtAcessoryorder.DelOrderAcessories']);//deletes a specific flower of a specific bouquet in the creatin of bouquet
 

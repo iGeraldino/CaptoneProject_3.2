@@ -27,20 +27,19 @@
 						$OFlower_image = '';
 						$OFlower_decision = '';
 						$OFlower_Tamt = '';
-						//(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
-					      //          'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision]]);
-						foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
-							if($row->id == $flower_ID){
 
+						foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
+							if($row->id == $batchDetails[1] AND $row->options->batchID == $batchDetails[0]){
 								$OFlower_ID = $row->id;
 								$OFlower_name = $row->name;
 								$OFlower_qty = $row->qty;
 								$OFlower_price = $row->price;
-								$OFlower_orig_price = $row->option['orig_price'];
-								$OFlower_image = $row->option['image'];
-								$OFlower_decision = $row->option['priceType'];
-								$OFlower_Tamt = $row->option['T_Amt'];
-
+								$OFlower_orig_price = $row->options['orig_price'];
+								$OFlower_new_price = $row->options['NewPrice'];
+								$OFlower_image = $row->options['image'];
+								$OFlower_decision = $row->options['priceType'];
+								$OFlower_Tamt = $row->options['T_Amt'];
+								$OFlower_batchID = $row->options['batchID'];
 							}
 						}//end of foreach;
 				?>
@@ -66,7 +65,7 @@
 
 	                         <div class="form-group label-floating">
     	                          <label class="control-label">Flower Name</label>
-	                              <input type="text" class="form-control" value = "{{$orderFlower->flower_name}}" name="Flowername" id="Flowername" maxlength = '50' required>
+	                              <input type="text" class="form-control" value = "(Batch-{{$OFlower_batchID}}) {{$orderFlower->flower_name}}" name="Flowername" id="Flowername" maxlength = '50' required disabled>
                              </div>
 
                              <div class="form-group label-floating">
@@ -86,7 +85,7 @@
 
 														<div class="form-group label-floating">
 															 <label class="control-label">Available Quantity</label>
-															 <input type="text" class="form-control" value = "{{$QTYAvailable}} pcs" name="AvailableQTy" id="AvailableQTy" disabled>
+															 <input type="text" class="form-control" value = "{{$batchDetails[3]}} pcs" name="AvailableQTy" id="AvailableQTy" disabled>
 														 </div>
 
 
@@ -98,11 +97,11 @@
                             <div>
                               <div class="form-group label-floating">
                              	<label class="control-label">Original Price</label>
-                              	 <input type="text" class="form-control" name="ViewPrice_Field" id="ViewPrice_Field"  value = "Php {{number_format($orderFlower->Final_SellingPrice,2)}}" disabled/>
+                              	 <input type="text" class="form-control" name="ViewPrice_Field" id="ViewPrice_Field"  value = "Php {{number_format($batchDetails[4],2)}}" disabled/>
                              </div>
 
                               <div hidden> <!--start of hidden input field-->
-                                <input type="number" class="form-control" name="OrigInputPrice_Field" id="OrigInputPrice_Field" step = '0.01' value = "{{$orderFlower->Final_SellingPrice}}"/>
+                                <input type="number" class="form-control" name="OrigInputPrice_Field" id="OrigInputPrice_Field" step = '0.01' value = "{{$batchDetails[4]}}"/>
 
                                 <label>The decision</label>
                                 <input type="text" class="form-control" name="Decision_Field" id="Decision_Field" value = 'O'/>

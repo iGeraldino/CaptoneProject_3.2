@@ -18,7 +18,7 @@ use Carbon\Carbon;
 class OrderManagementController_Quick extends Controller
 {
     //
-    public function DeleteFlower_per_QuickOrder($flower_ID)
+    public function DeleteFlower_per_QuickOrder($flower_ID,$batch)
   {
     if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
@@ -28,7 +28,7 @@ class OrderManagementController_Quick extends Controller
       $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
       $qtytodelete = 0;
       foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
-        if($row->id == $flower_ID){
+        if($row->id == $flower_ID and $row->options->batchID == $batch){
           $qtytodelete = $row->qty;
           //echo $row->id;
           Cart::instance('QuickOrdered_Flowers')->remove($row->rowId);

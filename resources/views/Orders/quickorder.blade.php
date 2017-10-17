@@ -274,12 +274,15 @@
                         <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route ('QuickOrders_Flowers.edit', $Flwr->id ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+                          <?php
+                            $combinedID = $Flwr->options->batchID.'_'.$Flwr->id;
+                          ?>
+                      	<a href = "{{ route ('QuickOrders_Flowers.edit', $combinedID ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
     											<i class="material-icons">mode_edit</i>
     										</a>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route('Flowerorder.DelQuickOrderFlowers',['flower_ID'=>$Flwr->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+                      	<a href = "{{ route('Flowerorder.DelQuickOrderFlowers',['flower_ID'=>$Flwr->id,'batch'=>$Flwr->options->batchID]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
     											<i class="material-icons">delete</i>
     										</a>
                       </div>
@@ -368,7 +371,7 @@
   			                        <div class="col-md-2" style = "margin-top:-1%; margin-left:-7%;">
   			                          <input id = 'BqtFlwr_QuantityField' name = 'BqtFlwr_QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
   			                        </div>
-                                <div class="col-md-2">
+                                <div hidden class="col-md-2">
                                   <input id = 'orig_Field' name = 'orig_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['orig_price']}}">
                                   <input id = 'Decision_Field2' name = 'Decision_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
   			                          <input id = 'batch_Field2' name = 'batch_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options->batchID}}">

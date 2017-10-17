@@ -150,9 +150,15 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
               }//end of outer else(this is automatically understood that it is newPrice)
 
               Cart::instance('QuickOrdered_Flowers')
-              ->add(['id' => $R_flwr_ID, 'name' => $flower_details->flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
-              'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,
-              'image'=>$flower_details->Image,'priceType'=>$decision,'batchID'=>$R_batch_ID]]);
+              ->add(['id' => $R_flwr_ID,
+              'name' => $flower_details->flower_name,
+              'qty' => $Qty,
+              'price' => $derived_Sellingprice,
+              'options' => ['orig_price' => $Original_Price,'NewPrice'=>$newInputted_price,
+              'T_Amt' => $final_total_Amount,
+              'image'=>$flower_details->Image,
+              'priceType'=>$decision,
+              'batchID'=>$R_batch_ID]]);
         }else{
           echo 'may laman';
           $Insertion = 0;
@@ -193,7 +199,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
               }//end of outer else(this is automatically understood that it is newPrice)
 
               Cart::instance('QuickOrdered_Flowers')->update($row->rowId,['qty' => $TotalQty,'price' => $derived_Sellingprice,
-              'options'=>['T_Amt' =>$final_total_Amount,'orig_price' =>$Original_Price,
+              'options'=>['T_Amt' =>$final_total_Amount,'orig_price' =>$Original_Price,'NewPrice'=>$newInputted_price,
               'image'=>$row->options->image,'priceType'=>$decision,
               'batchID'=>$row->options->batchID]]);
               $Insertion = 0;
@@ -239,7 +245,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
 
               Cart::instance('QuickOrdered_Flowers')
               ->add(['id' => $R_flwr_ID, 'name' => $flower_details->flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
-              'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,
+              'options' => ['orig_price' => $Original_Price,'NewPrice'=>$newInputted_price,'T_Amt' => $final_total_Amount,
               'image'=>$flower_details->Image,'priceType'=>$decision,'batchID'=>$R_batch_ID]]);
                 }//means that there are no co existing flower and batch in the cart
               }//means that there is an existing data in the cart
@@ -269,9 +275,27 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
    */
   public function edit($id)
   {
-    $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($id));
+    $FlowerBatch_ID = explode('_',$id);
+    //dd($FlowerBatch_ID);
+      //$FlowerBatch_ID[0] = batch ID
+      //$FlowerBatch_ID[1] = flower ID
+    $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+
+    $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($FlowerBatch_ID[1]));
     $AvailableFlowers = DB::select  ('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
     $QTYAvailable = 0;
+
+//------------------gets the data about the specific flower of a specific batch
+      $batchDetails = array();
+      foreach($batches_ofFlowers as $batches){
+        if($FlowerBatch_ID[0] == $batches->Batch and $FlowerBatch_ID[1] == $batches->flower_ID){
+          array_push($batchDetails,$batches->Batch,$batches->flower_ID,$batches->Name,
+          $batches->QTYRemaining,$batches->SellingPrice);
+          break;
+        }//
+      }//
+      //dd($batchDetails);
+
     foreach($AvailableFlowers as $AFlowers){
       if($AFlowers->flower_ID == $id){
           $QTYAvailable = $AFlowers->QTY;
@@ -280,6 +304,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
 
   //dd($flower_Det);
     return view('Orders.updateQty_QuickOrdered_Flower')
+    ->with('batchDetails',$batchDetails)
     ->with('flower_Det',$flower_Det)
     ->with('QTYAvailable',$QTYAvailable);
   }
