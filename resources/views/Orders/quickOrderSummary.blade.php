@@ -4,6 +4,8 @@
 	<?php
 		$final_Amt = str_replace(',','',Cart::instance('TobeSubmitted_FlowersQuick')->subtotal()) + str_replace(',','',Cart::instance('TobeSubmitted_BqtQuick')->subtotal());
     $Cust_Det = Session::get('newCustomerDetails');
+
+		//dd(Cart::instance('TobeSubmitted_FlowersQuick')->content());
   ?>
 
 	<div class="container">
@@ -61,7 +63,8 @@
 								      <th class="text-center">Flower ID</th>
 								      <th class="text-center">Name</th>
 								      <th class="text-center">Image</th>
-								      <th class="text-center">Price</th>
+											<th class="text-center">Selling Price</th>
+								      <th class="text-center">Customer Price</th>
 								      <th class="text-center">Qty</th>
 								      <th class="text-center">Total Amount</th>
 									</tr>
@@ -69,10 +72,24 @@
 							  <tbody>
 							  @foreach(Cart::instance('TobeSubmitted_FlowersQuick')->content() as $Flwr)
 							    <tr>
-							      <th scope="row">1</th>
-							      <td>{{$Flwr->name}}</td>
+							      <th scope="row">BATCH-{{$Flwr->options->batchID}}</th>
+							      <td>(FLWR-{{$Flwr->id}}){{$Flwr->name}}</td>
 							      	<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}"></td>
-							      <td class = "text-right" style = "color:red;"> Php 	{{number_format($Flwr->price,2)}}</td>
+											<?php
+												$customerPrice = 0;
+												$qty = 0;
+												foreach(Cart::instance('TobeSubmitted_FlowersQuick')->content() as $rows){
+														if($rows->id == $Flwr->id){
+															$customerPrice += $rows->qty * $rows->price;
+															$qty += $rows->qty;
+														}
+												}
+
+												$newCustPrice = $customerPrice/$qty;
+											?>
+										<td class = "text-right" style = "color:red;"> Php 	{{number_format($Flwr->price,2)}}</td>
+							      <td class = "text-right" style = "color:red;"> Php 	{{number_format($newCustPrice,2)}}</td>
+
 							      <td class = "text-right"> {{$Flwr->qty}} pcs. </td>
 							      <td class = "text-right" style = "color:red;">Php {{number_format($Flwr->qty*$Flwr->price,2)}}</td>
 							    </tr>
@@ -110,7 +127,8 @@
 	                                    	<th class="text-center">Item ID</th>
 	                                    	<th class="text-center">Item Name</th>
 	                                    	<th class="text-center">Image</th>
-	                                    	<th class="text-center">Price</th>
+																				<th class="text-center">Selling Price</th>
+	                                    	<th class="text-center">Price to show the client</th>
 	                                    	<th class="text-center">Qty</th>
 	                                    	<th class="text-center">Total Price</th>
 		                                </thead>
@@ -122,7 +140,20 @@
 	                              			<td>{{ $row1 -> name}}</td>
 	                              			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$row1->options['image'])}}">
 	                              			</td>
-	                              			<td>Php {{ $row1 -> price}}</td>
+																			<td>Php {{ $row1 -> price}}</td>
+																		<?php
+																			$customerPrice = 0;
+																			$qty = 0;
+																			foreach(Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->content() as $rows){
+																					if($rows->id == $row1->id and $Bqt->id == $rows->options->bqt_ID){
+																						$customerPrice += $rows->qty * $rows->price;
+																						$qty += $rows->qty;
+																					}
+																			}
+
+																			$newCustPrice = $customerPrice/$qty;
+																		?>
+	                              			<td>Php {{ number_format($newCustPrice,2)}}</td>
 	                              			<td>{{ $row1 -> qty}}</td>
 	                              			<td>Php {{Number_format($row1 -> price * $row1 -> qty,2)}}</td>
 	                               		</tr>
@@ -135,6 +166,7 @@
 	                            			<td>{{ $row2 -> name}}</td>
 	                            			<td><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('accimage/'.$row2->options['image'])}}">
 	                            			</td>
+																		<td>Php {{ Number_format($row2 -> price,2)}}</td>
 	                            			<td>Php {{ Number_format($row2 -> price,2)}}</td>
 	                            			<td>{{ $row2 -> qty}}</td>
 	                            			<td>Php {{ Number_format($row2 -> price * $row2 -> qty,2)}}</td>
@@ -203,7 +235,7 @@
                         <h5><b>Vat(12%): </b></h5>
                       </div>
                       <div class = "col-md-6">
-                        <h5 class = "text-right">Php {{number_format($final_Amt*0.0,2)}}</h5>
+                        <h5 class = "text-right">Php {{number_format($final_Amt*0.12,2)}}</h5>
                       </div>
                     </div>
                     <div class = "row">
@@ -211,7 +243,7 @@
                         <h5><b>Total Amount: </b></h5>
                       </div>
                       <div class = "col-md-6">
-                        <h5 class = "text-right" style = "color:red">Php {{number_format($final_Amt+($final_Amt*0.0),2)}}</h5>
+                        <h5 class = "text-right" style = "color:red">Php {{number_format($final_Amt+($final_Amt*0.12),2)}}</h5>
                       </div>
                     </div>
                     @endif
@@ -220,13 +252,13 @@
                     <?php
                     $minimum = 0;
                     $vat = 0;
-                     if($Cust_Det[8] == 'H' || $Cust_Det[8] == 'S'){
+                     //if($Cust_Det[8] == 'H' || $Cust_Det[8] == 'S'){
                        $vat = $final_Amt*0.12;
                        $minimum =  $final_Amt+$vat;
-                     }
-                     else{
-                       $minimum =  $final_Amt+$vat;
-                     }
+                    // }
+                     //else{
+                       //$minimum =  $final_Amt+$vat;
+                    // }
                     ?>
                     <div class = "row">
                       <div class = "col-md-6"></div>

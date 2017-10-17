@@ -1064,6 +1064,12 @@
       swal("Good!","Bouquet's quantity has been updated!","success");
     }else if($('#UpdateBouquet_result').val()=='Fail'){
       swal("Sorry!","The quantity that you entered was the same with the previous quantity of the bouquet, no changes has been made!","warning");
+    }else if($('#UpdateBouquet_result').val()=='Fail2'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is a flower under that bouquet which might exceed the available quantity in the inventory!","error");
+    }else if($('#UpdateBouquet_result').val()=='Fail3'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is an accessory under that bouquet which might exceed the available quantity in the inventory!","error");
+    }else if($('#UpdateBouquet_result').val()=='Fail4'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is are accessories and flowers under that bouquet which might exceed the available quantity in the inventory!","error");
     }
 
 
