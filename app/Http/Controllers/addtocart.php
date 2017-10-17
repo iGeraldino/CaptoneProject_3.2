@@ -21,8 +21,9 @@ class addtocart extends Controller
     public function index()
     {
       //$cart = Cart::content();
-
+      session::remove('orderid');
       return view('customer_side.pages.cart');
+
     }
 
     /**

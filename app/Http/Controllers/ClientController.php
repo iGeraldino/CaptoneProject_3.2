@@ -22,9 +22,13 @@ class ClientController extends Controller
 
         public function flowerlist(){
 
+
+              session::remove('orderid');
               $flowerlist = DB::select("CALL Viewing_Flowers_With_UpdatedPrice()");
               return view('customer_side.pages.flower')
               ->with('flowerlist', $flowerlist);
+
+
         }
 
 
@@ -181,6 +185,8 @@ class ClientController extends Controller
 
         public function bouquetlist(){
           //Cart::instance('tempacccart')->destroy();
+
+          session::remove('orderid');
           $bouquetlist = db::table('bouquet_details')->where('Type', '=' , 'default')->get();
 
           return view('customer_side.pages.bouquet') ->with('bouquetlist', $bouquetlist);
@@ -217,8 +223,8 @@ class ClientController extends Controller
 
             }
 
-            $pastorder = db::table('order_details')->where('Customer_ID', '=', $newid)->get();
-
+            $pastorder = db::table('order_details')->where('Customer_ID', '=', $newid)->orderby('Order_ID','desc')->get();
+            $latestorder = db::table('order_details')->where('Customer_ID', '=', $newid)->take(1)->orderby('Order_ID','desc')->get();
 
 
 
@@ -229,7 +235,9 @@ class ClientController extends Controller
           ->with('cities', $cities)
           ->with('province', $province)
           ->with('account', $account)
-          ->with('pastorder', $pastorder);
+          ->with('pastorder', $pastorder)
+          ->with('latestorder', $latestorder);
+
         }
 
         public function postEditAccount(Request $request, $id){
@@ -251,7 +259,7 @@ class ClientController extends Controller
             $email = trim($request->email);
             $username = trim($request->username);
 
-           
+
 
 
             //Succession
@@ -298,7 +306,7 @@ class ClientController extends Controller
         }
 
 
-           
+
 
 
 
@@ -320,7 +328,7 @@ class ClientController extends Controller
 
                    $request->user()->fill(['password' => hash::make($newpassword)])->save();
                    return redirect()->route('geteditaccount');
-                
+
 
                 }
 

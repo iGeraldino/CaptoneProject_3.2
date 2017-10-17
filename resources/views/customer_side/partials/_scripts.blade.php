@@ -14,3 +14,6 @@
 <script src="{{ asset('js/sweetalert.min.js')}}"> </script>
 
 <script src="{{ asset('js/parsley.js') }}"> </script>
+
+<script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>

@@ -167,7 +167,7 @@ class PagesController extends Controller
 			$flowprice = db::select("call Viewing_Flowers_With_UpdatedPrice()");
 
 
-
+			session::remove('orderid');
 
 
 			return view('customer_side/pages/home')->with(['flowers' => $flowers, 'flowprice' => $flowprice]);
