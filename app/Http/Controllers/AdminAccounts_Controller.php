@@ -11,6 +11,7 @@ use Session;
 use Auth;
 use App\User;
 use App\Admin;
+use Carbon\Carbon;
 
 class AdminAccounts_Controller extends Controller
 {
@@ -85,6 +86,7 @@ class AdminAccounts_Controller extends Controller
         echo $request->passField.'__';
         echo .$request->confirmPassField.'__';*/
 
+
         $admin = auth() ->guard('admins');
 
         $usertype = $request-> admintype;
@@ -110,11 +112,11 @@ class AdminAccounts_Controller extends Controller
 
 
                $validator = validator::make($request -> all(), [
-              'email' => 'email|required|unique:users',
+              'email' => 'email|required|unique:admins',
               'passField' => 'required|min:4',
               'Fname' => 'required',
               'Lname' => 'required',
-              'username' => 'required|unique:users',
+              'username' => 'required|unique:admins',
               'contact_Num' => 'required|unique:administrator_table'
             ]);
 
@@ -134,7 +136,22 @@ class AdminAccounts_Controller extends Controller
                  $AdminRec->type = $typeuser;
 
                  $AdminRec->save();
+                 $current = Carbon::now('Asia/Manila');
+                 $acct = db::table('admins')->insert([
 
+                   'email' => trim($AdminRec->email_address),
+                   'password' => trim(bcrypt($request->passField)),
+                   'username' => trim($request->username),
+                   'type' => $usertype,//this means that this is an admin account
+                   'Admin_ID' => $AdminRec->Admin_Id,
+                   'created_at' => $current,
+                   'updated_at' => $current
+
+                 ]);
+
+
+
+                /*
                  $acct = new Admin;
                  $acct->email = trim($AdminRec->email_address);
                  $acct->password = trim(bcrypt($request->passField));
@@ -142,7 +159,8 @@ class AdminAccounts_Controller extends Controller
                  $acct->type = $usertype;//this means that this is an admin account
                  $acct->Admin_ID = $AdminRec->Admin_Id;
 
-                 $acct->save();
+                 dd($acct->save());*/
+
                   Session::put('Adding_newAdminSession','Successful');
                  return redirect()->route('Admins.index');
              }

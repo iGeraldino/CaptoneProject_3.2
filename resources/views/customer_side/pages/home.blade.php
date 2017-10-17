@@ -7,8 +7,8 @@
       <!-- Start Of Carousel-->
         <div class= "carousel slide">
        <?php
-        
-          $SavingOrderSessionValue = Session::get('OrderSession'); 
+
+          $SavingOrderSessionValue = Session::get('OrderSession');
           Session::remove('OrderSession');//determines the addition of new flower
        ?>
           <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$SavingOrderSessionValue}}">
@@ -20,7 +20,7 @@
                     <li data-target="#theCarousel" data-slide-to="1"> </li>
                     <li data-target ="#theCarousel" data-slide-to="2"> </li>
                 </ol >
-                 
+
                   <!-- Define the text to place over the image -->
                 <div class="carousel-inner">
                     <div class="item active" >
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                 
+
                   <!-- Set the actions to take when the arrows are clicked -->
                 <a class="left carousel-control" href="#theCarousel" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"> </span>
@@ -56,77 +56,40 @@
              </div>
         </div>
         <!-- End Of Carousel-->
-        
+
 
         <!-- START OF BEST SELLER -->
         <div class=" container feat">
             <h1>BEST SELLERS</h1>
         </div>
+
         <div class="container" style="margin-top: -20px; margin-bottom: 10px;">
             <div class="row">
+
+              @foreach($flowprice as $flowprice)
+
+                @foreach($flowers as $flow)
+
+                  @if($flowprice -> flower_ID == $flow -> Flower_ID)
+
                 <div class="col-md-4">
                     <div class="product-item">
                       <div class="pi-img-wrapper">
-                        <img src="images/flower/pic4.jpg" class="img-responsive" alt="White Bouquets Roses">
+                        <img src="{{ asset('flowerimage/'. $flowprice -> IMG)}}" class="img-responsive" alt="White Bouquets Roses">
                       </div>
-                      <h3><a href="shop-item.html"> White Bouquets Roses</a></h3>
-                      <div class="pi-price">Php 3,500</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
+                      <h3> {{ $flowprice -> flower_name }}</a></h3>
+                      <div class="pi-price"> &#8369 {{ $flowprice -> Final_SellingPrice }}</div>
+                      <a href="{{ route('product.show', ['id' => $flowprice -> flower_ID ])}}" class="btn add2cart">View Details</a>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="product-item">
-                      <div class="pi-img-wrapper">
-                        <img src="images/flower/pic3.jpg" class="img-responsive" alt="Carnation Pink Roses">
-                      </div>
-                      <h3><a href="shop-item.html">Carnation Pink Roses</a></h3>
-                      <div class="pi-price">Php 3,000</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="product-item">
-                      <div class="pi-img-wrapper">
-                        <img src="images/flower/pic6.jpg" class="img-responsive" alt="Ecuador White Roses">
-                      </div>
-                      <h3><a href="shop-item.html">Ecuador White Roses</a></h3>
-                      <div class="pi-price">Php 4,500</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="product-item">
-                      <div class="pi-img-wrapper">
-                        <img src="images/flower/pic3.jpg" class="img-responsive" alt="Carnation Pink Roses">
-                      </div>
-                      <h3><a href="shop-item.html">Carnation Pink Roses</a></h3>
-                      <div class="pi-price">Php 3,000</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="product-item">
-                      <div class="pi-img-wrapper">
-                        <img src="images/flower/pic6.jpg" class="img-responsive" alt="Carnation Pink Roses">
-                      </div>
-                      <h3><a href="shop-item.html">Carnation Pink Roses</a></h3>
-                      <div class="pi-price">Php 3,000</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="product-item">
-                      <div class="pi-img-wrapper">
-                        <img src="images/flower/pic4.jpg" class="img-responsive" alt="Carnation Pink Roses">
-                        <div>
-                          <a href="#" class="btn">View Details</a>
-                        </div>
-                      </div>
-                      <h3><a href="shop-item.html">Carnation Pink Roses</a></h3>
-                      <div class="pi-price">Php 3,000</div>
-                      <a href="/cart" class="btn add2cart">View Details</a>
-                    </div>
-                </div>
+
+              @endif
+
+              @endforeach
+
+
+              @endforeach
+
             </div>
         </div>
 
@@ -141,17 +104,15 @@
     });
       $(document).ready(function(){
 
-        
+
         if($('#addingSessionField').val()=='Successful'){
          //Show popup
          swal("Good Job!:","You have successfully made an Order Please wait for the call of our employee for more information!","success");
        }
-   
+
 });
 
 
 
     </script>
 @endsection
-
-        

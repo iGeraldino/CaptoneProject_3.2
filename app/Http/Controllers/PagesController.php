@@ -154,7 +154,24 @@ class PagesController extends Controller
 		}
 
 	public function getHome() {
-			return view('customer_side/pages/home');
+
+			$flowers = db::table('sales_order_flowers')
+								->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
+								->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'))
+								->groupBy('sales_order_flowers.Flower_ID')
+								->orderBy('sales_order_flowers.QTY', 'asc')
+								->take(6)
+								->get();
+
+
+			$flowprice = db::select("call Viewing_Flowers_With_UpdatedPrice()");
+
+
+
+
+
+			return view('customer_side/pages/home')->with(['flowers' => $flowers, 'flowprice' => $flowprice]);
+
 		}
 
 		public function getFlowers() {
@@ -452,7 +469,7 @@ class PagesController extends Controller
            // dd($flower);
             return view('cashier/pages/cashier_flower_list')
             -> with ('flower', $flower);
-        
+
 		}
 
 	public function getCashierInventoryTransaction() {

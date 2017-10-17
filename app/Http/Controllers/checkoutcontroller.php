@@ -146,12 +146,8 @@ class checkoutcontroller extends Controller
             'Total_Amt' => $row -> options -> T_Amt,
 
           ]);
-        echo $sales_order_ID;
         $salesflower->save();
       }
-
-
-
 
       //order_details
       $deliveryadd = $request->input('Cust_AddrsLine');
@@ -168,6 +164,22 @@ class checkoutcontroller extends Controller
       $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
       Cart::instance('flowerwish')->subtotal()) );
 
+      if($orderdetailmethod == 'delivery'){
+            if($deliverprov == 47 AND $deliverycity == 969){
+                $deliveryCharge = 0;
+              }
+            else if($deliverprov == 47 AND $deliverycity != 969){
+               $deliveryCharge = 300;
+              }
+              else{
+                $deliveryCharge = 0.0;
+              }
+      }else{
+        $deliveryCharge = 0.0;
+      }
+
+      $vat = ($amount * .12) ;
+
       $orderdetails = new order_details([
 
         'Order_ID' => $sales_order_ID,
@@ -182,15 +194,19 @@ class checkoutcontroller extends Controller
         'Status' => $orderdetailstatus,
         'Payment_Mode' => $paymentmethod,
         'Subtotal' => $amount ,
-        'Delivery_Charge' => "0",
-        'Total_Amt' => $amount,
+        'Delivery_Charge' => $deliveryCharge,
+        'Total_Amt' => $amount + $vat,
         'email_Addresss' => $email,
         'Contact_Num' => $orderdetailcontact,
         'shipping_method' => $orderdetailmethod,
+        'VAT' => $vat,
 
       ]);
 
-      $orderdetails->save();
+
+
+      $orderdetails -> save();
+
 
       $lastid = $orderdetails->id;
 
@@ -218,6 +234,66 @@ class checkoutcontroller extends Controller
 
       //bouquet cart
 
+      if(Cart::instance('finalboqcart')->count() == 0){
+        Cart::instance('flowerwish')->destroy();
+        Cart::instance('finalboqcart')->destroy();
+        Cart::instance('finalacccart')->destroy();
+        Cart::instance('finalflowerbqt')->destroy();
+
+
+              $cities = DB::table('cities')
+              ->select('*')
+              ->get();
+
+          $province = DB::table('provinces')
+              ->select('*')
+              ->get();
+
+          $NewSalesOrder = sales_order::find($sales_order_ID);
+          $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
+          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
+
+          $NewOrder_SchedDetails = DB::table('shop_schedule')
+              ->where('Order_ID', $sales_order_ID)
+              ->first();
+
+          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+              ->where('Order_ID', $sales_order_ID)
+              ->get();
+
+          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
+
+          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
+
+          $cityName = "";
+          $provName = "";
+
+          foreach($cities as $city){
+              if($NewSalesOrder_details->Delivery_City == $city->id){
+                  $cityName = $city->name;
+              }
+          }
+          foreach($province as $prov){
+              if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                  $provName = $prov->name;
+              }
+          }
+
+
+          //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
+          //return $pdf->download('sampleDelivery.pdf');
+
+          $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+              'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+
+
+
+          return $pdf->download('sampleDelivery.pdf');
+
+      }
+
+      else{
 
 
       foreach(Cart::instance('finalboqcart')->content() as $row1){
@@ -310,66 +386,12 @@ class checkoutcontroller extends Controller
           ]);
 
           $salesbouquetacc->save();
-          $check = 1;
 
       }
 
-      Cart::instance('flowerwish')->destroy();
-      Cart::instance('finalboqcart')->destroy();
-      Cart::instance('finalacccart')->destroy();
-      Cart::instance('finalflowerbqt')->destroy();
+      // dulo
 
-
-      if($check = 1){
-            $cities = DB::table('cities')
-            ->select('*')
-            ->get();
-
-        $province = DB::table('provinces')
-            ->select('*')
-            ->get();
-
-        $NewSalesOrder = sales_order::find($sales_order_ID);
-        $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
-        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
-
-        $NewOrder_SchedDetails = DB::table('shop_schedule')
-            ->where('Order_ID', $sales_order_ID)
-            ->first();
-
-        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-            ->where('Order_ID', $sales_order_ID)
-            ->get();
-
-        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
-
-        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
-
-        $cityName = "";
-        $provName = "";
-
-        foreach($cities as $city){
-            if($NewSalesOrder_details->Delivery_City == $city->id){
-                $cityName = $city->name;
-            }
-        }
-        foreach($province as $prov){
-            if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                $provName = $prov->name;
-            }
-        }
-
-
-        //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
-        //return $pdf->download('sampleDelivery.pdf');
-
-        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-            'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
-
-
-      }
-        return $pdf->download('sampleDelivery.pdf');
+    }
 
 
       //return redirect()->route('homepages');
@@ -471,6 +493,68 @@ class checkoutcontroller extends Controller
 
       $shop_schedule -> save();
 
+      if(Cart::instance('finalboqcart')->count() == 0){
+        Cart::instance('flowerwish')->destroy();
+        Cart::instance('finalboqcart')->destroy();
+        Cart::instance('finalacccart')->destroy();
+        Cart::instance('finalflowerbqt')->destroy();
+
+
+              $cities = DB::table('cities')
+              ->select('*')
+              ->get();
+
+          $province = DB::table('provinces')
+              ->select('*')
+              ->get();
+
+          $NewSalesOrder = sales_order::find($sales_order_ID);
+          $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
+          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
+
+          $NewOrder_SchedDetails = DB::table('shop_schedule')
+              ->where('Order_ID', $sales_order_ID)
+              ->first();
+
+          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+              ->where('Order_ID', $sales_order_ID)
+              ->get();
+
+          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
+
+          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
+
+          $cityName = "";
+          $provName = "";
+
+          foreach($cities as $city){
+              if($NewSalesOrder_details->Delivery_City == $city->id){
+                  $cityName = $city->name;
+              }
+          }
+          foreach($province as $prov){
+              if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                  $provName = $prov->name;
+              }
+          }
+
+
+          //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
+          //return $pdf->download('sampleDelivery.pdf');
+
+          $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+              'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+
+
+
+          return $pdf->download('sampleDelivery.pdf');
+
+      }
+
+      else{
+
+
       foreach(Cart::instance('finalboqcart')->content() as $row1){
 
           $bouquet_details = new bouquet_details([
@@ -503,7 +587,6 @@ class checkoutcontroller extends Controller
       foreach(Cart::instance('finalacccart')->content() as $row3){
 
           $bouquet_accessories = new bouquet_acessories([
-
             'bouquet_ID' => $bouquet_ID,
             'acessory_ID' => $row3->id,
             'qty' => $row3->qty,
@@ -563,64 +646,13 @@ class checkoutcontroller extends Controller
 
           $salesbouquetacc->save();
 
-
       }
 
-      Cart::instance('flowerwish')->destroy();
-      Cart::instance('finalboqcart')->destroy();
-      Cart::instance('finalacccart')->destroy();
-      Cart::instance('finalflowerbqt')->destroy();
+      // dulo
 
+    }
 
-
-
-        $cities = DB::table('cities')
-            ->select('*')
-            ->get();
-
-        $province = DB::table('provinces')
-            ->select('*')
-            ->get();
-
-        $NewSalesOrder = sales_order::find($sales_order_ID);
-        $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
-        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
-
-        $NewOrder_SchedDetails = DB::table('shop_schedule')
-            ->where('Order_ID', $sales_order_ID)
-            ->first();
-
-        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-            ->where('Order_ID', $sales_order_ID)
-            ->get();
-
-        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
-
-        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
-
-        $cityName = "";
-        $provName = "";
-        foreach($cities as $city){
-            if($NewSalesOrder_details->Delivery_City == $city->id){
-                $cityName = $city->name;
-            }
-        }
-        foreach($province as $prov){
-            if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                $provName = $prov->name;
-            }
-        }
-
-        //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
-
-        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-            'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-            'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
-
-        return $pdf->download('sampleDelivery.pdf');
-
-
-    }//end
+    }
 
 
 

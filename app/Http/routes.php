@@ -177,6 +177,7 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::post('checkoutfinalpickup', ['uses'=>'checkoutcontroller@checkoutfinalpickup', 'as' => 'checkoutfinalpickup']);
 
+	Route::get('PrintSummary/{id}', ['uses' => 'checkoutcontroller@PrintSummary', 'as' => 'printsummary']);
 
 	Route::resource('Orders_Flowers','Manage_Flowers_on_Session_Order_Controller');
 
