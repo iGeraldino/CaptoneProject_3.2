@@ -265,12 +265,12 @@
                     <a type = "button" id = "cancel_BTN" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not  monitor this order as an order to be accomplished anymore"> Cancel Order</a>
                   @endif
                 </div>
-                <div class = "col-md-6">
-									@if($fromtype == 'dash')
-									 <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Show Related Balance</a>
-								  @elseif($fromtype == 'debts')
-										<a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
-									@endif
+                <div class = "col-md-">
+					@if($fromtype == 'dash')
+					 <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Show Balance</a>
+				  @elseif($fromtype == 'debts')
+						<a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
+					@endif
 
                 </div>
               </div>

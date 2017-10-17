@@ -272,12 +272,12 @@
                 </div>
                 <div class = "col-md-6">
 									@if($fromtype == 'dash')
-									 <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md btn-success">Show Related Balance</a>
+									 <a  href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" type = "button" class = "btn btn-md Lush">Show Related Balance</a>
 								  @elseif($fromtype == 'debts')
 										<a id = "show_PaymentDiv" type = "button" data-toggle="tooltip"  data-placement="bottom" title="This button will show the paymet options that you could use to fulfill the balances of this order" class = "btn btn-md btn-success">Pay Balance</a>
 									@endif
 									@if($SalesOrder->Status == "BALANCED")
-										<a href = "{{route('order.Release_Order',['id'=>$SalesOrder->sales_order_ID])}}" id = "Orders_ReleaseBtn" type = "button" class = "btn btn-md btn-success" data-toggle="tooltip"  data-placement="bottom" title="this button will deduct the flowers that are under this order from the flowers inside the inventory"/>
+										<a href = "{{route('order.Release_Order',['id'=>$SalesOrder->sales_order_ID])}}" id = "Orders_ReleaseBtn" type = "button" class = "btn btn-md Lush" data-toggle="tooltip"  data-placement="bottom" title="this button will deduct the flowers that are under this order from the flowers inside the inventory"/>
 											Release Order <span class = "glyphicon glyphicon-list"></span>
 										</a>
 									@else
