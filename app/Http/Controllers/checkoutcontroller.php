@@ -150,9 +150,6 @@ class checkoutcontroller extends Controller
         $salesflower->save();
       }
 
-
-
-
       //order_details
       $deliveryadd = $request->input('Cust_AddrsLine');
       $deliverybrgy = $request->input('Cust_Brgy');
@@ -168,6 +165,22 @@ class checkoutcontroller extends Controller
       $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
       Cart::instance('flowerwish')->subtotal()) );
 
+      if($orderdetailmethod == 'delivery'){
+            if($deliverprov == 47 AND $deliverycity == 969){
+                $deliveryCharge = 0;
+              }
+            else if($deliverprov == 47 AND $deliverycity != 969){
+               $deliveryCharge = 300;
+              }
+              else{
+                $deliveryCharge = 0.0;
+              }
+      }else{
+        $deliveryCharge = 0.0;
+      }
+
+      $vat = ($amount * .12) ;
+
       $orderdetails = new order_details([
 
         'Order_ID' => $sales_order_ID,
@@ -182,15 +195,19 @@ class checkoutcontroller extends Controller
         'Status' => $orderdetailstatus,
         'Payment_Mode' => $paymentmethod,
         'Subtotal' => $amount ,
-        'Delivery_Charge' => "0",
-        'Total_Amt' => $amount,
+        'Delivery_Charge' => $deliveryCharge,
+        'Total_Amt' => $amount + $vat,
         'email_Addresss' => $email,
         'Contact_Num' => $orderdetailcontact,
         'shipping_method' => $orderdetailmethod,
+        'VAT' => $vat,
 
       ]);
 
-      $orderdetails->save();
+
+
+      $orderdetails -> save();
+
 
       $lastid = $orderdetails->id;
 
@@ -363,7 +380,7 @@ class checkoutcontroller extends Controller
         //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
         //return $pdf->download('sampleDelivery.pdf');
 
-        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+        $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
@@ -613,7 +630,7 @@ class checkoutcontroller extends Controller
 
         //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
 
-        $pdf = \PDF::loadView("reports\Order_SimpleSummary_Receipt",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+        $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
             'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
             'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
