@@ -30,10 +30,10 @@
         <input id = "EditingFlowerSessionfield" value = "{{$EdittingFlwr_session}}">
         <input id = "ManageFlowerSessionfield" value = "{{$ManagingFlwr_session}}">
       </div>
-       <div class="col-xs-12" style="margin-top: 2%;">
+       <div class="" >
         <div class="panel">
           <div class="panel-heading Subu">
-            <h3 class="panel-title" style="color: white;">LIST OF FLOWERS THAT YOU REQUESTED FROM THE SUPPLIERS</h3>
+            <h3 class="panel-title">LIST OF FLOWERS THAT YOU REQUESTED FROM THE SUPPLIERS</h3>
           </div>
           <div class="panel-body">
             <div class="col-sm-4">
@@ -150,10 +150,10 @@
               </a>
             </div>
           <div class="row" >
-            <div class="col-xs-5">
+            <div class="col-xs-5" style="margin-top: 5.2%;">
               <div class="box">
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" style="overflow-x: auto;">
                   <h4><b>Flowers To be Managed: </b></h4>
                   <table id="flowersTable" class="table table-bordered table-striped">
                     <thead>
@@ -183,7 +183,7 @@
                           <td align="center"> <img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$FlowersRow->Img)}}"></td>
                           <td class="text-center"> {{$FlowersRow->QTY_Expected}} pcs </td>
                           <td align="center">
-                              <button class="btn btn-primary" data-toggle="modal" data-target="#ViewDetModal{{$FlowersRow->flower_ID}}">
+                              <button class="btn twitch" data-toggle="modal" data-target="#ViewDetModal{{$FlowersRow->flower_ID}}">
                                 View
                               </button>
                           </td>

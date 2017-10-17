@@ -105,14 +105,14 @@
 								<ul class="nav nav-tabs" data-tabs="tabs">
 									<li class="active">
 										<a href="#Flowers" data-toggle="tab">
-											<i class="material-icons">face</i>
+											<i class="material-icons">local_florist</i>
 											Flowers
 										</a>
 									</li>
 									<li>
 										<a href="#Bouquets" data-toggle="tab">
-											<i class="material-icons">chat</i>
-											Acessories
+											<i class="material-icons">flare</i>
+											Accessories
 										</a>
 									</li>
 								</ul>
@@ -125,7 +125,7 @@
                 <div class="row">
                 @foreach($FlowerList as $Fdetails)
                     <div class="col-md-3" style="margin-bottom: 3%;">
-                      <img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+                      <img style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
                     <div hidden>
                       <input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
                       <input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
@@ -142,7 +142,7 @@
 									<div class="row">
 									@foreach($accessories as $accessories)
 										<div class="col-md-3" style="margin-bottom: 3%;">
-											<img src="{{ asset('accimage/'.$accessories->image)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
+											<img style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;" src="{{ asset('accimage/'.$accessories->image)}}" alt="Raised Image" class="img-rounded img-responsive img-raised">
 											<div hidden>
 												<input class = "BqtAcrs_ID_Field" value = "{{ $accessories->ACC_ID }}">
 												<input class = "BqtAcrs_pic_Field" value = "{{ asset('accimage/'.$accessories->image)}}">

@@ -155,10 +155,10 @@
               <div class="modal-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="group button">
                   <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"  role="button">Cancel</button>
+                    <button type="button" class="btn Shalala" data-dismiss="modal"  role="button">Cancel</button>
                   </div>
                   <div class="btn-group" role="group">
-                     <button type = "submit" name = "AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Add to list</button>
+                     <button type = "submit" name = "AddBtn" class = "btn btn-primary Lush"><span class = "glyphicon glyphicon-floppy-save"></span> Add to list</button>
 
                   </div>
                 </div>
