@@ -308,7 +308,7 @@ Route::get('/OrderBouquet_Flower/{flower_ID},{order_ID}',['uses' => 'OrderManage
 
 Route::get('/OrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementController@DeleteFlower_per_Bqt_SessionOrder', 'as'=>'BqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
 
-Route::get('/QuickOrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_Bqt_SessionQuickOrder', 'as'=>'BqtFlowerorderSessions.DelQuickOrderFlowers']);//deletes a specific flower of a specific bouquet
+Route::get('/QuickOrderBQTSession_Flower/{flower_ID},{batch}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_Bqt_SessionQuickOrder', 'as'=>'BqtFlowerorderSessions.DelQuickOrderFlowers']);//deletes a specific flower of a specific bouquet
 
 Route::get('/QuickOrderSession_bouquet/{Bouquet_ID}',['uses' => 'OrderManagementController_Quick@Delete_Bouquet', 'as'=>'BqtorderSessions.DelQuickBouquet']);//deletes a specific flower of a specific bouquet
 

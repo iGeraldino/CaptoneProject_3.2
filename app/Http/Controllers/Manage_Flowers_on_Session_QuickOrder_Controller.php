@@ -47,9 +47,6 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
-
-
-
         $R_batch_ID = $request->batch_IDField;
         $R_flwr_ID = $request->FlwrID_Field;
         $decision = $request->Decision_Field;
@@ -58,7 +55,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
         $Qty = $request->QTY_Field;
 
         $flower_details = flower_details::find($R_flwr_ID);
-
+        //dd($decision,$Original_Price,$newInputted_price);
 
           //dd(Cart::instance('overallFLowers')->content());
     //-------------------------------------------------------------sends the data to the session cart.
@@ -133,20 +130,20 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                     $final_total_Amount = $derived_Sellingprice * $Qty;
                   }//end of inner else
               }//end of if
-              else{
-                if($Original_Price >= $newInputted_price){
+              else if ($decision == 'N'){
+                if($Original_Price < $newInputted_price){
                   if($Qty >= $flower_details->QTY_of_Wholesale){
-                    $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                    $derived_Sellingprice = $newInputted_price - ($newInputted_price * 0.10);
                     $final_total_Amount = $derived_Sellingprice * $Qty;
                     if($Original_Price == $newInputted_price){
                       $decision = 'O';
                     }
                   }//checks if the qty reached the Limit of the needed qty for wholesale
                   else{
-                    $derived_Sellingprice = $Original_Price;
+                    $derived_Sellingprice = $newInputted_price;
                     $final_total_Amount = $derived_Sellingprice * $Qty;
                   }//end of inner else
-                }else if($Original_Price < $newInputted_price){
+                }else if($Original_Price > $newInputted_price){
                   $derived_Sellingprice = $newInputted_price;
                   $final_total_Amount = $newInputted_price * $Qty;
                 }
@@ -176,12 +173,12 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                     $final_total_Amount = $derived_Sellingprice * $Qty;
                   }//end of inner else
               }//end of if
-              else{
-                if($Original_Price >= $newInputted_price){
+              else if ($decision == 'N'){
+                if($Original_Price < $newInputted_price){
                   if($Qty >= $flower_details->QTY_of_Wholesale){
-                    $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                    $derived_Sellingprice = $newInputted_price - ($newInputted_price * 0.10);
                     $final_total_Amount = $derived_Sellingprice * $Qty;
-                    if($Qty == $flower_details->QTY_of_Wholesale){
+                    if($Original_Price == $newInputted_price){
                       $decision = 'O';
                     }
                   }//checks if the qty reached the Limit of the needed qty for wholesale
@@ -189,7 +186,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                     $derived_Sellingprice = $Original_Price;
                     $final_total_Amount = $derived_Sellingprice * $Qty;
                   }//end of inner else
-                }else if($Original_Price < $newInputted_price){
+                }else if($Original_Price > $newInputted_price){
                   $derived_Sellingprice = $newInputted_price;
                   $final_total_Amount = $newInputted_price * $Qty;
                 }
@@ -209,41 +206,41 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
           }//end of foreach
           if($Insertion == 1){
               echo 'wala pang kamuka';
-                  $final_total_Amount = 0;
-                  $derived_Sellingprice = 0;
-                  if($decision == 'O'){
-                      if($Qty >= $flower_details->QTY_of_Wholesale){
-                        $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
-                        $final_total_Amount = $derived_Sellingprice * $Qty;
-                      }//checks if the qty reached the Limit of the needed qty for wholesale
-                      else{
-                        $derived_Sellingprice = $Original_Price;
-                        $final_total_Amount = $derived_Sellingprice * $Qty;
-                      }//end of inner else
-                  }//end of if
+              $derived_Sellingprice = 0;
+              $final_total_Amount = 0;
+              if($decision == 'O'){
+                  if($Qty >= $flower_details->QTY_of_Wholesale){
+                    $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                    $final_total_Amount = $derived_Sellingprice * $Qty;
+                  }//checks if the qty reached the Limit of the needed qty for wholesale
                   else{
-                    if($Original_Price >= $newInputted_price){
-                      if($Qty >= $flower_details->QTY_of_Wholesale){
-                        $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
-                        $final_total_Amount = $derived_Sellingprice * $Qty;
-                        if($Qty == $flower_details->QTY_of_Wholesale){
-                          $decision = 'O';
-                        }
-                      }//checks if the qty reached the Limit of the needed qty for wholesale
-                      else{
-                        $derived_Sellingprice = $Original_Price;
-                        $final_total_Amount = $derived_Sellingprice * $Qty;
-                      }//end of inner else
-                    }else if($Original_Price < $newInputted_price){
-                      $derived_Sellingprice = $newInputted_price;
-                      $final_total_Amount = $newInputted_price * $Qty;
+                    $derived_Sellingprice = $Original_Price;
+                    $final_total_Amount = $derived_Sellingprice * $Qty;
+                  }//end of inner else
+              }//end of if
+              else if ($decision == 'N'){
+                if($Original_Price < $newInputted_price){
+                  if($Qty >= $flower_details->QTY_of_Wholesale){
+                    $derived_Sellingprice = $newInputted_price - ($newInputted_price * 0.10);
+                    $final_total_Amount = $derived_Sellingprice * $Qty;
+                    if($Original_Price == $newInputted_price){
+                      $decision = 'O';
                     }
-                  }//end of outer else(this is automatically understood that it is newPrice)
+                  }//checks if the qty reached the Limit of the needed qty for wholesale
+                  else{
+                    $derived_Sellingprice = $newInputted_price;
+                    $final_total_Amount = $derived_Sellingprice * $Qty;
+                  }//end of inner else
+                }else if($Original_Price > $newInputted_price){
+                  $derived_Sellingprice = $newInputted_price;
+                  $final_total_Amount = $newInputted_price * $Qty;
+                }
+              }//end of outer else(this is automatically understood that it is newPrice)
 
-                  Cart::instance('QuickOrdered_Flowers')
-                  ->add(['id' => $R_flwr_ID, 'name' => $flower_details->flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
-                  'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,
-                  'image'=>$flower_details->Image,'priceType'=>$decision,'batchID'=>$R_batch_ID]]);
+              Cart::instance('QuickOrdered_Flowers')
+              ->add(['id' => $R_flwr_ID, 'name' => $flower_details->flower_name, 'qty' => $Qty, 'price' => $derived_Sellingprice,
+              'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,
+              'image'=>$flower_details->Image,'priceType'=>$decision,'batchID'=>$R_batch_ID]]);
                 }//means that there are no co existing flower and batch in the cart
               }//means that there is an existing data in the cart
 

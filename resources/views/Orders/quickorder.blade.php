@@ -13,9 +13,10 @@
 
      Cart::instance('QuickFinalBqt_Flowers')->destroy();
      Cart::instance('QuickFinalBqt_Acessories')->destroy();
-*/
-Cart::instance('Quick OrderedBqt_Flowers')->destroy();
 
+       Cart::instance('QuickOrderedBqt_Flowers')->destroy();
+       Cart::instance('BatchesofFLowers')->destroy();
+       */
 
   $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
   Session::remove('AddingFlowerTocartSession');
@@ -365,11 +366,12 @@ Cart::instance('Quick OrderedBqt_Flowers')->destroy();
   			                          <h7>Php {{number_format($BQT_Flowers->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
   			                        <div class="col-md-2" style = "margin-top:-1%; margin-left:-7%;">
-  			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
+  			                          <input id = 'BqtFlwr_QuantityField' name = 'BqtFlwr_QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
   			                        </div>
-                                <div class="col-md-2"  hidden>
-                                  <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
-  			                          <input id = 'batch_Field' name = 'batch_Field' class="form-control input-sm" value="{{$BQT_Flowers->options->batchID}}">
+                                <div class="col-md-2">
+                                  <input id = 'orig_Field' name = 'orig_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['orig_price']}}">
+                                  <input id = 'Decision_Field2' name = 'Decision_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+  			                          <input id = 'batch_Field2' name = 'batch_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options->batchID}}">
   			                        </div>
   			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;  margin-left:-2%;">
   			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
@@ -381,7 +383,7 @@ Cart::instance('Quick OrderedBqt_Flowers')->destroy();
   			                        </div>
 
   			                        <div class="col-xs-1">
-  			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelQuickOrderFlowers',['flower_ID'=>$BQT_Flowers->id]) }}" data-toggle="tooltip" title="Delete">
+  			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelQuickOrderFlowers',['flower_ID'=>$BQT_Flowers->id,'batch'=>$BQT_Flowers->options->batchID]) }}" data-toggle="tooltip" title="Delete">
               											<i class="material-icons">delete</i>
               										</a>
   			                        </div>
@@ -405,7 +407,7 @@ Cart::instance('Quick OrderedBqt_Flowers')->destroy();
   			                        </div>
                                 <div class="col-md-2"  hidden>
                        				    <input id = 'Ac_ID_Field' name = 'Ac_ID_Field' class="form-control input-sm" value="{{$BQT_Acessories->id}}">
-                     					    <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
+                     					    <input id = 'Decision_Field3' name = 'Decision_Field3' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
   			                        </div>
   			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
   			                          <h7><b>=</b> Php {{number_format($BQT_Acessories->price * $BQT_Acessories->qty,2)}}</h7>
@@ -734,7 +736,7 @@ Cart::instance('Quick OrderedBqt_Flowers')->destroy();
                   </div>      <!--end of hidden input field-->
                   <div class="togglebutton">
                     <label>
-                      <input type="checkbox" name = "NewPriceCheckBox" id = "NewPriceCheckBox">
+                      <input type="checkbox" name = "NewPriceCheckBox1" id = "NewPriceCheckBox1">
                       <b>New Price?</b>
                     </label>
                   </div>
@@ -1363,10 +1365,10 @@ Cart::instance('Quick OrderedBqt_Flowers')->destroy();
 	      	}
 	    });
 
-        $('#NewPriceCheckBox').click(function(){
+        $('#NewPriceCheckBox1').click(function(){
             var Descision = '';
           //$('#Customer_Chooser').fadeToggle(300);
-          if($('#NewPriceCheckBox').is(':checked') == true){
+          if($('#NewPriceCheckBox1').is(':checked') == true){
             console.log('pasok');
              Descision = 'N';
                console.log(Descision);

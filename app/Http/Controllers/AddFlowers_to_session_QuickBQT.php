@@ -145,23 +145,23 @@ class AddFlowers_to_session_QuickBQT extends Controller
                         $final_total_Amount = $derived_Sellingprice * $Qty;
                       }//end of inner else
                   }//end of if
-                  else{
+                  else if($descision == 'N'){
                         $derived_Sellingprice = $New_Price;
                         $final_total_Amount = $New_Price * $Qty;
 
-                        if($Original_Price >= $New_Price){
+                        if( $New_Price >=  $Original_Price){
                           if($Qty >= $flower_details->QTY_of_Wholesale){
-                            $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                            $derived_Sellingprice = $New_Price - ($New_Price * 0.10);
                             $final_total_Amount = $derived_Sellingprice * $Qty;
                             if($Original_Price == $New_Price){
                               $descision = 'O';
                             }
                           }//checks if the qty reached the Limit of the needed qty for wholesale
                           else{
-                            $derived_Sellingprice = $Original_Price;
+                            $derived_Sellingprice = $New_Price;
                             $final_total_Amount = $derived_Sellingprice * $Qty;
                           }//end of inner else
-                        }else if($Original_Price < $New_Price){
+                        }else if($Original_Price > $New_Price){
                           $derived_Sellingprice = $New_Price;
                           $final_total_Amount = $New_Price * $Qty;
                         }
@@ -170,7 +170,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
                   Cart::instance('QuickOrderedBqt_Flowers')
                   ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,
                   'price' => $derived_Sellingprice,
-                  'options' => ['orig_price' => $Original_Price,'T_Amt' => $final_total_Amount,
+                  'options' => ['orig_price' => $Original_Price,'NewPrice'=>$New_Price,'T_Amt' => $final_total_Amount,
                   'image'=>$image,'priceType'=>$descision,'batchID'=>$Rbatch_ID]]);
           }else{
               echo 'may laman';
@@ -183,9 +183,8 @@ class AddFlowers_to_session_QuickBQT extends Controller
                   $final_total_Amount = 0;
                   $derived_Sellingprice = 0;
                   if($descision == 'O'){
-                      if($TotalQty>=$flower_details->QTY_of_Wholesale){
-                        $derived_Sellingprice =
-                          $Original_Price - ($Original_Price * 0.10);
+                      if($TotalQty >= $flower_details->QTY_of_Wholesale){
+                        $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
                         //computes for the selling price that reached the required qty for wholesale pricing
                         $final_total_Amount = $derived_Sellingprice * $TotalQty;
                       }//checks if the qty reached the Limit of the needed qty for wholesale
@@ -194,20 +193,20 @@ class AddFlowers_to_session_QuickBQT extends Controller
                         $final_total_Amount = $derived_Sellingprice * $TotalQty;
                       }//end of inner else
                   }//end of if
-                  else{
-                        if($Original_Price >= $New_Price){
+                  else if($descision == 'N'){
+                        if($New_Price >= $Original_Price){
                           if($Qty >= $flower_details->QTY_of_Wholesale){
-                            $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                            $derived_Sellingprice = $New_Price - ($New_Price * 0.10);
                             $final_total_Amount = $derived_Sellingprice * $Qty;
                             if($Qty == $flower_details->QTY_of_Wholesale){
                               $descision = 'O';
                             }
                           }//checks if the qty reached the Limit of the needed qty for wholesale
                           else{
-                            $derived_Sellingprice = $Original_Price;
+                            $derived_Sellingprice = $New_Price;
                             $final_total_Amount = $derived_Sellingprice * $Qty;
                           }//end of inner else
-                        }else if($Original_Price < $New_Price){
+                        }else if($Original_Price > $New_Price){
                           $derived_Sellingprice = $New_Price;
                           $final_total_Amount = $New_Price * $TotalQty;
                         }
@@ -215,7 +214,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
 
                   Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $TotalQty,
                   'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
-                  'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision,
+                  'orig_price' => $Original_Price,'NewPrice'=>$New_Price,'image'=>$image,'priceType'=>$descision,
                   'batchID'=>$row->options->batchID]]);
                   $Insertion = 0;
                   break;
@@ -241,20 +240,21 @@ class AddFlowers_to_session_QuickBQT extends Controller
                             $final_total_Amount = $derived_Sellingprice * $Qty;
                           }//end of inner else
                       }//end of if
-                      else{
-                            if($Original_Price >= $New_Price){
+                      else if ($descision == 'N'){
+
+                            if($New_Price >= $Original_Price){
                               if($Qty >= $flower_details->QTY_of_Wholesale){
-                                $derived_Sellingprice = $Original_Price - ($Original_Price * 0.10);
+                                $derived_Sellingprice = $New_Price - ($New_Price * 0.10);
                                 $final_total_Amount = $derived_Sellingprice * $Qty;
                                 if($Qty == $flower_details->QTY_of_Wholesale){
                                   $descision = 'O';
                                 }
                               }//checks if the qty reached the Limit of the needed qty for wholesale
                               else{
-                                $derived_Sellingprice = $Original_Price;
+                                $derived_Sellingprice = $New_Price;
                                 $final_total_Amount = $derived_Sellingprice * $Qty;
                               }//end of inner else
-                            }else if($Original_Price < $New_Price){
+                            }else if($New_Price < $Original_Price){
                               $derived_Sellingprice = $New_Price;
                               $final_total_Amount = $New_Price * $Qty;
                             }
@@ -262,7 +262,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
                       Cart::instance('QuickOrderedBqt_Flowers')
                       ->add(['id' => $Flower_ID, 'name' => $Flower_name, 'qty' => $Qty,
                       'price' => $derived_Sellingprice,
-                      'options' => ['orig_price' => $Original_Price,
+                      'options' => ['orig_price' => $Original_Price,'NewPrice'=>$New_Price,
                       'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision,'batchID'=>$Rbatch_ID]]);
               }
             }//end of outer else
@@ -312,12 +312,25 @@ class AddFlowers_to_session_QuickBQT extends Controller
            Cart::instance('OrderedBqt_Flowers')->destroy();
        }
        else{
-         $newQty = $request->QuantityField;
-         $Rbatch_ID = $request->batch_Field;
-         $descision = $request->Decision_Field;
+         $NEW_Qty = $request->BqtFlwr_QuantityField;
+         $Rbatch_ID = $request->batch_Field2;
+         $descision = $request->Decision_Field2;
          $flower_details = flower_details::find($id);
+         //dd($flower_details);
          $oldQty = 0;
 
+         //dd($descision,$Rbatch_ID,$NEW_Qty);
+
+         foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $Flwr_Bqt){
+           if($Flwr_Bqt->id == $id and  $Flwr_Bqt->options->batchID){
+             $oldQty = $Flwr_Bqt->qty;
+           }
+         }
+
+         if($oldQty == $NEW_Qty){
+           Session::put('Update_FlowerToBQT_QuickOrder', 'Fail');
+           return redirect()->back();
+         }
 
                    $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
@@ -368,121 +381,68 @@ class AddFlowers_to_session_QuickBQT extends Controller
                          }//end of foreach that loop all of the flowers available in the database
 
                  //---------------------------------------------------------------------------------checks if the values entered are still abled to be added to the cart
+                // dd(Cart::instance('BatchesofFLowers')->content());
                      foreach(Cart::instance('BatchesofFLowers')->content() as $batches){
+                      // dd(Cart::instance('BatchesofFLowers')->content());
                        $batchID = explode('_',$batches->id);
                        if($Rbatch_ID == $batchID[0] AND $id == $batchID[1]){
-                         if($newQty > $batches->options->qtyR){
-                           Session::put('AddingFlowerTocartSession','Fail');
-                           return redirect()-> back();
+                         if($NEW_Qty > $oldQty){
+                           $addedQty = $NEW_Qty - $oldQty;
+                           if($addedQty  > $batches->options->qtyR){
+                             Session::put('AddingFlowerTocartSession','Fail');
+                             return redirect()-> back();
+                           }
                          }
                        }
                      }
                    //dd(Cart::instance('overallFLowers')->content());R
 
+                   foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $bFlwr){
 
+                       if($bFlwr->id == $id and  $bFlwr->options->batchID == $Rbatch_ID){
+                         if($descision == 'O'){
+                           if((int)$NEW_Qty >= (int)$flower_details->QTY_of_Wholesale){
+                             $derived_Sellingprice = $bFlwr->options->orig_price - ($bFlwr->options->orig_price * 0.10);
+                             //computes for the selling price that reached the required qty for wholesale pricing
+                             $final_total_Amount = $derived_Sellingprice * $NEW_Qty;
+                           }//checks if the qty reached the Limit of the needed qty for wholesale
+                           else if($NEW_Qty < $flower_details->QTY_of_Wholesale){
+                             //dd($descision,$Rbatch_ID,$NEW_Qty);
 
+                             $derived_Sellingprice = $bFlwr->options->orig_price;
 
-        foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
-          //dd(Cart::instance('QuickOrderedBqt_Flowers')->content());
-             if($row->id == $id AND $Rbatch_ID == $row->options->batchID){
-                $idOfRow = $row->rowId;
-                echo $idOfRow.'<br>';
+                             $final_total_Amount = $derived_Sellingprice * $NEW_Qty;
+                           }//end of inner else
+                         }//end of if
+                         else if ($descision == 'N'){
+                           if((int)$NEW_Qty >= (int)$flower_details->QTY_of_Wholesale){
+                             if($bFlwr->options->NewPrice >= $bFlwr->options->orig_price){
+                               $derived_Sellingprice = $bFlwr->options->NewPrice - ($bFlwr->options->NewPrice * 0.10);
+                               //computes for the selling price that reached the required qty for wholesale pricing
+                               $final_total_Amount = $derived_Sellingprice * $NEW_Qty;
+                             }else if($bFlwr->options->NewPrice < $bFlwr->options->orig_price){
+                                $derived_Sellingprice = $bFlwr->options->NewPrice;
+                                //computes for the selling price that reached the required qty for wholesale pricing
+                                $final_total_Amount = $derived_Sellingprice * $NEW_Qty;
+                              }
+                           }//checks if the qty reached the Limit of the needed qty for wholesale
+                           else if($NEW_Qty < $flower_details->QTY_of_Wholesale){
+                             //dd($descision,$Rbatch_ID,$NEW_Qty);
+                             $derived_Sellingprice = $bFlwr->options['NewPrice'];
+                             $final_total_Amount = $derived_Sellingprice * $NEW_Qty;
+                           }//end of inner else
 
-               //dd($Rbatch_ID);
-                 // echo $row->rowId
-                 $final_total_Amount = 0;
-                 $derived_Sellingprice = 0;
-                 $orig_Price = $row->options['orig_price'];
-                 $image = $row->options['image'];
-                 $oldQty = $row->qty;//for editing purposes only
-                 if($oldQty == $newQty){
-                   Session::put('Update_FlowerToBQT_QuickOrder', 'Fail');
-                   return redirect()->back();
-                 }else{
-                   if($newQty > $oldQty){
-                     $qtyadded = $newQty - $oldQty;
-                    foreach($AvailableFlowers as $Aflwrs){
-                      if($Aflwrs->flower_ID == $id){
-                        if($qtyadded > $Aflwrs->QTY){
-                          Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
-                          return redirect()->back();
-                        }else{
-                          foreach(Cart::instance('overallFLowers')->content() as $flwr){
-                            //dd($Aflwrs->flower_ID);
-                            $qtyWhenAdded = 0;
-                            if($flwr->id == $Aflwrs->flower_ID){
-                              $qtyWhenAdded = $flwr->qty + $newQty;
-                              if($qtyWhenAdded > $Aflwrs->QTY){
-                                //dd($qtyWhenAdded,$Aflwrs->QTY);
-                                Session::put('Update_FlowerToBQT_QuickOrder', 'Fail2');
-                                return redirect()->back();
-                              }//determines if the inventory cannot sustain the order anymore....
-                            }//end of inner if
-                          }
-                        }
-                      }
-                    }//end of main foreach
-                    if($descision == 'O'){
-                      dd('hi1');
-                      if($newQty>=$flower_details->QTY_of_Wholesale){
-                        $derived_Sellingprice =
-                        $row->options['orig_price'] - ($row->options['orig_price'] * 0.10);
-                        //computes for the selling price that reached the required qty for wholesale pricing
-                        $final_total_Amount = $derived_Sellingprice * $newQty;
-                      }//checks if the qty reached the Limit of the needed qty for wholesale
-                      else{
-                        $derived_Sellingprice = $row->options['orig_price'];
-                        $final_total_Amount = $derived_Sellingprice * $newQty;
-                      }//end of inner else
-                    }//end of if
-                    else{
-                      $derived_Sellingprice = $row->price;
-                      $final_total_Amount = $row->price * $newQty;
-                    }//end of outer else(this is automatically understood that it is newPrice)
-
-                    echo $idOfRow.'<br>';
-                    Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,
-                    'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
-                    'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision,'batchID'=>$row->options->batchID]]);
-                    Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
-
-                    $Insertion = 0;
-                    break;
-                   }else{
-                     if($descision == 'O'){
-
-                       if($newQty>=$flower_details->QTY_of_Wholesale){
-
-                         $derived_Sellingprice =
-                         $row->options['orig_price'] - ($row->options['orig_price'] * 0.10);
-                         //computes for the selling price that reached the required qty for wholesale pricing
-                         $final_total_Amount = $derived_Sellingprice * $newQty;
-                       }//checks if the qty reached the Limit of the needed qty for wholesale
-                       else{
-                         $derived_Sellingprice = $row->options['orig_price'];
-                         $final_total_Amount = $derived_Sellingprice * $newQty;
-                       }//end of inner else
-                     }//end of if
-                     else{
-                       $derived_Sellingprice = $row->price;
-                       $final_total_Amount = $row->price * $newQty;
-                                                dd('hi2');
-                     }//end of outer else(this is automatically understood that it is newPrice)
-
-                     echo $idOfRow.'<br>';
-                     Cart::instance('QuickOrderedBqt_Flowers')->update($row->rowId,['qty' => $newQty,
-                     'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
-                     'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision,'batchID'=>$row->options->batchID]]);
-                     Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
-
-                     $Insertion = 0;
-                     break;
-                   }
-                 }
-             }//end of if
-         }//end of foreach*/
-
-             return redirect()-> back();
+                         }//end of outer else(this is automatically understood that it is newPrice)
+                         //dd($derived_Sellingprice,$final_total_Amount );
+                         Cart::instance('QuickOrderedBqt_Flowers')->update($bFlwr->rowId,['qty'=>$NEW_Qty,
+                          'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
+                          'NewPrice'=> $bFlwr->options->NewPrice,
+                          'orig_price' => $bFlwr->options->orig_price ,'image'=>$bFlwr->options->image,
+                          'priceType'=>$descision,'batchID'=>$bFlwr->options->batchID]]);
+                         Session::put('Update_FlowerToBQT_QuickOrder', 'Successful');
+                         return redirect()->back();
+                       }
+                     }
 
          //return redirect()->route('Order.CustomizeaBouquet');
       }//

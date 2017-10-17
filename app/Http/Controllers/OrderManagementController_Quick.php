@@ -49,7 +49,7 @@ class OrderManagementController_Quick extends Controller
     }
   }
 
-  public function DeleteFlower_per_Bqt_SessionQuickOrder($flower_ID)
+  public function DeleteFlower_per_Bqt_SessionQuickOrder($flower_ID,$batch)
   {
     if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
@@ -59,7 +59,7 @@ class OrderManagementController_Quick extends Controller
       echo $flower_ID;
       $qtytodelete = 0;
       foreach(Cart::instance('QuickOrderedBqt_Flowers')->content() as $row){
-        if($row->id == $flower_ID){
+        if($row->id == $flower_ID AND $row->options->batchID == $batch){
           $qtytodelete = $row->qty;
           echo $row->id;
           Cart::instance('QuickOrderedBqt_Flowers')->remove($row->rowId);
