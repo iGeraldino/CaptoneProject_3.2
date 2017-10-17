@@ -199,10 +199,14 @@ class Ordering_with_TradeAgreement_Controller extends Controller
         Cart::instance('TobeSubmitted_BqtQuick')->destroy();
         Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->destroy();
 
+        $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+
         foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $row){
-              $FlowerDet = DB::select('call wonderbloomdb2.Specific_Flower_withUpdated_Price(?)',array($row->id));
-              foreach($FlowerDet as $Flower){
-                $CurrentSellingPrice = $Flower->Final_SellingPrice;
+              //$FlowerDet = DB::select('call wonderbloomdb2.Specific_Flower_withUpdated_Price(?)',array($row->id));
+              foreach($batches_ofFlowers as $Flower){
+                if($row->id == $Flower->flower_ID and $row->options->batchID == $Flower->Batch){
+                  $CurrentSellingPrice = $Flower->SellingPrice;
+                }
               }
 
               $NewFlowerPrice = $CurrentSellingPrice - ($CurrentSellingPrice * 0.10);
@@ -210,9 +214,9 @@ class Ordering_with_TradeAgreement_Controller extends Controller
 
               Cart::instance('TobeSubmitted_Bqt_FlowersQuick')
               ->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $NewFlowerPrice,
-              'options' => ['orig_price' => $row->options['orig_price'],
+              'options' => ['orig_price' => $row->options['orig_price'],'NewPrice'=>$row->options['NewPrice'],
               'T_Amt' => $NewTAmt,'image'=>$row->options['image'],
-              'priceType'=>$AGRMT_TYPE, 'bqt_ID' =>$row->options['bqt_ID']]]);
+              'priceType'=>$AGRMT_TYPE, 'batchID'=>$row->options['batchID'],'bqt_ID' =>$row->options['bqt_ID']]]);
         }//END OF INNER FOREACH of flower cart
 
         $BqttotalAmt = 0;
@@ -241,10 +245,16 @@ class Ordering_with_TradeAgreement_Controller extends Controller
 
       $NewFlowerPrice2 = 0;//updates the price
       $NewTAmt2 = 0;//updates the options->TAmnt
+
+
+
       foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row4){
-        $FlowerDet2 = DB::select('call wonderbloomdb2.Specific_Flower_withUpdated_Price(?)',array($row4->id));
-        foreach($FlowerDet2 as $Flower2){
-          $CurrentSellingPrice2 = $Flower2->Final_SellingPrice;
+        //$FlowerDet2 = DB::select('call wonderbloomdb2.Specific_Flower_withUpdated_Price(?)',array($row4->id));
+        foreach($batches_ofFlowers as $Flower2){
+          //$CurrentSellingPrice2 = $Flower2->Final_SellingPrice;
+          if($row4->id == $Flower2->flower_ID and $row4->options->batchID == $Flower2->Batch){
+            $CurrentSellingPrice2 = $Flower2->SellingPrice;
+          }
         }
 
         $NewFlowerPrice2 = $CurrentSellingPrice2 - ($CurrentSellingPrice2 * 0.10);
@@ -252,7 +262,8 @@ class Ordering_with_TradeAgreement_Controller extends Controller
 
         Cart::instance('TobeSubmitted_FlowersQuick')
         ->add(['id' => $row4->id, 'name' => $row4->name, 'qty' => $row4->qty, 'price' => $NewFlowerPrice2,
-        'options' => ['orig_price' => $row4->options['orig_price'],'T_Amt' => $NewTAmt2,
+        'options' => ['orig_price' => $row4->options['orig_price'],'NewPrice'=>$row4->options['NewPrice'],
+        'T_Amt' => $NewTAmt2,'batchID'=>$row4->options['batchID'],
         'image'=>$row4->options['image'],'priceType'=>$AGRMT_TYPE]]);
       }//end of ordered flowers
       //return json_encode(['data' => Cart::instance('TobeSubmitted_Bqt_Flowers')->content()]);
@@ -266,13 +277,14 @@ class Ordering_with_TradeAgreement_Controller extends Controller
         Cart::instance('TobeSubmitted_BqtQuick')->destroy();
         Cart::instance('TobeSubmitted_Bqt_FlowersQuick')->destroy();
 
+
       foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $row){
               Cart::instance('TobeSubmitted_Bqt_FlowersQuick')
               ->add(['id' => $row->id, 'name' => $row->name,
               'qty' => $row->qty, 'price' => $row->price,
-              'options' => ['orig_price' => $row->options['orig_price'],
+              'options' => ['orig_price' => $row->options['orig_price'],'NewPrice'=>$row->options->NewPrice,
               'T_Amt' => $row->options['T_Amt'],'image'=>$row->options['image'],
-              'priceType'=>$row->options['priceType'], 'bqt_ID' =>$row->options['bqt_ID']]]);
+              'priceType'=>$row->options['priceType'],'batchID'=>$row->options->batchID ,'bqt_ID' =>$row->options['bqt_ID']]]);
       }//END OF INNER FOREACH of flower cart
 
         $BqttotalAmt = 0;
@@ -287,79 +299,9 @@ class Ordering_with_TradeAgreement_Controller extends Controller
         Cart::instance('TobeSubmitted_FlowersQuick')
         ->add(['id' => $row4->id, 'name' => $row4->name, 'qty' => $row4->qty, 'price' => $row4->price,
         'options' => ['orig_price' => $row4->options['orig_price'],'T_Amt' => $row4->options['T_Amt'],
+        'NewPrice'=>$row4->options->NewPrice,'batchID'=>$row4->options->NewPrice,
         'image'=>$row4->options['image'],'priceType'=>$row4->options['priceType']]]);
       }//end of ordered flowers
-/*
-    //  return json_encode(['data' => Cart::instance('TobeSubmitted_Bqt_Flowers')->content()]);
-    echo '<div class = "row"><div class ="col-md-6">';
-    echo '<h3>Bouquet Flowers nung inapply yung trade agreement</h3>
-    <table class="table table-hover table-bordered table-striped">
-        <thead>
-          <tr>
-            <th class="text-center">Bqt ID</th>
-            <th class="text-center">Item_ID</th>
-            <th class="text-center">Item_Name</th>
-            <th class="text-center">CurrentSelling_Price</th>
-            <th class="text-center">Discounted Price</th>
-            <th class="text-center">Qty</th>
-            <th class="text-center">Total</th>
-            <th class="text-center">PriceType</th>
-        </tr>
-      </thead>
-      <tbody>';
-      foreach(Cart::instance('TobeSubmitted_Bqt_Flowers')->content() as $bqtLWR){
-        echo'<tr>
-          <th scope="row">'.$bqtLWR->options->bqt_ID.'</th>
-          <td>FLWR-'.$bqtLWR->id.'</td>
-          <td>'.$bqtLWR->name.'</td>
-          <td class = "text-right" style = "color:red;">.
-             Php '. number_format($bqtLWR->options->orig_price,2).
-           '</td>
-          <td class = "text-right" style = "color:red;">.
-             Php '. number_format($bqtLWR->price,2).
-           '</td>
-          <td class = "text-right">'.$bqtLWR->qty .'pcs.</td>
-          <td class = "text-right" style = "color:red;">Php '.number_format($bqtLWR->options->T_Amt,2).'</td>
-          <td class = "text-right" style = "color:red;">'.$bqtLWR->options->priceType.'</td>
-        </tr>';
-      }
-      echo'</tbody></table>';
-
-      echo '</div><div class ="col-md-6">
-      <h3>Bouquet FLowers na minanipulate ag price sa pagorder</h3>
-      <table class="table table-hover table-bordered table-striped">
-          <thead>
-            <tr>
-              <th class="text-center">Bqt ID </th>
-              <th class="text-center">Item_ID </th>
-              <th class="text-center">Item_Name </th>
-              <th class="text-center">CurrentSelling_Price </th>
-              <th class="text-center">Price_Made Upon Order </th>
-              <th class="text-center">Qty </th>
-              <th class="text-center">Total </th>
-              <th class="text-center">PriceType </th>
-          </tr>
-        </thead>
-        <tbody>';
-        foreach(Cart::instance('FinalBqt_Flowers')->content() as $bqtLWR2){
-          echo '<tr>
-            <th scope="row">'.$bqtLWR2->options->bqt_ID.'</th>2
-            <td>FLWR-'.$bqtLWR2->id.'</td>
-            <td>'.$bqtLWR2->name.'</td>
-            <td class = "text-right" style = "color:red;">.
-               Php '. number_format($bqtLWR2->options->orig_price,2).
-             '</td>
-            <td class = "text-right" style = "color:red;">.
-               Php '. number_format($bqtLWR2->price,2).
-             '</td>
-            <td class = "text-right">'.$bqtLWR2->qty .'pcs.</td>
-            <td class = "text-right" style = "color:red;">Php '.number_format($bqtLWR2->options->T_Amt,2).'</td>
-            <td class = "text-right" style = "color:red;">'.$bqtLWR2->options->priceType.'</td>
-          </tr>';
-        }
-        echo '</tbody></table></div></div>';
-*/
-
     }//end of function
 
 

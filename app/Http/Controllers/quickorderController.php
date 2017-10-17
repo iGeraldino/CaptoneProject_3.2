@@ -44,7 +44,7 @@ class quickorderController extends Controller
         ->get();
 
         $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
-
+        //dd($batches_ofFlowers);
         $AvailableFlowers = DB::select('CALL wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
 
         $accessories = DB::select('CALL AvailableAcessories_Records()');
