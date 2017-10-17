@@ -105,6 +105,11 @@ class quickorderController extends Controller
         echo "<h3><b>Change = </b>".$Change ."</h3>";
 
 
+        //gets the Amount of purchase:
+        $final_Amt = str_replace(',','',Cart::instance('TobeSubmitted_FlowersQuick')->subtotal()) + str_replace(',','',Cart::instance('TobeSubmitted_BqtQuick')->subtotal());
+
+        dd(Cart::instance('TobeSubmitted_FlowersQuick')->subtotal(),Cart::instance('TobeSubmitted_BqtQuick')->subtotal());
+
         $current = Carbon::now('Asia/Manila');
         $newCustID = array();
         $salesorder = new newSales_order;
@@ -132,15 +137,15 @@ class quickorderController extends Controller
         $salesorder->Status = 'CLOSED';
         $salesorder->Save();//creates a new CLOSED order
 
-        //gets the Amount of purchase:
-        $final_Amt = str_replace(',','',Cart::instance('TobeSubmitted_FlowersQuick')->subtotal()) + str_replace(',','',Cart::instance('TobeSubmitted_BqtQuick')->subtotal());
+
+
         //gets the amount of vat:
-        if($custType == "H" Or $custType == "S"){
+        //if($custType == "H" Or $custType == "S"){
           $vatValue = $final_Amt * 0.12;
-        }
-        else{
+        //}
+        /*else{
           $vatValue = $final_Amt * 0.0;
-        }
+        }*/
         //delivery charge:
         $DeliveryCharge = 0;
         //computes the total amount of purchase

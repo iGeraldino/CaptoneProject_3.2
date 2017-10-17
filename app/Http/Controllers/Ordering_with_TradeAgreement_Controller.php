@@ -299,7 +299,7 @@ class Ordering_with_TradeAgreement_Controller extends Controller
         Cart::instance('TobeSubmitted_FlowersQuick')
         ->add(['id' => $row4->id, 'name' => $row4->name, 'qty' => $row4->qty, 'price' => $row4->price,
         'options' => ['orig_price' => $row4->options['orig_price'],'T_Amt' => $row4->options['T_Amt'],
-        'NewPrice'=>$row4->options->NewPrice,'batchID'=>$row4->options->NewPrice,
+        'NewPrice'=>$row4->options->NewPrice,'batchID'=>$row4->options->batchID,
         'image'=>$row4->options['image'],'priceType'=>$row4->options['priceType']]]);
       }//end of ordered flowers
     }//end of function
