@@ -16,8 +16,8 @@
         <ul class="nav navbar-nav">
           
           <li class="admin-name">
-           @if(Auth::check())
-            <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::user()->username }} </b></a>
+           @if(Auth::guard('admins')->check())
+            <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::guard('admins')->user()->username }} </b></a>
             <ul class = "dropdown-menu">
               
               <a href="{{ route('adminlogout')   }}" class="text-center"> <h4> Logout </h4> </a>

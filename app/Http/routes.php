@@ -410,9 +410,11 @@ Route::get('summarypickup', 'PagesController@getOrderSummaryPickUp');
 
 Route::get('editacc', 'PagesController@getEditAccount');
 
+//Cashier Dashboard
+
 Route::get('cashier', 'PagesController@getCashierPage');
 
-Route::get('cashier_dashboard', 'PagesController@getCashierDashboard');
+Route::get('cashier_dashboard', ['uses' => 'PagesController@getCashierDashboard','as' => 'cashierdashboard']);
 
 Route::get('cashier_sales_order', 'PagesController@getCashierSalesOrder');
 
@@ -430,6 +432,8 @@ Route::get('cashier_inventory_transaction', 'PagesController@getCashierInventory
 
 Route::get('cashier_flower_price_list', 'PagesController@getCashierFlowerPriceList');
 
+//end Cashier
+
 Route::get('OrderSummaryPickUp', 'PagesController@getOrderSummaryPickUp');
 
 Route::get('OrderSummaryDelivery', 'PagesController@getOrderSummaryDelivery');
@@ -442,7 +446,9 @@ Route::get('OrderSummaryPickUpSimple', 'PagesController@getOrderSummaryPickUpSim
 
 Route::get('OrderSummaryDeliverySimple', 'PagesController@getOrderSummaryDeliverySimple');
 
-Route::get('inventory_dashboard', 'PagesController@getInventoryDashboard');
+//warehouse route
+
+Route::get('inventory_dashboard', ['uses' =>'PagesController@getInventoryDashboard', 'as' => 'warehousedashboard']);
 
 Route::get('inventory_sales_order', 'PagesController@getInventorySalesOrder');
 
@@ -453,6 +459,8 @@ Route::get('inventory_side_transaction', 'PagesController@getInventorySideTransa
 Route::get('inventory_side_schedule', 'PagesController@getInventorySchedule');
 
 Route::get('inventory_flower_price_list', 'PagesController@getInventoryFlowerPriceList');
+
+// end of warehouseroute
 
 Route::get('ViewAccountDetails', ['uses' => 'ClientController@getEditAccount', 'as' => 'geteditaccount']);
 
