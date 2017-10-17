@@ -11,7 +11,7 @@
                 <div class="panel-body">
 
                     @foreach($AdminAcct as $AdminAcct)
-                        {!! Form::model($AdminAcct,['route'=>['Admins.update', $AdminAcct->Acct_ID],'id' => 'Acctform','method'=>'PUT'])!!}
+                        {!! Form::model($AdminAcct,['route'=>['Admins.update', $AdminAcct->Admin_ID],'method'=>'PUT'])!!}
                         <div class = "row">
                             <div class = "col-md-5">
                                 <div class="form-group label-floating">
@@ -91,7 +91,7 @@
                               <span class="input-group-addon">
                                 <i class="material-icons">group</i>
                               </span>
-                                    <input id = "passField" name = "passField" type="password" class="form-control" placeholder="password" value = "{{base64_decode(base64_encode($AdminAcct->pass))}}">
+                                    <input id = "passField" name = "passField" type="password" class="form-control" placeholder="password" value ="" >
                                 </div>
                             </div>
                             <div class = "col-md-6">
@@ -99,7 +99,9 @@
                               <span class="input-group-addon">
                                 <i class="material-icons">group</i>
                               </span>
-                                    <input id = "confirmPassField" name = "confirmPassField" type="password" class="form-control" placeholder="Confirm Password">
+                                    <input id = "confirmPassField" name = "confirmPassField" type="password" class="form-control" placeholder="Confirm Password" value="">
+                                    <h7 id="error" style="color: red"> Password is not the same</h7>
+
                                 </div>
                             </div>
                         </div>
@@ -108,7 +110,7 @@
                                 <button type="button" class="btn btn-default" href = "{{route('Admins.index')}}" data-dismiss="modal"  role="button">Cancel</button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button type = "submit" name = "AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Save changes</button>
+                                <button type = "submit" name = "AddBtn" id="AddBtn" class = "btn btn-primary btn-success"><span class = "glyphicon glyphicon-floppy-save"></span> Save changes</button>
                             </div>
                         </div>
                         {!! Form::close() !!}
@@ -151,9 +153,33 @@
 
             });
 
+            $('#error').hide();
+            $('#AddBtn').attr('disabled', true);
 
-            $('#passfield').change(function(){
 
+            $('#passField').change(function(){
+
+                var password = $('#passField').val();
+
+                $('#confirmPassField').change(function(){
+
+                    var password2 = $('#confirmPassField').val();
+
+                    if(password == password2){
+
+                        $('#error').slideUp();
+                        $('#AddBtn').attr('disabled', false);
+
+
+                    }
+                    else{
+
+                        $('#error').slideDown();
+
+                    }
+
+
+                });
 
 
 

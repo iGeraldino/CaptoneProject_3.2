@@ -87,13 +87,12 @@
 															 <label class="control-label">Available Quantity</label>
 															 <input type="text" class="form-control" value = "{{$batchDetails[3]}} pcs" name="AvailableQTy" id="AvailableQTy" disabled>
 														 </div>
-
-
 	                      </div>
 
 	                      <div class ="col-md-3" id = 'Update_Div' hidden><!--hidden-->
 <!--form open here-->
-{!! Form::model($OFlower_ID, ['route'=>['QuickOrders_Flowers.update', $OFlower_ID],'method'=>'PUT'])!!}
+
+							{!! Form::model($OFlower_ID, ['route'=>['QuickOrders_Flowers.update', $batchDetails[1]],'method'=>'PUT'])!!}
                             <div>
                               <div class="form-group label-floating">
                              	<label class="control-label">Original Price</label>
@@ -126,14 +125,16 @@
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>New Price:</label>
                                 <input type="number" class="form-control" name="NewPrice_Field" id="NewPrice_Field"
-                                 value = '{{$orderFlower->Final_SellingPrice}}' step = "0.01"/>
+                                 value = '{{$batchDetails[4]}}' step = "0.01"/>
                                </div>
                              </div>
+
+
 
                              <div id = 'QTY_Div'>
                                <div class="form-group label-floating">
                                 <label class = 'control-label'>Quantity:</label>
-                                <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' required/>
+                                <input type="number" class="form-control" name="QTY_Field" id="QTY_Field"  placeholder="" min = '1' max = '$batchDetails[3]' required/>
                               </div><!--end of form-group -->
                              </div><!--end of QTY_DIV-->
 

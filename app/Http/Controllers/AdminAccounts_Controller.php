@@ -197,6 +197,79 @@ class AdminAccounts_Controller extends Controller
     public function update(Request $request, $id)
     {
 
+        $firstname = trim($request->Fname);
+        $lastname = trim($request->Lname);
+        $contact = trim($request->contact_Num);
+        $type = trim($request->admintype);
+        $username = trim($request->username);
+        $email = trim($request->email);
+        $password = trim($request->passField);
+        $admintype = "";
+
+        //user account
+
+        $admin = auth()->guard('admins');
+
+        if ($type == 1 ){
+
+            $admintype = "Admin";
+
+        }
+        elseif( $type == 2){
+
+            $admintype = "Cashier";
+
+        }
+        elseif(type == 3 ){
+
+            $admintype = "Warehouse Man";
+
+        }
+
+
+
+
+        //Succession
+
+        if( count (AdminTable::where('email_address', '=', $email)->where('Admin_Id','!=',$admin->user()->Admin_ID) ->get()) <= 0) {
+
+
+            db::table('administrator_table')
+                ->where('Admin_Id', $id)
+                ->update([
+
+                    'FName' => $firstname,
+                    'LName' => $lastname,
+                    'contact_Num' => $contact,
+                    'email_address' => $email,
+                    'type' => $admintype,
+
+                ]);
+
+            db::table('admins')
+                ->where('Admin_ID', $id)
+                ->update([
+
+                    'email' => $email,
+                    'username' => $username,
+                    'password' => bcrypt($password),
+                    'type' => $type
+                ]);
+
+            return redirect() -> route('Admins.index');
+
+
+
+        }
+
+        else{
+
+
+            return redirect() -> route('editAdminAcct', ['id' => $admin->user()->Admin_ID]);
+
+
+        }
+
     }
 
     /**
