@@ -186,6 +186,8 @@
                                                 <th class="text-center">Shipping Method</th>
                                                 <th width="20%" class="text-center">Created At</th>
                                                 <th width="10%" class="text-center">Status</th>
+                                                <th width="10%" class="text-center"> Print Summary </th>
+
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -213,12 +215,13 @@
 
                                                         @elseif ( $past-> Status == "P_PARTIAL")
 
-                                                        <span class="label label-success"> Paid Partial </span>
+                                                        <span class="label label-info"> Paid Partial </span>
 
 
                                                     @endif
 
                                                 </td>
+                                                <td> <a class="btn btn-primary" href="{{ route('printsummary', ['id' => $past -> Order_ID])}}"> Print </a></td>
 
                                             </tr>
                                             @endforeach
@@ -483,7 +486,7 @@
 
 
 
-        
+
 
 
 

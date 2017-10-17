@@ -628,10 +628,7 @@
 				                        			<button type="submit" id ="pickupsubmit" class="btn btn-success btn-lg"> Submit My Order</button><!-- call a route that saves order for delivery only,
 						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
 				                       			</div>
-                                    <div class = 'col-md-6'>
-				                        			<button type="submit" id ="pickupsubmit" class="btn btn-success btn-lg"> </button><!-- call a route that saves order for delivery only,
-						                        		 Saves the the orders to the database, generates a pdf of the order summary the design is same with this summary and hides the Edit Order Details buttons-->
-				                       			</div>
+                                    
 				                        	</div>
                                   {{csrf_field()}}
                               </form>
