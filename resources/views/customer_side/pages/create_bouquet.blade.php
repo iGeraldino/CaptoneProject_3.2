@@ -21,10 +21,10 @@
 
     $AddingAcctoBouquetSession = Session::get('Adding_AcctoBouquetSession');
     Session::Remove('Adding_AcctoBouquetSession');
-    
+
     $DeleteAcctoBouquetSession = Session::get('Delete_AcctoBouquetSession');
     Session::Remove('Delete_AcctoBouquetSession');
-    
+
   ?>
 
   <div hidden>
@@ -34,7 +34,7 @@
     <input id = "updateacctobouquetSession" value = "{{$UpdateAcctoBouquetSession}}">
     <input id = "addacctobouquetSession" value = "{{$AddingAcctoBouquetSession}}">
     <input id = "deleteacctobouquetSession" value = "{{$DeleteAcctoBouquetSession}}">
-  
+
 </div>
 	<div class="container cols" style="margin-top: 60px;">
 	    <div class="row">
@@ -124,7 +124,7 @@
                             <input type="hidden" value="{{ $bouq -> Final_SellingPrice }}" name="fp">
                             <input type="hidden" value="{{ $bouq -> flower_ID }}" name="ID" >
 
-                            <input type="number" class="form-control" placeholder="0" name="qty" 
+                            <input type="number" class="form-control" placeholder="0" name="qty"
                               min = "1" required>
 
           								</div>
@@ -277,7 +277,7 @@
         </div>
 
 
-				<table class="table table-striped" style="overflow-x:auto;" id="table1">
+				<table class="table table-striped" style="overflow-x:auto;" >
 				  	<thead>
 				    	<tr>
 
