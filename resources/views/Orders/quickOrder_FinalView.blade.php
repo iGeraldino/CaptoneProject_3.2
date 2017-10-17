@@ -255,7 +255,7 @@
                   <h4  style = "color:red;">Php </h4>
                 </div>
                 <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[11],2) }}</h4>
+                  <h4  style = "color:red;">{{ number_format($invoice[12],2) }}</h4>
                 </div>
 
               </div>
@@ -269,7 +269,7 @@
                   <h4  style = "color:red;">Php</h4>
                 </div>
                 <div class ="pull-right col-md-6 text-right">
-                  <h4  style = "color:red;">{{ number_format($invoice[12],2) }}</h4>
+                  <h4  style = "color:red;">{{ number_format($invoice[11],2) }}</h4>
                 </div>
 
               </div>

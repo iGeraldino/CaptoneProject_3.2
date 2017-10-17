@@ -32,14 +32,14 @@
           <!-- Messages: style can be found in dropdown.less-->
           <!-- Menu Footer-->
           <!-- Control Sidebar Toggle Button -->
-          <li>
+          <!--<li>
             <a   class = 'dropdown-toggle' data-toggle="dropdown">
               <span id = "countOfNotification" class="label label-pill label-danger count">
               </span><i class="material-icons md-48">notifications</i>
             </a>
             <ul id = "notifications" class = "dropdown-menu">
             </ul>
-          </li>
+          </li>-->
 
         </ul>
       </div>
@@ -207,7 +207,7 @@
       </ul>
 
       <!-- sidebar menu: Online shop -->
-      <ul class="sidebar-menu">
+    <!--  <ul class="sidebar-menu">
         <li class="treeview">
           <a href="/WonderbloomFlowershop">
             <i class="material-icons">store_directory</i> <span>Online Shop</span>
@@ -216,7 +216,7 @@
             </span>
           </a>
         </li>
-      </ul>
+      </ul>-->
 
     </section>
     <!-- /.sidebar -->
