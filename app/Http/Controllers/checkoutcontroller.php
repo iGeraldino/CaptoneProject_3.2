@@ -48,15 +48,25 @@ class checkoutcontroller extends Controller
 
         }
 
-        return view('customer_side.pages.checkout')
-        ->with('account', $account)
-        ->with('city',$cities)
-        ->with('province',$province)
-        ->with('city2',$cities)
-        ->with('province2',$province)
-        ->with('city3',$cities)
-        ->with('province3',$province)
-        ->with('details', $details);
+        $orderid = Session::get('orderid');
+
+        if ( $orderid  == null ){
+
+          return view('customer_side.pages.checkout')
+          ->with('account', $account)
+          ->with('city',$cities)
+          ->with('province',$province)
+          ->with('city2',$cities)
+          ->with('province2',$province)
+          ->with('city3',$cities)
+          ->with('province3',$province)
+          ->with('details', $details);
+
+        }
+        else{
+          return redirect() -> route('geteditaccount');
+        }
+
 
 
         //dd(Auth::user()->Cust_ID);
@@ -103,7 +113,7 @@ class checkoutcontroller extends Controller
 
     }
 
-    public function userfinalCheckout(Request $request){
+    public function userfinalCheckout(Request $request){ //Delivery
 
       $cust_id = Auth::user()->Cust_ID;
       $fname = $request->input('Cust_FName');
@@ -235,61 +245,15 @@ class checkoutcontroller extends Controller
       //bouquet cart
 
       if(Cart::instance('finalboqcart')->count() == 0){
+
         Cart::instance('flowerwish')->destroy();
         Cart::instance('finalboqcart')->destroy();
         Cart::instance('finalacccart')->destroy();
         Cart::instance('finalflowerbqt')->destroy();
 
 
-              $cities = DB::table('cities')
-              ->select('*')
-              ->get();
-
-          $province = DB::table('provinces')
-              ->select('*')
-              ->get();
-
-          $NewSalesOrder = sales_order::find($sales_order_ID);
-          $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
-          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
-
-          $NewOrder_SchedDetails = DB::table('shop_schedule')
-              ->where('Order_ID', $sales_order_ID)
-              ->first();
-
-          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-              ->where('Order_ID', $sales_order_ID)
-              ->get();
-
-          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
-
-          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
-
-          $cityName = "";
-          $provName = "";
-
-          foreach($cities as $city){
-              if($NewSalesOrder_details->Delivery_City == $city->id){
-                  $cityName = $city->name;
-              }
-          }
-          foreach($province as $prov){
-              if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                  $provName = $prov->name;
-              }
-          }
-
-
-          //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
-          //return $pdf->download('sampleDelivery.pdf');
-
-          $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-              'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
-
-
-
-          return $pdf->download('sampleDelivery.pdf');
+          Session::put('orderid', $sales_order_ID);
+          Return redirect() -> route('geteditaccount');
 
       }
 
@@ -388,6 +352,15 @@ class checkoutcontroller extends Controller
           $salesbouquetacc->save();
 
       }
+
+      Cart::instance('flowerwish')->destroy();
+      Cart::instance('finalboqcart')->destroy();
+      Cart::instance('finalacccart')->destroy();
+      Cart::instance('finalflowerbqt')->destroy();
+
+
+      Session::put('orderid', $sales_order_ID);
+      Return redirect() -> route('geteditaccount');
 
       // dulo
 
@@ -494,61 +467,15 @@ class checkoutcontroller extends Controller
       $shop_schedule -> save();
 
       if(Cart::instance('finalboqcart')->count() == 0){
+
         Cart::instance('flowerwish')->destroy();
         Cart::instance('finalboqcart')->destroy();
         Cart::instance('finalacccart')->destroy();
         Cart::instance('finalflowerbqt')->destroy();
 
 
-              $cities = DB::table('cities')
-              ->select('*')
-              ->get();
-
-          $province = DB::table('provinces')
-              ->select('*')
-              ->get();
-
-          $NewSalesOrder = sales_order::find($sales_order_ID);
-          $NewSalesOrder_details = Neworder_details::find($sales_order_ID);
-          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($sales_order_ID));
-
-          $NewOrder_SchedDetails = DB::table('shop_schedule')
-              ->where('Order_ID', $sales_order_ID)
-              ->first();
-
-          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-              ->where('Order_ID', $sales_order_ID)
-              ->get();
-
-          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($sales_order_ID));
-
-          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($sales_order_ID));
-
-          $cityName = "";
-          $provName = "";
-
-          foreach($cities as $city){
-              if($NewSalesOrder_details->Delivery_City == $city->id){
-                  $cityName = $city->name;
-              }
-          }
-          foreach($province as $prov){
-              if($prov->id == $NewSalesOrder_details->Delivery_Province){
-                  $provName = $prov->name;
-              }
-          }
-
-
-          //$pdf = \PDF::loadView("reports\OrderSummary_Delivery_Simple2",['orderid' => $sales_order_ID],);
-          //return $pdf->download('sampleDelivery.pdf');
-
-          $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
-              'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
-              'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
-
-
-
-          return $pdf->download('sampleDelivery.pdf');
+          Session::put('orderid', $sales_order_ID);
+          Return redirect() -> route('geteditaccount');
 
       }
 
@@ -648,13 +575,71 @@ class checkoutcontroller extends Controller
 
       }
 
-      // dulo
+      Cart::instance('flowerwish')->destroy();
+      Cart::instance('finalboqcart')->destroy();
+      Cart::instance('finalacccart')->destroy();
+      Cart::instance('finalflowerbqt')->destroy();
+
+
+      Session::put('orderid', $sales_order_ID);
+      Return redirect() -> route('geteditaccount');
 
     }
 
     }
 
+    public function PrintSummary($id){
 
+                    $cities = DB::table('cities')
+                    ->select('*')
+                    ->get();
+
+                $province = DB::table('provinces')
+                    ->select('*')
+                    ->get();
+
+                $NewSalesOrder = sales_order::find($id);
+                $NewSalesOrder_details = Neworder_details::find($id);
+                $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+                $NewOrder_SchedDetails = DB::table('shop_schedule')
+                    ->where('Order_ID', $id)
+                    ->first();
+
+                $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                    ->where('Order_ID', $id)
+                    ->get();
+
+                $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+                $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+                $cityName = "";
+                $provName = "";
+
+                foreach($cities as $city){
+                    if($NewSalesOrder_details->Delivery_City == $city->id){
+                        $cityName = $city->name;
+                    }
+                }
+                foreach($province as $prov){
+                    if($prov->id == $NewSalesOrder_details->Delivery_Province){
+                        $provName = $prov->name;
+                    }
+                }
+
+                $current = Carbon::now('Asia/Manila')->toDateString();
+
+
+                Session::remove('orderid');
+
+                $pdf = \PDF::loadView("reports\Customer_Side_OrderSummary",['city'=>$cityName,'province'=>$provName,'NewSalesOrder'=>$NewSalesOrder,
+                    'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
+                    'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
+
+                return $pdf->download('RECEIPT-'.$id.'-'.$current.'.pdf');
+
+    }
 
 
 

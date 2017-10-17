@@ -613,6 +613,7 @@ class AdminAccounts_Controller extends Controller
     public function AdminLogout(){
 
         Auth::guard('admins')->logout();
+        Session::remove('orderid');
         Session::put('loginSession','OUT');
         return redirect() -> route('AdminLogin');
 

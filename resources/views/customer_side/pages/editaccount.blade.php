@@ -12,10 +12,10 @@
             @foreach($details as $details)
 
             <div class="col-md-3">
-                <ul class="nav nav-pills nav-stacked admin-menu" >
-                    <li class="active"><a href="" data-target-id="profile"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
-                    <li><a href="" data-target-id="orders"><i class="glyphicon glyphicon-log-out"></i> Orders</a></li>
-                    <li><a href="" data-target-id="change-password"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
+                <ul class="nav nav-pills nav-stacked admin-menu" id="myTab">
+                    <li id="profiles" class="active"><a href="#profile" data-target-id="profile"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+                    <li id="order"><a href="#orders" data-target-id="orders"><i class="glyphicon glyphicon-log-out"></i> Orders</a></li>
+                    <li><a href="#change-password" data-target-id="change-password"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
                 </ul>
             </div>
 
@@ -169,15 +169,46 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="box">
-                                    <div class="box-header">
+                                  <div class="box-header" id="latest">
 
-                                        <h3 class="box-title text-center" >Past Orders</h3>
+                                  <h3 class="box-title text-center" > Latest Order </h3>
+
+                                  <div class="box-body table-responsive no-padding">
+                                      <table id = "" class="table table-hover">
+                                          <thead class="text-center">
+                                          <tr>
+                                              <th width="12%" class="text-center">Order Id</th>
+                                              <th width="25%" class="text-center">Total Amount</th>
+                                              <th width="10%" class="text-center">Print Summary</th>
+
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          @foreach($latestorder as $latest)
+                                          <tr class="text-center">
+
+                                              <td>{{ $latest -> Order_ID }}</td>
+                                              <td>Php. {{ number_format($latest -> Total_Amt,2) }}</td>
+                                              <td> <a class="btn btn-primary" id="latestbutt" href="{{ route('printsummary', ['id' => $latest -> Order_ID])}}"> Print </a></td>
+
+                                          </tr>
+                                          @endforeach
+                                          </tbody>
+                                      </table>
+                                  </div>
 
 
-                                    </div>
+                                  </div>
+
+                                    <div class="box-header" id="past">
+
+                                    <h3 class="box-title text-center" >Past Orders</h3>
+
+
                                     <!-- /.box-header -->
+
                                     <div class="box-body table-responsive no-padding">
-                                        <table class="table table-hover">
+                                        <table id = "orderTbl" class="table table-hover">
                                             <thead class="text-center">
                                             <tr>
                                                 <th width="12%" class="text-center">Order Id</th>
@@ -195,7 +226,7 @@
                                             <tr class="text-center">
 
                                                 <td>{{ $past -> Order_ID }}</td>
-                                                <td>Php. {{ $past -> Total_Amt }}</td>
+                                                <td>Php. {{ number_format( $past -> Total_Amt,2) }}</td>
                                                 <td>{{ $past -> Payment_Mode }}</td>
                                                 <td>{{ $past -> shipping_method }}</td>
                                                 <td> {{ $past -> created_at }}</td>
@@ -229,6 +260,7 @@
                                         </table>
                                     </div>
                                     <!-- /.box-body -->
+                                    </div>
                                 </div>
                                 <!-- /.box -->
                             </div>
@@ -391,7 +423,22 @@
 @endsection
 
 @section('script')
+<script type="text/javascript">
 
+  $(function () {
+    $('#orderTbl').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "order" : [[3, "asc"]],
+      "info": true,
+      "autoWidth": false,
+      "lengthMenu" : [5,10,15,20],
+      "pageLength" : 5
+    });
+  });
+</script>
 	<script type="text/javascript">
 
       $(document).ready(function()
@@ -481,10 +528,37 @@
             allWells.hide();
             var target = $(this).attr('data-target-id');
             $('#' + target).show();
+          });
+
+          var orderid = 0{{ Session::get('orderid') }};
+
+
+
+        if (orderid == 0){
+
+          $('#latest').hide();
+
+        }
+
+        else{
+
+
+          $('#past').hide();
+
+          $( "#order" ).addClass( "active" );
+
+          $('#profiles').removeClass('active');
+            allWells.hide();
+          $('#orders').show();
+
+        }
+
+        $('#latestbutt').click(function(){
+
+          $('#past').hide();
+          location.reload();
+
         });
-
-
-
 
 
 
