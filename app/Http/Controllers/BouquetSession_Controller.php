@@ -73,7 +73,8 @@ class BouquetSession_Controller extends Controller
     public function update(Request $request, $id)
     {
         //
-        $newQty = $request->BouqQuantityField;
+        $new_Qty = $request->BouqQuantityField;
+        //dd($new_Qty);
         $derived_Sellingprice = 0;
         $oldqty = 0;
         $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
@@ -126,52 +127,91 @@ class BouquetSession_Controller extends Controller
               }//end of foreach that loop all of the flowers available in the database
 
 
+
         //dd(Cart::instance('overallFLowers')->content());
 
 
-
-
-
-        foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
-          if($Bqt->id == $id){
-            $oldqty = $Bqt->qty;//for validations's use only this is to determine whether the new qty is not equal to the previous qty
-
-            if($oldqty == $newQty){
+        foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt2){
+          if($Bqt2->id == $id){
+            $oldqty = $Bqt2->qty;//for validations's use only this is to determine whether the new qty is not equal to the previous qty
+            if($oldqty == $new_Qty){
               Session::put('Update_Bouqet_To_myQuickOrder', 'Fail');
               return redirect()->back();
             }
-            else if($oldqty < $newQty){
+            else if($oldqty < $new_Qty){
+              //dd($oldqty,$new_Qty);
+              $flwrValidator = 0;
+              $AcrsValidator = 0;
+
               foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $flowers){
-                if($Bqt->id == $flowers->options->bqt_ID){
-                  $QtybeUseed = $flowers->qty;
-                  $added_QTY = $newQty - $oldqty;
-                  $flowerincart = 0;
+                $flwrValidator = 0;
+                if($Bqt2->id == $flowers->options->bqt_ID){
+                  $added_QTY = $new_Qty - $oldqty;
+                  $possibleAnswer =  $flowers->qty * $added_QTY;
                   //---------------------------------------------------------------------------------checks if the values entered are still abled to be added to the cart
                   foreach(Cart::instance('BatchesofFLowers')->content() as $batches){
                     $batchID = explode('_',$batches->id);
-                    dd($flowers->options->batchID,$flowers->id);
                     if($flowers->options->batchID == $batchID[0] AND $flowers->id == $batchID[1]){
-                      if($added_QTY*$QtybeUseed > $batches->options->qtyR){
-
-                        $sessionVal = 'Fail_'.$totalPossible.'_'.$Aflwrs->flower_ID.'_'.$Aflwrs->flower_name.'_'.$Aflwrs->QTY.'_'.$originalQtyinOrd.'_'.$oldqty.'_'.$newQty;
-                        Session::put('BqtCount_UpdateSession',$sessionVal);
-                        return redirect()->back();
+                      if($possibleAnswer > $batches->options->qtyR){
+                        //dd($possibleAnswer,$batches->options->qtyR);
+                        //$sessionVal = 'Fail_'.$totalPossible.'_'.$Aflwrs->flower_ID.'_'.$Aflwrs->flower_name.'_'.$Aflwrs->QTY.'_'.$originalQtyinOrd.'_'.$oldqty.'_'.$newQty;
+                      //  Session::put('Update_Bouqet_To_myQuickOrder','Fail2');
+                      //  return redirect()->back();
+                        $flwrValidator = 1;
                         break;
+                        //dd($flwrValidator);
                       }
                     }
                   }
                 }//end of if($Bqt->id == $flowers->options->bqt_ID) determines if the flower was under that specific bqt
               }//end of quickfinalBqt_flower
+              //dd($flwrValidator,$AcrsValidator);
+
+              foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $acrs){
+                $AcrsValidator = 0;
+
+                   if($acrs->options->bqt_ID == $Bqt2->id){
+                     $added_QTY2 = $new_Qty - $oldqty;
+                     $possibleAnswer = $acrs->qty * $added_QTY2;
+                     foreach(Cart::instance('AllofAcrs')->content() as $acrs2){
+                       if($acrs2->id == $acrs->id){
+                         if($possibleAnswer > $acrs2->options->qtyR){
+                           $AcrsValidator = 1;
+                           break;
+                         }
+                       }
+                     }
+                   }//end of if
+               }//end of foreach
+//dd($flwrValidator,$AcrsValidator);
+              if($flwrValidator == 1 AND $AcrsValidator == 0){
+                  Session::put('Update_Bouqet_To_myQuickOrder','Fail2');
+                  return redirect()->back();
+              }
+              else if($flwrValidator == 0 AND $AcrsValidator == 1){
+                  Session::put('Update_Bouqet_To_myQuickOrder','Fail3');
+                  return redirect()->back();
+              }
+              else if($flwrValidator == 1 AND $AcrsValidator == 1){
+                  Session::put('Update_Bouqet_To_myQuickOrder','Fail4');
+                  return redirect()->back();
+              }
+              else if($flwrValidator == 0 AND $AcrsValidator == 0){
+                  Cart::instance('QuickOrdered_Bqt')
+                  ->update($Bqt2->rowId,['name'=>$Bqt2->name,'qty' => $new_Qty,
+                  'price' => $Bqt2->price,'options'=>['count' => $Bqt2->options->count]]);
+                  Session::put('Update_Bouqet_To_myQuickOrder', 'Successful');
+              }
+            }//
+            elseif($oldqty > $new_Qty){
+              //dd($oldqty,$newQty,$Bqt2->rowId);
+
               Cart::instance('QuickOrdered_Bqt')
-              ->update($Bqt->rowId,['name'=>$Bqt->name,'qty' => $newQty,'price' => $Bqt->price,'options'=>['count' => $Bqt->options->count]]);
+              ->update($Bqt2->rowId,['name'=>$Bqt2->name,'qty' => $new_Qty,
+              'price' => $Bqt2->price,'options'=>['count' => $Bqt2->options->count]]);
               Session::put('Update_Bouqet_To_myQuickOrder', 'Successful');
             }//
-            elseif($oldqty > $newQty){
-              Cart::instance('QuickOrdered_Bqt')
-              ->update($Bqt->rowId,['name'=>$Bqt->name,'qty' => $newQty,'price' => $Bqt->price,'options'=>['count' => $Bqt->options->count]]);
-              Session::put('Update_Bouqet_To_myQuickOrder', 'Successful');
-            }//
-          }
+          }//this means that the bouquet was found
         }
 
         $qtytofulfill = 0;
