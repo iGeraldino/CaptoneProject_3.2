@@ -426,7 +426,12 @@
 											                 	 	<div class="input-group-addon">
 											                    		<i class="fa fa-calendar"></i>
 											                  		</div>
-											                  		<input type="text" class="form-control pull-right" id="to">
+											                  		<input type="date" id="deliverydate" class="form-control pull-right" min ="<?php
+                                                                    $min = new DateTime();
+                                                                    $min->modify("+4 days");
+                                                                    $max = new DateTime();
+                                                                    echo $min->format("Y-m-d");
+                                                                    ?>">
 											                	</div>
 											                	<!-- /.input group -->
 											              	</div>
@@ -470,7 +475,7 @@
 											                 	 	<div class="input-group-addon">
 											                    		<i class="fa fa-calendar"></i>
 											                  		</div>
-											                  		<input type="text" class="form-control pull-right" id="datepicker2">
+											                  		<input type="date" id="datepickup" class="form-control pull-right" >
 											                	</div>
 											                	<!-- /.input group -->
 											              	</div>
@@ -1179,13 +1184,6 @@
 						$("#deliveryshowdiv").show("fold");
 						$("#pickupshowdiv").hide("fold");
 					});
-		    		//Date picker
-				    $('#to').datepicker({
-				      autoclose: true
-				    });
-            $('#datepicker2').datepicker({
-             autoclose: true
-           });
 
 				    //Timepicker
 				    $(".timepicker").timepicker({
@@ -1300,11 +1298,18 @@
             $('#R_DeliveryBrgy').val(brgy);
 
             $(function() {
-              $( "#to" ).datepicker({ dateFormat: 'yy-mm-dd' });
-                $("#to").on("change",function(){
+
+                if($('#deliverydate').val() != null){
+
+                    $('#PickUpDeliverybtn').attr('disabled', false);
+
+                }
+
+                $("#deliverydate").change(function(){
                     var selected = $(this).val();
 
-                    if($('#to').val() == selected){
+
+                    if($('#deliverydate').val() == selected){
 
                       if($('#UseMydetailsCheckboxe').is(':checked') == true){
 
@@ -1314,7 +1319,7 @@
 
                         $("#PickUpDeliverybtn").click(function(){
 
-                          var deliverdate = $('#to').val();
+                          var deliverdate = $('#deliverydate').val();
                           var delivertime = $('#timepicker1').val();
 
                           $('#paydelivery').attr('disabled',true);
@@ -1414,6 +1419,7 @@
 
                   }
                   else{
+                        console.log("hello");
 		               $('#PickUpDeliverybtn').attr('disabled', true);
 
                   }
@@ -1460,11 +1466,25 @@
 
 
         $(function() {
-          $( "#datepicker2" ).datepicker({ dateFormat: 'yy-mm-dd' });
-            $("#datepicker2").on("change",function(){
+
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if(month < 10)
+                month = '0' + month.toString();
+            if(day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+
+            $('#datepickup').attr('min', maxDate);
+
+            $("#datepickup").change(function(){
               var selected2 = $(this).val();
 
-              if($('#datepicker2').val() == selected2){
+              if($('#datepickup').val() == selected2){
 
                 $('#PickUpDeliverybtn').attr('disabled', false);
 
@@ -1485,8 +1505,9 @@
 
 
 
-                var deliverdate2 = $('#datepicker2').val();
+                var deliverdate2 = $('#datepickup').val();
                 var delivertime2 = $('#timepicker2').val();
+
               	$('#step3button').attr('disabled', true);
 
                 $("#PickUpDeliverybtn").click(function(){
