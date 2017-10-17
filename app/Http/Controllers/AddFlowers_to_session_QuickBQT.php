@@ -129,7 +129,6 @@ class AddFlowers_to_session_QuickBQT extends Controller
 
         //  $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
 
-
           if(Cart::instance('QuickOrderedBqt_Flowers')->count() == 0){
               echo 'wala pang laman';
                   $final_total_Amount = 0;
@@ -172,6 +171,10 @@ class AddFlowers_to_session_QuickBQT extends Controller
                   'price' => $derived_Sellingprice,
                   'options' => ['orig_price' => $Original_Price,'NewPrice'=>$New_Price,'T_Amt' => $final_total_Amount,
                   'image'=>$image,'priceType'=>$descision,'batchID'=>$Rbatch_ID]]);
+
+                  Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
+                  return redirect()->back();
+
           }else{
               echo 'may laman';
               $Insertion = 0;
@@ -217,6 +220,9 @@ class AddFlowers_to_session_QuickBQT extends Controller
                   'orig_price' => $Original_Price,'NewPrice'=>$New_Price,'image'=>$image,'priceType'=>$descision,
                   'batchID'=>$row->options->batchID]]);
                   $Insertion = 0;
+                  Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
+                  return redirect()->back();
+
                   break;
               }//end of if
               else{
@@ -264,12 +270,16 @@ class AddFlowers_to_session_QuickBQT extends Controller
                       'price' => $derived_Sellingprice,
                       'options' => ['orig_price' => $Original_Price,'NewPrice'=>$New_Price,
                       'T_Amt' => $final_total_Amount,'image'=>$image,'priceType'=>$descision,'batchID'=>$Rbatch_ID]]);
+                      Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
+                      return redirect()->back();
+
               }
             }//end of outer else
 
             //dd(Cart::instance('QuickOrderedBqt_Flowers')->content());
-            Session::put('Added_FlowerToBQT_QuickOrder', 'Successful');
-            return redirect()->back();
+
+
+            dd(Cart::instance('QuickOrderedBqt_Flowers')->content());
 
           }//END OF MAIN ELSE
 

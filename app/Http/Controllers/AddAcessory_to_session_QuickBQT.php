@@ -282,7 +282,12 @@ class AddAcessory_to_session_QuickBQT extends Controller
 
 
 
-                  Cart::instance('QuickOrderedBqt_Acessories')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $orig_Price ,'image'=>$image,'priceType'=>$descision]]);
+                  Cart::instance('QuickOrderedBqt_Acessories')->update($row->rowId,['qty' => $newQty,
+                  'price' => $derived_Sellingprice,
+                  'options'=>['T_Amt' => $final_total_Amount,
+                  'orig_price' => $orig_Price ,
+                  'image'=>$image,'priceType'=>$descision]]);
+                  
                   $Insertion = 0;
                   break;
               }//end of if

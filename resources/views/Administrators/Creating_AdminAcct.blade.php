@@ -241,7 +241,7 @@
                                                       <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
                                                     </div>
                                                     <div class="btn-group" role="group">
-                                                       <a  type = "button" href = "{{route('editAdminAcct',['id' => $Accts->Acct_ID])}}" name = "AddBtn" class = "btn btn-primary btn-info"><span class = "glyphicon glyphicon-pencil"></span> Edit This Price</a>
+                                                       <a  type = "button" href = "{{route('editAdminAcct',['id' => $Accts->Acct_ID])}}" name = "AddBtn" class = "btn btn-primary btn-info"><span class = "glyphicon glyphicon-pencil"></span> Edit This Account</a>
 
                                                     </div>
                                                   </div>

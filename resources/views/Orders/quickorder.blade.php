@@ -2,7 +2,7 @@
 
 @section('content')
    <?php
-Cart::instance('overallFLowers')->destroy();
+   /*Cart::instance('overallFLowers')->destroy();
 
 
      Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
@@ -16,7 +16,7 @@ Cart::instance('overallFLowers')->destroy();
 
        Cart::instance('QuickOrderedBqt_Flowers')->destroy();
        Cart::instance('BatchesofFLowers')->destroy();
-
+*/
   $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
   Session::remove('AddingFlowerTocartSession');
 
@@ -404,7 +404,7 @@ Cart::instance('overallFLowers')->destroy();
   			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
   			                          <h7>Php {{number_format($BQT_Acessories->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
-  			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+  			                        <div class="col-md-2" style = "margin-left:-5%;">
   				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}" min = "1" required>
   			                        </div>
                                 <div class="col-md-2"  hidden>
