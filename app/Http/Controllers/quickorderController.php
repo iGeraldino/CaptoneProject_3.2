@@ -341,9 +341,25 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
         Cart::instance('Flower_Inventory')->destroy();
         $FLowers_Qty = DB::select('CALL Show_TotalQTY_Perflowersin_Inventory()');
         //dd($FLowers_Qty);
-        foreach($FLowers_Qty as $FLowersINV){
-            Cart::instance('Flower_Inventory')->add(['id'=>$FLowersINV->Id,'qty'=>$FLowersINV->QtyRemaining,'name'=>$FLowersINV->Name,'price'=>0.00,'options'=>['image'=>$FLowersINV->Img]]);
-        }
+
+
+/*        foreach($FLowers_Qty as $FLowersINV){
+
+            if($FLowersINV -> QtyRemaining = "0"){
+
+              Session::put('error', 'error');
+              return redirect()->route('Quick_Sales_Order');
+
+
+
+            }
+            else{
+
+              //Cart::instance('Flower_Inventory')->add(['id'=>$FLowersINV->Id,'qty'=>$FLowersINV->QtyRemaining,'name'=>$FLowersINV->Name,'price'=>0.00,'options'=>['image'=>$FLowersINV->Img]]);
+
+            }
+            }
+            */
 
 //Prints Reciept--------------------------------------------------------------------------------------------------------------------
 

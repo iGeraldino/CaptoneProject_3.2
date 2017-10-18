@@ -26,6 +26,9 @@
    $Updating_BouquetQtyError = Session::get('BqtCount_UpdateSession');
    Session::remove('BqtCount_UpdateSession');
 
+   $QtyError = Session::get('error');
+   Session::remove('error');
+
    $UpdateBqtSessionValue = explode("_",$Updating_BouquetQtyError);
 
    //dd($UpdateBqtSessionValue);
@@ -121,6 +124,9 @@
   <input id = "Adding_FlowerSessionValue" value = "{{$AddingFlowersessionValue}}">
   <input id = "Adding_OrderSessionValue" value = "{{$AddingOrdersessionValue}}">
   <input id = "Cancel_BQTSessionValue" value = "{{$CancelOBQTsessionValue}}">
+
+  <input id = "QtyErrorNoValue" value="{{ $QtyError }}">
+
 </div>
 
 
@@ -320,7 +326,7 @@
                         </button>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route('BqtorderSessions.DelBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+                      	<a href = "{{ route('BqtorderSessions.DelQuickBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
   						           <i class="material-icons">delete</i>
                        </a>
                       </div>
@@ -2105,6 +2111,14 @@ $(function(){
       $("#email_Field2").val(value);
     });
 
+    if($('#QtyErrorNoValue').val() == "error"){
+
+      swal('Sorry Something Unexpected ');
+
+    }
+    else{
+
+    }
 
 
 
