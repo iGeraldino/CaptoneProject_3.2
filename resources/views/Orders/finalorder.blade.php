@@ -226,7 +226,11 @@
 				</div>
 			</div>
 			<div class="panel-footer">
-				<h4 class="text-right" style = "color:red;"><b>Total Amount: {{number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
+				<h4 class="text-right" style = "color:red;"><b>Purchase Amount: {{number_format($NewSalesOrder_details->Subtotal,2) }}</b></h4>
+				<h4 class="text-right" style = "color:red;"><b>Delivery Charge: {{number_format($NewSalesOrder_details->Delivery_Charge,2) }}</b></h4>
+				<h4 class="text-right" style = "color:red;"><b>Vat (12%): {{number_format($NewSalesOrder_details->VAT,2) }}</b></h4>
+				<h4 class="text-right" style = "color:red;"><b>Total Amount: {{number_format($NewSalesOrder_details->Total_Amt,2) }}</b></h4>
+
 			</div>
 		</div>
 	</div>

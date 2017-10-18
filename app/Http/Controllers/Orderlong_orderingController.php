@@ -210,16 +210,16 @@ class Orderlong_orderingController extends Controller
 
       $create_Order_Details->Delivery_Charge = $deliveryCharge;
 
-      if($Existing_CustType != 'C'){
+      /*if($Existing_CustType != 'C'){*/
         $create_Order_Details->VAT = $vat;
         $create_Order_Details->Total_Amt = $OrderTotal_Amt + $vat +  $deliveryCharge;
         $create_Order_Details->BALANCE = $OrderTotal_Amt + $vat + $deliveryCharge;
-      }else{
+        /*}else{
         $vat = 0.00;
         $create_Order_Details->VAT = 0;
         $create_Order_Details->Total_Amt = $OrderTotal_Amt + $vat + $deliveryCharge;
         $create_Order_Details->BALANCE = $OrderTotal_Amt + $vat + $deliveryCharge;
-      }
+      }*/
 
 
       $create_Order_Details->email_Addresss = $recipient_email;

@@ -224,12 +224,16 @@ class PagesController extends Controller
 
 				if(auth::guard('admins')->user()->type == '1'){
 
-					if(auth::guard('admins')->check() == false){
-						Session::put('loginSession','invalid');
-						return redirect() -> route('adminsignin');
-					}
-					else{
-						Session::put('loginSession','good');
+/*			$charts = Charts::new('line','highcharts')
+			->setTitle('My website users')
+			->setLabels('ES','FR','RU')
+			->setValues(100,50,25)
+			->setElementLabel("Total Users");
+*/
+		$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
+		$soldFlowers = DB::select('CALL percentageSold()');
+		$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+    WHERE Status IN ('PENDING','pending')");
 
 			/*			$charts = Charts::new('line','highcharts')
 						->setTitle('My website users')
@@ -253,8 +257,25 @@ class PagesController extends Controller
 
 						$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
-						$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-						$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+			$order_Paid = DB::select('CALL fullyPaid_Orders()');
+			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
+			//
+			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+			return view('dashboard')
+			 ->with('spoiledFlowers',$spoiledFlowers)
+			 ->with('soldFlowers',$soldFlowers)
+			 ->with('cust_Account',$cust_Account)
+			 ->with('orderscount',$orderscount)
+			 ->with('p_Orders',$order_Paid)
+			 ->with('b_Orders',$orderWith_Bal)
+			 ->with('debtors',$Customers_WithDebts)
+			 ->with('tobeAcquired',$tobeAcquired_Orders)
+			 ->with('CriticalFLowers',$CriticalFLowers)
+       ->with('arriving',$arriving)
+			 ->with('Porders',$Pending_salesOrders)
+			 ->with('SpoiledFLowers',$SpoiledFLowers);
+			 //->with('charts',$charts);
+		}
 
 						$order_Paid = DB::select('CALL fullyPaid_Orders()');
 						$orderWith_Bal = DB::select('CALL withBalance_Orders()');

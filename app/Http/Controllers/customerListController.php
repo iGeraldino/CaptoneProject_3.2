@@ -46,6 +46,7 @@ class customerListController extends Controller
 
         $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
         $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
+        
         return view('customer/customerlist')
         ->with('accts',$custAccts)
         ->with('customers',$customerDetails)

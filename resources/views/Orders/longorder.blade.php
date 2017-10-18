@@ -6,12 +6,15 @@
    $clearBqtSession_Value = Session::get('BqtClearSession');
    Session::remove('BqtClearSession');
 
+   $updateBqtSession = Session::get('LongUpdate_Bouqet_To_myQuickOrder');
+   Session::remove('LongUpdate_Bouqet_To_myQuickOrder');
+
 
    $clearCartSession_Value = Session::get('CartClearSession');
    Session::remove('CartClearSession');
 
   $sessionValue = Session::get('Added_FlowerToBQT_Order');
-  Session::remove('Added_FlowerToBQT_Order');//determines the addition of new flower
+  Session::remove('Added_FlowerToBQT_Order');//determines th\e addition of new flower
 
   $sessionAcValue = Session::get('Added_AcessoryToBQT_Order');
   Session::remove('Added_AcessoryToBQT_Order');//determines the addition of new acessory
@@ -34,6 +37,10 @@
 
   $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder');
   Session::remove('AddFlower_To_myOrder');//determines the addition of new flower
+
+  $deletingBqt = Session::get('Deleted_BouquetFrom_Order');
+  Session::remove('Deleted_BouquetFrom_Order');
+
 
   $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer');
   Session::remove('Add_Order_ofCustomer');//determines the addition of new flower
@@ -69,7 +76,9 @@
 <div hidden>
 
   <input id = "ClearBqt_result" value = "{{$clearBqtSession_Value}}">
-  <input id = "ClearCart_result" value = "{{$clearCartSession_Value}}">
+
+  <input id = "UPdateCartBQT_result" value = "{{$updateBqtSession}}">
+
 
   <input id = "AddFlower_result" value = "{{$sessionValue}}">
   <input id = "AddAcessory_result" value = "{{$sessionAcValue}}">
@@ -83,6 +92,8 @@
   <input id = "Adding_FlowerSessionValue" value = "{{$AddingFlowersessionValue}}">
   <input id = "Adding_OrderSessionValue" value = "{{$AddingOrdersessionValue}}">
   <input id = "Cancel_BQTSessionValue" value = "{{$CancelOBQTsessionValue}}">
+  <input id = "Del_BQTSessionValue" value = "{{$deletingBqt}}">
+
 </div>
 
 
@@ -198,7 +209,8 @@
 				                      ?>
                     			@foreach(Cart::instance('Ordered_Flowers')->content() as $Flwr)
                     			<div class="row">
-			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
+			                        <div class="col-xs-1" style="margin-right: 2%">
+                                <img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
 			                        </div>
 			                        <div class="col-xs-2">
 			                          <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
@@ -238,6 +250,7 @@
 		                        $total_BQT_Price = str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
 		                        ?>
                    				@foreach(Cart::instance('Ordered_Bqt')->content() as $Bqt)
+                          {!! Form::model($Bqt, ['route'=>['Session_Bouquet.update', $Bqt->id],'method'=>'PUT'])!!}
                     			<div class="row">
 			                        <div class="col-xs-2">
 			                          <h6 class="product-name"><strong>Bouquet-{{$Bqt->id}}</strong></h6>
@@ -245,23 +258,25 @@
 			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
 			                          <h7>Php {{number_format($Bqt->price,2)}} <span class="text-muted"><b> x</b></span></h7>
 			                        </div>
-			                        <div class="col-md-2 " style = "margin-top:3%;">
-			                          <label>{{$Bqt->qty}} pcs.</label>
+			                        <div class="col-md-2 " style = "margin-top:-1%;">
+                                <input type = "number" id = 'BouqQuantityField' name = 'BouqQuantityField' type="number" class="form-control input-sm" value="{{$Bqt->qty}}" min = "1" required >
 			                        </div>
 			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
 			                          <h7><b>=</b> Php {{number_format($Bqt->qty*$Bqt->price,2)}}</h7>
 			                        </div>
 			                        <div class="col-xs-1">
-			                        	<a class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+			                        	<button type = "submit" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
 											            <i class="material-icons">mode_edit</i>
-                                </a>
+                                </button>
 			                        </div>
 			                        <div class="col-xs-1">
-			                        	<button class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+			                        	<a href = "{{ route('BqtorderSessions.DelBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
 											           <i class="material-icons">delete</i>
-										            </button>
+                               </a>
+
 			                        </div>
                       			</div>
+                        {!! Form::close() !!}
 			                    @endforeach
                                 <div class="col-xs-12">
 			                      <h5 class="text-right" style = "color:darkviolet"><strong>(Bouquet)Total Amount:</strong> Php {{ number_format($total_BQT_Price,2)}}</h5>
@@ -274,7 +289,7 @@
                     			 <h5 class="text-right"><strong>Total Amount:</strong> Php {{number_format($final_Amt,2)}}
                     			 </h5>
                     			 <div class = "hidden">
-                    			 		<input type = "number" id = "finalAmt_Field" value = {{$final_Amt}}>
+                    			 		<input type = "number" id = "finalAmt_Field" value = "{{$final_Amt}}">
                     			 </div>
                     		</div>
 						</div>
@@ -309,7 +324,7 @@
 			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}">
 			                        </div>
                                     <div class="col-md-2"  hidden>
-			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+			                          <input id = 'Decision_Field2' name = 'Decision_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
 			                        </div>
 			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
 			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
@@ -678,6 +693,16 @@
 	    swal("Note:","Cart has been Successfully Cleared!","info");
 	   }
 
+     if($('#UPdateCartBQT_result').val()=='Successful'){
+       //Show popup
+       swal("Note:","The bouquet's quantiy has been Successfully updated!","info");
+      }
+      else if($('#UPdateCartBQT_result').val()=='Fail'){
+        //Show popup
+        swal("Note:","The number that you entered is equal to the previous value, therefore no changes has been made","warning");
+       }
+
+
 
 	  if($('#DeleteAcessory_result').val()=='Successful'){
 	    //Show popup
@@ -721,6 +746,12 @@
          //Show popup
          swal("Take Note:","Creation of bouquet was cancelled the progress of ceation will be reset","success");
        }
+
+       if($('#Del_BQTSessionValue').val()=='Successful'){
+          //Show popup
+          swal("Take Note:","bouquet was successfully removed from your order","info");
+        }
+
 
       if($('#Adding_OrderSessionValue').val()=='Successful'){
          //Show popup

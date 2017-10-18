@@ -156,20 +156,20 @@
 								<table class="table table-hover table-bordered">
 										<thead>
 											<tr>
-                        <th class="text-center"> Order ID</th>
-                        <th class="text-center"> Amount of purchase </th>
-                        <th class="text-center"> Delivery Charge </th>
-                        <th class="text-center"> VAT</th>
-                        <th class="text-center"> Total Amount</th>
-                        <th class="text-center"> Balance</th>
-                        <th class="text-center"> Amount used from the Payment</th>
+                        <th > Order ID</th>
+                        <th > AmountofPurchase </th>
+                        <th > Delivery Charge </th>
+                        <th > VAT</th>
+                        <th > Total Amount</th>
+                        <th > Balance</th>
+                        <th > Amount used from the Payment</th>
 										</tr>
 									</thead>
 									<tbody>
                     @foreach($P_Settlements as $P_Det)
                     <tr>
                       <td>ORDR-{{$P_Det->Order_ID}}</td>
-                      <td width="2%;">Php {{number_format($P_Det->Amt,2)}}</td>
+                      <td>Php {{number_format($P_Det->Amt,2)}}</td>
                       <td>Php {{number_format($P_Det->Del_Charge,2)}}</td>
                       <td>Php {{number_format($P_Det->vat,2)}}</td>
                       <td>Php {{number_format($P_Det->T_amt,2)}}</td>
@@ -196,6 +196,15 @@
 								</div>
 							</div>
 							<hr>
+							<h4><b>Important Note:</b><h4>
+							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</p>
+							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of items that you baught, then the order will not be acknowledged.</p>
+							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</p>
+							<p class="left"><span style = "color:red;">*</span>If you would like to cancel the order, please cancel it immediately by calling us r sending us an email.</p>
+							<p class="left"><span style = "color:red;">*</span>Items under this order cannot be changed.</p>
+							<p class="left"><span style = "color:red;">*</span>Delivery Charge are not applied to your transaction,this will depend upon the negotiation that will be made between you and the company by the time that you recieve a call.</p>
+							<div class="col-xs-4 col-sm-4 col-md-4">
+							</div>
 						</div>
 		       </div>
 

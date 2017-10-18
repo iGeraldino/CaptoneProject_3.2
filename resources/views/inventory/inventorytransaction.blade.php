@@ -144,14 +144,14 @@
                             By Batch
                           </a>
                         </li>
-                        @else
-                        @endif
                         <li>
                           <a href="#flowers" data-toggle="tab">
                             <i class="material-icons">filter_vintage</i>
                             By Flowers
                           </a>
                         </li>
+                        @else
+                        @endif
                       </ul>
                     </div>
                   </div>
@@ -187,7 +187,11 @@
                       <div class = "row">
                         <div class = "col-md-3"></div>
                         <div class = "col-md-6">
-                          <p><b>*This part of this page will generate a report based on the date that you'll be choosing. The report that will be generated iwill focus on the flowers that are being taken in and out of the inventory.</b></p>
+                          @if($Itype == 'Flower')
+                          <p><b>*This part of this page will generate a report based on the date that you'll be choosing. The report that will be generated will focus on the flowers that are being taken in and out of the inventory.</b></p>
+                          @else
+                          <p><b>*This part of this page will generate a report based on the date that you'll be choosing. The report that will be generated will focus on the accessories that are being taken in and out of the inventory.</b></p>
+                          @endif
                         </div>
                         <div class = "col-md-3"></div>
                       </div>
@@ -196,7 +200,7 @@
                       <div class="row">
                         <div class="col-md-4 col-md-offset-4">
                         <div id = "">
-                        {!! Form::open(array('route' => 'Inventory_TransactionBatch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                        {!! Form::open(array('route' => 'Flwrr_InvTransaction_batch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                           <div id = "batch_Chooser">
                             <input type="text" value="byBatch" name="Report_type" class="hidden">
                             <input id = "batchList_Field" class = "form-control"  name="batchList_Field" list="batchList_ID" placeholder="Enter a batch of inventory " required/>
@@ -214,6 +218,7 @@
                           <!--  -->
                           <button type = "submit" id = "generateByBatchBTN" class = "btn btn-md Lemon" disabled>Generate Report</button>
                         {!! Form::close() !!}
+
                         </div>
                       </div>
                       <div><!--marvin palagay ng details dito--></div>

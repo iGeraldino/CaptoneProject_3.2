@@ -437,7 +437,18 @@
 								<div class = "row">
 									<div class="col-md-6">
 										<h5>Date of Pickup</h5>
-										<input id = "PickupDate_Field" class="form-control" type="date" required/>
+										<input id = "PickupDate_Field" class="form-control" type="date"
+											value = "<?php
+													$min = new DateTime();
+													$min->modify("+4 days");
+													$max = new DateTime();
+													echo $min->format("Y-m-d");
+													?>" min ="<?php
+														$min = new DateTime();
+														$min->modify("+4 days");
+														$max = new DateTime();
+														echo $min->format("Y-m-d");
+														?>" required/>
 									</div>
 									<div class="col-md-6">
 										<h5>Time of Pickup</h5>
