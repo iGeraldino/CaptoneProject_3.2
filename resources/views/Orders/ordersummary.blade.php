@@ -394,7 +394,9 @@
 	                  </select>
 	                </div>
 	              </div><!--end of row-->
-
+	              		<div class="col-md-12">
+	              			<p>The information provided by the customer must be real unless the reservation may be cancelled.</p>
+	              		</div>
 						<div class="pull-right">
 							<button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon" disabled> Next</button>
 						</div>
@@ -441,6 +443,11 @@
 										<h5>Time of Pickup</h5>
 										<input id = "PickupTime_Field" class="form-control" type="time" required/>
 									</div>
+								</div>
+								<div>
+									<p>*If you can’t pick up the flower on time, you’ll have at least 3 days to pick it up.</p>
+									<p>*For arranged flowers, the pickup is within a day only.</p>
+									<p>*No refund or exchange of flowers</p>
 								</div>
 								<div class = "pull-right">
 									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
@@ -558,7 +565,14 @@
 												<h5>Time of Delivery</h5>
 												<input id = "DeliveryTime_Field" class = "form-control" type="time" required/>
 											</div>
+											
 										</div>
+										<div class="col-md-12">
+												<p>*No deposit, no delivery. </p>
+												<p>*The minimum amount to be purchased for delivery within Metro Manila is 3,000.</p>
+												<p>*if outside Metro Manila, the delivery charge is not covered.It depend upon the negotiation that will be
+												made between you and the company</p>
+											</div>
 										<div class = "pull-right">
 											<a id = "Shipping_Delivery_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "Ship_Delivery_NextBtn" type="submit" class="btn btn-sm Lemon"> Next</button><!--upon submission prevent default-->

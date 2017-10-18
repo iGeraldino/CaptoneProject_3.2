@@ -650,7 +650,7 @@
 								<div class = "col-md-6">
 									<div id = "partialDiv" class="form-group label-floating">
 										<label class="control-label">Deposit Slip Number</label>
-										<input name = "slip_Number" id = "slip_Number" type="text" class="form-control" maxlength= "20" required/>
+										<input name = "slip_Number" id = "slip_Number" type="text" class="form-control" maxlength= "10" required/>
 										<span class="form-control-feedback">
 										</span>
 									</div>
@@ -783,7 +783,7 @@
 										<div class = "col-md-6">
 											<div id = "partialDiv" class="form-group label-floating">
 												<label class="control-label">Check Number</label>
-												<input name = "check_Number" id = "check_Number" type="text" class="form-control" maxlength= "20" required/>
+												<input name = "check_Number" id = "check_Number" type="text" class="form-control" maxlength= "10" required/>
 												<span class="form-control-feedback">
 												</span>
 											</div>
