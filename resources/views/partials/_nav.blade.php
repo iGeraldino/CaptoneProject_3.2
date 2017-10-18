@@ -18,7 +18,7 @@
         <ul class="nav navbar-nav">
 
           <li class="admin-name">
-           @if(Auth::guard('admins')->check())
+           @if(Auth::guard('admins')->check() == true and Auth::guard('admins')->user()->type == '1')
             <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::guard('admins')->user()->username }} </b></a>
             <ul class = "dropdown-menu">
 

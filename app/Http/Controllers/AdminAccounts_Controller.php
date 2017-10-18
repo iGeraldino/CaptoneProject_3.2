@@ -44,6 +44,7 @@ class AdminAccounts_Controller extends Controller
 
 
 
+
     }
 
     /**
@@ -333,19 +334,19 @@ class AdminAccounts_Controller extends Controller
           if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '1'])){
             return redirect() -> route('dashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 1])){
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '1'])){
               return redirect() -> route('dashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 2])){
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '2'])){
               return redirect() -> route('cashierdashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 2])){
+          else if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '2'])){
               return redirect() -> route('cashierdashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 3])){
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '3'])){
               return redirect() -> route('warehousedashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => 3])){
+          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '3'])){
               return redirect() -> route('warehousedashboard');
           }
 

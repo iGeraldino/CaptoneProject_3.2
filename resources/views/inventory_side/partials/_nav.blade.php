@@ -14,12 +14,13 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          
+
           <li class="admin-name">
-           @if(Auth::guard('admins')->check())
+            @if(Auth::guard('admins')->check() == true and Auth::guard('admins')->user()->type == '3')
+
             <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::guard('admins')->user()->username }} </b></a>
             <ul class = "dropdown-menu">
-              
+
               <a href="{{ route('adminlogout')   }}" class="text-center"> <h4> Logout </h4> </a>
 
             </ul>
@@ -53,7 +54,7 @@
         </a>
       </li>
     </ul>
- 
+
    <!-- sidebar menu: oRDERS -->
     <ul class="sidebar-menu">
       <li class="treeview">
@@ -72,7 +73,7 @@
             </a>
         </ul>
       </li>
-    </ul>  
+    </ul>
 
       <!-- sidebar menu: Inventory -->
       <ul class="sidebar-menu">
@@ -118,7 +119,7 @@
 
 
 
-            
+
           </ul>
         </li>
       </ul>
