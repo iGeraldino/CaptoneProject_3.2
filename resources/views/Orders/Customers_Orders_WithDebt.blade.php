@@ -54,7 +54,7 @@
               </div>
             </div>
 						<div class = "btn-group text-center">
-							<a class = "btn btn-md Subu">Generate Statement of Account</a>
+							<!--<a class = "btn btn-md Subu">Generate Statement of Account</a>-->
 							<a href = "{{route('SalesOrder.Debts',['id'=>$cust->Cust_ID])}}" class = "btn btn-md twitch">Set Payment for Multiple Debts</a>
 						</div>
 

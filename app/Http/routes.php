@@ -59,8 +59,7 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Inventory_Flowers_toAdjustments', 'inventoryAdjustment_Controller');
 
-	Route::resource('Specific_Customer_Sales_Orders
-	', 'batchInv_Trans_controller');
+	Route::resource('Flwrr_InvTransaction_batch', 'batchInv_Trans_controller');
 
 	Route::resource('InventorySpoilage','spoiled_Monitoring_Controller');
 
