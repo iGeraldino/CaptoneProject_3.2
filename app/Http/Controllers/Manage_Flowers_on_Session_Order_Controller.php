@@ -60,7 +60,9 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
             $Original_Price = $request->OrigInputPrice_Field;
             //$order_ID = $request->orderID_Field;
             $descision = $request->Decision_Field;//if it is N then there should be a new price
+            //dd($descision);
             $New_Price = $request->NewPrice_Field;//new price set by the user
+            //dd($New_Price);
             $Qty = $request->QTY_Field;
             $image = $flower_details->Image;
 
@@ -82,8 +84,15 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                         }//end of inner else
                     }//end of if
                     else{
-                          $derived_Sellingprice = $New_Price;
-                          $final_total_Amount = $New_Price * $Qty;
+                      if($New_Price > $Original_Price){
+                        $derived_Sellingprice =
+                          $New_Price - (($New_Price * $flower_details->WholeSalePrice_Decrease)/100);
+                        //computes for the selling price that reached the required qty for wholesale pricing
+                        $final_total_Amount = $derived_Sellingprice * $Qty;
+                      }else{
+                        $derived_Sellingprice = $New_Price;
+                        $final_total_Amount = $New_Price * $Qty;
+                      }
                     }//end of outer else(this is automatically understood that it is newPrice)
 
                     Cart::instance('Ordered_Flowers')
@@ -113,11 +122,20 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                         }//end of inner else
                     }//end of if
                     else{
-                          $derived_Sellingprice = $New_Price;
-                          $final_total_Amount = $New_Price * $TotalQty;
+                      if($New_Price > $Original_Price){
+                        $derived_Sellingprice =
+                          $New_Price - (($New_Price * $flower_details->WholeSalePrice_Decrease)/100);
+                        //computes for the selling price that reached the required qty for wholesale pricing
+                        $final_total_Amount = $derived_Sellingprice * $Qty;
+                      }else{
+                        $derived_Sellingprice = $New_Price;
+                        $final_total_Amount = $New_Price * $Qty;
+                      }
                     }//end of outer else(this is automatically understood that it is newPrice)
 
-                    Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $TotalQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
+                    Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $TotalQty,
+                    'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
+                    'orig_price' => $Original_Price,'image'=>$row->options->image,'priceType'=>$descision]]);
                     $Insertion = 0;
                     break;
 
@@ -145,8 +163,15 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                             }//end of inner else
                         }//end of if
                         else{
-                              $derived_Sellingprice = $New_Price;
-                              $final_total_Amount = $New_Price * $Qty;
+                          if($New_Price > $Original_Price){
+                            $derived_Sellingprice =
+                              $New_Price - (($New_Price * $flower_details->WholeSalePrice_Decrease)/100);
+                            //computes for the selling price that reached the required qty for wholesale pricing
+                            $final_total_Amount = $derived_Sellingprice * $Qty;
+                          }else{
+                            $derived_Sellingprice = $New_Price;
+                            $final_total_Amount = $New_Price * $Qty;
+                          }
                         }//end of outer else(this is automatically understood that it is newPrice)
 
                         Cart::instance('Ordered_Flowers')
@@ -206,7 +231,7 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
         else{
               $newQty = $request->QTY_Field;
               $New_Price = $request->NewPrice_Field;
-              $descision = $request->Decision_Field;
+              $descision = $request->Decision_Field2;
               $flower_details = flower_details::find($id);
               $image = '';
               $rowidofRecord = '';
@@ -240,13 +265,23 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                           }//end of inner else
                       }//end of if
                       else{
-                            $derived_Sellingprice = $New_Price;
-                            $final_total_Amount = $New_Price * $newQty;
+                        if($New_Price > $Original_Price){
+                          $derived_Sellingprice =
+                            $New_Price - (($New_Price * $flower_details->WholeSalePrice_Decrease)/100);
+                          //computes for the selling price that reached the required qty for wholesale pricing
+                          $final_total_Amount = $derived_Sellingprice * $newQty;
+                        }else{
+                          $derived_Sellingprice = $New_Price;
+                          $final_total_Amount = $New_Price * $newQty;
+                        }
                       }//end of outer else(this is automatically understood that it is newPrice)
 
+                      //echo '$Original_Price  = '.$Original_Price;
+                      Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,
+                      'options'=>['T_Amt' => $final_total_Amount,
+                      'orig_price' => $row->options->orig_price,
+                      'image'=>$row->options->image,'priceType'=>$descision]]);
                   }//end of if
-                //echo '$Original_Price  = '.$Original_Price;
-               Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,'orig_price' => $Original_Price,'image'=>$image,'priceType'=>$descision]]);
              }
           Session::put('update_O_FlowerQty_Session','Successful');
           return redirect()->route('Orders_Flowers.edit',$id);

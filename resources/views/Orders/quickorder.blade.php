@@ -320,7 +320,7 @@
                         </button>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route('BqtorderSessions.DelQuickBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+                      	<a href = "{{ route('BqtorderSessions.DelBouquet',['Bouquet_ID'=>$Bqt->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
   						           <i class="material-icons">delete</i>
                        </a>
                       </div>

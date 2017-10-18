@@ -245,9 +245,16 @@
 							@else
 							@endif
 							<div class="receipt-left">
-									<h6 >(Bouquet) Total Amount: PHP {{ number_format($totalAmt_Bqt,2)}}</h6>
-									<h6 >(Flower) Total Amount: PHP {{ number_format($Total_AmtFlwr,2)}}</h6>
-									<h4 style = "color:red;"><b>Total Amount: {{ number_format($totalAmt_Bqt + $Total_AmtFlwr,2) }}</b></h4>
+									<h5 style = "margin-top:-20%">BREAKDOWN OF ORDER:</h5>
+									<p  style = "margin-top:-20%"><b>(Flower) Amount:</b>  Php {{number_format($Total_AmtFlwr,2)}}</p>
+									<p  style = "margin-top:-20%"><b>(Bouquet) Amount:</b> Php {{number_format($totalAmt_Bqt,2)}}</p>
+									<p  style = "margin-top:-20%"><b>Amount of Purchase:</b> Php {{number_format($NewSalesOrder_details->Subtotal,2)}}</p>
+									<hr style = "margin-top:-20%">
+									<h6 style = "margin-top:-20%">OTHER CHARGES:</h6>
+									<p  style = "margin-top:-30%"><b>Delivery Charge:</b> Php {{number_format($NewSalesOrder_details->Delivery_Charge,2)}}</p>
+									<p style = "margin-top:-30%"><b>Amount of Vat(12%):</b> Php {{number_format($NewSalesOrder_details->VAT,2)}}</p>
+									<hr style = "margin-top:-20%">
+									<p style = "color:red;"><b>Total Amount: </b>Php {{ number_format($NewSalesOrder_details->Total_Amt,2) }}</p>
 							</div>
 						</div>
 					</div>

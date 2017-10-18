@@ -24,6 +24,37 @@ class OrderManagementController extends Controller
 
   }
 
+
+  public function DeleteLong_Bouquet($Bouquet_ID){
+
+        $qtytofulfill = 0;
+
+            foreach(Cart::instance('Ordered_Bqt')->content() as $Bqt){
+              if($Bqt->id == $Bouquet_ID){
+                Cart::instance('Ordered_Bqt')
+                ->remove($Bqt->rowId);
+              }
+            }
+
+            foreach(Cart::instance('FinalBqt_Flowers')->content() as $Flwr){
+              if($Flwr->options->bqt_ID == $Bouquet_ID){
+                Cart::instance('FinalBqt_Flowers')
+                ->remove($Flwr->rowId);
+              }
+            }//
+
+            foreach(Cart::instance('FinalBqt_Acessories')->content() as $Acrs){
+              if($Acrs->options->bqt_ID == $Bouquet_ID){
+                Cart::instance('FinalBqt_Acessories')
+                ->remove($Acrs->rowId);
+              }
+            }//
+
+            Session::put('Deleted_BouquetFrom_Order', 'Successful');
+            return redirect()->back();
+
+  }
+
   public function release_Order($id){
 
     //echo $id;

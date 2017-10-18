@@ -59,7 +59,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Inventory_Flowers_toAdjustments', 'inventoryAdjustment_Controller');
 
-	Route::resource('Inventory_TransactionBatch', 'batchInv_Trans_controller');
+	Route::resource('Specific_Customer_Sales_Orders
+	', 'batchInv_Trans_controller');
 
 	Route::resource('InventorySpoilage','spoiled_Monitoring_Controller');
 
@@ -193,6 +194,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('OrdersSession_Bouquet','AddFlowers_to_session_BQT');
 
+	Route::resource('Session_Bouquet','session_BQTController');
+
 	Route::resource('QuickSession_Bouquet','BouquetSession_Controller');
 
 	Route::resource('QuickOrdersSession_Bouquet','AddFlowers_to_session_QuickBQT');
@@ -318,6 +321,8 @@ Route::get('/OrderBQTSession_Flower/{flower_ID}',['uses' => 'OrderManagementCont
 Route::get('/QuickOrderBQTSession_Flower/{flower_ID},{batch}',['uses' => 'OrderManagementController_Quick@DeleteFlower_per_Bqt_SessionQuickOrder', 'as'=>'BqtFlowerorderSessions.DelQuickOrderFlowers']);//deletes a specific flower of a specific bouquet
 
 Route::get('/QuickOrderSession_bouquet/{Bouquet_ID}',['uses' => 'OrderManagementController_Quick@Delete_Bouquet', 'as'=>'BqtorderSessions.DelQuickBouquet']);//deletes a specific flower of a specific bouquet
+
+Route::get('/OrderSession_bouquet/{Bouquet_ID}',['uses' => 'OrderManagementController@DeleteLong_Bouquet', 'as'=>'BqtorderSessions.DelBouquet']);//deletes a specific flower of a specific bouquet
 
 Route::get('/AdminBQTSession_Flower/{flower_ID}',['uses' => 'Administrator_bouquet_Controller@DeleteFlower_per_AdminBqt_Session', 'as'=>'AdminBqtFlowerorderSessions.DelOrderFlowers']);//deletes a specific flower of a specific bouquet
 
