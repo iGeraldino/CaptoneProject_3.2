@@ -53,7 +53,11 @@
 		<h4 class="a2 a3">Email: wonder.bloom@yahoo.com</h4>
 		<h4 class="a2 a3"> Tel No:(02)567-3255</h4>
 		<h4 class="a2 a3"> CP No: 09228026806</h4>
-		<h3 class="a4">Date: {{date('M d, Y',strtotime($start))}} - {{date('M d, Y',strtotime($end))}}</h3>
+		@if($report_Type == 'byDate')
+			<h3 class="a4">Date: {{date('M d, Y',strtotime($start))}} - {{date('M d, Y',strtotime($end))}}</h3>
+		@elseif($report_Type == 'byBatch')
+			<h3 class="a4">Transactions on the Batch ID: {{$batch}} </h3>
+		@endif
 
 		@if($type == "Accessory")
 			<h4 class="a1"> Monitoring of the in and Out of the Accessories in the inventory</h4>

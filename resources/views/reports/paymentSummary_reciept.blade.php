@@ -140,9 +140,9 @@
                     <p><b>Date of check:</b> {{date('M d, Y',strtotime($P_Details->date_of_check))}}</p>
                     <p><b>Signed by:</b> {{$P_Details->asignatory}}</p>
                   @endif
-                  <p><b>Total Amount of Debt:</b> Php {{number_format($P_Details->BALANCE,2)}}</p>
-                  <p><b>Amount Paid:</b> Php {{number_format($P_Details->Amount,2)}} </p>
-                  <p><b>Change:</b> Php {{number_format($P_Details->Amount-$P_Details->BALANCE,2)}}</p>
+                  <p style = "color:red;"><b>Total Amount of Debt:</b> Php {{number_format($P_Details->BALANCE,2)}}</p>
+                  <p style = "color:green;"><b>Amount Paid:</b> Php {{number_format($P_Details->Amount,2)}} </p>
+                  <p style = "color:green;"><b>Change:</b> Php {{number_format($P_Details->Amount-$P_Details->BALANCE,2)}}</p>
 								</div>
 							</div>
 						</div>
@@ -196,15 +196,6 @@
 								</div>
 							</div>
 							<hr>
-							<h4><b>Important Note:</b><h4>
-							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</p>
-							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of items that you baught, then the order will not be acknowledged.</p>
-							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</p>
-							<p class="left"><span style = "color:red;">*</span>If you would like to cancel the order, please cancel it immediately by calling us r sending us an email.</p>
-							<p class="left"><span style = "color:red;">*</span>Items under this order cannot be changed.</p>
-							<p class="left"><span style = "color:red;">*</span>Delivery Charge are not applied to your transaction,this will depend upon the negotiation that will be made between you and the company by the time that you recieve a call.</p>
-							<div class="col-xs-4 col-sm-4 col-md-4">
-							</div>
 						</div>
 		       </div>
 

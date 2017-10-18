@@ -89,6 +89,9 @@
                 @elseif($SalesOrder->cust_Type == 'H')
                   <p><b>Customer Type:</b> HOTEL</p>
                 @endif
+
+								@if($OrderDetails == null)
+								@else
                   <p><b>Payment Method: </b>{{$OrderDetails->Payment_Mode}}</p>
                 @if($OrderDetails->shipping_method == 'delivery')
                   <p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
@@ -97,6 +100,7 @@
 								@elseif($OrderDetails->shipping_method == 'pickup')
 										<p><b>Shipping Method: </b>{{$OrderDetails->shipping_method}}</p>
 										<p><b>Pickup Date: </b>{{date("M d,Y @ h:i a",strtotime($Sched_Details->Time))}}</p>
+										@endif
                 @endif
 
               </div>
@@ -108,11 +112,14 @@
 								 <a href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" class = "btn btn-md btn-primary"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Customer Account</a>
 								@endif
 
+								@if($OrderDetails == null)
+								@else
                 <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
                 <h5><b>Vat:</b> Php {{number_format($OrderDetails->VAT,2)}}</h5>
 								<h5><b>Delivery Charge:</b> Php {{number_format($OrderDetails->Delivery_Charge,2)}}</h5>
 								<h5><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</h5>
                 <h5><b>Balance:</b> Php {{number_format($OrderDetails->BALANCE,2)}}</h5>
+								@endif
               </div>
             </div>
 
@@ -247,10 +254,13 @@
             </div>
 					</div>
           <div class = "panel-body">
+						@if($OrderDetails == null)
+						@else
             <p><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</p>
             <p><b>Vat(12%):</b> Php {{number_format($OrderDetails->VAT,2)}}</p>
             <p><b>Delivery Charge:</b> Php {{number_format(($OrderDetails->Delivery_Charge),2)}}</p>
 						<p><b>Total Amount:</b> Php {{number_format($OrderDetails->Total_Amt,2)}}</p>
+						@endif
 
             <hr>
 
@@ -373,7 +383,7 @@
                 <hr>
                 <p style = "color:green;"><b>*Closing this Order?</b></p>
                 <p>This order will be shown at the table of orders to be acquired within 24 hours which is located at the dashboard. Closing of this order is a function not available in this page, but is available at  the page of releasing the orders</p>
-						@elseif($SalesOrder->Status  == "CLOSED")
+						@else($SalesOrder->Status  == "CLOSED")
 										<div class="row">
 											<div class = "col-md-6" style = "margin-left:-7%;">
 												<button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
@@ -465,8 +475,12 @@
                   <input type = "text" id = "Decision_text" name = "Decision_text" value = "N"/>
                   <input type = "text" id = "Current_FName" name = "Current_FName" value = "{{$SalesOrder->Customer_Fname}}"/>
                   <input type = "text" id = "Current_LName" name = "Current_LName" value = "{{$SalesOrder->Customer_LName}}"/>
-                  <input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->BALANCE}}"/>
-                </div>
+									@if($OrderDetails == null)
+										<input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "0.00"/>
+									@else
+										<input type = "text" id = "SubtotalDown" name = "SubtotalDown" value = "{{$OrderDetails->BALANCE}}"/>
+									@endif
+								</div>
                 <div class = "row">
 
                   <div class = "col-md-6">
@@ -509,8 +523,11 @@
                   </div>
                   <div class="form-group label-control">
                     <label class="control-label">Delivery Charge</label>
-                      <input type="text" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Delivery_Charge),2)}}" disabled/>
-                      <input type="number" class="hidden form-control text-right" value = "{{$OrderDetails->Delivery_Charge}}"/>
+										@if($OrderDetails == null)
+										@else
+										<input type="text" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Delivery_Charge),2)}}" disabled/>
+										<input type="number" class="hidden form-control text-right" value = "{{$OrderDetails->Delivery_Charge}}"/>
+										@endif
                     <span class="form-control-feedback">
                     </span>
                   </div>
@@ -518,25 +535,34 @@
                   @if($SalesOrder->Status == "PENDING")
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
+										@if($OrderDetails == null)
                     <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
                     <span class="form-control-feedback">
+											@else
+											@endif
                     </span>
                   </div>
                   @else
                   <div class="form-group label-control">
                     <label class="control-label">Total Amount</label>
+										@if($OrderDetails == null)
+										@else
                     <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->Total_Amt),2)}}" disabled/>
                     <span class="form-control-feedback">
                     </span>
+										@endif
                   </div>
                   <div class="form-group label-control">
                     <label class="control-label">Balance</label>
+										@if($OrderDetails == null)
+										@else
                     <input type="text" id = "display_balanceField" class="form-control text-right" value = "Php {{number_format(($OrderDetails->BALANCE),2)}}" disabled/>
                     <span class="form-control-feedback">
                     </span>
+										<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
+										@endif
                   </div>
                   @endif
-									<input type="number" id = "balanceField" name = "balanceField" type="number" step = "1.0" class="hidden form-control text-right" value = "{{$OrderDetails->BALANCE}}"/>
                 </div>
               </div>
               <div id = "partialCheckbox_DIV" class="checkbox">
@@ -551,21 +577,53 @@
 										<?php
 											$val = 0;
 											if($SalesOrder->Status == "BALANCED"){
-												$val = $OrderDetails->BALANCE * 0.20;
+												if($OrderDetails == null){
+													$val = 0;
+												}
+												else{
+//													$min = $OrderDetails->BALANCE * 0.20;
+													$val = $OrderDetails->BALANCE * 0.20;
+												}
+
 											}
 											else{
-												$val = $OrderDetails->BALANCE;
+												if($OrderDetails == null){
+													$val = 0;
+												}
+												else{
+													$val = $OrderDetails->BALANCE;
+												}
+
 											}
 										?>
                     <label class="control-label">Enter Amount Paid</label>
                       <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
                         if($SalesOrder->Status == 'PENDING'){
-                          $min = $OrderDetails->BALANCE * 0.20;
+													if($OrderDetails == null){
+														$min = 0;
+													}
+													else{
+														$min = $OrderDetails->BALANCE * 0.20;
+													}
+
                         }else if($SalesOrder->Status == "BALANCED"){
-													$min = $OrderDetails->BALANCE * 0.20;
+//													$min = $OrderDetails->BALANCE * 0.20;
+													if($OrderDetails == null){
+														$min = 0;
+													}
+													else{
+														$min = $OrderDetails->BALANCE * 0.20;
+													}
+
 												}
 												else{
-                          $min = $OrderDetails->BALANCE;
+													if($OrderDetails == null){
+														$min = 0;
+													}
+													else{
+														$min = $OrderDetails->BALANCE;
+													}
+
                         }
                         echo $min;
                        ?>" required/>
@@ -620,7 +678,10 @@
 								<input type = "text" id = "Decision_text2"  name = "Decision_text2" value = "N"/>
 								<input type = "text" id = "Current_FName2"  name = "Current_FName2" value = "{{$SalesOrder->Customer_Fname}}"/>
 								<input type = "text" id = "Current_LName2"  name = "Current_LName2" value = "{{$SalesOrder->Customer_LName}}"/>
+								@if($OrderDetails == null)
+								@else
 								<input type = "text" id = "SubtotalDown2"  name = "SubtotalDown2" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+								@endif
 							</div>
 
 							<div class = "row">
@@ -693,10 +754,20 @@
 								<?php
 									$val = 0;
 									if($SalesOrder->Status == "BALANCED"){
-										$val = $OrderDetails->BALANCE * 0.20;
+										if($OrderDetails == null){
+											$val = 0.00;
+										}
+										else{
+											$val = $OrderDetails->BALANCE * 0.20;
+										}
 									}
 									else{
-										$val = $OrderDetails->BALANCE;
+										if($OrderDetails == null){
+											$val = 0.00;
+										}
+										else{
+											$val = $OrderDetails->BALANCE;
+										}
 									}
 
 								?>
@@ -707,10 +778,21 @@
 											min = "<?php
 												$min = 0;
 												if($SalesOrder->Status == "BALANCED"){
-													$min = $OrderDetails->BALANCE * 0.20;
+													if($OrderDetails == null){
+														$min = 0.00;
+													}
+													else{
+														$min = $OrderDetails->BALANCE * 0.20;
+													}
 												}
 												else{
-                          $min = $OrderDetails->BALANCE;
+													if($OrderDetails == null){
+														$min = 0.00;
+													}
+													else{
+														  $min = $OrderDetails->BALANCE;
+													}
+
                         }
                         echo $min;
 											?>"
@@ -753,7 +835,10 @@
 										<input type = "text" id = "Decision_text3"  name = "Decision_text3" value = "N"/>
 										<input type = "text" id = "Current_FName3"  name = "Current_FName3" value = "{{$SalesOrder->Customer_Fname}}"/>
 										<input type = "text" id = "Current_LName3"  name = "Current_LName3" value = "{{$SalesOrder->Customer_LName}}"/>
+										@if($OrderDetails == null)
+										@else
 										<input type = "text" id = "SubtotalDown3"  name = "SubtotalDown3" value = "{{$OrderDetails->Subtotal * 0.20}}"/>
+										@endif
 									</div>
 
 									<div class = "row">
@@ -847,6 +932,11 @@
 									</div>
 									<?php
 										$val2 = 0;
+										if($OrderDetails == null){
+											$min2 = 0;
+											$val2 = 0;
+										}else{
+
 										if($SalesOrder->Status == "BALANCED"){
 											$val2 = $OrderDetails->BALANCE * 0.20;
 										}
@@ -861,6 +951,7 @@
 											$min2 = $OrderDetails->BALANCE;
 										}
 										$min2;
+									}
 									?>
 									<div class = "row">
 										<div class = "col-md-5">
@@ -869,13 +960,17 @@
 												<input name = "Check_Amount" id = "Check_Amount" type="number" step = "0.01"
 												min = "<?php
 												$min = 0;
-												if($SalesOrder->Status == "BALANCED"){
-													$min = $OrderDetails->BALANCE * 0.20;
+												if($OrderDetails == null){
+													$min = 0;
+												}else{
+													if($SalesOrder->Status == "BALANCED"){
+														$min = $OrderDetails->BALANCE * 0.20;
+													}
+													else{
+														$min = $OrderDetails->BALANCE;
+													}
+													echo $min;
 												}
-												else{
-													$min = $OrderDetails->BALANCE;
-												}
-												echo $min;
 												?>"
 												value = "{{$val2}}" class="form-control" required/>
 												<span class="form-control-feedback">

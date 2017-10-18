@@ -189,7 +189,10 @@
 															<td>Php {{number_format($pending->Total_Amt,2)}}</td>
 															<td>Php {{number_format($pending->BALANCE,2)}}</td>
 															<td>
-																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a></td>
+																<td class="text-center">
+																	<a href = "{{route('order.Manage_Confirmed_Order',['id'=>$pending->Order_ID,'type'=>'debts'])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a>
+
+
 															</td>
 														</tr>
 														@endforeach
@@ -227,7 +230,9 @@
 																<td><span class = "btn btn-sm btn-success">Closed</span></td>
 															@endif
 															<td>Php {{number_format($closed->Total_Amt,2)}}</td>
-																<td class="text-center"> <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="View Details" ><i class="material-icons">more_horiz</i></a></td>
+																<td class="text-center">
+																	<a href = "{{route('order.Manage_Confirmed_Order',['id'=>$closed->Order_ID,'type'=>'debts'])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="View Details" ><i class="material-icons">more_horiz</i></a>
+																</td>
 														</tr>
 														@endforeach
 													</tbody>
@@ -261,7 +266,6 @@
 															<td><span class = "btn btn-sm btn-info">Fully Paid</span></td>
 															<td>Php {{number_format($full->Total_Amt,2)}}</td>
 															<td class="text-center">
-																 <a href = "" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="View Details" ><i class="material-icons">more_horiz</i></a>
 																 <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$full->Order_ID,'type'=>'debts'])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="Add Payment" ><i class="material-icons">more_horiz</i></a>
 															</td>
 														</tr>

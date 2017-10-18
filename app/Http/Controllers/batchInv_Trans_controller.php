@@ -42,6 +42,9 @@ class batchInv_Trans_controller extends Controller
         //
         //
         $itemType = 'Flower';
+
+        $report_Type = $request->Report_type;
+
         //$date_range = $request->trans_range;
         $batch = $request->batchList_Field;
         $b_ID = explode('_',$batch);
@@ -60,7 +63,7 @@ class batchInv_Trans_controller extends Controller
         $trans = DB::select("CALL report_inventoryTransaction(?)",array($b_ID[1]));
         $none =null;
         $current = Carbon::now('Asia/Manila');
-        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$current,'end'=>$none,'type'=>$itemType]);
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$current,'end'=>$none,'type'=>$itemType,'report_Type'=>$report_Type,'batch'=>$batch]);
         return $pdf->download('Flower_BatchInventory_TransactionReport'.$current.'.pdf');
 
     }
