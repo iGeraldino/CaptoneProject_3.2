@@ -474,13 +474,13 @@ class PagesController extends Controller
 				        $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
 								$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+						$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
-				  $order_Paid = DB::select('CALL fullyPaid_Orders()');
-				  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
-				  //
-				  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-				  return view('dashboard')
+							  $order_Paid = DB::select('CALL fullyPaid_Orders()');
+							  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
+							  //
+							  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+				  return view('cashier.pages.cashier_dashboard')
 				   ->with('spoiledFlowers',$spoiledFlowers)
 				   ->with('soldFlowers',$soldFlowers)
 				   ->with('cust_Account',$cust_Account)
@@ -506,43 +506,43 @@ class PagesController extends Controller
 		}
 
 	public function getCashierSalesOrder() {
-			$cities = DB::table('cities')
-              ->select('*')
-              ->get();
-
-            $province = DB::table('provinces')
-              ->select('*')
-              ->get();
-
-            $ClosedsalesOrders = DB::table('sales_order')
-            ->select('*')
-            ->where('Status','CLOSED')
-            ->get();
-
-            $Pending_salesOrders = DB::table('sales_order')
-            ->select('*')
-            ->where('Status','PENDING')
-            ->get();
-
-            $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
-
-            $customers = DB::table('customer_details')
-            ->select('*')
-            ->get();
-
-
-
-            //
-            return view('cashier/pages/cashier_sales_order')
-            ->with('Dorders',$ClosedsalesOrders)
-            ->with('Porders',$Pending_salesOrders)
-            ->with('Corders',$Confirmed_salesOrders)
-            ->with('cust',$customers)
-            ->with('city',$cities)
-            ->with('city2',$cities)
-            ->with('province',$province);
 
 						if (Auth::guard('admins')->user()->type == '2') {
+							$cities = DB::table('cities')
+											->select('*')
+											->get();
+
+										$province = DB::table('provinces')
+											->select('*')
+											->get();
+
+										$ClosedsalesOrders = DB::table('sales_order')
+										->select('*')
+										->where('Status','CLOSED')
+										->get();
+
+										$Pending_salesOrders = DB::table('sales_order')
+										->select('*')
+										->where('Status','PENDING')
+										->get();
+
+										$Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
+
+										$customers = DB::table('customer_details')
+										->select('*')
+										->get();
+
+
+
+										//
+										return view('cashier/pages/cashier_sales_order')
+										->with('Dorders',$ClosedsalesOrders)
+										->with('Porders',$Pending_salesOrders)
+										->with('Corders',$Confirmed_salesOrders)
+										->with('cust',$customers)
+										->with('city',$cities)
+										->with('city2',$cities)
+										->with('province',$province);
 
 					 }
 					 elseif (Auth::guard('admins')->user()->type == '1') {
@@ -795,7 +795,7 @@ class PagesController extends Controller
 					  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
 					  //
 					  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-					  return view('dashboard')
+					  return view('inventory_side.pages.inventory_dashboard')
 					   ->with('spoiledFlowers',$spoiledFlowers)
 					   ->with('soldFlowers',$soldFlowers)
 					   ->with('cust_Account',$cust_Account)
