@@ -43,12 +43,15 @@ class InventoryTransaction_ReportController extends Controller
     public function store(Request $request)
     {
         //
+        $report_Type = $request->Report_type;
         $itemType = $request->itemtype;
         $date_range = $request->trans_range;
+        $batch = 'N/A';
+        //dd($report_Type,$itemType,$date_range);
 
         $Flower = DB::select('call Inventory_Transaction_in_Flowers()');
 
-        echo $date_range.'<br>'.'<br>';
+        //echo $date_range.'<br>'.'<br>';
         $dates = array();
         $dates = explode('-',$date_range);
         echo 'start date:'.$dates[0].'<br>';
@@ -58,7 +61,11 @@ class InventoryTransaction_ReportController extends Controller
 
         $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
 
-        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$dates[0],'end'=>$dates[1],'type'=>$itemType]);
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,
+        'start'=>$dates[0],
+        'end'=>$dates[1],'type'=>$itemType,
+        'report_Type'=>$report_Type,'$batch'=>$batch]);
+
         $current = Carbon::now('Asia/Manila');
         return $pdf->download('FlowerInventory_TransactionReport'.$current.'.pdf');
 

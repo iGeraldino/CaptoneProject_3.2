@@ -531,16 +531,25 @@ class OrderManagementController extends Controller
     $NewSalesOrder = sales_order::find($id);
 
     $NewSalesOrder_details = Neworder_details::find($id);
+
     foreach($cities as $city){
-      if($city->id == $NewSalesOrder_details->Delivery_City){
+      if($NewSalesOrder_details == null){
+        $cityname = 'N/A';
+      }else{
+        if($city->id == $NewSalesOrder_details->Delivery_City){
           $cityname = $city->name;
           break;
+        }
       }
     }
     foreach($province as $prov){
-      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+      if($NewSalesOrder_details == null){
+        $provname = 'N/A';
+      }else{
+        if($prov->id == $NewSalesOrder_details->Delivery_Province){
           $provname = $prov->name;
           break;
+        }
       }
     }
 
