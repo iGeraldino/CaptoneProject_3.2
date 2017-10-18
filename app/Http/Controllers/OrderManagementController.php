@@ -16,6 +16,10 @@ use App\Neworder_details;
 use Auth;
 use App\CustomerDetails;
 use App\Customer_Payment;
+use App\order_details;
+use App\shop_schedule;
+use DateTime;
+
 
 class OrderManagementController extends Controller
 {
@@ -570,6 +574,20 @@ class OrderManagementController extends Controller
 
     $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
+    $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+
+    $now = Carbon::now()->timezone('Asia/Manila');
+    $datenow = $now -> format('Y-m-d H:i:s');
+
+    foreach($Shop_Schedule as $shopsched){
+
+
+    }
+
+    $time = $shopsched -> Time;
+    $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
+
+
       return view('Orders.manageSpecific_ConfirmedOrder')
       ->with('fromtype',$type)
       ->with('payments',$payments)
@@ -583,7 +601,8 @@ class OrderManagementController extends Controller
       ->with('Flowers',$SalesOrder_flowers)
       ->with('Bouquet',$NewOrder_Bouquet)
       ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
-      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
+      ->with('hourdiff', $hourdiff);
   }
 
     //
@@ -625,6 +644,10 @@ class OrderManagementController extends Controller
           break;
       }
     }
+    //2
+
+
+
 
 
     $NewOrder_SchedDetails = DB::table('shop_schedule')
@@ -653,6 +676,7 @@ class OrderManagementController extends Controller
       ->with('Bouquet',$NewOrder_Bouquet)
       ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
       ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+
 
   }
 
@@ -1094,5 +1118,28 @@ class OrderManagementController extends Controller
 	     	         ->with('FlowerList',$AvailableFlowers);
 	     }
 	}//end of function
+
+  public function Order_Cancellation($id){
+
+      $Sales_Order = sales_order::find($id);
+      $Order_Details = order_details::find($id);
+      $Shop_Schedule = db::table('shop_schedule')->where('Order_ID', $id)->Select('shedule_status')->get();
+
+      $statusdetails = "CANCELLED";
+      $statusinvoice = "CA";
+
+      $Sales_Order -> Status = $statusdetails;
+      $Order_Details -> Status = $statusdetails;
+
+      $Sales_Order -> save();
+      $Order_Details -> save();
+      $shopsave = db::table('shop_schedule')->where('Order_ID', $id)->update(['shedule_status' => $statusdetails]);
+      $invoice = db::table('customer_invoice')->where('invoice_ID', $id)->update(['Staus' => $statusinvoice]);
+
+      return redirect() -> back();
+
+
+
+  }//end of function
 
 }

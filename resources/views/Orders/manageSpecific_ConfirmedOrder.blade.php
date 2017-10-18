@@ -27,6 +27,8 @@
 
 	?>
 
+	<input class="hidden" type="text" value={{ $SalesOrder -> Status}} id="OrdStatus">
+
 	<div class="container">
 		<div hidden>
 			<input  type = "text" class = "hidden" name = "paymentCompletion_field" id = "paymentCompletion_field" value = "{{$paymentComplete}}"/>
@@ -271,7 +273,7 @@
                   @if($SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
                     <a type = "button" id = "cancelBTN" class = "btn btn-md btn-danger" disabled data-toggle="tooltip" data-placement="bottom"  title = "This Order cannot be cancelled because, flowers under this order were already acquire by the customer"> Cancel Order</a>
                   @else
-                    <a type = "button" id = "cancel_BTN" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not  monitor this order as an order to be accomplished anymore"> Cancel Order</a>
+                    <a type = "button" id = "cancel_BTN"  class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not  monitor this order as an order to be accomplished anymore"> Cancel Order</a>
                   @endif
                 </div>
                 <div class = "col-md-6">
@@ -286,7 +288,7 @@
           @elseif($SalesOrder->Status  == "P_PARTIAL")
               <div class="row">
                 <div class = "col-md-6">
-                  <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</button>
+                  <a type = "button" id="cancelPPartial" class= "btn btn-md btn-danger" href="{{ route('OrderCancellation', ['id' => $SalesOrder -> sales_order_ID])}}"  data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</a>
                 </div>
                 <div class = "col-md-6">
                 @if($SalesOrder->cust_Type == 'C')
@@ -341,8 +343,8 @@
                 <div class="row">
                   <div class = "col-md-6" style = "margin-left:-3%;">
 
-                    <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
-                      <span class = "glyphicon glyphicon-remove"></span> Cancel Order</button>
+                    <a type = "button" id ="cancelPFull"class = "btn btn-md btn-danger" href="{{ route('OrderCancellation', ['id' => $SalesOrder -> sales_order_ID])}}" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
+                      <span class = "glyphicon glyphicon-remove"></span> Cancel Order</a>
                   </div>
                   <div class = "col-md-6" style = "margin-left:-7%;">
                     <button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
@@ -1352,6 +1354,23 @@
         $('#laterSbmt_BtnDIV').hide("fold");
 			}
 		});
+
+		console.log({{ $hourdiff }});
+
+		if ( {{ $hourdiff }} < 24 && $('#OrdStatus').val() == "P_FULL"){
+
+						$('#cancelPFull').hide();
+		}
+		else if ( {{ $hourdiff }} < 24 && $('#OrdStatus').val() == "P_PARTIAL" ) {
+
+									$('#cancelPPartial').hide();
+
+		}
+		else{
+			$('#cancelPPartial').show();
+			$('#cancelPFull').show();
+
+		}
 
 
 

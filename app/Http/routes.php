@@ -82,6 +82,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('customers','customerListController');
 
+	Route::get('Add To Customer Account/{id}', ['uses' => 'customerListController@addcustaccount', 'as' => 'addcustaccount']);
+
 	Route::resource('customersTradeAgreement','specificCustomerTradeAgreement_Controller');
 
 	Route::resource('TradeAgreements','Trade_Agreement_Controller');
@@ -263,6 +265,8 @@ Route::get('/Release_Order/{id}',['uses' => 'OrderManagementController@release_O
 Route::get('/Manage_ReleasingOrder/{id},{type}',['uses' => 'OrderManagementController@show_Order_ToRelease', 'as'=>'order.Manage_Releasing_Order']);//redirects you to the confirmation of orders
 
 Route::get('/Manage_Confirmation/{id},{type}',['uses' => 'OrderManagementController@ShowSpecific_Confirmed_Orders', 'as'=>'order.Manage_Confirmed_Order']);//redirects you to the confirmation of orders
+
+Route::get('/Order_Cancellation/{id}', ['uses' => 'OrderManagementController@Order_Cancellation', 'as' => 'OrderCancellation']);
 
 Route::get('/Order_NewConfirmation/',['uses' => 'OrderManagementController@ConfirmNewOrder', 'as'=>'order.ConfirmMyOrder']);//redirects you to the confirmation of orders
 
