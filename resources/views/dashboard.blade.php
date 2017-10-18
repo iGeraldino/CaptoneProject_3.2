@@ -29,36 +29,39 @@
     <input id = "SpoiledSessionfield" value = "{{$sessionSpoiledValue}}">
 
   </div>
-
+        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box Subu">
+          <div class="small-box Shalala">
             <div class="inner">
-              @foreach($orderscount as $count)
-              <h3>{{$count->count}}</h3>
+              @foreach($spoiledFlowers as $spoiledFlowers)
+              <h3>{{number_format($spoiledFlowers->spoiled,2)}} %</h3>
               @endforeach
-
-              <p>New Orders</p>
+              <p>Spoiled Flowers Percentage</p>
             </div>
             <div class="icon">
-              <i class="ion ion-bag"></i>
+              <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="/Sales_Qoutation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
+        <!-- ./col -->
+      </div>
+
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box Lush">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-              <p>Bounce Rate</p>
+              @foreach($soldFlowers as $soldFlowers)
+              <h3>{{number_format($soldFlowers->sold,2)}}<sup style="font-size: 20px">%</sup></h3>
+              @endforeach
+              <p>Flower Sold Percentage</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
         <!-- ./col -->
@@ -78,22 +81,22 @@
             <a href="/customers" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box Shalala">
-            <div class="inner">
-              <h3>65</h3>
 
-              <p>Unique Visitors</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box Subu">
+          <div class="inner">
+            @foreach($orderscount as $count)
+            <h3>{{$count->count}}</h3>
+            @endforeach
+
+            <p>New Orders</p>
           </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          <a href="/Sales_Qoutation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
-        <!-- ./col -->
       </div>
 
 <div class = "">

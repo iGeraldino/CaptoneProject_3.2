@@ -119,5 +119,6 @@ class session_BQTController extends Controller
     public function destroy($id)
     {
         //
+
     }
 }
