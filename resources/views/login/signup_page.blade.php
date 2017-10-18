@@ -10,7 +10,7 @@
 
 	<div class="container">
 		 <div class="row">
-			<div class="col-md-4 col-md-offset-2">
+			<div class="col-md-4 col-md-offset-1">
 				<div class="card card-signup">
 					<form class="form" method="post" action="{{ route('AdminSignin') }}">
 						<div class="header header-primary text-center">
@@ -42,7 +42,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="card card-signup">
 						<div class="header header-primary text-center">
 							<h4>CREATE ACCOUNT</h4>
@@ -50,74 +50,56 @@
 						<br>
 						<br>
 						<div class="content">
-
-
-							<div class="input-group" style="margin-top: -15%;">
-								<span class="input-group-addon">
-									<i class="material-icons"> person </i>
-								</span>
-								<input type="text" class="form-control" id="fname" placeholder="First Name..." tabindex="1" required>
-
-
+							<div class="col-md-6">
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons"> person </i>
+									</span>
+									<input type="text" class="form-control" id="fname" placeholder="First Name..." tabindex="1" required>
+								</div>
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons"> phone </i>
+									</span>
+									<input type="text" class="form-control" id="contno" placeholder="Contact Number..." tabindex="1" maxlength="13" required>
+								</div>
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons">lock_outline</i>
+									</span>
+									<input type="password" id="password" placeholder = "Password..." class = "form-control" tabindex="3"/>
+								</div>
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons">email</i>
+									</span>
+									<input type="email" id="email" placeholder = "Email Address..." class = "form-control" tabindex="2" required/>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons"> person </i>
+									</span>
+									<input type="text" class="form-control" id="lname" placeholder="Last Name..." tabindex="1" required>
+								</div>
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons"> person </i>
+									</span>
+									<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="1" required>
+								</div>
+								<div class="input-group" style="margin-top: -15%;">
+									<span class="input-group-addon">
+										<i class="material-icons">lock_outline</i>
+									</span>
+									<input type="password"  id="password2" placeholder = "Confirm Password..." class = "form-control" tabindex="4"/>
+									<h7 id="error" style="color: red"> Password is not the same</h7>
+								</div>
 							</div>
 
-							<br>
-							<br>
+							
 
-							<div class="input-group" style="margin-top: -15%;">
-								<span class="input-group-addon">
-									<i class="material-icons"> person </i>
-								</span>
-								<input type="text" class="form-control" id="lname" placeholder="Last Name..." tabindex="1" required>
-
-
-							</div>
-
-							<br>
-							<br>
-
-							<div class="input-group" style="margin-top: -15%;">
-								<span class="input-group-addon">
-									<i class="material-icons"> phone </i>
-								</span>
-								<input type="text" class="form-control" id="contno" placeholder="Contact Number..." tabindex="1" maxlength="13" required>
-
-
-							</div>
-							<br>
-							<br>
-
-							<div class="input-group" style="margin-top: -15%;">
-								<span class="input-group-addon">
-									<i class="material-icons"> person </i>
-								</span>
-								<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="1" required>
-
-
-							</div>
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									<i class="material-icons">email</i>
-								</span>
-								<input type="email" id="email" placeholder = "Email Address..." class = "form-control" tabindex="2" required/>
-							</div>
-
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									<i class="material-icons">lock_outline</i>
-								</span>
-								<input type="password" id="password" placeholder = "Password..." class = "form-control" tabindex="3"/>
-							</div>
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									<i class="material-icons">lock_outline</i>
-								</span>
-								<input type="password"  id="password2" placeholder = "Confirm Password..." class = "form-control" tabindex="4"/>
-								<h7 id="error" style="color: red"> Password is not the same</h7>
-							</div>
 
 							<div class="input-group hidden">
 								<span class="input-group-addon">
@@ -126,7 +108,6 @@
 								<select class="form-control" id="admintype" tabindex="5">
 									<option value="1"> Admin </option>
 								</select>
-
 							</div>
 
 
