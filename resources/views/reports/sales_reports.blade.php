@@ -36,9 +36,13 @@
 			text-align: center;
 		}
 
+		.right {
+			text-align: right;
+		}
+
 		.color1 {
 			color: white;
-			background-color: #10085b;
+			background-color: #DC654C;
 		}
 	</style>
 </head>
@@ -51,14 +55,21 @@
 		<h4 class="a2 a3"> CP No: 09228026806</h4>
 		<h3 class="a4">Date: {{date('M d, Y',strtotime($start))}} - {{date('M d, Y',strtotime($end))}}</h3>
 
+		@if($type == "Accessory")
+			<h4 class="a1"> Monitoring of the in and Out of the flowers in the inventory</h4>
+		@elseif($type == 'Flower')
+			<h4 class="a1"> Monitoring of the in and Out of the flowers in the inventory</h4>
+		@endif
+
 		<table class=" a2 a5 table-striped table-bordered" style="width: 100%;">
 			<thead>
 				<tr>
 			      <th class="center color1 font">TRANSACTION ID</th>
-			      <th class="center color1 font">ITEM ID</th>
+			      <th class="center color1 font">ITEM_ID</th>
 			      <th class="center color1 font">QUANTITY</th>
 			      <th class="center color1 font">TOTAL AMOUNT</th>
-			      <th class="center color1 font">DESCRIPTION</th>
+						<th class="center color1 font">DESCRIPTION</th>
+			      <th class="center color1 font">ORDER ID</th>
 			      <th class="center color1 font">DATE</th>
 			    </tr>
 			</thead>
@@ -66,24 +77,37 @@
 				@if($trans == null)
 					<tr>
 						No Records Under the Set Date
-				    </tr>
+				 </tr>
 			    @else
 					@foreach($trans as $row)
 					<tr>
-				      <td class="font center">{{$row->Transaction_ID}}</td>
-				      <td class="font center">{{$row->Item_ID}}</td>
-				      <td class="font center">{{$row->Quantity}}</td>
-				      <td class="font center">{{$row->Total_Amt}}</td>
+				      	<td class="font center" style = "color:gray;"><b>TRANS-{{$row->Transaction_ID}}</b></td>
+							@if($row->Item_Type == 'Flower')
+				      	<td class="font center" style = "color:light-gray;"><b>FLWR-{{$row->Item_ID}}</b></td>
+							@elseif($row->Item_Type == 'Acessories')
+								<td class="font center" style = "color:light-gray;"><b>ACRS-{{$row->Item_ID}}</b></td>
+							@endif
+							@if($row->Quantity < 0)
+				      	<td class="font center" style = "color:red;"><b>{{$row->Quantity}} pcs.</b></td>
+							@elseif($row->Quantity >= 0)
+								<td class="font center" style = "color:gray;"><b>{{$row->Quantity}} pcs.</b></td>
+							@endif
+				      <td class="font right">{{number_format($row->Total_Amt,2)}}</td>
 				      @if($row->Type_of_changes == 'S')
-				      	<td class="font center">Spoilage</td>
+				      	<td class="font center" style = "color:red;"><b>Spoilage</b></td>
 				      @elseif($row->Type_of_changes == 'O')
-				      	<td class="font center">Order</td>
+				      	<td class="font center" style = "color:green;"><b>Order</b></td>
 				 	  @elseif($row->Type_of_changes == 'I')
-				      	<td class="font center">Inventory</td>
+				      	<td class="font center" style = "color:blue;"><b>Inventory</b></td>
 				 	  @elseif($row->Type_of_changes == 'A')
-				      	<td class="font center">Inventory</td>
+				      	<td class="font center" style = "color:blue;"><b>Adjustments</b></td>
 				      @endif
-				      <td class="font center">{{$row->Date}}</td>
+							@if($row->order_ID == null)
+								<td class="font center" style = "color:gray;"><b>N/A</b></td>
+							@elseif($row->order_ID != null)
+								<td class="font center" style = "color:gray;">ORDR-{{$row->order_ID}}</td>
+							@endif
+							<td class="font center">{{date('M d, Y (h:i a)',strtotime($row->Date))}}</td>
 				    </tr>
 				    @endforeach
 			    @endif

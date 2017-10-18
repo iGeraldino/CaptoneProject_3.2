@@ -172,7 +172,6 @@
 							  <tbody>
                   <?php
                     $Bqt_Total = 0;
-
                   ?>
 							  @foreach($Bouquet as $Bqt)
 							    <tr>

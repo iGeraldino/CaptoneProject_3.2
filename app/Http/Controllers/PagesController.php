@@ -134,8 +134,12 @@ class PagesController extends Controller
 			->setValues(100,50,25)
 			->setElementLabel("Total Users");
 */
+		$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+    WHERE Status IN ('PENDING','pending')");
 
+		$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
 
+			//dd($orderscount);
 
 			$Pending_salesOrders = DB::table('sales_order')
 			->select('*')
@@ -154,6 +158,8 @@ class PagesController extends Controller
 			//
 			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 			return view('dashboard')
+			 ->with('cust_Account',$cust_Account)
+			 ->with('orderscount',$orderscount)
 			 ->with('p_Orders',$order_Paid)
 			 ->with('b_Orders',$orderWith_Bal)
 			 ->with('debtors',$Customers_WithDebts)

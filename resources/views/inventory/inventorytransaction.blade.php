@@ -137,12 +137,15 @@
                             By Date
                           </a>
                         </li>
+                        @if($Itype == 'Flower')
                         <li>
                           <a href="#batch" data-toggle="tab">
                             <i class="material-icons">assignment</i>
                             By Batch
                           </a>
                         </li>
+                        @else
+                        @endif
                         <li>
                           <a href="#flowers" data-toggle="tab">
                             <i class="material-icons">filter_vintage</i>
@@ -156,40 +159,61 @@
                 <div class="content">
                   <div class="tab-content text-center">
                     <div class="tab-pane active" id="date">
-                      <div class="col-md-6" style="margin-top: -6%;">
-                        <!-- Date range -->
-                  {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
-                        <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
-                        <div class="form-group">
-                          <label class="pull-left"><h4>Date range:</h4></label>
-                          <div class="input-group">
-                            <div class="input-group-addon">
-                              <i class="fa fa-calendar"></i>
+                      <div class = "row">
+                        <div class="col-md-6" style="margin-top: -6%;">
+                          <!-- Date range -->
+                    {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
+                          <div class="form-group">
+                            <label class="pull-left"><h4>Date range:</h4></label>
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
+                              <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md Lemon">Generate Report</button>
                             </div>
-                            <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
-                            <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md Lemon">Generate Report</button>
+                            <!-- /.input group -->
                           </div>
-                          <!-- /.input group -->
-                        </div>
-                        <!-- /.form group -->
+                          <!-- /.form group -->
 
-                          {!! Form::close() !!}
+                            {!! Form::close() !!}
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <hr>
+                      <div class = "row">
+                        <div class = "col-md-3"></div>
+                        <div class = "col-md-6">
+                          <p><b>*This part of this page will generate a report based on the date that you'll be choosing. The report that will be generated iwill focus on the flowers that are being taken in and out of the inventory.</b></p>
+                        </div>
+                        <div class = "col-md-3"></div>
                       </div>
                     </div>
                     <div class="tab-pane" id="batch">
                       <div class="row">
                         <div class="col-md-4">
                         <div id = "">
-                          <input id = "BatchID_Field" class = "form-control"  name="Batch_ID" list="Batch_ID" placeholder="Enter Batch ID"/>
-                          
-
+                        {!! Form::open(array('route' => 'Inventory_TransactionBatch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <div id = "batch_Chooser">
+                            <input id = "batchList_Field" class = "form-control"  name="batchList_Field" list="batchList_ID" placeholder="Enter a batch of inventory " required/>
+                            <datalist id="batchList_ID">
+                              <!--Foreach Loop data Here value = "Name" data-tag = "id"-->
+                              @foreach($batch as $batches)
+                                <option value="BATCH_{{$batches->Sched_ID}}" data-id = "{{$batches->Sched_ID}}">
+                                  Recieved: {{date('M d,Y',strtotime($batches->Date_Obtained))}}
+                                </option>
+                              @endforeach
+                              <!--Loop data Here-->
+                            </datalist>
+                          </div>
                           <!--  -->
-
-
-
                           <button type = "submit" id = "" class = "btn btn-md Lemon">Generate Report</button>
+                        {!! Form::close() !!}
                         </div>
                       </div>
+                      <div><!--marvin palagay ng details dito--></div>
                       </div>
                     </div>
                     <div class="tab-pane" id="flowers">
@@ -231,7 +255,22 @@
     $('#trans_range').daterangepicker();
   </script>
   <script>
-      $('document').ready(function(){
+      $(document).ready(function(){
+
+          $('#batchList_Field').change(function(){
+            var batchID = $("#batchList_Field").val();
+            var Found = 0;
+    				$('#batchList_ID option').each(function(item){
+    					if(batchID == $(this).val()){
+    						   Found = 1;   //swal('Note:','','')
+    					}
+    				});
+            if(Found == 0 ){
+              swal('Sorry the batch does not exist','the batch that you enetered is not existing, please try again later');
+            }
+          });
+
+
           if($('#DelFlower_result').val()=='Successful'){
              //Show popup
            swal("Good!","Flower has been successfully removed from the list of order!","info");

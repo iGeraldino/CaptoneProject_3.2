@@ -20,7 +20,12 @@ use App\Customer_Payment;
 class OrderManagementController extends Controller
 {
 
+  public function generate_statement_Of_account($id){
+
+  }
+
   public function release_Order($id){
+
     //echo $id;
     $current = Carbon::now('Asia/Manila');
 

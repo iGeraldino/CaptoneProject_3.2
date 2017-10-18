@@ -55,14 +55,48 @@ class InventoryTransaction_ReportController extends Controller
         echo 'end date:'.$dates[1].'<br>';
         echo 'itemType: '.$itemType.'<br>';
 
-         
+
         $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
-        
-        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$dates[0],'end'=>$dates[1]]);
+
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$dates[0],'end'=>$dates[1],'type'=>$itemType]);
         $current = Carbon::now('Asia/Manila');
         return $pdf->download('FlowerInventory_TransactionReport'.$current.'.pdf');
 
     }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store2(Request $request)
+    {
+        //
+        $itemType = $request->itemtype;
+        $date_range = $request->trans_range;
+        $batch = $request->batchList_Field;
+        dd($batch);
+        ///CALL report_inventoryTransaction(99);
+        $Flower = DB::select('call Inventory_Transaction_in_Flowers()');
+
+        echo $date_range.'<br>'.'<br>';
+        $dates = array();
+        $dates = explode('-',$date_range);
+        echo 'start date:'.$dates[0].'<br>';
+        echo 'end date:'.$dates[1].'<br>';
+        echo 'itemType: '.$itemType.'<br>';
+
+
+        $trans = DB::select("CALL showInventoryTransaction_Per_type (?,?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1])),$itemType));
+
+        $pdf = \PDF::loadView("reports.sales_reports",['trans'=>$trans,'start'=>$dates[0],'end'=>$dates[1],'type'=>$itemType]);
+        $current = Carbon::now('Asia/Manila');
+        return $pdf->download('FlowerInventory_TransactionReport'.$current.'.pdf');
+
+    }
+
 
     /**
      * Display the specified resource.

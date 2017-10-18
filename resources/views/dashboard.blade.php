@@ -34,7 +34,9 @@
           <!-- small box -->
           <div class="small-box Subu">
             <div class="inner">
-              <h3>150</h3>
+              @foreach($orderscount as $count)
+              <h3>{{$count->count}}</h3>
+              @endforeach
 
               <p>New Orders</p>
             </div>
@@ -64,9 +66,11 @@
           <!-- small box -->
           <div class="small-box Sulfur">
             <div class="inner">
-              <h3>44</h3>
+              @foreach($cust_Account as $Account)
+              <h3>{{$Account->count}}</h3>
+              @endforeach
 
-              <p>User Registrations</p>
+              <p>Customers with Account</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>

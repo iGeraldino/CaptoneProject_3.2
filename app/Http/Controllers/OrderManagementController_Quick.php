@@ -209,7 +209,8 @@ class OrderManagementController_Quick extends Controller
 
     				        foreach(Cart::instance('QuickOrderedBqt_Acessories')->content() as $Acrow){
     					        Cart::instance('QuickFinalBqt_Acessories')
-    		                		->add(['id' => $Acrow->id, 'name' => $Acrow->name, 'qty' => $Acrow->qty, 'price' => $Acrow->price,'options' => ['orig_price' => $Acrow->options['orig_price'],'T_Amt' => $Acrow->options['T_Amt'],'image'=>$Acrow->options['image'],'priceType'=>$Acrow->options['priceType'],'bqt_ID' => $bqt_Id]]);
+    		                		->add(['id' => $Acrow->id, 'name' => $Acrow->name, 'qty' => $Acrow->qty, 'price' => $Acrow->price,'options' => ['orig_price' => $Acrow->options['orig_price'],'T_Amt' => $Acrow->options['T_Amt'],
+                            'image'=>$Acrow->options['image'],'priceType'=>$Acrow->options['priceType'],'bqt_ID' => $bqt_Id]]);
     				        }//end of foreach of the acessories cart
     				}//end of if
     				else{
