@@ -257,6 +257,9 @@ class PagesController extends Controller
 
 						$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
+						$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+
 			$order_Paid = DB::select('CALL fullyPaid_Orders()');
 			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
 			//
@@ -443,32 +446,54 @@ class PagesController extends Controller
 
 
 
-			$Pending_salesOrders = DB::table('sales_order')
-			->select('*')
-			->where('Status','PENDING')
-			->get();
+				$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
+				$soldFlowers = DB::select('CALL percentageSold()');
+				$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+				WHERE Status IN ('PENDING','pending')");
 
-			$arriving = DB::select('CALL view_Arriving_Inventory()');
+				  /*			$charts = Charts::new('line','highcharts')
+				        ->setTitle('My website users')
+				        ->setLabels('ES','FR','RU')
+				        ->setValues(100,50,25)
+				        ->setElementLabel("Total Users");
+				  */
+				      $orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+				      WHERE Status IN ('PENDING','pending')");
 
-			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+				      $cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
 
-			$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+				        //dd($orderscount);
+
+				        $Pending_salesOrders = DB::table('sales_order')
+				        ->select('*')
+				        ->where('Status','PENDING')
+				        ->get();
+
+				        $arriving = DB::select('CALL view_Arriving_Inventory()');
+
+				        $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+
+								$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
 			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
-			$order_Paid = DB::select('CALL fullyPaid_Orders()');
-			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
-			//
-			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-			return view('cashier/pages/cashier_dashboard')
-			 ->with('p_Orders',$order_Paid)
-			 ->with('b_Orders',$orderWith_Bal)
-			 ->with('debtors',$Customers_WithDebts)
-			 ->with('tobeAcquired',$tobeAcquired_Orders)
-			 ->with('CriticalFLowers',$CriticalFLowers)
-       ->with('arriving',$arriving)
-			 ->with('Porders',$Pending_salesOrders)
-			 ->with('SpoiledFLowers',$SpoiledFLowers);
-			 //->with('charts',$charts);
+				  $order_Paid = DB::select('CALL fullyPaid_Orders()');
+				  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
+				  //
+				  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+				  return view('dashboard')
+				   ->with('spoiledFlowers',$spoiledFlowers)
+				   ->with('soldFlowers',$soldFlowers)
+				   ->with('cust_Account',$cust_Account)
+				   ->with('orderscount',$orderscount)
+				   ->with('p_Orders',$order_Paid)
+				   ->with('b_Orders',$orderWith_Bal)
+				   ->with('debtors',$Customers_WithDebts)
+				   ->with('tobeAcquired',$tobeAcquired_Orders)
+				   ->with('CriticalFLowers',$CriticalFLowers)
+				   ->with('arriving',$arriving)
+				   ->with('Porders',$Pending_salesOrders)
+				   ->with('SpoiledFLowers',$SpoiledFLowers);
+				   //->with('charts',$charts);
 
 		 }
 		 elseif (Auth::guard('admins')->user()->type == '1') {
@@ -736,32 +761,55 @@ class PagesController extends Controller
         if (Auth::guard('admins')->user()->type == '3') {
 
 
-            $Pending_salesOrders = DB::table('sales_order')
-                ->select('*')
-                ->where('Status', 'PENDING')
-                ->get();
+					$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
+					$soldFlowers = DB::select('CALL percentageSold()');
+					$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+					WHERE Status IN ('PENDING','pending')");
 
-            $arriving = DB::select('CALL view_Arriving_Inventory()');
+					  /*			$charts = Charts::new('line','highcharts')
+					        ->setTitle('My website users')
+					        ->setLabels('ES','FR','RU')
+					        ->setValues(100,50,25)
+					        ->setElementLabel("Total Users");
+					  */
+					      $orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+					      WHERE Status IN ('PENDING','pending')");
 
-            $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+					      $cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
 
-            $tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-            $Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+					        //dd($orderscount);
 
-            $order_Paid = DB::select('CALL fullyPaid_Orders()');
-            $orderWith_Bal = DB::select('CALL withBalance_Orders()');
-            //
-            $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-            return view('inventory_side/pages/inventory_dashboard')
-                ->with('p_Orders', $order_Paid)
-                ->with('b_Orders', $orderWith_Bal)
-                ->with('debtors', $Customers_WithDebts)
-                ->with('tobeAcquired', $tobeAcquired_Orders)
-                ->with('CriticalFLowers', $CriticalFLowers)
-                ->with('arriving', $arriving)
-                ->with('Porders', $Pending_salesOrders)
-                ->with('SpoiledFLowers', $SpoiledFLowers);
-            //->with('charts',$charts);]
+					        $Pending_salesOrders = DB::table('sales_order')
+					        ->select('*')
+					        ->where('Status','PENDING')
+					        ->get();
+
+					        $arriving = DB::select('CALL view_Arriving_Inventory()');
+
+					        $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+
+									$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+
+					  $order_Paid = DB::select('CALL fullyPaid_Orders()');
+					  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
+					  //
+					  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+					  return view('dashboard')
+					   ->with('spoiledFlowers',$spoiledFlowers)
+					   ->with('soldFlowers',$soldFlowers)
+					   ->with('cust_Account',$cust_Account)
+					   ->with('orderscount',$orderscount)
+					   ->with('p_Orders',$order_Paid)
+					   ->with('b_Orders',$orderWith_Bal)
+					   ->with('debtors',$Customers_WithDebts)
+					   ->with('tobeAcquired',$tobeAcquired_Orders)
+					   ->with('CriticalFLowers',$CriticalFLowers)
+					   ->with('arriving',$arriving)
+					   ->with('Porders',$Pending_salesOrders)
+					   ->with('SpoiledFLowers',$SpoiledFLowers);
+					   //->with('charts',$charts);
+
         } elseif (Auth::guard('admins')->user()->type == '1') {
 
             return redirect()->route('dashboard');

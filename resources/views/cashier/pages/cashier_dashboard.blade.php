@@ -10,31 +10,36 @@
 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box Subu">
+          <div class="small-box Shalala">
             <div class="inner">
-              <h3>150</h3>
-
-              <p>New Orders</p>
+              @foreach($spoiledFlowers as $spoiledFlowers)
+              <h3>{{number_format($spoiledFlowers->spoiled,2)}} %</h3>
+              @endforeach
+              <p>Spoiled Flowers Percentage</p>
             </div>
             <div class="icon">
-              <i class="ion ion-bag"></i>
+              <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
+        <!-- ./col -->
+      </div>
+
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box Lush">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-              <p>Bounce Rate</p>
+              @foreach($soldFlowers as $soldFlowers)
+              <h3>{{number_format($soldFlowers->sold,2)}}<sup style="font-size: 20px">%</sup></h3>
+              @endforeach
+              <p>Flower Sold Percentage</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
         <!-- ./col -->
@@ -42,55 +47,57 @@
           <!-- small box -->
           <div class="small-box Sulfur">
             <div class="inner">
-              <h3>44</h3>
+              @foreach($cust_Account as $Account)
+              <h3>{{$Account->count}}</h3>
+              @endforeach
 
-              <p>User Registrations</p>
+              <p>Customers with Account</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/customers" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box Shalala">
-            <div class="inner">
-              <h3>65</h3>
 
-              <p>Unique Visitors</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box Subu">
+          <div class="inner">
+            @foreach($orderscount as $count)
+            <h3>{{$count->count}}</h3>
+            @endforeach
+
+            <p>New Orders</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          <a href="/Sales_Qoutation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+<div class = "">
+  <div class = "col-md-6">
+    <div>
+      <!-- AREA CHART -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Area Chart</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool buttonedit" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool buttonedit" data-widget="remove"><i class="fa fa-times"></i></button>
           </div>
         </div>
-        <!-- ./col -->
-  </div>
-
-  <div class = "">
-    <div class = "col-md-6">
-      <div>
-        <!-- AREA CHART -->
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title">Area Chart</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool buttonedit" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-box-tool buttonedit" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <div class="box-body chart-responsive">
-            <!--<div class="chart" id="revenue-chart" style="height: 300px;"></div>-->
-            <div id="myfirstchart" style="height: 250px;"></div>
-          </div>
-          <!-- /.box-body -->
+        <div class="box-body chart-responsive">
+          <!--<div class="chart" id="revenue-chart" style="height: 300px;"></div>-->
+          <div id="myfirstchart" style="height: 250px;"></div>
         </div>
-        <!-- /.box -->
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
     </div>
 
     <div>
@@ -433,7 +440,7 @@
   </div>
 
 </div>
- 
+
 @endsection
 @section('scripts')
 
