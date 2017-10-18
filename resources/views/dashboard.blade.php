@@ -105,7 +105,7 @@
       <!-- AREA CHART -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Area Chart</h3>
+          <h3 class="box-title">Most Buy Flowers</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool buttonedit" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -434,31 +434,31 @@
 
 
 
-
-
 @endsection
 @section('scripts')
 <script type="text/javascript">
+
 Morris.Donut({
   element: 'myfirstchart',
   data:[
-    { label: '2008', value: 1 },
-    { label: '2009', value: 10 },
-    { label: '2010', value: 5 },
-    { label: '2011', value: 5 },
+
+    @foreach($flowers as $flow)
+
+    { label: '{{ $flow->flower_name }}', value: {{ $flow -> Quantity}} },
+    @endforeach
+
   ],
-  backgroundColor: '#ccc',
-  labelColor: '#060',
   colors: [
     '#0BA462',
     '#39B580',
     '#67C69D',
     '#95D7BB'
   ],
-  xkey:'year',
+  xkey:'Quantity',
   ykeys:['value'],
   labels:['value']
 })
+
 
 $(function () {
 
