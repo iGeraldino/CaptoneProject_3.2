@@ -145,18 +145,7 @@
                                               </div>
                                             </div>
                                             <div class="modal-footer" id = "editFooter">
-                                              <div class="btn-group btn-group-justified" role="group" aria-label="group button">
-                                                <div class="btn-group" role="group">
-                                                  <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" 
-                                                  class="btn btn-default"  role="button">Cancel</button>
-                                                </div>
-                                                <div class="btn-group" role="group">
-                                                    <a type = "button"  id = "editBtn" href="#" class = "btn btn-success btn-info" ><span class = "glyphicon glyphicon-pencil"></span> 
-                                                      Edit Agreement
-                                                    </a>
-                                                 
-                                                </div>
-                                              </div>
+                                              
                                             </div>
 
                                         </div>
@@ -212,7 +201,10 @@
                                             </div>
 
                                             <div class="modal-body">
-                                              
+                                                <h5><b>Agreement ID:</b>  AGMT_{{$inactiveagreement->Agreement_ID}}</h5>
+                                                <h5><b>Starting date:</b>{{$inactiveagreement->Starting_Date}}</h5>
+                                                <h5><b>Ending Dante</b>{{$inactiveagreement->Ending_Date}}</h5>
+                                                <h5><b>Status:</b>{{$inactiveagreement->Status}}</h5>
                                             </div>
                                             
                                         </div>

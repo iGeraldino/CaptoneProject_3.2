@@ -160,7 +160,7 @@
                   <div class="tab-content text-center">
                     <div class="tab-pane active" id="date">
                       <div class = "row">
-                        <div class="col-md-6" style="margin-top: -6%;">
+                        <div class="col-md-6 col-md-offset-2" style="margin-top: -6%;">
                           <!-- Date range -->
                     {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                           <input type="text" value="byDate" name="Report_type" class="hidden">
@@ -194,7 +194,7 @@
                     </div>
                     <div class="tab-pane" id="batch">
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-md-offset-4">
                         <div id = "">
                         {!! Form::open(array('route' => 'Inventory_TransactionBatch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                           <div id = "batch_Chooser">

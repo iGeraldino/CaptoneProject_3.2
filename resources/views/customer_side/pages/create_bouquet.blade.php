@@ -65,7 +65,7 @@
               @foreach($bouqflower as $bouq)
                 <div class=" col-sm-3" style="margin-top: 10px;">
 									<div class="thumbnail">
-										<img class="group list-group-image" src={{ asset('flowerimage/'. $bouq-> IMG)}}>
+										<img style="max-width: 165px; max-height: 165px; min-width: 165px; min-height: 165px;" class="group list-group-image" src={{ asset('flowerimage/'. $bouq-> IMG)}}>
 									</div>
 									<div class="caption">
                                 <span> <h5> {{ $bouq -> flower_name }} </h5> </span>
@@ -166,7 +166,7 @@
 
 									<div class=" col-sm-3" style="margin-top: 10px;">
 										<div class="thumbnail">
-											<img class="group list-group-image" src="{{ asset('accimage/'. $bouqa -> image)}}">
+											<img style="max-width: 165px; max-height: 165px; min-width: 165px; min-height: 165px;" class="group list-group-image" src="{{ asset('accimage/'. $bouqa -> image)}}">
 										</div>
 										<div class="caption">
                                   <span> <h5> {{ $bouqa -> name }} </h5> </span>

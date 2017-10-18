@@ -17,7 +17,7 @@
             @foreach($flowerlist as $flowerlist)
             <div class="item  col-sm-3 ">
                     <div class="thumbnail">
-                        <img class="group list-group-image" src="{{ asset('flowerimage/'. $flowerlist -> IMG)}}" alt="" />
+                        <img style="max-width: 250px; max-height: 250px; min-width: 250px; min-height: 250px;" class="group list-group-image" src="{{ asset('flowerimage/'. $flowerlist -> IMG)}}" alt="" />
                         <br>
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading captionx">

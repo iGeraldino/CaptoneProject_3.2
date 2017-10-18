@@ -157,7 +157,7 @@
 										<thead>
 											<tr>
                         <th class="text-center"> Order ID</th>
-                        <th class="text-center"> AmountofPurchase </th>
+                        <th class="text-center"> Amount of purchase </th>
                         <th class="text-center"> Delivery Charge </th>
                         <th class="text-center"> VAT</th>
                         <th class="text-center"> Total Amount</th>
@@ -169,7 +169,7 @@
                     @foreach($P_Settlements as $P_Det)
                     <tr>
                       <td>ORDR-{{$P_Det->Order_ID}}</td>
-                      <td>Php {{number_format($P_Det->Amt,2)}}</td>
+                      <td width="2%;">Php {{number_format($P_Det->Amt,2)}}</td>
                       <td>Php {{number_format($P_Det->Del_Charge,2)}}</td>
                       <td>Php {{number_format($P_Det->vat,2)}}</td>
                       <td>Php {{number_format($P_Det->T_amt,2)}}</td>
