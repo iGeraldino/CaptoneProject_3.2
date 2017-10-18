@@ -61,6 +61,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Flwrr_InvTransaction_batch', 'batchInv_Trans_controller');
 
+	Route::resource('Flwr_Inv_Transaction_batch', 'flwr_Report_GenerateController');
+
 	Route::resource('InventorySpoilage','spoiled_Monitoring_Controller');
 
 	Route::resource('Admins', 'AdminAccounts_Controller');

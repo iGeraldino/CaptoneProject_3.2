@@ -139,6 +139,12 @@
                         </li>
                         @if($Itype == 'Flower')
                         <li>
+                          <a href="#date" data-toggle="tab">
+                            <i class="material-icons">date_range</i>
+                            By Date
+                          </a>
+                        </li>
+                        <li>
                           <a href="#batch" data-toggle="tab">
                             <i class="material-icons">assignment</i>
                             By Batch
@@ -225,12 +231,31 @@
                       </div>
                     </div>
                     <div class="tab-pane" id="flowers">
-                      <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
                         <div id = "">
-                          <input id = "" class = "form-control"  name="" list="" placeholder="Enter Flower"/>
-                          <datalist id="customerList_ID">
-                          </datalist>
+                        {!! Form::open(array('route' => 'Flwr_Inv_Transaction_batch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <div id = "flower_Chooser">
+                            <input type="text" value="byFlwr" name="Report_type" class="hidden">
+                            <input id = "flowerList_Field" class = "form-control"  name="flowerList_Field" list="flwrList_ID" placeholder="Enter a flower ID " required/>
+                            <input id = "flowerList_Field1" class = "hidden form-control"  name="flowerList_Field1"/>
+                            <datalist id="flwrList_ID">
+                              <!--Foreach Loop data Here value = "Name" data-tag = "id"-->
+                              @foreach($flwr as $flwr)
+                                <option value="FLWR-{{$flwr->flower_ID}}" data-id = "{{$flwr->flower_name}}">
+                                  {{$flwr->flower_name}}
+                                </option>
+                              @endforeach
+                              <!--Loop data Here-->
+                            </datalist>
+                          </div>
+                          <!--  -->
+                          <button type = "submit" id = "flwrgenerateByBatchBTN" class = "btn btn-md Lemon" disabled>Generate Report</button>
+                        {!! Form::close() !!}
+
                         </div>
+                      </div>
+                      <div><!--marvin palagay ng details dito--></div>
                       </div>
                     </div>
                   </div>
@@ -241,8 +266,6 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-info btn-simple">Save</button>
           </div>
         </div>
       </div>
@@ -264,6 +287,27 @@
   </script>
   <script>
       $(document).ready(function(){
+
+
+                  $('#flowerList_Field').change(function(){
+                      $('#flowerList_Field1').val($(this).val());
+                    var batchID = $("#flowerList_Field").val();
+                    var Found = 0;
+            				$('#flwrList_ID option').each(function(item){
+            					if(batchID == $(this).val()){
+            						   Found = 1;   //swal('Note:','','')
+                           $('#flwrgenerateByBatchBTN').attr('disabled',false);
+                           $('#flwrgenerateByBatchBTN').show('fold');
+            					}
+            				});
+                    if(Found == 0 ){
+                      $('#flwrgenerateByBatchBTN').attr('disabled',true);
+                      $('#flwrgenerateByBatchBTN').hide('fold');
+                        swal('Flower does not Exist!','the batch that you enetered is not existing, please try again later','error');
+
+                    }
+                  });
+
 
           $('#batchList_Field').change(function(){
               $('#batchList_Field1').val($(this).val());
