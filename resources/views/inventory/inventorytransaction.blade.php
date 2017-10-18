@@ -139,9 +139,9 @@
                         </li>
                         @if($Itype == 'Flower')
                         <li>
-                          <a href="#date" data-toggle="tab">
+                          <a href="#sales" data-toggle="tab">
                             <i class="material-icons">date_range</i>
-                            By Date
+                            Generate Sales Report
                           </a>
                         </li>
                         <li>
@@ -178,7 +178,7 @@
                                 <i class="fa fa-calendar"></i>
                               </div>
                               <input type="text" class="form-control pull-right" id="trans_range" name = "trans_range">
-                              <button type = "submit" id = "submt_rangeBTN" class = "btn btn-md Lemon">Generate Report</button>
+                              <button type = "submit" id = "submt_rangeSalesBTN" class = "btn btn-md Lemon">Generate Report</button>
                             </div>
                             <!-- /.input group -->
                           </div>
@@ -198,6 +198,40 @@
                           @else
                           <p><b>*This part of this page will generate a report based on the date that you'll be choosing. The report that will be generated will focus on the accessories that are being taken in and out of the inventory.</b></p>
                           @endif
+                        </div>
+                        <div class = "col-md-3"></div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="sales">
+                      <div class = "row">
+                        <div class="col-md-6 col-md-offset-2" style="margin-top: -6%;">
+                          <!-- Date range -->
+                    {!! Form::open(array('route' => 'Flwr_Salesreport.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <input type="text" value="byDate" name="Report_type" class="hidden">
+                          <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
+                          <div class="form-group">
+                            <label class="pull-left"><h4>Date range:</h4></label>
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="trans_range2" name = "trans_range2">
+                              <button type = "submit" id = "submt_rangeSALESBTN" class = "btn btn-md Lemon">Generate Report</button>
+                            </div>
+                            <!-- /.input group -->
+                          </div>
+                          <!-- /.form group -->
+
+                            {!! Form::close() !!}
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <hr>
+                      <div class = "row">
+                        <div class = "col-md-3"></div>
+                        <div class = "col-md-6">
+                          <p><b>*This part of this page will generate a sales report based on the date range that you'll be choosing. The report that will be generated will focus on the profit made with the flowers that are being sold to your beloved customers.</b></p>
                         </div>
                         <div class = "col-md-3"></div>
                       </div>
@@ -283,7 +317,8 @@
         });
       });
       //Date range picker
-    $('#trans_range').daterangepicker();
+      $('#trans_range').daterangepicker();
+      $('#trans_range2').daterangepicker();
   </script>
   <script>
       $(document).ready(function(){
