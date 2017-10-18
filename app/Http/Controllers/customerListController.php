@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Image;
 use Auth;
+use App\User;
+use Validator;
+use Alert;
 
 class customerListController extends Controller
 {
@@ -39,6 +42,7 @@ class customerListController extends Controller
           $province = DB::table('provinces')
           ->select('*')
           ->get();
+
 
         $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
         $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
@@ -207,7 +211,7 @@ class customerListController extends Controller
 
           $updatecustomerDetails->save();
 
-          return redirect()->route('customers.show',$updatecustomerDetails->Cust_ID);
+          return redirect()->route('customers.index');
         }
     }
 
@@ -220,5 +224,44 @@ class customerListController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addcustaccount($id){
+
+      $custdetails = CustomerDetails::find($id);
+      $custaccount = new User;
+      $custemail = User::where('email', $custdetails -> Email_Address)->count();
+      $validator = 0;
+
+      if ($custemail == '1'){
+
+        session()->set('user_signup', '1');
+
+        return redirect('customers');
+
+      }
+
+      elseif ($custemail == '0'){
+
+        $custaccount->email = $custdetails -> Email_Address;
+        $custaccount->password = bcrypt($custdetails->Email_Address);
+        $custaccount->username = $custdetails -> Cust_LName;
+        $custaccount->Cust_ID = $id;
+
+        $custaccount -> save();
+
+        session()->set('user_signup', '2');
+
+        return redirect('customers');
+
+
+      }
+
+
+
+
+
+
+
     }
 }

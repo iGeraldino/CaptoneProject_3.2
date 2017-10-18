@@ -4,14 +4,23 @@
 
   <!-- Content Header (Page header) -->
   <section class="content-header" style="margin-top: 2%;">
-    <!-- line modal -->
+
+
+
+
+
+
+<!-- line modal -->
     <div class="modal fade" id="newCust" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <h3 class="modal-title" id="lineModalLabel">Create New Customer Record</h3>
+
+         <input type="text" id="emailvalidator" value="">
         </div>
+
 
       {!! Form::open(array('route' => 'customers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
         <div class="modal-body">
@@ -24,6 +33,7 @@
             <input type="text" class="form-control" name="Cust_MNameField" id="Cust_MNameField"  placeholder="Middle Name..."/>
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
             <input type="text" class="form-control" name="Cust_LNameField" id="Cust_LNameField"  placeholder="Last Name..." required/>
+
           </div>
 
           <div class = "row">
@@ -430,7 +440,7 @@
                                 <a type = "button" href="{{ route('customersTradeAgreement.show',$customerDetailsrow->Cust_ID) }}" class = "btn btn-sm Inbox btn-just-icon" rel="tooltip" title="ADD TRADE AGREEMENT" >
                                  <i class="material-icons">add_circle</i>
                                 </a>
-                                <a type="button" class="btn btn-just-icon twitch" rel="tooltip" title="CREATE ACCOUNT" href="/create_account"> <i class="material-icons">add</i></a>
+                                <a type="button" href="{{ route('addcustaccount',$customerDetailsrow->Cust_ID)}}" class="btn btn-just-icon twitch" rel="tooltip" title="Add To Customer Account" href="/create_account"> <i class="material-icons">add</i></a>
                               </td>
                             </tr>
                           @endforeach
@@ -591,6 +601,34 @@
                 $("#TownField").val($("#TownField option:visible:first").val());
 
         });//end of function
+
+        if ( {{ session()->get('user_signup')}} == '1'){
+
+          swal({title: "Customer Account is not created", text:"Email is existing. Please edit the Customer Email Before this Customer will have account", type: "error"},
+          function(){
+
+            {{ session()->forget('user_signup')}};
+
+          }
+
+          );
+
+
+
+        }
+        else{
+
+          swal({title: "Good job!", text:"Customer account is created", type: "success"},
+          function(){
+
+            {{ session()->forget('user_signup')}};
+
+          }
+
+          );
+        }
+
+
       });
     </script>
 @endsection

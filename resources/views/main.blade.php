@@ -16,7 +16,6 @@
 </div> <!-- end of the container -->
 
 @include('partials._javascript')
-
 	@yield('scripts')
 
 </body>

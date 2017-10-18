@@ -248,7 +248,6 @@
 
                                                         <span class="label label-info"> Paid Partial </span>
 
-
                                                     @endif
 
                                                 </td>
