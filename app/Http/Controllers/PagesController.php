@@ -277,25 +277,6 @@ class PagesController extends Controller
 			 //->with('charts',$charts);
 		}
 
-						$order_Paid = DB::select('CALL fullyPaid_Orders()');
-						$orderWith_Bal = DB::select('CALL withBalance_Orders()');
-						//
-						$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-						return view('dashboard')
-						 ->with('cust_Account',$cust_Account)
-						 ->with('orderscount',$orderscount)
-						 ->with('p_Orders',$order_Paid)
-						 ->with('b_Orders',$orderWith_Bal)
-						 ->with('debtors',$Customers_WithDebts)
-						 ->with('tobeAcquired',$tobeAcquired_Orders)
-						 ->with('CriticalFLowers',$CriticalFLowers)
-						 ->with('arriving',$arriving)
-						 ->with('Porders',$Pending_salesOrders)
-						 ->with('SpoiledFLowers',$SpoiledFLowers);
-						 //->with('charts',$charts);
-					}
-
-				}
 				elseif (Auth::guard('admins')->user()->type == '2') {
 			return redirect()->route('cashierdashboard');
 				}
