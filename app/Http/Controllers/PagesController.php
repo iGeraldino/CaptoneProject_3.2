@@ -27,149 +27,262 @@ class PagesController extends Controller
 {
     //
 	public function getSupplierList() {
-		if(auth::guard('admins')->check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-			return view('supplier/supplierlist');
+
+		if(auth::guard('admins')->user()->type == '1'){
+			if(auth::guard('admins')->check() == false){
+							Session::put('loginSession','fail');
+							return redirect() -> route('adminsignin');
+					}
+					else{
+				return view('supplier/supplierlist');
+			}
 		}
+		elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+
+							return redirect()->route('warehousedashboard');
+		}
+
 
 	}
 	public function getSupplierMoreDetails() {
-		if(auth::guard('admins')->check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-			return view('supplier/suppliermoredetails');
-		}
 
-		Session::put('Add_FlowertoSupplierSession','Successful');
-        return back();
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+			            Session::put('loginSession','fail');
+			            return redirect() -> route('adminsignin');
+			        }
+			        else{
+						return view('supplier/suppliermoredetails');
+					}
+
+					Session::put('Add_FlowertoSupplierSession','Successful');
+			        return back();
+
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+								return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
 
 	}
 
 	public function getCustomerList() {
-		    if(auth::guard('admins')->check() == false){
-            	Session::put('loginSession','fail');
-            	return redirect() -> route('adminsignin');
-        	}
-        	else{
-				return view('customer/customerlist');
-			}
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+							 Session::put('loginSession','fail');
+							 return redirect() -> route('adminsignin');
+					 }
+					 else{
+				 return view('customer/customerlist');
+			 }
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+
+									return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}//
 
 	public function getSupplierPriceList() {
-	        if(auth::guard('admins')->check() == false){
-	            Session::put('loginSession','fail');
-	            return redirect() -> route('adminsignin');
-	        }
-	        else{
-				return view('supplier/supplierpricelist');
-			}
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+						 Session::put('loginSession','fail');
+						 return redirect() -> route('adminsignin');
+				 }
+				 else{
+			 return view('supplier/supplierpricelist');
+		 }
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+								return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}
 
 	public function getAddingTradeAgreement() {
-        	if(auth::guard('admins')->check() == false){
-            	Session::put('loginSession','fail');
-            	return redirect() -> route('adminsignin');
-        	}
-        	else{
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+							Session::put('loginSession','fail');
+							return redirect() -> route('adminsignin');
+					}
+					else{
 				return view('customer/adding_tradeagreement');
 			}
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+								return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}//
 	public function getCustomerTradeAgreement() {
-        if(auth::guard('admins')->check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-			return view('customer/customer_trade_agreement');
-		}
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+							Session::put('loginSession','fail');
+							return redirect() -> route('adminsignin');
+					}
+					else{
+				return view('customer/customer_trade_agreement');
+			}
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 	}//
 
 	public function getSpecificCustomerAgreement() {
-	        if(auth::guard('admins')->check() == false){
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
             	Session::put('loginSession','fail');
             	return redirect() -> route('adminsignin');
         	}
         	else{
 				return view('customer/specific_customer_agreement');
 			}
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}
 
 	public function getOtherViewOfCustAgreement() {
-		if(auth::guard('admins')->check() == false){
-            Session::put('loginSession','fail');
-            return redirect() -> route('adminsignin');
-        }
-        else{
-			return view('customer/other_viewofcustagreement');
-			}
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+									Session::put('loginSession','fail');
+									return redirect() -> route('adminsignin');
+							}
+							else{
+						return view('customer/other_viewofcustagreement');
+						}
+
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}
 
 	public function getInventoryTransaction() {
-		  if(auth::guard('admins')->check() == false){
-	            Session::put('loginSession','fail');
-	            return redirect() -> route('adminsignin');
-	        }
-	     else{
-				return view('inventory/inventorytransaction');
-			}
+
+				if(auth::guard('admins')->user()->type == '1'){
+					if(auth::guard('admins')->check() == false){
+									Session::put('loginSession','fail');
+									return redirect() -> route('adminsignin');
+							}
+					 else{
+						return view('inventory/inventorytransaction');
+					}
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+
+									return redirect()->route('warehousedashboard');
+				}
+
 		}
 
 	public function getDashboard() {
 
-		if(auth::guard('admins')->check() == false){
-			Session::put('loginSession','invalid');
-			return redirect() -> route('adminsignin');
-		}
-		else{
-			Session::put('loginSession','good');
+				if(auth::guard('admins')->user()->type == '1'){
 
-/*			$charts = Charts::new('line','highcharts')
-			->setTitle('My website users')
-			->setLabels('ES','FR','RU')
-			->setValues(100,50,25)
-			->setElementLabel("Total Users");
-*/
-		$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
-    WHERE Status IN ('PENDING','pending')");
+					if(auth::guard('admins')->check() == false){
+						Session::put('loginSession','invalid');
+						return redirect() -> route('adminsignin');
+					}
+					else{
+						Session::put('loginSession','good');
 
-		$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
+			/*			$charts = Charts::new('line','highcharts')
+						->setTitle('My website users')
+						->setLabels('ES','FR','RU')
+						->setValues(100,50,25)
+						->setElementLabel("Total Users");
+			*/
+					$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+					WHERE Status IN ('PENDING','pending')");
 
-			//dd($orderscount);
+					$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
 
-			$Pending_salesOrders = DB::table('sales_order')
-			->select('*')
-			->where('Status','PENDING')
-			->get();
+						//dd($orderscount);
 
-			$arriving = DB::select('CALL view_Arriving_Inventory()');
+						$Pending_salesOrders = DB::table('sales_order')
+						->select('*')
+						->where('Status','PENDING')
+						->get();
 
-			$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+						$arriving = DB::select('CALL view_Arriving_Inventory()');
 
-			$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+						$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
-			$order_Paid = DB::select('CALL fullyPaid_Orders()');
-			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
-			//
-			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-			return view('dashboard')
-			 ->with('cust_Account',$cust_Account)
-			 ->with('orderscount',$orderscount)
-			 ->with('p_Orders',$order_Paid)
-			 ->with('b_Orders',$orderWith_Bal)
-			 ->with('debtors',$Customers_WithDebts)
-			 ->with('tobeAcquired',$tobeAcquired_Orders)
-			 ->with('CriticalFLowers',$CriticalFLowers)
-       ->with('arriving',$arriving)
-			 ->with('Porders',$Pending_salesOrders)
-			 ->with('SpoiledFLowers',$SpoiledFLowers);
-			 //->with('charts',$charts);
-		}
+						$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+						$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+
+						$order_Paid = DB::select('CALL fullyPaid_Orders()');
+						$orderWith_Bal = DB::select('CALL withBalance_Orders()');
+						//
+						$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+						return view('dashboard')
+						 ->with('cust_Account',$cust_Account)
+						 ->with('orderscount',$orderscount)
+						 ->with('p_Orders',$order_Paid)
+						 ->with('b_Orders',$orderWith_Bal)
+						 ->with('debtors',$Customers_WithDebts)
+						 ->with('tobeAcquired',$tobeAcquired_Orders)
+						 ->with('CriticalFLowers',$CriticalFLowers)
+						 ->with('arriving',$arriving)
+						 ->with('Porders',$Pending_salesOrders)
+						 ->with('SpoiledFLowers',$SpoiledFLowers);
+						 //->with('charts',$charts);
+					}
+
+				}
+				elseif (Auth::guard('admins')->user()->type == '2') {
+			return redirect()->route('cashierdashboard');
+				}
+				elseif (Auth::guard('admins')->user()->type == '3') {
+								return redirect()->route('warehousedashboard');
+				}
+
+
 
 		}
 
@@ -316,11 +429,18 @@ class PagesController extends Controller
 			return view('reports/OrderSummary_Delivery');
 		}
 
+		//Cashier
 	public function getCashierPage() {
 			return view('cashier/pages/cashierpage');
 		}
 
 	public function getCashierDashboard() {
+
+			if (Auth::guard('admins')->user()->type == '2') {
+
+
+
+
 			$Pending_salesOrders = DB::table('sales_order')
 			->select('*')
 			->where('Status','PENDING')
@@ -347,6 +467,15 @@ class PagesController extends Controller
 			 ->with('Porders',$Pending_salesOrders)
 			 ->with('SpoiledFLowers',$SpoiledFLowers);
 			 //->with('charts',$charts);
+
+		 }
+		 elseif (Auth::guard('admins')->user()->type == '1') {
+			 return redirect()->route('dashboard');
+
+		 }
+		 elseif (Auth::guard('admins')->user()->type == '3') {
+			 return redirect()->route('warehousedashboard');
+		 }
 		}
 
 	public function getCashierSalesOrder() {
@@ -385,125 +514,211 @@ class PagesController extends Controller
             ->with('city',$cities)
             ->with('city2',$cities)
             ->with('province',$province);
+
+						if (Auth::guard('admins')->user()->type == '2') {
+
+					 }
+					 elseif (Auth::guard('admins')->user()->type == '1') {
+						 return redirect()->route('dashboard');
+
+					 }
+					 elseif (Auth::guard('admins')->user()->type == '3') {
+						 return redirect()->route('warehousedashboard');
+					 }
 		}
 
 	public function getCashierQuickOrder() {
+
+		if (Auth::guard('admins')->user()->type == '2') {
 			$cities = DB::table('cities')
-          ->select('*')
-          ->get();
+					->select('*')
+					->get();
 
-        $province = DB::table('provinces')
-          ->select('*')
-          ->get();
+				$province = DB::table('provinces')
+					->select('*')
+					->get();
 
-        $salesOrders = DB::table('sales_order')
-        ->select('*')
-        ->get();
+				$salesOrders = DB::table('sales_order')
+				->select('*')
+				->get();
 
-        $customers = DB::table('customer_details')
-        ->select('*')
-        ->get();
+				$customers = DB::table('customer_details')
+				->select('*')
+				->get();
 
-        $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+				$batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
 
-        //dd($batches_ofFlowers);
+				//dd($batches_ofFlowers);
 
-        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
+				$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
 
-        $accessories = DB::select('CALL AvailableAcessories_Records()');
+				$accessories = DB::select('CALL AvailableAcessories_Records()');
 
-        $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
+				$CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
 
 
 
-        return view('cashier/pages/cashier_quick_order')
-        ->with('batches',$batches_ofFlowers)
-        ->with('CustTradeAgreements',$CustWith_TradeAgreement)
-        ->with('orders',$salesOrders)
-        ->with('cust',$customers)
-        ->with('city',$cities)
-        ->with('city2',$cities)
-        ->with('province',$province)
-        ->with('accessories',$accessories)
-        ->with('FlowerList',$AvailableFlowers);
+				return view('cashier/pages/cashier_quick_order')
+				->with('batches',$batches_ofFlowers)
+				->with('CustTradeAgreements',$CustWith_TradeAgreement)
+				->with('orders',$salesOrders)
+				->with('cust',$customers)
+				->with('city',$cities)
+				->with('city2',$cities)
+				->with('province',$province)
+				->with('accessories',$accessories)
+				->with('FlowerList',$AvailableFlowers);
+
+
+		}
+		elseif (Auth::guard('admins')->user()->type == '1') {
+		return redirect()->route('dashboard');
+
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+		return redirect()->route('warehousedashboard');
+		}
 		}
 
 	public function getCashierLongOrder() {
+		if (Auth::guard('admins')->user()->type == '2') {
 			$cities = DB::table('cities')
-              ->select('*')
-              ->get();
+							->select('*')
+							->get();
 
-            $province = DB::table('provinces')
-              ->select('*')
-              ->get();
+						$province = DB::table('provinces')
+							->select('*')
+							->get();
 
-            $salesOrders = DB::table('sales_order')
-            ->select('*')
-            ->get();
+						$salesOrders = DB::table('sales_order')
+						->select('*')
+						->get();
 
-            $customers = DB::table('customer_details')
-            ->select('*')
-            ->get();
+						$customers = DB::table('customer_details')
+						->select('*')
+						->get();
 
-            $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-            $accessories = DB::select('CALL Acessories_Records()');
+						$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+						$accessories = DB::select('CALL Acessories_Records()');
 
-            //
-            return view('cashier/pages/cashier_long_order')
-            ->with('orders',$salesOrders)
-            ->with('cust',$customers)
-            ->with('city',$cities)
-            ->with('city2',$cities)
-            ->with('province',$province)
-            ->with('accessories',$accessories)
-            ->with('FlowerList',$AvailableFlowers);
+						//
+						return view('cashier/pages/cashier_long_order')
+						->with('orders',$salesOrders)
+						->with('cust',$customers)
+						->with('city',$cities)
+						->with('city2',$cities)
+						->with('province',$province)
+						->with('accessories',$accessories)
+						->with('FlowerList',$AvailableFlowers);
+
 		}
+		elseif (Auth::guard('admins')->user()->type == '1') {
+		return redirect()->route('dashboard');
+
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+		return redirect()->route('warehousedashboard');
+		}
+	}
 
 	public function getCashierCustomerList() {
-		  $cities = DB::table('cities')
-          ->select('*')
-          ->get();
 
-          $province = DB::table('provinces')
-          ->select('*')
-          ->get();
+		if (Auth::guard('admins')->user()->type == '2') {
+			$cities = DB::table('cities')
+					->select('*')
+					->get();
 
-        $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
-        $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
+					$province = DB::table('provinces')
+					->select('*')
+					->get();
 
-        return view('cashier/pages/cashier_customer_list')
-        ->with('accts',$custAccts)
-        ->with('customers',$customerDetails)
-        ->with('city',$cities)
-        ->with('province',$province);
+				$customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
+				$custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
+
+				return view('cashier/pages/cashier_customer_list')
+				->with('accts',$custAccts)
+				->with('customers',$customerDetails)
+				->with('city',$cities)
+				->with('province',$province);
+
 		}
+		elseif (Auth::guard('admins')->user()->type == '1') {
+		return redirect()->route('dashboard');
 
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+		return redirect()->route('warehousedashboard');
+		}
+	}
 	public function getCashierCustomerTradeAgreement() {
+
+		if (Auth::guard('admins')->user()->type == '2') {
 			$Agreements = DB::select("CALL CustomerWithTradeAgreements()");
-            return view('cashier/pages/cashier_customer_trade_agreement')
-            ->with('agreed',$Agreements);
+						return view('cashier/pages/cashier_customer_trade_agreement')
+						->with('agreed',$Agreements);
+
 		}
+		elseif (Auth::guard('admins')->user()->type == '1') {
+		return redirect()->route('dashboard');
+
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+		return redirect()->route('warehousedashboard');
+		}
+	}
 
 	public function getCashierFlowerList() {
+		if (Auth::guard('admins')->user()->type == '2') {
 			$flower = DB::select('CALL Viewing_Flowers_With_UpdatedPrice()');
-           // dd($flower);
-            return view('cashier/pages/cashier_flower_list')
-            -> with ('flower', $flower);
+					 // dd($flower);
+						return view('cashier/pages/cashier_flower_list')
+						-> with ('flower', $flower);
+
 
 		}
+		elseif (Auth::guard('admins')->user()->type == '1') {
+		return redirect()->route('dashboard');
+
+		}
+		elseif (Auth::guard('admins')->user()->type == '3') {
+		return redirect()->route('warehousedashboard');
+		}
+	}
 
 	public function getCashierInventoryTransaction() {
-			return view('cashier/pages/cashier_inventory_transaction');
+			if (Auth::guard('admins')->user()->type == '2') {
+				return view('cashier/pages/cashier_inventory_transaction');
+
+			}
+			elseif (Auth::guard('admins')->user()->type == '1') {
+			return redirect()->route('dashboard');
+
+			}
+			elseif (Auth::guard('admins')->user()->type == '3') {
+			return redirect()->route('warehousedashboard');
+			}
 		}
 
 	public function getCashierFlowerPriceList() {
-			$Active_Price = DB::select('CALL active_PriceListmarkup()');
-            $Inactive_Price = DB::select('CALL inactive_PriceListMarkup()');
+						if (Auth::guard('admins')->user()->type == '2') {
+							$Active_Price = DB::select('CALL active_PriceListmarkup()');
+	            $Inactive_Price = DB::select('CALL inactive_PriceListMarkup()');
 
-            return view('cashier/pages/cashier_flower_price_list')
-            ->with('activePrices',$Active_Price)
-            ->with('inactivePrices',$Inactive_Price);
+	            return view('cashier/pages/cashier_flower_price_list')
+	            ->with('activePrices',$Active_Price)
+	            ->with('inactivePrices',$Inactive_Price);
+
+						}
+						elseif (Auth::guard('admins')->user()->type == '1') {
+						return redirect()->route('dashboard');
+
+						}
+						elseif (Auth::guard('admins')->user()->type == '3') {
+						return redirect()->route('warehousedashboard');
+						}
 		}
+
+		//
 
 	public function getOrderSummaryPickUpDesign() {
 			return view('reports/OrderSummary_PickUP_Design');
@@ -516,7 +731,7 @@ class PagesController extends Controller
 	public function getInventoryDashboard()
     {
 
-        if (Auth::guard('admins')->user()->type == 3) {
+        if (Auth::guard('admins')->user()->type == '3') {
 
 
             $Pending_salesOrders = DB::table('sales_order')
@@ -545,12 +760,13 @@ class PagesController extends Controller
                 ->with('Porders', $Pending_salesOrders)
                 ->with('SpoiledFLowers', $SpoiledFLowers);
             //->with('charts',$charts);]
-        } elseif (Auth::guard('admins')->user()->type == 1) {
+        } elseif (Auth::guard('admins')->user()->type == '1') {
 
             return redirect()->route('dashboard');
 
         }
-        elseif(Auth::guard('admins')->user()->type == 2){
+
+        elseif(Auth::guard('admins')->user()->type == '2'){
 
             return redirect()->route('cashierdashboard');
         }
@@ -558,7 +774,8 @@ class PagesController extends Controller
 
 	public function getInventorySalesOrder() {
 
-	        dd(Auth::guest('admins'));
+		if (Auth::guard('admins')->user()->type == '3') {
+
 
 	        $cities = DB::table('cities')
               ->select('*')
@@ -595,25 +812,86 @@ class PagesController extends Controller
             ->with('city',$cities)
             ->with('city2',$cities)
             ->with('province',$province);
+
+				} elseif (Auth::guard('admins')->user()->type == '1') {
+
+						return redirect()->route('dashboard');
+
+				}
+
+				elseif(Auth::guard('admins')->user()->type == '2'){
+
+						return redirect()->route('cashierdashboard');
+				}
 		}
 
 	public function getInventoryFlowerList() {
+
+			if(Auth::guard('admins')->user()->type == '3'){
+
 			$flower = DB::select('CALL Viewing_Flowers_With_UpdatedPrice()');
            // dd($flower);
             return view('inventory_side/pages/inventory_flower_list')
             -> with ('flower', $flower);
+					} elseif (Auth::guard('admins')->user()->type == '1') {
+
+							return redirect()->route('dashboard');
+
+					}
+
+					elseif(Auth::guard('admins')->user()->type == '2'){
+
+							return redirect()->route('cashierdashboard');
+					}
 		}
 
+
 	public function getInventorySideTransaction() {
-			return view('inventory_side/pages/inventory_side_transaction');
+			if(Auth::guard('admins')->user()->type == '3'){
+				return view('inventory_side/pages/inventory_side_transaction');
+
+			} elseif (Auth::guard('admins')->user()->type == '1') {
+
+							return redirect()->route('dashboard');
+
+					}
+
+					elseif(Auth::guard('admins')->user()->type == '2'){
+
+							return redirect()->route('cashierdashboard');
+					}
 		}
 
 	public function getInventorySchedule() {
-			return view('inventory_side/pages/inventory_schedule');
+			if(Auth::guard('admins')->user()->type == '3'){
+				return view('inventory_side/pages/inventory_schedule');
+
+			} elseif (Auth::guard('admins')->user()->type == '1') {
+
+							return redirect()->route('dashboard');
+
+					}
+
+					elseif(Auth::guard('admins')->user()->type == '2'){
+
+							return redirect()->route('cashierdashboard');
+					}
 		}
 
 	public function getInventoryFlowerPriceList() {
-			return view('inventory_side/pages/inventory_flower_price_list');
+			if(Auth::guard('admins')->user()->type == '3'){
+				return view('inventory_side/pages/inventory_flower_price_list');
+
+			} elseif (Auth::guard('admins')->user()->type == '1') {
+
+							return redirect()->route('dashboard');
+
+					}
+
+					elseif(Auth::guard('admins')->user()->type == '2'){
+
+							return redirect()->route('cashierdashboard');
+					}
 		}
 
 	public function getOrderSummaryPickUpSimple() {
