@@ -18,10 +18,14 @@ class Inventory_Transaction_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
+          $flwr = DB::table('flower_details')
+          ->select('*')
+          ->get();
           $batches = DB::select('CALL list_of_batches()');
           $Flower_Transactions = DB::select('call Inventory_Transaction_in_Flowers()');
           $type = 'Flower';
          return view('inventory.inventorytransaction')
+          ->with('flwr',$flwr)
           ->with('batch',$batches)
           ->with('Itype',$type)
           ->with('transactions',$Flower_Transactions);
@@ -48,10 +52,14 @@ class Inventory_Transaction_Controller extends Controller
           return redirect() -> route('adminsignin');
       }
       else{
+          $flwr = DB::table('flower_details')
+          ->select('*')
+          ->get();
           $batches = DB::select('CALL list_of_batches()');
           $Acrs_Transactions = DB::select('call Inventory_Transaction_in_Acrs()');
           $type = 'Acessories';
           return view('inventory.inventorytransaction')
+          ->with('flwr',$flwr)
           ->with('batch',$batches)
           ->with('Itype',$type)
           ->with('transactions',$Acrs_Transactions);
