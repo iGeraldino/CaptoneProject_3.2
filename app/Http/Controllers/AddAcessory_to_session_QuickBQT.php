@@ -82,7 +82,7 @@ class AddAcessory_to_session_QuickBQT extends Controller
               foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $Acrow){
                 if($Acrow->options->bqt_ID == $row->id){
                   $qtyRemaining = $qtyRemaining - ($Acrow->qty*$row->qty);
-                  Cart::instance('AllofAcrs')->update($row->rowId,['options'=>['qtyR'=>$qtyremaining]]);
+                  Cart::instance('AllofAcrs')->update($row->rowId,['options'=>['qtyR'=>$qtyRemaining]]);
                 }
               }//end of foreach of the acessories cart
             }

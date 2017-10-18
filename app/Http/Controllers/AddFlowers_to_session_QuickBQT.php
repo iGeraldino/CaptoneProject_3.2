@@ -103,7 +103,7 @@ class AddFlowers_to_session_QuickBQT extends Controller
                 foreach(Cart::instance('QuickOrdered_Bqt')->content() as $Bqt){
                   foreach(Cart::instance('QuickFinalBqt_Flowers')->content() as $bqtFlwr){
                     if($Bqt->id == $bqtFlwr->options->bqt_ID){
-                      if($flwr->id == $batchID[1] AND $flwr->options->batchID == $batchID[0]){
+                      if($bqtFlwr->id == $batchID[1] AND $bqtFlwr->options->batchID == $batchID[0]){
                         $newQty = 0;
                         $qtyremaining = $qtyremaining - ($bqtFlwr->qty * $Bqt->qty);
                         Cart::instance('BatchesofFLowers')->update($batches->rowId,['options'=>['qtyR'=>$qtyremaining]]);

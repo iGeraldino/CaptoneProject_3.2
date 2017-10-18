@@ -68,7 +68,7 @@
                 </a>
               @else
                 <a id = "ProcessBtn" type="button"
-                class="pull-right btn btn-round twitch btn-md" data-toggle="modal" data-target = "#PROCESS_MODAL" disabled>
+                class="hidden pull-right btn btn-round twitch btn-md" data-toggle="modal" data-target = "#PROCESS_MODAL" disabled>
                   Process Request
                 </a>
               @endif
