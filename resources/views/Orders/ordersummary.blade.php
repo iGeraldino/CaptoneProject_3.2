@@ -445,8 +445,9 @@
 									</div>
 								</div>
 								<div>
-									<p>If you can’t pick up the flower on time, you’ll have at least 3 days to pick it up.</p>
-									<p>For arranged flowers, the pickup is within a day only.</p>
+									<p>*If you can’t pick up the flower on time, you’ll have at least 3 days to pick it up.</p>
+									<p>*For arranged flowers, the pickup is within a day only.</p>
+									<p>*No refund or exchange of flowers</p>
 								</div>
 								<div class = "pull-right">
 									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
@@ -567,6 +568,8 @@
 											
 										</div>
 										<div class="col-md-12">
+												<p>*No deposit, no delivery. </p>
+												<p>*The minimum amount to be purchased for delivery within Metro Manila is 3,000.</p>
 												<p>*if outside Metro Manila, the delivery charge is not covered.It depend upon the negotiation that will be
 												made between you and the company</p>
 											</div>
