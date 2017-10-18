@@ -163,6 +163,7 @@
                         <div class="col-md-6" style="margin-top: -6%;">
                           <!-- Date range -->
                     {!! Form::open(array('route' => 'flowerReport_Transaction.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <input type="text" value="byDate" name="Report_type" class="hidden">
                           <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
                           <div class="form-group">
                             <label class="pull-left"><h4>Date range:</h4></label>
@@ -197,11 +198,13 @@
                         <div id = "">
                         {!! Form::open(array('route' => 'Inventory_TransactionBatch.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
                           <div id = "batch_Chooser">
+                            <input type="text" value="byBatch" name="Report_type" class="hidden">
                             <input id = "batchList_Field" class = "form-control"  name="batchList_Field" list="batchList_ID" placeholder="Enter a batch of inventory " required/>
+                            <input id = "batchList_Field1" class = "hidden form-control"  name="batchList_Field2"/>
                             <datalist id="batchList_ID">
                               <!--Foreach Loop data Here value = "Name" data-tag = "id"-->
                               @foreach($batch as $batches)
-                                <option value="BATCH_{{$batches->Sched_ID}}" data-id = "{{$batches->Sched_ID}}">
+                                <option value="BATCH_{{$batches->Sched_ID}}" data -id = "{{$batches->Sched_ID}}">
                                   Recieved: {{date('M d,Y',strtotime($batches->Date_Obtained))}}
                                 </option>
                               @endforeach
@@ -209,7 +212,7 @@
                             </datalist>
                           </div>
                           <!--  -->
-                          <button type = "submit" id = "" class = "btn btn-md Lemon">Generate Report</button>
+                          <button type = "submit" id = "generateByBatchBTN" class = "btn btn-md Lemon" disabled>Generate Report</button>
                         {!! Form::close() !!}
                         </div>
                       </div>
@@ -258,15 +261,21 @@
       $(document).ready(function(){
 
           $('#batchList_Field').change(function(){
+              $('#batchList_Field1').val($(this).val());
             var batchID = $("#batchList_Field").val();
             var Found = 0;
     				$('#batchList_ID option').each(function(item){
     					if(batchID == $(this).val()){
     						   Found = 1;   //swal('Note:','','')
+                   $('#generateByBatchBTN').attr('disabled',false);
+                   $('#generateByBatchBTN').show('fold');
     					}
     				});
             if(Found == 0 ){
-              swal('Sorry the batch does not exist','the batch that you enetered is not existing, please try again later');
+              $('#generateByBatchBTN').attr('disabled',true);
+              $('#generateByBatchBTN').hide('fold');
+                swal('Batch does not Exist!','the batch that you enetered is not existing, please try again later','error');
+
             }
           });
 

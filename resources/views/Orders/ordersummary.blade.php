@@ -565,7 +565,7 @@
 												<h5>Time of Delivery</h5>
 												<input id = "DeliveryTime_Field" class = "form-control" type="time" required/>
 											</div>
-											
+
 										</div>
 										<div class="col-md-12">
 												<p>*No deposit, no delivery. </p>

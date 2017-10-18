@@ -56,7 +56,7 @@
 		<h3 class="a4">Date: {{date('M d, Y',strtotime($start))}} - {{date('M d, Y',strtotime($end))}}</h3>
 
 		@if($type == "Accessory")
-			<h4 class="a1"> Monitoring of the in and Out of the flowers in the inventory</h4>
+			<h4 class="a1"> Monitoring of the in and Out of the Accessories in the inventory</h4>
 		@elseif($type == 'Flower')
 			<h4 class="a1"> Monitoring of the in and Out of the flowers in the inventory</h4>
 		@endif
@@ -65,7 +65,8 @@
 			<thead>
 				<tr>
 			      <th class="center color1 font">TRANSACTION ID</th>
-			      <th class="center color1 font">ITEM_ID</th>
+						<th class="center color1 font">BATCH ID</th>
+			      <th class="center color1 font">ITEM ID</th>
 			      <th class="center color1 font">QUANTITY</th>
 			      <th class="center color1 font">TOTAL AMOUNT</th>
 						<th class="center color1 font">DESCRIPTION</th>
@@ -81,7 +82,12 @@
 			    @else
 					@foreach($trans as $row)
 					<tr>
-				      	<td class="font center" style = "color:gray;"><b>TRANS-{{$row->Transaction_ID}}</b></td>
+								<td class="font center" style = "color:gray;"><b>TRANS-{{$row->Transaction_ID}}</b></td>
+								@if($row->Batch_ID == null)
+				      		<td class="font center" style = "color:gray;"><b>N/A</b></td>
+								@else
+									<td class="font center" style = "color:gray;"><b>BATCH-{{$row->Batch_ID}}</b></td>
+								@endif
 							@if($row->Item_Type == 'Flower')
 				      	<td class="font center" style = "color:light-gray;"><b>FLWR-{{$row->Item_ID}}</b></td>
 							@elseif($row->Item_Type == 'Acessories')
