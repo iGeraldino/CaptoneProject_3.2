@@ -1165,7 +1165,7 @@ class OrderManagementController extends Controller
       $Sales_Order -> save();
       $Order_Details -> save();
       $shopsave = db::table('shop_schedule')->where('Order_ID', $id)->update(['shedule_status' => $statusdetails]);
-      $invoice = db::table('customer_invoice')->where('invoice_ID', $id)->update(['Staus' => $statusinvoice]);
+      $invoice = db::table('customer_invoice')->where('invoice_ID', $id)->update(['Status' => $statusinvoice]);
 
       return redirect() -> back();
 

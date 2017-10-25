@@ -381,6 +381,8 @@ class AdminAccounts_Controller extends Controller
 
         if ($admintableexist == null and $request->randomcode == "1234") {
 
+            
+
             if ($code == $randomcode) {
 
 

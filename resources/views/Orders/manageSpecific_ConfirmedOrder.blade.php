@@ -68,6 +68,9 @@
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">NO PAYMENT YET</span></p>
                 @elseif($SalesOrder->Status == "A_UNPAID")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">ACQUIRED WITHOUT PAYMENT</span></p>
+
+                @elseif($SalesOrder->Status == "CANCELLED")
+                 <p><b>Status: </b><span class = "btn btn-sm btn-danger">CANCELLED</span></p>
                 @elseif($SalesOrder->Status == "A_P_PARTIAL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-info">ACQUIRED WITH PARTIAL PAYMENT</span></p>
                 @endif
@@ -1357,11 +1360,16 @@
 
 		console.log({{ $hourdiff }});
 
-		if ( {{ $hourdiff }} < 24 && $('#OrdStatus').val() == "P_FULL"){
+		if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "P_FULL"){
 
 						$('#cancelPFull').hide();
 		}
-		else if ( {{ $hourdiff }} < 24 && $('#OrdStatus').val() == "P_PARTIAL" ) {
+		else if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "P_PARTIAL" ) {
+
+									$('#cancelPPartial').hide();
+
+		}
+		else if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "BALANCED" ) {
 
 									$('#cancelPPartial').hide();
 

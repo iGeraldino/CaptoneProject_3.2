@@ -98,7 +98,7 @@
 								</div>
 							</div>
 
-							
+
 
 
 							<div class="input-group hidden">
@@ -242,10 +242,17 @@
 			    $('#contno1').val(contno);
 
 
-
-
 			});
 
+      if({{ $validator }} == 0){
+
+        swal("Authentication Code : 1234","Info");
+
+      }
+      else if( {{ $validator }} == 1){
+
+
+      }
 
 
 
@@ -256,4 +263,3 @@
 
 
 	@endsection
-

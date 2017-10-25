@@ -19,11 +19,12 @@
 
           <li class="admin-name">
            @if(Auth::guard('admins')->check() == true and Auth::guard('admins')->user()->type == '1')
-            <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::guard('admins')->user()->username }} </b></a>
+           <a href="#" class = 'dropdown-toggle' data-toggle="dropdown"> Hello Admin <b>{{ Auth::guard('admins')->user()->username }} </b></a>
+
             <ul class = "dropdown-menu">
+              <a class="text-center">  Code : {{ auth::guard('admins')->user()->Random_Code}}</a>
 
               <a href="{{ route('adminlogout')   }}" class="text-center"> <h4> Logout </h4> </a>
-              <a href="/manage_account" class="text-center"> <h4 style="padding-left: 1%; padding-right: 1%;"> Manage my Account   </h4> </a>
 
 
             </ul>

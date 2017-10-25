@@ -2,7 +2,7 @@
 
 @section('content')
 
-   <?php 
+   <?php
     $final_Amt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal()) + str_replace(',','',Cart::instance('Ordered_Bqt')->subtotal());
 
     $NewOrderDetailsRows = Session::get('newOrderSession');
@@ -15,7 +15,7 @@
 
   <div class = "row">
       <div class = "col-md-9">
-        <span class="label danger" style="font-size: 120%; background-color: darkviolet; margin-left: 10px;">Manage The Confirmation of Order</span> 
+        <span class="label danger" style="font-size: 120%; background-color: darkviolet; margin-left: 10px;">Manage The Confirmation of Order</span>
       </div>
       <div class = "col-md-3">
         <a href="{{ route('return.orderCreation') }}" class="btn btn-md btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="This button will cancel the confirmation and will reset the progress you've mde lead you back to the" data-container="body"><span class = "glyphicon glyphicon-remove"></span> Cancel Confirmation </a>
@@ -38,14 +38,14 @@
                     <div class="panel-body">
                       <div style = "margin-left:1%;">
                         <h4 style = "color:darkviolet;"><b>CUSTOMER INFORMATION:</b></h4>
-                        
+
                         <h5><b>Customer Name: </b></h5>
                         <hr>
                         <h4 style = "color:darkviolet;"><b>CONTACT INFORMATION:</b></h4>
-                        
+
                             <h5><b>Cont. Num: </b></h5>
                             <h5><b>Email Add: </b></h5>
-                        
+
                       </div>
                     </div><!--end of panel body-->
                     <div class="panel-footer" id = "footer1">
@@ -84,7 +84,7 @@
                            <div hidden>
                             </div>
 
-                            
+
                               <h4><b>Total Amount:</b></h4>
                               <h5><b> Php {{number_format($final_Amt,2)}} </b></h5>
                           </div>
@@ -165,7 +165,7 @@
                               <button  id = "ProcessEndBtn0" class = "btn btn-md btn-primary pull-right"> Process <span class = "glyphicon glyphicon-saved"></span></button>
                             </div>
                       </div>
-                      
+
                       <div id = "delivery_Div" hidden>
                         <div id = "deliveryDiv_Part1">
                           <h4><b>Recipient Details:</b></h4>
@@ -280,7 +280,7 @@
                   </div>
                 </div>
           </div><!-- end of left panel-->
-          
+
           <div class="col-md-7" style = "margin-left: 0%; margin-top:1%;">
             <div class="panel">
                   <div class="panel panel-danger">
@@ -297,13 +297,13 @@
                       <div id = "flowersCart_Div">
                       <!--looping of data here please-->
                       <h5><b>Flowers</b></h5>
-                      <?php 
-                        $Flower_TAmt = 0; 
+                      <?php
+                        $Flower_TAmt = 0;
                         $Total_Order_Amt = 0;
                       ?>
 
                     @foreach(Cart::instance('Ordered_Flowers')->content() as $Flwr)
-                      <div class="row"> 
+                      <div class="row">
                         <div class="col-xs-1"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
                         </div>
                         <div class="col-xs-2">
@@ -319,7 +319,7 @@
                           <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
                         </div>
                       </div>
-      
+
                       @endforeach
                       <?php
                         $Flower_TAmt = str_replace(',','',Cart::instance('Ordered_Flowers')->subtotal());
@@ -329,10 +329,10 @@
                   </div><!--End of flowers in cart Div-->
                       <div class="col-xs-12">
                           <h5 class="text-right" style = "color:darkviolet"><strong>(Flowers)Total Amount:</strong> Php {{$Flower_TAmt}}</h4>
-                      
+
                       </div>
                   <hr>
-                    <div id = "BqtCart_Div"> 
+                    <div id = "BqtCart_Div">
                       <h5 ><b>Bouquets</b></h5>
   <!--loop of data here-->
   <?php
@@ -351,7 +351,7 @@
                             <h7>{{$Bqt->qty}} pcs.<span class="text-muted"></h7>
                           </div>
                           <div class="col-xs-4" style = "color:red; margin-top:3%;">
-                          
+
                             <h7 style = "color:darkviolet"><b>=</b> Php {{number_format($Bqt->qty*$Bqt->price,2)}}</h7>
                           </div>
                       @endforeach
@@ -361,10 +361,10 @@
                         $Total_Order_Amt += $total_BQT_Price;
                         ?>
                       </div>
-                    </div><!--End of Acessories in cart Div-->                    
+                    </div><!--End of Acessories in cart Div-->
                     <div>
                       <table id="BQT_Contents" class="table">
-                        <thead> 
+                        <thead>
                           <th class="text-center"> Bouquet ID </th>
                           <th class="text-center"> Item ID</th>
                           <th class="text-center"> Image </th>
@@ -376,11 +376,11 @@
 
                         <tbody class = 'stripe'>
                         @foreach(Cart::instance('FinalBqt_Flowers')->content() as $Bqt_F)
-                          <tr>  
+                          <tr>
                             <td class="text-center"> Bouquet-{{$Bqt_F->options['bqt_ID']}} </td>
                             <td class="text-center"> {{$Bqt_F->id}} </td>
-                            <td class="text-center"> 
-                              <img class="img-rounded img-raised img-responsive" style="min-width: 25px; max-height: 25px;" src="{{ asset('flowerimage/'.$Bqt_F->options['image'])}}"> 
+                            <td class="text-center">
+                              <img class="img-rounded img-raised img-responsive" style="min-width: 25px; max-height: 25px;" src="{{ asset('flowerimage/'.$Bqt_F->options['image'])}}">
                             </td>
                             <td class="text-center"> {{$Bqt_F->name}} </td>
                             <td class="text-center"> {{$Bqt_F->qty}}  </td>
@@ -389,11 +389,11 @@
                           </tr>
                         @endforeach
                         @foreach(Cart::instance('FinalBqt_Acessories')->content() as $Acrs)
-                          <tr>  
+                          <tr>
                             <td class="text-center"> Bouquet-{{$Acrs->options['bqt_ID']}} </td>
                             <td class="text-center"> {{$Acrs->name}} </td>
-                            <td class="text-center"> 
-                              <img class="img-rounded img-raised img-responsive" style="min-width: 25px; max-height: 25px;" src="{{ asset('accimage/'.$Acrs->options['image'])}}"> 
+                            <td class="text-center">
+                              <img class="img-rounded img-raised img-responsive" style="min-width: 25px; max-height: 25px;" src="{{ asset('accimage/'.$Acrs->options['image'])}}">
                             </td>
                             <td class="text-center"> {{$Acrs->name}} </td>
                             <td class="text-center"> {{$Acrs->qty}}  </td>
@@ -402,13 +402,13 @@
                           </tr>
                         @endforeach
                         </tbody><!--end of table-->
-                      </table>  
+                      </table>
 
                     </div><!--end of table div-->
                     <div class="col-xs-12">
 
                       <h5 class="text-right" style = "color:darkviolet"><strong>(Bouquet)Total Amount:</<strong> Php {{ $total_BQT_Price}}</h5>
-                    
+
                     </div>
                     </div>
                     <div class="panel-footer">
@@ -423,7 +423,7 @@
           </div><!--end of col-->
   </div>
   <div id = "Checkout_div">
-    
+
   </div>
 
 </div>
@@ -436,7 +436,7 @@
 <script>
 /**/
  $(function () {
-  
+
      // $("#example1").DataTable();
       $('#BQT_Contents').DataTable({
         "paging": true,
@@ -450,11 +450,11 @@
 //alert($('#transtypefield').val());
     if($('#transtypefield').val() == 'quick'){
       $('#deliveryDiv_Part2').hide();
-      $('#deliveryDiv_Part1').hide();  
+      $('#deliveryDiv_Part1').hide();
       $('#PickupDiv2').hide();
       $('#PickupDiv').hide();
       $('#longTrans').hide();
-      $('#Quicktransaction_Div').show("fold");    
+      $('#Quicktransaction_Div').show("fold");
     }
 
     $('#BackBtn').click(function(){
@@ -502,7 +502,7 @@
           $('#Quicktransaction_Div').slideUp();
           $('#delivery_Div').slideDown();
        }//end
-    }); 
+    });
 
       $("#TownField").attr("disabled",true);
 
@@ -511,17 +511,17 @@
         $("#TownField").attr('required', true);
                   var selected = $(this).val();
                   $("#TownField option").each(function(item){
-                   // console.log(selected) ;  
-                    var element =  $(this) ; 
-                    console.log(element.data("tag")) ; 
+                   // console.log(selected) ;
+                    var element =  $(this) ;
+                    console.log(element.data("tag")) ;
                     if (element.data("tag") != selected){
-                      element.hide() ; 
+                      element.hide() ;
                     }
                     else{
                       element.show();
                     }
-                  }) ; 
-                  
+                  }) ;
+
                 $("#TownField").val($("#TownField option:visible:first").val());
         });//end of function
 
@@ -529,7 +529,7 @@
     //Show popup
     swal("Good!","Acessory has been successfully added to your Bouquet!","success");
    }
-   
+
 
         if($('#count_offlowers_Field').val()<12){
           $('#saveBtn').attr('disabled',true);
@@ -541,7 +541,7 @@
 
         if($('#ViewFlowers_CheckBox').is(":checked")){
             $('#flowersCart_Div').slideDown();
-          }//if the checkbutton is clicked by default, the there must be a display of the items on cart 
+          }//if the checkbutton is clicked by default, the there must be a display of the items on cart
         if($('#ViewAcessories_CheckBox').is(":checked")){
             $('#AcessoriesCart_Div').slideDown();
           }//if the checkbutton is clicked by default, the there must be a display of the items on cart
@@ -549,19 +549,19 @@
         $('#ViewFlowers_CheckBox').click(function(){
           if($('#ViewFlowers_CheckBox').is(":checked")){
             $('#flowersCart_Div').slideDown();
-          } 
+          }
           else{
             $('#flowersCart_Div').slideUp();
-          }  
+          }
         });
 
         $('#ViewAcessories_CheckBox').click(function(){
           if($('#ViewAcessories_CheckBox').is(":checked")){
             $('#AcessoriesCart_Div').slideDown();
-          } 
+          }
           else{
             $('#AcessoriesCart_Div').slideUp();
-          }  
+          }
         });
 
         $('#flowerBtn').click(function(){
@@ -585,13 +585,13 @@
         $('#CancelPrice_Btn').click(function(){
           $('#newPrice_Btn').slideDown();
           $('#NewPrice_Div').slideUp();
-        }); 
+        });
         //end of functionx
 
         if($("#FLowerList option").val() == '-1'){
           $('#AddFlowerBtn').attr('disabled',true);
         }
-        
+
         if($("#AcessoryList option").val() == '-1'){
           $('#AddAcessoryBtn').attr('disabled',true);
         }
@@ -662,7 +662,7 @@
               $('#NewPrice_Field').attr('required',false);
               $('#NewPrice_Field').val(DefPrice);
               $('#Decision_Field').val(Descision);
-  
+
               $('#OrigInputPrice_Field').change(function(){
                var NewTAmt =  $('#OrigInputPrice_Field').val() * $("#QTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
@@ -675,7 +675,7 @@
                $('#total_Amt').val(FinalTAmt);
               });
            }
-        });  //end of functionx   
+        });  //end of functionx
 
 
         $("#AcessoryList").change(function(){
@@ -711,7 +711,7 @@
               Ai_element.attr('selected',true);
             }//this sets the name of the flower to the other field
           });
-        });//end of function  
+        });//end of function
 
 
           $('#NewAcessoryPriceCheckBox').click(function(){
@@ -744,14 +744,14 @@
               $('#AcessoryNewPrice_Field').attr('required',false);
               $('#AcessoryNewPrice_Field').val(Defaultprice);
               $('#AcessoryDecision_Field').val(AcessoryDescision);
-  
+
               $('#AcessoryQTY_Field').change(function(){
                var NewTAmt =  $('#AcessoryOrigInputPrice_Field').val() * $("#AcessoryQTY_Field").val();
                var FinalTAmt = 'Php '+ NewTAmt;
                $('#Acessorytotal_Amt').val(FinalTAmt);
-              }); 
+              });
         }
-      }); 
+      });
 
           $("#Rdopickup").click(function(){
             $("#PickupDiv").show("fold");
@@ -766,26 +766,23 @@
 
 //scripts for avoiding invalid characters in a number field
       $('#NewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
 
       $('#AcessoryNewPrice_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#QTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 
       $('#AcessoryQTY_Field').live('keypress', function(key) {
-        if(key.charCode < 48 || key.charCode > 57) return false; 
+        if(key.charCode < 48 || key.charCode > 57) return false;
       });
 //end of scripts
 
  });
 </script>
 @endsection
-
-
-
