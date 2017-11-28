@@ -281,6 +281,7 @@ class create_bouquet extends Controller
     public function finalcheck(Request $request) {
 
 
+
       $BQT_Flower_Count = 0;
       foreach(Cart::instance('tempflowercart')->content() as $row){
           $BQT_Flower_Count += $row->qty;
@@ -363,9 +364,6 @@ class create_bouquet extends Controller
 
     }
 
-    public function defaultBouquetAdd(){
-
-    }
 
     public function getViewBouquet($id) {
 
@@ -412,6 +410,8 @@ class create_bouquet extends Controller
 
     public function defaultboqadd(Request $request){
 
+
+
         $totalprice = $request -> total;
         $totalcount = $request -> totalcount;
         $quantity = $request -> quantity;
@@ -419,7 +419,6 @@ class create_bouquet extends Controller
 
         $bouquetflowers =  db::select('call flowers_PerSpecificBouquet(?)', array($id));
         $bouquetaccessories = db::select('call acessories_PerBouquet(?)', array($id));
-
 
 
         if(Cart::instance('finalboqcart')->count() == 0) {

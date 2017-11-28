@@ -115,6 +115,7 @@ class checkoutcontroller extends Controller
 
     public function userfinalCheckout(Request $request){ //Delivery
 
+
       $cust_id = Auth::user()->Cust_ID;
       $fname = $request->input('Cust_FName');
       $mname = $request->input('Cust_MName');
@@ -262,6 +263,8 @@ class checkoutcontroller extends Controller
 
       foreach(Cart::instance('finalboqcart')->content() as $row1){
 
+        
+
           $bouquet_details = new bouquet_details([
 
               'price' => $row1-> price,
@@ -275,7 +278,11 @@ class checkoutcontroller extends Controller
 
       }
 
+
+
       foreach(Cart::instance('finalflowerbqt')->content() as $row2){
+
+
 
           $bouquet_flowers = new bouquet_flowers([
 
@@ -287,6 +294,7 @@ class checkoutcontroller extends Controller
 
           $bouquet_flowers->save();
 
+    
       }
 
       foreach(Cart::instance('finalacccart')->content() as $row3){

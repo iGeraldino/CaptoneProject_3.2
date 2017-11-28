@@ -15,6 +15,8 @@
                 <a type="button" class="btn btn-default col-xs-offset-3" href="{{ route('flowerlist') }}"> <i class="material-icons md-18">add_circle_outline</i> Create your Own Bouquet</a>
 
             </div>
+
+
             @foreach($bouquetlist as $bouq)
             <div class="item  col-sm-3 ">
                     <div class="thumbnail">
@@ -26,7 +28,8 @@
                                 <hr class="colorgraph">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <span class="label label-danger"> {{ $bouq-> count_ofFlowers }} pcs</span>
+
+                                    <span class="label label-danger"> {{ $bouq -> Pcs }} pcs</span>
                                 </div>
                                 <div class="col-sm-4">
                                     <a class="btn btn-sm btn-success" href="{{ route('viewbouquet', ['id' => $bouq -> bouquet_ID ]) }}">  <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart</a>

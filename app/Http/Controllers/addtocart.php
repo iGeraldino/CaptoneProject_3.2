@@ -22,6 +22,8 @@ class addtocart extends Controller
     {
       //$cart = Cart::content();
       session::remove('orderid');
+
+  //    dd(Cart::instance('finalboqcart')->content());
       return view('customer_side.pages.cart');
 
     }

@@ -187,7 +187,10 @@ class ClientController extends Controller
           //Cart::instance('tempacccart')->destroy();
 
           session::remove('orderid');
-          $bouquetlist = db::table('bouquet_details')->where('Type', '=' , 'default')->get();
+          $bouquetlist =  db::select('call pcs_in_bouquet()');
+          
+          
+          
 
           return view('customer_side.pages.bouquet') ->with('bouquetlist', $bouquetlist);
 
