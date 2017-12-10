@@ -1,14 +1,14 @@
-  <?php 
-  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder'); 
+  <?php
+  $SavingBouquetsessionValue = Session::get('Save_Bouqet_To_myOrder');
   Session::remove('Save_Bouqet_To_myOrder');//determines the addition of new flower
 
-  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder'); 
+  $AddingFlowersessionValue = Session::get('AddFlower_To_myOrder');
   Session::remove('AddFlower_To_myOrder');//determines the addition of new flower
 
-  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer'); 
+  $AddingOrdersessionValue = Session::get('Add_Order_ofCustomer');
   Session::remove('Add_Order_ofCustomer');//determines the addition of new flower
 
-  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation'); 
+  $CancelOBQTsessionValue = Session::get('Buquet_Cancelation');
   Session::remove('Buquet_Cancelation');//determines the addition of new flower
 
   $Order_DetailsSession = Session::get('newOrderSession');

@@ -2298,6 +2298,8 @@
 							$('#ShippingMethod_Div').show("fold");
 						});
 
+					
+
 	});//end of document ready
   </script>
 
