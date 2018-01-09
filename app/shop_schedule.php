@@ -10,6 +10,7 @@ class shop_schedule extends Model
   public $timestamps = true;
   protected $table = 'shop_schedule';
   protected $fillable = [
-      'Order_ID', 'Customer_fname','Customer_lname','Date_of_Event','Time','Schedule_Type','schedule_status'
+      'Order_ID', 'Customer_fname','Customer_lname',
+      'Date_of_Event','Time','Schedule_Type','schedule_status',
   ];
 }
