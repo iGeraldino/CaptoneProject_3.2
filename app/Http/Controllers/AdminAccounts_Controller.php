@@ -346,7 +346,7 @@ class AdminAccounts_Controller extends Controller
           else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '3'])){
               return redirect() -> route('warehousedashboard');
           }
-          else if(Auth::guard('admins')-> attempt(['email' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '3'])){
+          else if(Auth::guard('admins')-> attempt(['username' => $request->input('email'), 'password' =>$request->input('password'), 'type' => '3'])){
               return redirect() -> route('warehousedashboard');
           }
 

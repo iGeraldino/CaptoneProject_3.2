@@ -449,9 +449,7 @@ class PagesController extends Controller
 		}
 
 		//Cashier
-	public function getCashierPage() {
-			return view('cashier/pages/cashierpage');
-		}
+	
 
 	public function getCashierDashboard() {
 
