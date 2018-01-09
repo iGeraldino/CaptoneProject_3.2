@@ -403,14 +403,9 @@ class create_bouquet extends Controller
         return view('customer_side/pages/view_bouquet')
             ->with(['bouquetdetails' => $bouquet, 'totalflowers' => $totalflowers, 'totalaccessories' => $totalaccessories,
             'bouquetflowers' => $bouquetflowers, 'bouquetaccessories' => $bouquetaccessories, 'TotalPrice' => $price3]);
-
-
-
     }
 
     public function defaultboqadd(Request $request){
-
-
 
         $totalprice = $request -> total;
         $totalcount = $request -> totalcount;
@@ -422,54 +417,59 @@ class create_bouquet extends Controller
 
 
         if(Cart::instance('finalboqcart')->count() == 0) {
-            $bqt_Id = mt_rand();//generates a random id
-            $bqtname = 'BQT-' . $bqt_Id;
+            //$bqt_Id = mt_rand();//generates a random id
+            //$bqtname = 'BQT-' . $bqt_Id;
 
             Cart::instance('finalboqcart')
-                ->add(['id' => $bqt_Id, 'name' => $bqtname, 'qty' => $quantity, 'price' => $totalprice,
+                ->add(['id' => $id, 'name' => 'BQT-'.$id, 'qty' => $quantity, 'price' => $totalprice,
                     'options' => ['count' => $totalcount]]);
 
             foreach ($bouquetflowers as $flowers) {
-
-                Cart::instance('finalflowerbqt')->add(['id' => $flowers->flower_ID, 'name' => $flowers->flower_name, 'qty' => $flowers->QTY, 'price' => $flowers->Final_SellingPrice, 'options' => ['Orig_Amt' => $flowers->Final_SellingPrice, 'T_Amt' => $flowers->Total_Amount, 'image'
-                => $flowers->IMG, 'Bqt_ID' => $bqt_Id]]);
-
+                Cart::instance('finalflowerbqt')->add(['id' => $flowers->flower_ID, 'name' => $flowers->flower_name,
+                'qty' => $flowers->QTY, 'price' => $flowers->Final_SellingPrice,
+                'options' => ['Orig_Amt' => $flowers->Final_SellingPrice, 'T_Amt' => $flowers->Total_Amount, 'image'
+                => $flowers->IMG, 'Bqt_ID' => $id]]);
             }
 
             foreach($bouquetaccessories as $access){
-
-                Cart::instance('finalacccart')->add(['id' => $access->Acessory_ID, 'name' => $access->Name, 'qty' => $access->QTY, 'price' => $access->Price ,'options' => ['Orig_Amt' => $access->Price, 'T_Amt' => $access -> Total_Amt , 'image'
-                => $access -> IMG, 'Bqt_ID' => $bqt_Id]]);
-
+                Cart::instance('finalacccart')->add(['id' => $access->Acessory_ID, 'name' => $access->Name,
+                'qty' => $access->QTY, 'price' => $access->Price ,
+                'options' => ['Orig_Amt' => $access->Price, 'T_Amt' => $access ->Total_Amt , 'image'
+                => $access -> IMG, 'Bqt_ID' => $id]]);
             }
 
         }
-
-
         else{
+            $validator = 0;
             $newBqt_Id = '';
             foreach(Cart::instance('finalboqcart')->content() as $row){
-                $newBqt_Id = $row->id;
+              if($row->id == $id)
+              {
+                  Cart::instance('finalboqcart')->update($row->rowId,['qty'=>$row->qty + $quantity,
+                  'price'=>$row->price, 'options'=>['count' => $totalcount]]);
+                  $validator = 1;
+              }
+                //$newBqt_Id = $row->id;
             }
-            $newBqt_Id += 1;
+            if($validator == 0)
+            {
+                Cart::instance('finalboqcart')
+                    ->add(['id' => $id, 'name' => 'BQT-'.$id, 'qty' => $quantity, 'price' => $totalprice,
+                        'options' => ['count' => $totalcount]]);
 
-            $newBqtName = 'BQT-'.$newBqt_Id;
-            Cart::instance('finalboqcart')
-                ->add(['id' => $newBqt_Id, 'name' => $newBqtName, 'qty' => $quantity, 'price' => $totalprice,
-                    'options' => ['count' => $totalcount]]);
+                foreach ($bouquetflowers as $flowers) {
+                    Cart::instance('finalflowerbqt')->add(['id' => $flowers->flower_ID, 'name' => $flowers->flower_name,
+                    'qty' => $flowers->QTY, 'price' => $flowers->Final_SellingPrice,
+                    'options' => ['Orig_Amt' => $flowers->Final_SellingPrice, 'T_Amt' => $flowers->Total_Amount, 'image'
+                    => $flowers->IMG, 'Bqt_ID' => $id]]);
+                }//
 
-            foreach ($bouquetflowers as $flowers) {
-
-                Cart::instance('finalflowerbqt')->add(['id' => $flowers->flower_ID, 'name' => $flowers->flower_name, 'qty' => $flowers->QTY, 'price' => $flowers->Final_SellingPrice, 'options' => ['Orig_Amt' => $flowers->Final_SellingPrice, 'T_Amt' => $flowers->Total_Amount, 'image'
-                => $flowers->IMG, 'Bqt_ID' => $newBqt_Id]]);
-
-            }
-
-            foreach($bouquetaccessories as $access){
-
-                Cart::instance('finalacccart')->add(['id' => $access->Acessory_ID, 'name' => $access->Name, 'qty' => $access->QTY, 'price' => $access->Price ,'options' => ['Orig_Amt' => $access->Price, 'T_Amt' => $access -> Total_Amt , 'image'
-                => $access -> IMG, 'Bqt_ID' => $newBqt_Id]]);
-
+                foreach($bouquetaccessories as $access){
+                    Cart::instance('finalacccart')->add(['id' => $access->Acessory_ID, 'name' => $access->Name,
+                    'qty' => $access->QTY, 'price' => $access->Price ,
+                    'options' => ['Orig_Amt' => $access->Price, 'T_Amt' => $access ->Total_Amt , 'image'
+                    => $access -> IMG, 'Bqt_ID' => $id]]);
+                }//
             }
         }
 

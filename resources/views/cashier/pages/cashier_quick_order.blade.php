@@ -156,7 +156,7 @@
 							  @foreach($FlowerList as $Fdetails)
 									<div class="col-sm-3">
 										<img id = "Flwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised Flwr_Image_Field" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
-										<div>
+										<div hidden>
 											<input class = "Flwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "Flwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 											<input class = "Flwr_name_Field" value = "{{ $Fdetails->flower_name}}">

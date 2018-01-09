@@ -10,7 +10,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title" id="exampleModalLabel"> Adding Accessories</h5>
-		       
+
 		      </div>
 		      <div class="modal-body">
 
@@ -33,8 +33,8 @@
                         <label for="WholesaleQTY">Item Name:</label>
                         <div class="input-group">
                           <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                          <input type='text' name ="accname" id ="accname" class = "form-control "  maxlength = '50' required/>           
-                        </div> 
+                          <input type='text' name ="accname" id ="accname" class = "form-control "  maxlength = '50' required/>
+                        </div>
                       </div>
                       <div class="form-group col-md-5">
                         <label for="price">Price:</label>
@@ -60,7 +60,7 @@
 		        		{!! Form::close() !!}
 
 		      </div>
-		    
+
 		    </div>
 		  </div>
 		</div>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-4">
           <button type="button" class="btn btn-round btn-md pull-right twitch" data-toggle="modal" data-target="#AddModal">
-          <i class="material-icons md-24"> add_circle</i>  Add Accessories  
+          <i class="material-icons md-24"> add_circle</i>  Add Accessories
             </button>
         </div>
         <div class="col-md-12">
@@ -94,12 +94,12 @@
                       Active
                     </a>
                   </li>
-                  <li>
+                <!--  <li>
                     <a href="#inactive" data-toggle="tab">
                       <i class="material-icons">assignment_turned_in</i>
                       Inactive
                     </a>
-                  </li>
+                  </li>-->
                 </ul>
               </div>
             </div>
@@ -128,13 +128,13 @@
                         <th align="center"><img src="{{ asset('accimage/'. $acce -> image)}}" style="min-width: 80px; max-height: 50px; margin-left: 100px;">
                         <th class="text-center">Php {{number_format($acce -> price,2)  }}</th>
                         <th class="text-center">{{ $acce -> qty }} pcs</th>
-                          <td align="center" > 
-                            <a data-toggle="modal" href="#acessoryModal{{$acce->ACC_ID}}"> 
+                          <td align="center" >
+                            <a data-toggle="modal" href="#acessoryModal{{$acce->ACC_ID}}">
                             <button rel="tooltip" title="VIEW" class="btn btn-just-icon Subu"> <i class="material-icons md-24"> edit</i></i> </button></a>
-                            {!! Form::open(['route' => ['acc.destroy',$acce->ACC_ID],'method'=>'DELETE']) !!}
+                          <!--  {!! Form::open(['route' => ['acc.destroy',$acce->ACC_ID],'method'=>'DELETE']) !!}
                             <button rel="tooltip" title="DELETE" type = "submit" name = "DelBtn" class="btn btn-just-icon Shalala"> <i class="material-icons md-24">delete</i></button>
-                            {!! Form::close() !!}
-                          </td> 
+                            {!! Form::close() !!}-->
+                          </td>
 
                           <div id="acessoryModal{{$acce->ACC_ID}}" class="modal fade">
                             <div class="modal-dialog text-center" style = "width: 40%;" >
@@ -154,11 +154,11 @@
                               <div class="modal-footer" id = "editFooter">
                                 <div class="btn-group btn-group-justified" role="group" aria-label="group button">
                                   <div class="btn-group" role="group">
-                                    <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn" 
+                                    <button type="button" name = "cancelEditBtn" data-dismiss="modal" id = "cancelEditBtn"
                                     class="btn btn-default"  role="button">Cancel</button>
                                   </div>
                                   <div class="btn-group" role="group">
-                                    <a type = "button" href="{{ route('acc.edit',$acce->ACC_ID) }}" class = "btn btn-success btn-info" ><span class = "glyphicon glyphicon-pencil"></span> 
+                                    <a type = "button" href="{{ route('acc.edit',$acce->ACC_ID) }}" class = "btn btn-success btn-info" ><span class = "glyphicon glyphicon-pencil"></span>
                                     Edit Item
                                     </a>
                                   </div>
@@ -174,7 +174,7 @@
                 </div>
                 <!-- /.box-body -->
               </div>
-              <div class="tab-pane" id="inactive">
+              <!--<div class="tab-pane" id="inactive">
                 <div class="box-body">
                   <table id="sam" class="table table-bordered table-striped">
                     <thead>
@@ -189,7 +189,7 @@
                     </thead>
                   </table>
                 </div>
-              </div>
+              </div>-->
               </div>
             </div>
           </div>

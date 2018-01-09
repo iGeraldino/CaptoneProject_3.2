@@ -221,19 +221,9 @@ class PagesController extends Controller
 		}
 
 	public function getDashboard() {
-
-				if(auth::guard('admins')->user()->type == '1'){
-
-/*			$charts = Charts::new('line','highcharts')
-			->setTitle('My website users')
-			->setLabels('ES','FR','RU')
-			->setValues(100,50,25)
-			->setElementLabel("Total Users");
-*/
-		$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
-		$soldFlowers = DB::select('CALL percentageSold()');
-		$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
-    WHERE Status IN ('PENDING','pending')");
+		if(auth::guard('admins')->user() != null)
+		{
+			if(auth::guard('admins')->user()->type == '1'){
 
 			/*			$charts = Charts::new('line','highcharts')
 						->setTitle('My website users')
@@ -241,67 +231,79 @@ class PagesController extends Controller
 						->setValues(100,50,25)
 						->setElementLabel("Total Users");
 			*/
-					$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
-					WHERE Status IN ('PENDING','pending')");
+			$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
+			$soldFlowers = DB::select('CALL percentageSold()');
+			$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+			WHERE Status IN ('PENDING','pending')");
 
-					$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
+				/*			$charts = Charts::new('line','highcharts')
+							->setTitle('My website users')
+							->setLabels('ES','FR','RU')
+							->setValues(100,50,25)
+							->setElementLabel("Total Users");
+				*/
+						$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+						WHERE Status IN ('PENDING','pending')");
 
-						//dd($orderscount);
+						$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
 
-						$Pending_salesOrders = DB::table('sales_order')
-						->select('*')
-						->where('Status','PENDING')
-						->get();
+							//dd($orderscount);
 
-						$arriving = DB::select('CALL view_Arriving_Inventory()');
+							$Pending_salesOrders = DB::table('sales_order')
+							->select('*')
+							->where('Status','PENDING')
+							->get();
 
-						$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
+							$arriving = DB::select('CALL view_Arriving_Inventory()');
 
-						$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+							$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
-			$order_Paid = DB::select('CALL fullyPaid_Orders()');
-			$orderWith_Bal = DB::select('CALL withBalance_Orders()');
-			//
-			$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+							$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
+				$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
-			$flowers = db::table('sales_order_flowers','flower_details')
-								->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
-								->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
-								->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
-								->groupBy('sales_order_flowers.Flower_ID')
-								->orderBy('sales_order_flowers.QTY', 'desc')
-								->take(6)
-								->get();
-								//dd($flowers);
+				$order_Paid = DB::select('CALL fullyPaid_Orders()');
+				$orderWith_Bal = DB::select('CALL withBalance_Orders()');
+				//
+				$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 
-			return view('dashboard')
-			 ->with('spoiledFlowers',$spoiledFlowers)
-			 ->with('soldFlowers',$soldFlowers)
-			 ->with('cust_Account',$cust_Account)
-			 ->with('orderscount',$orderscount)
-			 ->with('p_Orders',$order_Paid)
-			 ->with('b_Orders',$orderWith_Bal)
-			 ->with('debtors',$Customers_WithDebts)
-			 ->with('tobeAcquired',$tobeAcquired_Orders)
-			 ->with('CriticalFLowers',$CriticalFLowers)
-       ->with('arriving',$arriving)
-			 ->with('Porders',$Pending_salesOrders)
-			 ->with('SpoiledFLowers',$SpoiledFLowers)
-			 ->with('flowers', $flowers);
-			 //->with('charts',$charts);
+				$flowers = db::table('sales_order_flowers','flower_details')
+									->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
+									->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
+									->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
+									->groupBy('sales_order_flowers.Flower_ID')
+									->orderBy('sales_order_flowers.QTY', 'desc')
+									->take(6)
+									->get();
+									//dd($flowers);
+
+				return view('dashboard')
+				 ->with('spoiledFlowers',$spoiledFlowers)
+				 ->with('soldFlowers',$soldFlowers)
+				 ->with('cust_Account',$cust_Account)
+				 ->with('orderscount',$orderscount)
+				 ->with('p_Orders',$order_Paid)
+				 ->with('b_Orders',$orderWith_Bal)
+				 ->with('debtors',$Customers_WithDebts)
+				 ->with('tobeAcquired',$tobeAcquired_Orders)
+				 ->with('CriticalFLowers',$CriticalFLowers)
+				 ->with('arriving',$arriving)
+				 ->with('Porders',$Pending_salesOrders)
+				 ->with('SpoiledFLowers',$SpoiledFLowers)
+				 ->with('flowers', $flowers);
+				 //->with('charts',$charts);
+			}
+			elseif (Auth::guard('admins')->user()->type == '2') {
+						return redirect()->route('cashierdashboard');
+			}
+			elseif (Auth::guard('admins')->user()->type == '3') {
+									return redirect()->route('warehousedashboard');
+			}
 		}
-
-				elseif (Auth::guard('admins')->user()->type == '2') {
-			return redirect()->route('cashierdashboard');
-				}
-				elseif (Auth::guard('admins')->user()->type == '3') {
-								return redirect()->route('warehousedashboard');
-				}
-
-
-
+		else
+		{
+			return redirect()->route('AdminLogin');
 		}
+	}
 
 	public function getHome() {
 
