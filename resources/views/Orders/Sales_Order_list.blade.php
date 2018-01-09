@@ -89,7 +89,6 @@
                           <th class="text-center"> CUSTOMER NAME </th>
                           <th class="text-center"> DATE CREATED</th>
                           <th class="text-center"> STATUS</th>
-                          <th class="text-center"> ACTION </th>
                       </thead>
 
                       <tbody>
@@ -98,12 +97,15 @@
                               <td class="text-center"> ORDR_{{$Olist->sales_order_ID}}   </td>
                               <td class="text-center"> {{$Olist->Customer_Fname}} {{$Olist->Customer_MName}}., {{$Olist->Customer_LName}} </td>
                               <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
-                              <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-primary">  {{$Olist->Status}} </span></td>
-                              <td align="center" >
-                                     <a id = "manageBtn" type = "button" data-toggle="tooltip" title="Manage Orders" class = "btn btn-primary btn-just-icon twitch" ><i class="material-icons">mode_edit</i>
-                                     </a>
-                              </td>
-
+                              @if($Olist->Status == 'BALANCED')
+                                <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-danger">  No payment yet </span></td>
+                              @elseif($Olist->Status == 'P_PARTIAL')
+                                <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-primary">  Paid Partial </span></td>
+                              @elseif($Olist->Status == 'P_FULL')
+                                <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-info">  Paid FULL </span></td>
+                              @elseif($Olist->Status == 'A_P_PARTIAL')
+                                  <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-info">  Acquired Paid Partial </span></td>
+                              @endif
                             </tr>
                           @endforeach
                       </tbody>
@@ -165,10 +167,6 @@
 @section('scripts')
     <script>
       $(document).ready(function(){
-
-        $('#manageBtn').click(function(){
-          swal("Sorry :( ","this function is currently under development","info")
-        });
 
       $(function () {
         $('#example2').DataTable({

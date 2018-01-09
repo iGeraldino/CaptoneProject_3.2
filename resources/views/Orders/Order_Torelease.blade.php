@@ -111,6 +111,8 @@
 								 <a href = "{{route('dashboard')}}" class = "btn btn-md btn-danger"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Dashboard</a>
 								@elseif($fromtype == 'debts')
 								 <a href = "{{route('SalesOrder.UnderCustomer',['id'=>$SalesOrder->customer_ID])}}" class = "btn btn-md btn-primary"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to Customer Account</a>
+								@elseif($fromtype == 'Olist')
+ 								 <a href = "{{route('Sales_Qoutation')}}" class = "btn btn-md btn-primary"><span class = "glyphicon glyphicon-circle-arrow-left"></span> Return to List of Orders</a>
 								@endif
 
                 <h5><b>Total Purchase:</b> Php {{number_format($OrderDetails->Subtotal,2)}}</h5>
