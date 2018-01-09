@@ -74,7 +74,7 @@
                                       <select class="form-control" name="admintype" tabindex="5">
                                           <option value="1"> Admin </option>
                                           <option value="2"> Cashier </option>
-                                          <option value="2"> Warehouse Man </option>
+                                          <option value="3"> Warehouse Man </option>
 
                                       </select>
 

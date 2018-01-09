@@ -227,7 +227,7 @@
                  <td><span class = "btn btn-sm btn-primary">To be recieved</span></td>
                 @endif
                 <td align="center">
-                   <button type = "button" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#flowerdetModal{{$price->flower_ID}}"><i class="material-icons">search</i>
+                   <button type = "button" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#flowerdetModal{{$FLowers->Flower_ID}}"><i class="material-icons">search</i>
                    </button>
                 </td>
               </tr>
