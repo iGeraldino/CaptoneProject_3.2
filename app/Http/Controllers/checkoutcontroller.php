@@ -122,7 +122,7 @@ class checkoutcontroller extends Controller
       $lname = $request->input('Cust_LName');
       $contact = $request->input('Cust_Number');
       $email = Auth::user()->email;
-      $status = "pending";
+      $status = "PENDING";
       $type = "online";
       $check = 0;
 
@@ -169,7 +169,7 @@ class checkoutcontroller extends Controller
       $recipientmname = $request->input('finalrecipient_MName');
       $recipientlname = $request->input('finalrecipient_LName');
       $paymentmethod = $request->input('Cust_paymentMethod');
-      $orderdetailstatus = "pending";
+      $orderdetailstatus = "PENDING";
       $orderdetailmethod = $request->input('Cust_shippingMethod');
       $orderdetailcontact = $request->input('finalrecipient_Number');
       $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
@@ -224,7 +224,7 @@ class checkoutcontroller extends Controller
         $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
         $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
-        $schedulestatus = "pending";
+        $schedulestatus = "PENDING";
 
       $shop_schedule = new shop_schedule([
         'Order_ID' => $sales_order_ID,
@@ -393,7 +393,7 @@ class checkoutcontroller extends Controller
       $lname = $request->input('finalCustomer_LName');
       $contact = $request->input('finalCustomer_Number');
       $email = Auth::user()->email;
-      $status = "pending";
+      $status = "PENDING";
       $type = "online";
 
       $sales_order = new sales_order([
@@ -432,7 +432,7 @@ class checkoutcontroller extends Controller
       $recipientmname = $request->input('finalCustomer_MName');
       $recipientlname = $request->input('finalCustomer_LName');
       $paymentmethod = $request->input('final_paymentMethod');
-      $orderdetailstatus = "pending";
+      $orderdetailstatus = "PENDING";
       $orderdetailmethod = $request->input('final_shippingMethod');
       $orderdetailcontact = $request->input('finalCustomer_Number');
       $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
@@ -453,16 +453,16 @@ class checkoutcontroller extends Controller
         'email_Addresss' => $email,
         'Contact_Num' => $orderdetailcontact,
         'shipping_method' => $orderdetailmethod,
-
+        'BALANCE'=> $amount,
       ]);
 
       $orderdetails->save();
-      $lastid = $orderdetails -> id;
+      $lastid = $orderdetails->id;
 
       $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
       $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
       $Scheduletype = $request->input('final_shippingMethod');
-      $schedulestatus = "pending";
+      $schedulestatus = "PENDING";
 
       $shop_schedule = new shop_schedule([
         'Order_ID' => $sales_order_ID,
@@ -737,7 +737,7 @@ class checkoutcontroller extends Controller
         $lname = $request->input('finalCustomer_LName');
         $contact = $request->input('finalCustomer_Number');
         $email = $request->guestemail;
-        $status = "pending";
+        $status = "PENDING";
         $type = "online";
 
         $sales_order = new sales_order([
@@ -774,7 +774,7 @@ class checkoutcontroller extends Controller
         $recipientmname = $request->input('finalCustomer_MName');
         $recipientlname = $request->input('finalCustomer_LName');
         $paymentmethod = $request->input('final_paymentMethod');
-        $orderdetailstatus = "pending";
+        $orderdetailstatus = "PENDING";
         $orderdetailmethod = $request->input('final_shippingMethod');
         $orderdetailcontact = $request->input('finalCustomer_Number');
         $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
@@ -803,7 +803,7 @@ class checkoutcontroller extends Controller
         $deliverydate = date('Y/m/d',strtotime($request -> finalPickup_Date));
         $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
         $Scheduletype = $request->input('final_shippingMethod');
-        $schedulestatus = "pending";
+        $schedulestatus = "PENDING";
 
         $shop_schedule = new shop_schedule([
             'Order_ID' => $sales_order_ID,
@@ -942,7 +942,7 @@ class checkoutcontroller extends Controller
         $lname = $request->input('Cust_LName');
         $contact = $request->input('Cust_Number');
         $email = $request->deliveremail;
-        $status = "pending";
+        $status = "PENDING";
         $type = "online";
         $check = 0;
 
@@ -988,7 +988,7 @@ class checkoutcontroller extends Controller
         $recipientmname = $request->input('finalrecipient_MName');
         $recipientlname = $request->input('finalrecipient_LName');
         $paymentmethod = $request->input('Cust_paymentMethod');
-        $orderdetailstatus = "pending";
+        $orderdetailstatus = "PENDING";
         $orderdetailmethod = $request->input('Cust_shippingMethod');
         $orderdetailcontact = $request->input('finalrecipient_Number');
         $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
@@ -1042,7 +1042,7 @@ class checkoutcontroller extends Controller
         $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
         $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
-        $schedulestatus = "pending";
+        $schedulestatus = "PENDING";
 
         $shop_schedule = new shop_schedule([
             'Order_ID' => $sales_order_ID,
