@@ -5,24 +5,24 @@
 @endsection
 
 @section('content')
-	<div class="container" style="margin-top: 10%;">
-		<h3 class="fontx text-center">Summary</h3>
+	<div class="container" style="margin-top: 5%;">
+		<h2 class="fontx text-center"><b>Summary of Transaction</b></h2>
         <hr class="colorgraph">
-        <p class="text-center" style = "color:red;"><b>* You have successfully completed all steps. Now All you need to do is Submit the order</b></p>
-        <br>
+        <p class="text-left" style = "color:red;"><b>* Congratulations!, You have successfully completed all steps. Now All you need to do to wait  </b></p>
+        <p class="text-left" style = "color:red;"><b> for the confirmation msg of the shop owner, either through text,email, or call</b></p>
+        <p class="text-left" style = "color:red;"><b>* Thank you for choosing us, we hope that you enjoyed the services of our shop  </b></p>
         <br>
 
-        <div>
-        	<div class="row pull-right">
-       			<div class = "col-md-6 ">
-            		<a href="{{ route('homepages') }}"type="button" class="btn btn-success btn-lg"> Done </a>
-       			</div>
-       			<div class = 'col-md-6'>
-        			<a href="{{ route('guestprint', ['id' => $NewSalesOrder_details -> Order_ID]) }}" type="submit" id="Print"  class="btn btn-info btn-lg"> Print</a>
-       			</div>
-        	</div>
-        </div>
-        <div class="col-md-12">
+    <div>
+    	<div class="button-group pull-right">
+        	<a href="{{ route('homepages') }}"type="button" class="btn btn-success btn-lg"> Done </a>
+    			<a href="{{ route('guestprint', ['id' => $NewSalesOrder_details -> Order_ID]) }}" type="submit" id="Print"  class="btn btn-info btn-lg"> Print</a>
+    	</div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					@if($NewSalesOrder_details->shipping_method == "delivery")
@@ -30,7 +30,6 @@
 					@else
 					<h3 class="panel-title">Order Summary (Pickup)</h3>
 					@endif
-					<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 				</div>
 				<div class="panel-body">
 					<div class="col-md-8">
@@ -220,11 +219,12 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-md-offset-6">
-					<h3 class="fontx text-center"> TOTAL AMOUNT: PHP {{ number_format($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge,2) }} </h3>
-					<h3 class="fontx text-center"> VAT : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PHP  {{ number_format($NewSalesOrder_details -> Subtotal * .12,2) }}</h3>
-					<h3 class="fontx text-center" id="DeliveryCharge" > Delivery Charge : PHP {{ number_format($NewSalesOrder_details -> Delivery_Charge,2) }} </h3>
-				</div>
+			<div class="col-md-offset-6 pull-right">
+        <h4 class="fontx text-left"><b>Pirchase Amount:</b> PHP  {{ number_format($NewSalesOrder_details -> Subtotal,2) }}</h4>
+					<h4 class="fontx text-left"><b>VAT:</b> PHP  {{ number_format($NewSalesOrder_details -> Subtotal * .12,2) }}</h4>
+					<h4 class="fontx text-left"><b>Delivery Charge:</b> PHP {{ number_format($NewSalesOrder_details -> Delivery_Charge,2) }} </h4>
+          <h4 class="fontx text-left"><b>TOTAL AMOUNT:</b> PHP {{ number_format($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge,2) }} </h4>
+			</div>
 		</div>
 	</div>
 </div>
@@ -246,4 +246,3 @@
 
 
 @endsection
-

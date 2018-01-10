@@ -99,6 +99,8 @@
                               <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
                               @if($Olist->Status == 'BALANCED')
                                 <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-danger">  No payment yet </span></td>
+                              @elseif($Olist->Status == 'CANCELLED')
+                                  <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-danger">  CANCELLED </span></td>
                               @elseif($Olist->Status == 'P_PARTIAL')
                                 <td class="text-center" style="text-transform: uppercase;"><span class = "btn btn-sm btn-primary">  Paid Partial </span></td>
                               @elseif($Olist->Status == 'P_FULL')
