@@ -520,70 +520,74 @@ class checkoutcontroller extends Controller
               $salesboquet->save();
               foreach(Cart::instance('finalflowerbqt')->content() as $row1_1)
               {
-                foreach($bouquetsF as $bouquetsF2)
+                if($row1_1->options->Bqt_ID == $row1->id)
                 {
-                  if($bouquetsF2->bouquet_ID == $row1_1->options->Bqt_ID
-                  and $bouquetsF2->flower_id == $row1_1->id
-                  and $row1_1->options->Bqt_ID == $row1->id)
+                  foreach($bouquetsF as $bouquetsF2)
                   {
-                    foreach($bouquetsSOF as $bouquetsSOF2)
+                    if($bouquetsF2->bouquet_ID == $row1_1->options->Bqt_ID
+                    and $bouquetsF2->flower_id == $row1_1->id)
                     {
                       $flowerexistence = 0;
-                        if($bouquetsSOF2->Order_ID == $sales_order_ID
-                        and $bouquetsSOF2->Bqt_ID == $row1_1->options->Bqt_ID
-                        and  $bouquetsSOF2->Flower_ID == $row1_1->id
-                        and $row1_1->options->Bqt_ID == $row1->id)
-                        {
-                          $flowerexistence = 1;
-                          break;
-                        }
+                      foreach($bouquetsSOF as $bouquetsSOF2)
+                      {
+                          if($bouquetsSOF2->Order_ID == $sales_order_ID
+                          and $bouquetsSOF2->Bqt_ID == $row1_1->options->Bqt_ID
+                          and  $bouquetsSOF2->Flower_ID == $row1_1->id
+                          and $row1_1->options->Bqt_ID == $row1->id)
+                          {
+                            $flowerexistence = 1;
+                            break;
+                          }
+                      }
+                      if($flowerexistence == 0)
+                      {
+                        $salesbouquetflower = new sales_order_bouquet_flowers([
+                            'Order_ID' => $sales_order_ID,
+                            'Bqt_ID' => $row1->id,
+                            'Flower_ID' => $row1_1->id,
+                            'Price' => $row1_1->price,
+                            'QTY' => $row1_1->qty,
+                            'Total_Amt' => $row1_1->qty * $row1_1->price,
+                        ]);
+                        $salesbouquetflower->save();
+                      }
                     }
-                    if($flowerexistence == 0)
-                    {
-                      $salesbouquetflower = new sales_order_bouquet_flowers([
-                          'Order_ID' => $sales_order_ID,
-                          'Bqt_ID' => $row1->id,
-                          'Flower_ID' => $row1_1->id,
-                          'Price' => $row1_1->price,
-                          'QTY' => $row1_1->qty,
-                          'Total_Amt' => $row1_1->qty * $row1_1->price,
-                      ]);
-                      $salesbouquetflower->save();
-                    }
-                  }
-                }//search for existing flowers for the specific bqt
+                  }//search for existing flowers for the specific bqt
+                }
               }//
               foreach(Cart::instance('finalacccart')->content() as $row1_2)
               {
-                foreach($bouquetsA as $bouquetsA2)
+                if($row1_2->options->Bqt_ID == $row1->id)
                 {
-                  if($bouquetsA2->bouquet_ID == $row1_2->options->Bqt_ID
-                  and $bouquetsA2->acessory_ID == $row1_2->id
-                  and $row1_2->options->Bqt_ID == $row1->id)
+                  foreach($bouquetsA as $bouquetsA2)
                   {
-                    foreach($bouquetsSOA as $bouquetsSOA2)
+                    if($bouquetsA2->bouquet_ID == $row1_2->options->Bqt_ID
+                    and $bouquetsA2->acessory_ID == $row1_2->id)
                     {
                       $acrsExistence = 0;
-                      if($bouquetsSOA2->Order_ID == $sales_order_ID
-                      and $bouquetsSOA2->BQT_ID == $row1_2->options->Bqt_ID
-                      and  $bouquetsSOA2->Acessories_ID == $row1_2->id
-                      and $row1_2->options->Bqt_ID == $row1->id)
+                      foreach($bouquetsSOA as $bouquetsSOA2)
                       {
-                        $acrsExistence = 1;
-                        break;
+                        if($bouquetsSOA2->Order_ID == $sales_order_ID
+                        and $bouquetsSOA2->BQT_ID == $row1_2->options->Bqt_ID
+                        and  $bouquetsSOA2->Acessories_ID == $row1_2->id
+                        and $row1_2->options->Bqt_ID == $row1->id)
+                        {
+                          $acrsExistence = 1;
+                          break;
+                        }
                       }
-                    }
-                    if($acrsExistence == 0)
-                    {
-                      $salesbouquetacc = new sales_order_acessories([
+                      if($acrsExistence == 0)
+                      {
+                        $salesbouquetacc = new sales_order_acessories([
                           'Order_ID' => $sales_order_ID,
                           'BQT_ID' => $row1->id,
                           'Acessories_ID' => $row1_2->id,
                           'Price' => $row1_2->price,
                           'QTY' => $row1_2->qty,
                           'Amt' => $row1_2->qty * $row1_2->price,
-                      ]);
-                      $salesbouquetacc->save();
+                        ]);
+                        $salesbouquetacc->save();
+                      }
                     }
                   }
                 }
@@ -592,7 +596,7 @@ class checkoutcontroller extends Controller
 
 
 //-------------------------------------------------------------------------------------------------
-        if($validator != 1)
+       else if($validator != 1)
         {
              //create a new Bouquet
               $bouquet_details = new bouquet_details([
@@ -617,7 +621,7 @@ class checkoutcontroller extends Controller
                     if($bouquetsF2_2_1->bouquet_ID == $bouquet_details->bouquet_ID
                     AND $bouquetsF2_2_1->flower_id == $row2->id){
                       $ExistingBqtFlwr = 1;
-                      //break;
+                      break;
                     }
                   }
                   if($ExistingBqtFlwr == 0){
@@ -645,7 +649,7 @@ class checkoutcontroller extends Controller
                     AND $bouquetsA2_1_2_1->acessory_ID == $row3->id)
                     {
                       $ExistingBqtAcrs = 1;
-                      //break;
+                     break;
                     }
                   }
                   if($ExistingBqtAcrs == 0)
@@ -659,6 +663,11 @@ class checkoutcontroller extends Controller
                   }
                 }
               }
+
+              $bouquetsF = DB::table('bouquet_flowers')->get();
+              $bouquetsA = DB::table('bouquet_acessories')->get();
+              $bouquetsSOF = DB::table('sales_order_bouquet_flowers')->get();
+              $bouquetsSOA = DB::table('sales_order_acessories')->get();
 
 
             //  foreach(Cart::instance('finalboqcart')->content() as $row4){
@@ -676,28 +685,19 @@ class checkoutcontroller extends Controller
                 //}
               //}
 
+
+
                 foreach(Cart::instance('finalflowerbqt')->content() as $row1_1_2)
                 {
-                  foreach($bouquetsF as $bouquetsF2_2)
+                  if($row1_1_2->options->Bqt_ID == $row1->id)
                   {
-                    if($bouquetsF2_2->bouquet_ID == $Newbouquet_ID
-                    and $bouquetsF2_2->flower_id == $row1_1_2->id
-                    and $row1_1_2->options->Bqt_ID == $row1->id)
+                    //dd($row1_1_2->options->Bqt_ID,$row1->id);
+                    foreach($bouquetsF as $bouquetsF2_2)
                     {
-                      $flowerexistence = 0;
-                      foreach($bouquetsSOF as $bouquetsSOF2_2)
+                      if($bouquetsF2_2->bouquet_ID == $bouquet_details->bouquet_ID
+                      and $bouquetsF2_2->flower_id == $row1_1_2->id)
                       {
-                          if($bouquetsSOF2_2->Order_ID == $sales_order_ID
-                          and $bouquetsSOF2_2->Bqt_ID == $Newbouquet_ID
-                          and  $bouquetsSOF2_2->Flower_ID == $row1_1_2->id
-                          and $row1_1_2->options->Bqt_ID == $row1->id)
-                          {
-                            $flowerexistence = 1;
-                            break;
-                          }
-                      }
-                      if($flowerexistence == 0)
-                      {
+                        //dd($bouquetsF2_2->bouquet_ID,$bouquet_details->bouquet_ID,$bouquetsF2_2->flower_id,$row1_1_2->id);
                         $salesbouquetflower = new sales_order_bouquet_flowers([
                             'Order_ID' => $sales_order_ID,
                             'Bqt_ID' => $Newbouquet_ID,
@@ -708,31 +708,17 @@ class checkoutcontroller extends Controller
                         ]);
                         $salesbouquetflower->save();
                       }
-                    }
-                  }//search for existing flowers for the specific bqt
+                    }//search for existing flowers for the specific bqt
+                  }
                 }//
                 foreach(Cart::instance('finalacccart')->content() as $row1_2_2)
                 {
-
-                  foreach($bouquetsA as $bouquetsA2_2)
+                  if($row1_2_2->options->Bqt_ID == $row1->id)
                   {
-                    if($bouquetsA2_2->bouquet_ID == $Newbouquet_ID
-                    and $bouquetsA2_2->acessory_ID == $row1_2_2->id
-                    and $row1_2_2->options->Bqt_ID == $row1->id)
+                    foreach($bouquetsA as $bouquetsA2_2)
                     {
-                      $acrsExistence = 0;
-                      foreach($bouquetsSOA as $bouquetsSOA2_2)
-                      {
-                        if($bouquetsSOA2_2->Order_ID == $sales_order_ID
-                        and $bouquetsSOA2_2->Bqt_ID == $Newbouquet_ID
-                        and  $bouquetsSOA2_2->Acessories_ID == $row1_2_2->id
-                        and $row1_2_2->options->Bqt_ID == $row1->id)
-                        {
-                          $acrsExistence = 1;
-                          break;
-                        }
-                      }
-                      if($acrsExistence == 0)
+                      if($bouquetsA2_2->bouquet_ID == $bouquet_details->bouquet_ID
+                      and $bouquetsA2_2->acessory_ID == $row1_2_2->id)
                       {
                         $salesbouquetacc = new sales_order_acessories([
                             'Order_ID' => $sales_order_ID,

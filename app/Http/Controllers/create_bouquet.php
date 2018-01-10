@@ -301,9 +301,10 @@ class create_bouquet extends Controller
 
 
       if(Cart::instance('finalboqcart')->count() == 0){
-        $bqt_Id = mt_rand();//generates a random id
+        $bqt_Id = mt_rand(15073,405904);//generates a random id
         $bqtname = 'BQT-'. $bqt_Id;
-
+        Session::remove("Random_ID_Session");
+        Session::put("Random_ID_Session",$bqt_Id);
         Cart::instance('finalboqcart')
              ->add(['id' => $bqt_Id, 'name' => $bqtname, 'qty' => 1, 'price' => $BQT_Price,
                 'options' => ['count' => $BQT_Flower_Count]]);
@@ -320,8 +321,6 @@ class create_bouquet extends Controller
 
           Cart::instance('finalacccart')->add(['id' => $row->id, 'name' => $row->name, 'qty' => $row->qty, 'price' => $row->price ,'options' => ['Orig_Amt' => $row->options ->Orig_Amt, 'T_Amt' => $row ->options->T_Amt , 'image'
            => $row->options->image, 'Bqt_ID' => $bqt_Id]]);
-
-
         }
 
 
@@ -329,11 +328,13 @@ class create_bouquet extends Controller
 
       else{
         $newBqt_Id = '';
-        foreach(Cart::instance('finalboqcart')->content() as $row){
+        $newBqt_Id = Session::get("Random_ID_Session");
+        Session::remove("Random_ID_Session");
+        /*foreach(Cart::instance('finalboqcart')->content() as $row){
           $newBqt_Id = $row->id;
-        }
+        }*/
         $newBqt_Id += 1;
-
+        Session::put("Random_ID_Session",$newBqt_Id);
         $newBqtName = 'BQT-'.$newBqt_Id;
           Cart::instance('finalboqcart')
                ->add(['id' => $newBqt_Id, 'name' => $newBqtName, 'qty' => 1, 'price' => $BQT_Price,

@@ -263,6 +263,8 @@
         <div class = "row">
           <div class = "col-md-6">
             <h3 class="fonts">Bouquet Summary</h3>
+            <input type="hidden" value="{{ Cart::instance('tempflowercart')->count() }}" id="check"/>
+
           </div>
           <div class = "col-md-6">
             <?php
@@ -303,12 +305,12 @@
                   </div>
                 </td>
               <td>Php {{number_format($row1->qty * $row1->price,2) }} </td>
+
               <td class = "row">
                 <div class = "col-md-6">
                   <button type="submit" class="btn btn-sm btn-success glyphicon glyphicon-refresh"></button>
                 </div>
                 <div class = "col-md-6">
-                  <input type="hidden" value="{{ Cart::instance('tempflowercart')->count() }}" id="check">
                   <a type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" href="{{ route('deleteboqFlower_temp', ['id' => $row1->id])}}"></a>
                 </div>
               </td>
@@ -333,7 +335,6 @@
                             <button type="submit" class="btn btn-sm btn-success glyphicon glyphicon-refresh"></button>
                         </div>
                         <div class = "col-md-6">
-                            <input type="hidden" value="{{ Cart::instance('tempflowercart')->count() }}" id="check">
                             <a type="button" class="btn btn-sm btn-danger glyphicon glyphicon-trash" href="{{ route('deleteboqAcrs_temp', ['id' => $row1->id])}}"></a>
                         </div>
                     </td>
@@ -374,6 +375,19 @@
     <script>
 
         $(document).ready(function (){
+          $("#but1").hide();
+          var quan = $("#check").val();
+
+          console.log(quan);
+
+          if( $("#check").val() >= 12){
+            $("#but1").show();
+
+          }
+          else if($("#check").val() < 12){
+            $("#but1").hide();
+
+          }
 
           if($('#addflowertobouquetSession').val() == 'Successful'){
         swal('Success!','the flower was successfully added to the Bouquet','success');
@@ -393,26 +407,6 @@
         if($('#deleteacctobouquetSession').val() == 'Successful'){
         swal('Success!','the accessories was successfully removed to the Bouquet','success');
         }
-
-
-
-          $("#but1").attr('disabled',true);
-
-
-          var quan = $("#check").val();
-
-          console.log(quan);
-
-          if( quan >= 12){
-            $("#but1").attr('disabled',false);
-
-          }
-          else{
-            $("#but1").attr('disabled',true);
-
-          }
-
-
         });
 
         $('#table1').DataTable({
