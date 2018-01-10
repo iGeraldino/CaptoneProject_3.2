@@ -186,7 +186,7 @@
 							      <th scope="row">BQT-{{$Bqt->Bqt_ID}}</th>
 							      <td>Php {{number_format($Bqt->Unit_Price,2)}}</td>
 							      <td>{{$Bqt->QTY}}</td>
-							      <td>Php {{Number_format($Bqt->QTY * $Bqt->Amt,2)}}</td>
+							      <td>Php {{Number_format($Bqt->Amt,2)}}</td>
 							      <td>
 									<table class="table table-bordered" style="overflow-x:auto;">
                                        <thead>
@@ -231,7 +231,7 @@
 							      </td>
 							    </tr>
                   <?php
-                    $Bqt_Total += $Bqt->Amt * $Bqt->QTY;
+                    $Bqt_Total += $Bqt->Amt;
                   ?>
 							    @endforeach
 							  </tbody>
