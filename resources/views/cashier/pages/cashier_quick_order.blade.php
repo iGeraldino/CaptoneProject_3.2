@@ -2,7 +2,7 @@
 
 @section('content')
    <?php
-    /*Cart::instance('overallFLowers')->destroy();
+   /*Cart::instance('overallFLowers')->destroy();
 
 
      Cart::instance('TobeSubmitted_FlowersQuick')->destroy();
@@ -11,16 +11,23 @@
 
      Cart::instance('QuickOrdered_Flowers')->destroy();
 
-     Cart::instance('QuickOrdered_Bqt')->destroy();
      Cart::instance('QuickFinalBqt_Flowers')->destroy();
      Cart::instance('QuickFinalBqt_Acessories')->destroy();
+
+       Cart::instance('QuickOrderedBqt_Flowers')->destroy();
+       Cart::instance('BatchesofFLowers')->destroy();
 */
+  $addingFlower_ValueSession = Session::get('AddingFlowerTocartSession');
+  Session::remove('AddingFlowerTocartSession');
 
    $clearBqtSession_Value = Session::get('QuickBqtClearSession');
    Session::remove('QuickBqtClearSession');
 
    $Updating_BouquetQtyError = Session::get('BqtCount_UpdateSession');
    Session::remove('BqtCount_UpdateSession');
+
+   $QtyError = Session::get('error');
+   Session::remove('error');
 
    $UpdateBqtSessionValue = explode("_",$Updating_BouquetQtyError);
 
@@ -101,6 +108,9 @@
   <input id = "DeleteBqt_result" value = "{{$DeletionofBouquetSessionValue}}">
 
 
+  <input id = "InvalidAddingFlwr_result" value = "{{$addingFlower_ValueSession}}">
+
+
   <input id = "AddFlower_result" value = "{{$sessionValue}}">
   <input id = "AddAcessory_result" value = "{{$sessionAcValue}}">
   <input id = "UpdateFlower_result" value = "{{$sessionUpdateFValue}}">
@@ -114,6 +124,9 @@
   <input id = "Adding_FlowerSessionValue" value = "{{$AddingFlowersessionValue}}">
   <input id = "Adding_OrderSessionValue" value = "{{$AddingOrdersessionValue}}">
   <input id = "Cancel_BQTSessionValue" value = "{{$CancelOBQTsessionValue}}">
+
+  <input id = "QtyErrorNoValue" value="{{ $QtyError }}">
+
 </div>
 
 
@@ -181,13 +194,21 @@
 
 							  @foreach($FlowerList as $Fdetails)
 										<div class="col-md-6">
-											<img src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
+											<img id = "bqtFlwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
 										<div hidden>
 											<input class = "BqtFlwr_ID_Field" value = "{{ $Fdetails->flower_ID }}">
 											<input class = "BqtFlwr_pic_Field" value = "{{ asset('flowerimage/'.$Fdetails->IMG)}}">
 											<input class = "BqtFlwr_name_Field" value = "{{ $Fdetails->flower_name}}">
 											<input class = "BqtFlwr_currentPrice_Field" value = "{{$Fdetails->Final_SellingPrice}}">
                       <input class = "BqtFlwr_QTY_Field" value = "{{$Fdetails->QTY}}">
+                      <select class = "BqtFlwr_batches_Field">
+                        @foreach($batches as $batch)
+                          @if($Fdetails->flower_ID == $batch->flower_ID)
+                            <option value = "{{$batch->Batch}}" data-tag = "{{$batch->flower_ID}}" data-qty = "{{$batch->QTYRemaining}}" data-price = "{{$batch->SellingPrice}}">BATCH_({{$batch->Batch}}): Php {{number_format($batch->SellingPrice,2)}}</option>
+                          @else
+                          @endif
+                        @endforeach
+                      </select>
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
@@ -242,27 +263,31 @@
                       ?>
             			@foreach(Cart::instance('QuickOrdered_Flowers')->content() as $Flwr)
             			<div class="row">
-                      <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
+                      <div class="col-xs-1" style="margin-right: 2%">
+                        <img class="img-rounded img-raised img-responsive" style="min-width: 40px; max-height: 40px;" src="{{ asset('flowerimage/'.$Flwr->options['image'])}}">
                       </div>
-                      <div class="col-xs-2">
-                        <h6 class="product-name"><strong>{{$Flwr->name}}</strong></h6>
+                      <div class="col-xs-3">
+                        <h6 class="product-name">(BATCH_{{$Flwr->options->batchID}}) <strong>{{$Flwr->name}}</strong></h6>
                       </div>
                       <div class="col-xs-3" style = "color:red; margin-top:3%;">
-                        <h7>{{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
+                        <h7>Php {{number_format($Flwr->price,2)}} <span class="text-muted"><b> x</b></span></h7>
                       </div>
-                      <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-                        <label>{{$Flwr->qty}} pcs.</label>
+                      <div class="col-md-1" style = "margin-top:3%; margin-left:-10%;">
+                        <label> {{$Flwr->qty}}</label>
                       </div>
                       <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
                         <h7><b>=</b> Php {{number_format($Flwr->qty*$Flwr->price,2)}}</h7>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route ('QuickOrders_Flowers.edit', $Flwr->id ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
+                          <?php
+                            $combinedID = $Flwr->options->batchID.'_'.$Flwr->id;
+                          ?>
+                      	<a href = "{{ route ('QuickOrders_Flowers.edit', $combinedID ) }}" class="btn Lemon btn-just-icon" data-toggle="tooltip" title="Update Quantity">
     											<i class="material-icons">mode_edit</i>
     										</a>
                       </div>
                       <div class="col-xs-1">
-                      	<a href = "{{ route('Flowerorder.DelQuickOrderFlowers',['flower_ID'=>$Flwr->id]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
+                      	<a href = "{{ route('Flowerorder.DelQuickOrderFlowers',['flower_ID'=>$Flwr->id,'batch'=>$Flwr->options->batchID]) }}" class="btn Love btn-just-icon" data-toggle="tooltip" title="Delete">
     											<i class="material-icons">delete</i>
     										</a>
                       </div>
@@ -342,19 +367,21 @@
                       			<div class="row">
   			                        <div class="col-xs-1" style="margin-right: 2%"><img class="img-rounded img-raised img-responsive" style="min-width: 50px; max-height: 50px;" src="{{ asset('flowerimage/'.$BQT_Flowers->options['image'])}}">
   			                        </div>
-  			                        <div class="col-xs-2">
-  			                          <h6 class="product-name"><strong>{{$BQT_Flowers->name}}</strong></h6>
+  			                        <div class="col-xs-3">
+  			                          <p class="product-name">(BATCH{{$BQT_Flowers->options->batchID}})</p><p><strong>{{$BQT_Flowers->name}}</strong></p>
   			                        </div>
-  			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
+  			                        <div class="col-xs-3" style = "color:red; margin-top:3%; margin-left:-5%;">
   			                          <h7>Php {{number_format($BQT_Flowers->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
-  			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
-  			                          <input id = 'QuantityField' name = 'QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
+  			                        <div class="col-md-2" style = "margin-top:-1%; margin-left:-7%;">
+  			                          <input id = 'BqtFlwr_QuantityField' name = 'BqtFlwr_QuantityField' type="number" class="form-control input-sm" value="{{$BQT_Flowers->qty}}" min = "1" required>
   			                        </div>
-                                      <div class="col-md-2"  hidden>
-  			                          <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+                                <div hidden class="col-md-2">
+                                  <input id = 'orig_Field' name = 'orig_Field' class="form-control input-sm" value="{{$BQT_Flowers->options['orig_price']}}">
+                                  <input id = 'Decision_Field2' name = 'Decision_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options['priceType']}}">
+  			                          <input id = 'batch_Field2' name = 'batch_Field2' class="form-control input-sm" value="{{$BQT_Flowers->options->batchID}}">
   			                        </div>
-  			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
+  			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;  margin-left:-2%;">
   			                          <h7><b>=</b> Php {{number_format($BQT_Flowers->price * $BQT_Flowers->qty,2)}}</h7>
   			                        </div>
   			                        <div class="col-xs-1">
@@ -364,7 +391,7 @@
   			                        </div>
 
   			                        <div class="col-xs-1">
-  			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelQuickOrderFlowers',['flower_ID'=>$BQT_Flowers->id]) }}" data-toggle="tooltip" title="Delete">
+  			                        	<a class="btn Love btn-just-icon" href ="{{ route('BqtFlowerorderSessions.DelQuickOrderFlowers',['flower_ID'=>$BQT_Flowers->id,'batch'=>$BQT_Flowers->options->batchID]) }}" data-toggle="tooltip" title="Delete">
               											<i class="material-icons">delete</i>
               										</a>
   			                        </div>
@@ -383,12 +410,12 @@
   			                        <div class="col-xs-3" style = "color:red; margin-top:3%;">
   			                          <h7>Php {{number_format($BQT_Acessories->price,2)}} <span class="text-muted"><b> x</b></span></h7>
   			                        </div>
-  			                        <div class="col-md-2" style = "margin-top:3%; margin-left:-10%;">
+  			                        <div class="col-md-2" style = "margin-left:-5%;">
   				                          <input id = 'AcQuantityField' name = 'AcQuantityField' type="number" class="form-control input-sm" value="{{$BQT_Acessories->qty}}" min = "1" required>
   			                        </div>
                                 <div class="col-md-2"  hidden>
                        				    <input id = 'Ac_ID_Field' name = 'Ac_ID_Field' class="form-control input-sm" value="{{$BQT_Acessories->id}}">
-                     					    <input id = 'Decision_Field' name = 'Decision_Field' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
+                     					    <input id = 'Decision_Field3' name = 'Decision_Field3' class="form-control input-sm" value="{{$BQT_Acessories->options['priceType']}}">
   			                        </div>
   			                        <div class="col-xs-2" style = "color:darkviolet; margin-top:3%;">
   			                          <h7><b>=</b> Php {{number_format($BQT_Acessories->price * $BQT_Acessories->qty,2)}}</h7>
@@ -696,10 +723,11 @@
                     <input id = "batch_ID" class = "form-control"  name="batch_ID" list="batch_IDList" placeholder="Enter Batch number of the selected flower"/>
                     <datalist id="batch_IDList">
                     <!--Loop data Here-->
-                  </datalist>
-                </div>
+                    </datalist>
+                  </div>
                 <div id = "details_Div"></div>
                 <div id = "sellingPrice_Div" hidden>
+                  <button id = "showbatch_Chooser" class = "btn btn-md btn-primary">Choose Other Batch</button>
                   <div class="form-group">
                     <label class="control-label">Current Selling Price</label>
                     <input name="ViewPrice_Field" id="ViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
@@ -716,7 +744,7 @@
                   </div>      <!--end of hidden input field-->
                   <div class="togglebutton">
                     <label>
-                      <input type="checkbox" name = "NewPriceCheckBox" id = "NewPriceCheckBox">
+                      <input type="checkbox" name = "NewPriceCheckBox1" id = "NewPriceCheckBox1">
                       <b>New Price?</b>
                     </label>
                   </div>
@@ -770,7 +798,8 @@
 		<div class="modal-dialog">
 	    	<div class="modal-content">
     {!! Form::open(array('route' => 'QuickOrdersSession_Bouquet.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
-	      		<div class="modal-header">
+
+          <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			        <h4 class="modal-title text-center" id="myModalLabel"><b>FLOWER DETAILS</b></h4>
 			    </div>
@@ -780,57 +809,69 @@
 	        				<img id = "BqtFlWR_tab_Image" src="" class="img-rounded img-responsive img-raised">
 	        			</div>
 	        			<div class="col-md-6 text-left">
-
-			        		<div id = "BqtsellingPrice_Div" class="form-group">
-								<label class="control-label">Current Selling Price</label>
-								<input name="BqtViewPrice_Field" id="BqtViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
-							</div>
-                                <div hidden> <!--start of hidden input field-->
-                                <input type="number" class="form-control" name="BqtOrigInputPrice_Field" id="BqtOrigInputPrice_Field" step = '0.01'/>
-                                <input type="number" class="form-control" name="BqtFlwrID_Field" id="BqtFlwrID_Field"/>
-
-                                <label>The decision</label>
-                                <input type="text" class="form-control" name = "BqtDecision_Field" id = "BqtDecision_Field" value = 'O'/>
-                            </div>      <!--end of hidden input field-->
-							<div class="togglebutton">
-								<label>
-							    	<input type="checkbox" name = "BqtNewPriceCheckBox" id = "BqtNewPriceCheckBox">
-									<b>New Price?</b>
-								</label>
-							</div>
-							<div id = 'BqtNewPrice_Div' hidden>
-                 <div class="form-group label-floating">
-                  <label class = 'control-label'>New Price:</label>
-                  <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01" min = '0.0'/>
-                 </div>
-              </div>
-              <div id = 'BqtavailableQTYDIV'>
-                  <div  class="input-group" >
-                    <label class = 'control-label'>Available Quantity:</label>
-                    <input type="text" class="form-control" name="BqtAvailableQty_Field" id="BqtAvailableQty_Field"  placeholder="" disabled/>
+                  <div id = "bqtbatch_Chooser">
+                    <input id = "bqtbatch_ID" class = "form-control"  name="bqtbatch_ID" list="bqtbatch_IDList" placeholder="Enter Batch number of the selected flower"/>
+                    <datalist id="bqtbatch_IDList">
+                    <!--Loop data Here-->
+                    </datalist>
                   </div>
-              </div>
-               <div id = 'BqtQTY_Div'>
-                 <div class="form-group label-floating">
-                  <label class = 'control-label'>Quantity:</label>
-                  <input type="number" class="form-control" name="BqtQTY_Field" id="BqtQTY_Field"  placeholder="" min = '1' required/>
-                </div>
-              </div>
-              <div id = 'BqtTAmt_Div'>
-	              <div class="input-group">
-                		<label class = 'control-label'>Total Amount: </label>
-                		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="Bqttotal_Amt" id="Bqttotal_Amt"  value ="Php 0.00" disabled/>
-              	</div>
-              </div>
+                  <div id = "bqtdetails_Div"></div>
+                  <div  id = "BqtsellingPrice_Div" hidden>
+                    <button id = "bqtshowbatch_Chooser" class = "btn btn-md btn-primary">Choose Other Batch</button>
+                    <div class="form-group">
+                      <label class="control-label">Current Selling Price</label>
+                      <input name="BqtViewPrice_Field" id="BqtViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
+                    </div>
+
+                    <div hidden> <!--start of hidden input field-->
+                      <input type="number" class="form-control" name="BqtOrigInputPrice_Field" id="BqtOrigInputPrice_Field" step = '0.01'/>
+                      <input type="number" class="form-control" name="BqtFlwrID_Field" id="BqtFlwrID_Field"/>
+
+                      <input type="text" class="form-control" name="Bqtbatch_IDField" id="Bqtbatch_IDField" value = ""/>
+
+                      <label>The decision</label>
+                      <input type="text" class="form-control" name = "BqtDecision_Field" id = "BqtDecision_Field" value = 'O'/>
+                    </div>      <!--end of hidden input field-->
+                    <div class="togglebutton">
+                      <label>
+                        <input type="checkbox" name = "BqtNewPriceCheckBox" id = "BqtNewPriceCheckBox">
+                        <b>New Price?</b>
+                      </label>
+                    </div>
+                    <div id = 'BqtNewPrice_Div' hidden>
+                      <div class="form-group label-floating">
+                        <label class = 'control-label'>New Price:</label>
+                        <input type="number" class="form-control" name="BqtNewPrice_Field" id="BqtNewPrice_Field" value = '{{number_format($Fdetails->Final_SellingPrice,2)}}' step = "0.01" min = '0.0'/>
+                      </div>
+                    </div>
+                    <div id = 'BqtavailableQTYDIV'>
+                      <div  class="input-group" >
+                        <label class = 'control-label'>Available Quantity:</label>
+                        <input type="text" class="form-control" name="BqtAvailableQty_Field" id="BqtAvailableQty_Field"  placeholder="" disabled/>
+                      </div>
+                    </div>
+                    <div id = 'BqtQTY_Div'>
+                      <div class="form-group label-floating">
+                        <label class = 'control-label'>Quantity:</label>
+                        <input type="number" class="form-control" name="BqtQTY_Field" id="BqtQTY_Field"  placeholder="" min = '1' required/>
+                      </div>
+                    </div>
+                    <div id = 'BqtTAmt_Div'>
+                      <div class="input-group">
+                        <label class = 'control-label'>Total Amount: </label>
+                        <input type="text" class="form-control text-right" style ="color:darkviolet;" name="Bqttotal_Amt" id="Bqttotal_Amt"  value ="Php 0.00" disabled/>
+                      </div>
+                    </div>
+                  </div><!---->
 			        	</div>
 	        		</div>
-	    		</div>
+	    		  </div>
 
 	    		<div class="modal-footer">
 			    	<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 			    	<br> <br> <br>
 			        <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Close</button>
-			        <button type="submit" class="btn btn-success btn-simple">Add To Cart</button>
+			        <button id = "Bqtflwr_AddTocartBTN" type="submit" class="btn btn-success btn-simple">Add To Cart</button>
 			    </div>
             {!! Form::close() !!}
 
@@ -854,9 +895,8 @@
 	        			<div class="col-md-6">
 	        				<img id = "Acrs_tab_Image" src="" class="img-rounded img-responsive img-raised">
 	        			</div>
-	        			<div class="col-md-6">
-
-			        		<div id = "AcrssellingPrice_Div" class="form-group">
+	        	<div class="col-md-6">
+			        <div id = "AcrssellingPrice_Div" class="form-group">
 								<label class= "control-label">Current Selling Price</label>
 								<input name="AcessoryViewPrice_Field" id="AcessoryViewPrice_Field" type="text" class="form-control text-right" style ="color:darkviolet;" value = "" disabled>
 							</div>
@@ -881,33 +921,34 @@
 								</label>
 							</div>
 
-	                       	<div id = 'NewPrice_DivforAcessories' hidden>
-	                         <div class="form-group label-floating">
-	                          <label class = 'control-label'>New Price:</label>
-	                          <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01" min = "0.0"/>
-	                         </div>
-	                       	</div>
+             	<div id = 'NewPrice_DivforAcessories' hidden>
+                 <div class="form-group label-floating">
+                    <label class = 'control-label'>New Price:</label>
+                    <input type="number" class="form-control" name="AcessoryNewPrice_Field" id="AcessoryNewPrice_Field" value = '1.00' step = "0.01" min = "0.0"/>
+                 </div>
+             	</div>
 
-							<div id = 'BqtavailableQTYDIV' hidden>
-                                <div  class="input-group" >
-                                  <label class = 'control-label'>Available Quantity:</label>
-                                  <input type="text" class="form-control" name="AcrsAvailableQty_Field" id="AcrsAvailableQty_Field"  placeholder="" disabled/>
-                                </div>
-                            </div>
+							<div id = 'BqtavailableQTYDIV'>
+                  <div  class="input-group" >
+                    <label class = 'control-label'>Available Quantity:</label>
+                    <input type="text" class="form-control" name="AcrsAvailableQty_Field" id="AcrsAvailableQty_Field"  placeholder="" disabled/>
+                  </div>
+              </div>
 
-	                        <div id = 'QTY_Div'>
+	            <div id = 'QTY_Div'>
 								<div class="form-group label-floating">
 									<label class="control-label">Quantity</label>
 									<input type="number" class="form-control" name = "AcessoryQTY_Field" id= "AcessoryQTY_Field" placeholder="" min = '1' required/>
 								</div>
-	                        </div>
+	            </div>
 
-                            <div id = 'BqtTAmt_Div'>
-								<div class="input-group">
-                              		<label class = 'control-label'>Total Amount: </label>
-                              		<input type="text" class="form-control text-right" style ="color:darkviolet;" name="Acessorytotal_Amt" id="Acessorytotal_Amt"  value ="Php 0.00" disabled/>
-                            	</div>
-                            </div>
+              <div id = 'BqtTAmt_Div'>
+		             <div class="input-group">
+                  		<label class = 'control-label'>Total Amount: </label>
+                  		<input type="text" class="form-control text-right" style ="color:darkviolet;"
+                        name="Acessorytotal_Amt" id="Acessorytotal_Amt"  value ="Php 0.00" disabled/>
+                	</div>
+                </div>
 
 			        	</div>
 	        		</div>
@@ -1006,6 +1047,12 @@
  	   }
 
 
+     if($('#InvalidAddingFlwr_result').val()=='Fail'){
+ 	    //Show popup
+ 	    swal("Sorry","The request cannot be accepted, this is because the batch that you have chosen to get flowers from cannot cupply the request based on the flowers on the cart!","error");
+ 	   }
+
+
 	  if($('#DeleteAcessory_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Acessory has been removed!","success");
@@ -1023,6 +1070,12 @@
       swal("Good!","Bouquet's quantity has been updated!","success");
     }else if($('#UpdateBouquet_result').val()=='Fail'){
       swal("Sorry!","The quantity that you entered was the same with the previous quantity of the bouquet, no changes has been made!","warning");
+    }else if($('#UpdateBouquet_result').val()=='Fail2'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is a flower under that bouquet which might exceed the available quantity in the inventory!","error");
+    }else if($('#UpdateBouquet_result').val()=='Fail3'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is an accessory under that bouquet which might exceed the available quantity in the inventory!","error");
+    }else if($('#UpdateBouquet_result').val()=='Fail4'){
+      swal("Sorry!","The request for an increase in the quantity of bouquet detected that there is are accessories and flowers under that bouquet which might exceed the available quantity in the inventory!","error");
     }
 
 
@@ -1061,8 +1114,10 @@
 	  if($('#AddAcessory_result').val()=='Successful'){
 	    //Show popup
 	    swal("Good!","Acessory has been successfully added to your Bouquet!","success");
-	   }
-
+    }else if($('#AddAcessory_result').val()=='Fail'){
+	    //Show popup
+	    swal("Sorry!","The request cannot be accomplished because the inventory could not supply that quantty based on the items that you've listed at at the cart before!","error");
+    }
 
       if($('#Delete_FlowerSessionValue').val()=='Successful'){
          //Show popup
@@ -1118,14 +1173,17 @@
 			$('#AcrsName_Field').val(Acrs_Name);
 			$('#Acrs_tab_Image').attr("src",Acrs_IMG);
       $('#Acrs_Image_Field').val(Acrs_Pic);
-			$('#Acrs_Availableqty_Field').val(Acrs_Qty);
+      $('#Acrs_Availableqty_Field').val(Acrs_Qty);
+			$('#AcrsAvailableQty_Field').val(Acrs_Qty + 'pcs');
 
+      $('#AcessoryQTY_Field').attr('max',Acrs_Qty);
 
 			$('#AcrssellingPrice_Div').prepend('<h5 id = "Acrs_ID">FLWR-'+Acrs_ID+'</h5>'+'<h5 id = "Acrs_Name">'+Acrs_Name+'</h5>');
 		});//
 
 
 		$(document).on('click', '.Flower_Tab_Btn', function(){
+      $('#batch_Chooser').show('fold');
       $('#sellingPrice_Div').hide();
       $('#flwr_AddTocartBTN').hide();
 			$("#Flwr_ID").remove();
@@ -1138,24 +1196,18 @@
 			var Flwr_Name = $('.Flwr_name_Field').eq(index).val();
 			//var Flwr_Price = $('.Flwr_currentPrice_Field').eq(index).val();
 			//var Flwr_QTY = $('.Flwr_QTY_Field').eq(index).val();
-      //options += '<option value="'+mycars[i]+'" />';
-      //''<option value = "{{$batch->Batch}}" data-tag = "'{{$batch->flower_ID}}" data-qty = "{{$batch->QTYRemaining}}" data-price = "{{$batch->SellingPrice}}">BATCH_({{$batch->Batch}}): Php {{number_format($batch->SellingPrice,2)}}</option>
 
       var options = '';
       document.getElementById('batch_IDList').innerHTML = options;
       $('.Flwr_batches_Field').eq(index).find('option').each(function(){
-        options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).val()).toFixed(2) +'</option>';
+        options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).data("price")).toFixed(2) +'</option>';
       });
-      alert(options);
+      //alert(options);
 
       document.getElementById('batch_IDList').innerHTML = options;
 
-			//$('#ViewPrice_Field').val("Php " + Flwr_Price);
-			//$('#OrigInputPrice_Field').val(Flwr_Price);
-			//$('#NewPrice_Field').val(Flwr_Price);
 			$('#FlwrID_Field').val(Flwr_ID);
 			$('#FlWR_tab_Image').attr("src",Flwr_IMG);
-			//$('#AvailableQty_Field').val(Flwr_QTY + " pcs.");
 
 			$('#details_Div').prepend('<h5 id = "Flwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "Flwr_Name">'+Flwr_Name+'</h5>');
 		});
@@ -1177,6 +1229,7 @@
       });
 
       if(Found == 1){
+
         $('#ViewPrice_Field').val("Php " + parseFloat(price).toFixed(2));
         $('#OrigInputPrice_Field').val(price);
         $('#NewPrice_Field').val(price);
@@ -1187,7 +1240,9 @@
         $('#sellingPrice_Div').show("fold");
         $('#flwr_AddTocartBTN').show('fold');
         $('#flwr_AddTocartBTN').attr('disabled',false);
+        $('#batch_Chooser').hide('fold');
       }else{
+        //if('')
         //the batch ID that you have chosen does not exist
         $('#ViewPrice_Field').val("");
         $('#OrigInputPrice_Field').val("");
@@ -1202,7 +1257,19 @@
     });
 
 
+    $('#showbatch_Chooser').click(function(){
+      $('#sellingPrice_Div').hide("fold");
+      $('#batch_Chooser').show('fold');
+      $('#flwr_AddTocartBTN').attr('disabled',true);
+      $('#flwr_AddTocartBTN').hide('fold');
+    });
+
+
 		$(document).on('click', '.BqtFlower_Btn', function(){
+      $('#bqtbatch_Chooser').show('fold');
+      $('#BqtsellingPrice_Div').hide();
+      $('#Bqtflwr_AddTocartBTN').hide();
+
 			$("#BqtFlwr_ID").remove();
 			$("#BqtFlwr_Name").remove();
 			var index = $('.BqtFlower_Btn').index(this);
@@ -1210,18 +1277,84 @@
 			var Flwr_ID = $('.BqtFlwr_ID_Field').eq(index).val();
 			var Flwr_IMG = $('.BqtFlwr_pic_Field').eq(index).val();
 			var Flwr_Name = $('.BqtFlwr_name_Field').eq(index).val();
-			var Flwr_Price = $('.BqtFlwr_currentPrice_Field').eq(index).val();
-      var Flwr_Qty = $('.BqtFlwr_QTY_Field').eq(index).val();
+			//var Flwr_Price = $('.BqtFlwr_currentPrice_Field').eq(index).val();
+      //var Flwr_Qty = $('.BqtFlwr_QTY_Field').eq(index).val();
 
-      $('#BqtAvailableQty_Field').val(Flwr_Qty + 'pcs.');
-			$('#BqtViewPrice_Field').val("Php " + Flwr_Price);
-			$('#BqtOrigInputPrice_Field').val(Flwr_Price);
-			$('#BqtNewPrice_Field').val(Flwr_Price);
+      var options = '';
+      document.getElementById('bqtbatch_IDList').innerHTML = options;
+      $('.BqtFlwr_batches_Field').eq(index).find('option').each(function(){
+        options += '<option value = "' +$(this).val()+'" data-tag = "'+$(this).data("tag")+'" data-qty = "'+ $(this).data("qty")+'" data-price = "' + $(this).data("price")+ '"/>Php '+ parseFloat($(this).data("price")).toFixed(2) +'</option>';
+      });
+      //alert(options);
+
+
+      document.getElementById('bqtbatch_IDList').innerHTML = options;
+
+      $('#FlwrID_Field').val(Flwr_ID);
+      $('#FlWR_tab_Image').attr("src",Flwr_IMG);
+
+      $('#bqtdetails_Div').prepend('<h5 id = "BqtFlwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "BqtFlwr_Name">'+Flwr_Name+'</h5>');
+
+      //$('#BqtAvailableQty_Field').val(Flwr_Qty + 'pcs.');
+			//$('#BqtViewPrice_Field').val("Php " + Flwr_Price);
+			//$('#BqtOrigInputPrice_Field').val(Flwr_Price);
+			//$('#BqtNewPrice_Field').val(Flwr_Price);
 			$('#BqtFlwrID_Field').val(Flwr_ID);
 			$('#BqtFlWR_tab_Image').attr("src",Flwr_IMG);
-			$('#BqtsellingPrice_Div').prepend('<h5 id = "BqtFlwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "BqtFlwr_Name">'+Flwr_Name+'</h5>');
+			//$('#BqtsellingPrice_Div').prepend('<h5 id = "BqtFlwr_ID">FLWR-'+Flwr_ID+'</h5>'+'<h5 id = "BqtFlwr_Name">'+Flwr_Name+'</h5>');
 			//alert(Flwr_IMG+ "---" +Flwr_Name +'----' + Flwr_ID + '---' +  Flwr_Price);
 		});
+
+
+    $('#bqtbatch_ID').change(function(){
+      var Found = 0;
+      var price = 0;
+      var qty = 0;
+      var batch = 0;
+      bqtbatchID = $('#bqtbatch_ID').val();
+      $('#bqtbatch_IDList option').each(function(item){
+        if(bqtbatchID == $(this).val()){
+          Found = 1;
+          price  = $(this).data("price");
+          qty  = $(this).data("qty");
+          batch = $(this).val();
+        }
+      });
+
+      if(Found == 1){
+
+        $('#BqtViewPrice_Field').val("Php " + parseFloat(price).toFixed(2));
+        $('#BqtOrigInputPrice_Field').val(price);
+        $('#BqtNewPrice_Field').val(price);
+        $('#BqtAvailableQty_Field').val(qty + "pcs");
+        $('#BqtQTY_Field').attr('min',1);
+        $('#BqtQTY_Field').attr('max',qty);
+        $('#Bqtbatch_IDField').val(batch);
+        $('#BqtsellingPrice_Div').show("fold");
+        $('#Bqtflwr_AddTocartBTN').show('fold');
+        $('#Bqtflwr_AddTocartBTN').attr('disabled',false);
+        $('#bqtbatch_Chooser').hide('fold');
+      }else{
+        //if('')
+        //the batch ID that you have chosen does not exist
+        $('#BqtViewPrice_Field').val("");
+        $('#BqtOrigInputPrice_Field').val("");
+        $('#BqtNewPrice_Field').val("");
+        $('#BqtAvailableQty_Field').val("");
+        $('#bqtbatch_IDField').val("");
+        $('#Bqtflwr_AddTocartBTN').attr('disabled',true);
+        $('#Bqtflwr_AddTocartBTN').hide('fold');
+        $('#BqtsellingPrice_Div').hide("fold");
+      }
+    });
+
+
+    $('#bqtshowbatch_Chooser').click(function(){
+      $('#BqtsellingPrice_Div').hide("fold");
+      $('#bqtbatch_Chooser').show('fold');
+      $('#Bqtflwr_AddTocartBTN').attr('disabled',true);
+      $('#Bqtflwr_AddTocartBTN').hide('fold');
+    });
 
 
 
@@ -1251,10 +1384,10 @@
 	      	}
 	    });
 
-        $('#NewPriceCheckBox').click(function(){
+        $('#NewPriceCheckBox1').click(function(){
             var Descision = '';
           //$('#Customer_Chooser').fadeToggle(300);
-          if($('#NewPriceCheckBox').is(':checked') == true){
+          if($('#NewPriceCheckBox1').is(':checked') == true){
             console.log('pasok');
              Descision = 'N';
                console.log(Descision);
@@ -1978,6 +2111,14 @@ $(function(){
       $("#email_Field2").val(value);
     });
 
+    if($('#QtyErrorNoValue').val() == "error"){
+
+      swal('Sorry Something Unexpected ');
+
+    }
+    else{
+
+    }
 
 
 
