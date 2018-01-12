@@ -430,7 +430,7 @@ Route::get('editacc', 'PagesController@getEditAccount');
 
 //Cashier Dashboard
 
-
+Route::get('cashier', 'PagesController@getCashierPage');
 
 Route::get('cashier_dashboard', ['uses' => 'PagesController@getCashierDashboard','as' => 'cashierdashboard']);
 

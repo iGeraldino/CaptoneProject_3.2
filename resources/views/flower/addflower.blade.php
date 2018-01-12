@@ -110,7 +110,7 @@
 
            					<th>FLWR-{{ $flow -> flower_ID }}</th>
            					<th>{{ $flow -> flower_name }}</th>
-                    <th align="center"><img src="{{ asset('flowerimage/'. $flow -> IMG)}}" class ="img-rounded img-raised img-responsive" style="min-width: 80px; max-height: 50px;">
+                    <th align = "center"><img src="{{ asset('flowerimage/'. $flow -> IMG)}}" class ="img-rounded img-raised img-responsive" style="min-width: 80px; max-height: 80px;">
                     </th>
            					<th>Php {{ number_format($flow -> Final_SellingPrice,2) }}/pc</th>
            					<th>{{ $flow -> QTY }} PCS.</th>
