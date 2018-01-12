@@ -1052,9 +1052,16 @@
 														</div>
 													</div>
 													<div class="col-md-offset-6">
-														<h3 class="fontx text"> TOTAL AMOUNT: {{(number_format (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
-
-                            Cart::instance('flowerwish')->subtotal()) , 0 ))}} </h3>
+                            <h4 class="fontx text"> <b>AMOUNT of Purchase:</b> Php {{(number_format (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal()) , 0 ))}}
+                            </h4>
+                            <h4 class="fontx text"> <b>Vat(12%):</b>  Php {{number_format (0.12*(str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal())) , 0 )}}
+                            </h4>
+														<h4 class="fontx text"> <b>TOTAL AMOUNT: </b>Php {{number_format ((str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal())) + (0.12*(str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                                Cart::instance('flowerwish')->subtotal()))) , 0 )}}
+                            </h4>
 													</div>
 													<p class="text-center"><b>Take Note: You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</b></p>
 												</div>

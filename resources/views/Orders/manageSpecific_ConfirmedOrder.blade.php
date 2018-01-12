@@ -56,22 +56,22 @@
             <div class = "row">
               <div class = "col-md-6">
                 <p><b>Order ID:</b> ORDR-{{$SalesOrder->sales_order_ID}}</p>
-                @if($SalesOrder->Status == "PENDING")
+                @if(strtoupper($SalesOrder->Status) == "PENDING")
                   <p><b>Status: </b><span class = "btn btn-sm btn-warning">PENDING</span></p>
-                @elseif($SalesOrder->Status == "CLOSED")
+                @elseif(strtoupper($SalesOrder->Status) == "CLOSED")
                 <p><b>Status: </b><span class = "btn btn-sm btn-success">CLOSED</span></p>
-                @elseif($SalesOrder->Status == "P_PARTIAL")
+                @elseif(strtoupper($SalesOrder->Status) == "P_PARTIAL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-warning">PARTIALLY PAID</span></p>
-                @elseif($SalesOrder->Status == "P_FULL")
+                @elseif(strtoupper($SalesOrder->Status) == "P_FULL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-primary">FULLY PAID</span></p>
-                @elseif($SalesOrder->Status == "BALANCED")
+                @elseif(strtoupper($SalesOrder->Status) == "BALANCED")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">NO PAYMENT YET</span></p>
-                @elseif($SalesOrder->Status == "A_UNPAID")
+                @elseif(strtoupper($SalesOrder->Status) == "A_UNPAID")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">ACQUIRED WITHOUT PAYMENT</span></p>
 
-                @elseif($SalesOrder->Status == "CANCELLED")
+                @elseif(strtoupper($SalesOrder->Status) == "CANCELLED")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">CANCELLED</span></p>
-                @elseif($SalesOrder->Status == "A_P_PARTIAL")
+                @elseif(strtoupper($SalesOrder->Status) == "A_P_PARTIAL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-info">ACQUIRED WITH PARTIAL PAYMENT</span></p>
                 @endif
 
@@ -270,10 +270,10 @@
             <hr>
 
             <p class = "text-left"><b>Complete what would you like to do?</b></p>
-          @if($SalesOrder->Status == "BALANCED" OR $SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+          @if(strtoupper($SalesOrder->Status) == "BALANCED" OR strtoupper($SalesOrder->Status) == "A_P_PARTIAL" OR strtoupper($SalesOrder->Status) == "A_UNPAID")
               <div class="row">
                 <div class = "col-md-6">
-                  @if($SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+                  @if(strtoupper($SalesOrder->Status) == "A_P_PARTIAL" OR strtoupper($SalesOrder->Status) == "A_UNPAID")
                     <a type = "button" id = "cancelBTN" class = "btn btn-md btn-danger" disabled data-toggle="tooltip" data-placement="bottom"  title = "This Order cannot be cancelled because, flowers under this order were already acquire by the customer"> Cancel Order</a>
                   @else
                     <a type = "button" id = "cancel_BTN"  class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not  monitor this order as an order to be accomplished anymore"> Cancel Order</a>
@@ -288,7 +288,7 @@
 
                 </div>
               </div>
-          @elseif($SalesOrder->Status  == "P_PARTIAL")
+          @elseif(strtoupper($SalesOrder->Status)  == "P_PARTIAL")
               <div class="row">
                 <div class = "col-md-6">
                   <a type = "button" id="cancelPPartial" class= "btn btn-md btn-danger" href="{{ route('OrderCancellation', ['id' => $SalesOrder -> sales_order_ID])}}"  data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</a>
@@ -342,7 +342,7 @@
               </div>
               <br>
               <br>
-          @elseif($SalesOrder->Status  == "P_FULL")
+          @elseif(strtoupper($SalesOrder->Status) == "P_FULL")
                 <div class="row">
                   <div class = "col-md-6" style = "margin-left:-3%;">
 
@@ -388,7 +388,7 @@
                 <hr>
                 <p style = "color:green;"><b>*Closing this Order?</b></p>
                 <p>This order will be shown at the table of orders to be acquired within 24 hours which is located at the dashboard. Closing of this order is a function not available in this page, but is available at  the page of releasing the orders</p>
-						@else($SalesOrder->Status  == "CLOSED")
+						@else(strtoupper($SalesOrder->Status)  == "CLOSED")
 										<div class="row">
 											<div class = "col-md-6" style = "margin-left:-7%;">
 												<button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">

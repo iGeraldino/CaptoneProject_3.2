@@ -399,9 +399,9 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                      }
                    }
                  }
-
+                 $rowidofRecord = 0;
                  foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
-                     if($row->id == $id  AND $batch_ID == $row->options->batchID){
+                     if($row->id == $id AND $row->options->batchID == $batch_ID){
                          $rowidofRecord = $row->rowId;
                          //for existing item in the cart update a specific record
                          //$TotalQty = $row->qty + $Qty;
@@ -437,15 +437,27 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                                  $final_total_Amount = $derived_Sellingprice * $newQty;
                              }
                          }//end of outer else(this is automatically understood that it is newPrice)
-                         Cart::instance('QuickOrdered_Flowers')->update($rowidofRecord,['qty' => $newQty,
+/*
+                         Cart::instance('QuickOrdered_Flowers')->update($row->rowId,['qty' => $newQty,
                          'price' => $derived_Sellingprice,'options'=>['T_Amt' => $final_total_Amount,
                          'orig_price' => $Original_Price,'NewPrice'=>$New_Price,
                          'image'=>$image,'priceType'=>$decision,'batchID'=>$batch_ID]]);
+*/
+                        echo $rowidofRecord." | ".$row->rowId;
+                        //$rowidofRecord = 1234;
+                        $rowidofRecord = $row->rowId;
+                        echo "<h3>".$rowidofRecord."</h3>";
+                        //why is the rowId changing upon update?!------------------------------------d
 
+                         break;
                      }//end of if
-                   //echo '$Original_Price  = '.$Original_Price;
                  }
-
+                 Cart::instance('QuickOrdered_Flowers')->update($rowidofRecord,['qty'=>$newQty,
+                 'price' => $derived_Sellingprice, 'options'=>['T_Amt'=>$final_total_Amount,
+                 'orig_price'=>$Original_Price,'NewPrice'=>$New_Price,'image'=>$image,
+                 'priceType'=>$decision,'batchID'=>$batch_ID]]);
+               //echo '$Original_Price  = '.$Original_Price;
+               return redirect()->back();
     }
   }
 

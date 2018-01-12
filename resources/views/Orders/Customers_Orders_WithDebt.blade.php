@@ -138,13 +138,13 @@
 															<td>ORDR-{{$b_Orders->Order_ID}}</td>
 															<td>{{$b_Orders->date_created}}</td>
 															<td>{{$b_Orders->Ship_Method}}</td>
-															@if($b_Orders->Stat == 'P_PARTIAL')
+															@if(strtoupper($b_Orders->Stat) == 'P_PARTIAL')
 																<td><span class = "btn btn-sm btn-warning">Partially Paid</span></td>
-															@elseif($b_Orders->Stat == 'A_UNPAID')
+															@elseif(strtoupper($b_Orders->Stat) == 'A_UNPAID')
 																<td><span class = "btn btn-sm btn-danger">Acquired without paymnent</span></td>
-															@elseif($b_Orders->Stat == 'A_P_PARTIAL')
+															@elseif(strtoupper($b_Orders->Stat) == 'A_P_PARTIAL')
 																<td><span class = "btn btn-sm btn-danger">Acquired partially paid</span></td>
-															@elseif($b_Orders->Stat == 'BALANCED')
+															@elseif(strtoupper($b_Orders->Stat) == 'BALANCED')
 																<td><span class = "btn btn-sm btn-danger">No Payment Yet</span></td>
 															@endif
 															<td>Php {{number_format($b_Orders->Total_Amt,2)}}</td>
@@ -223,9 +223,9 @@
 														<tr>
 															<td>ORDR-{{$closed->Order_ID}}</td>
 															<td>{{$closed->date_created}}</td>
-															@if($closed->Stat == "CANCELLED")
+															@if(strtoupper($closed->Stat) == "CANCELLED")
 																<td><span class = "btn btn-sm btn-danger">Cancelled</span></td>
-															@elseif($closed->Stat == 'CLOSED')
+															@elseif(strtoupper($closed->Stat) == 'CLOSED')
 																<td><span class = "btn btn-sm btn-success">Closed</span></td>
 															@endif
 															<td>Php {{number_format($closed->Total_Amt,2)}}</td>

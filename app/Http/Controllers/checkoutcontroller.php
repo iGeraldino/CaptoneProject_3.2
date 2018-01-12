@@ -932,6 +932,7 @@ class checkoutcontroller extends Controller
             'Contact_Num' => $orderdetailcontact,
             'shipping_method' => $orderdetailmethod,
             'BALANCE'=> $amount + $vat + 0,
+            'VAT'=>$vat,
         ]);
 
         $orderdetails->save();

@@ -277,7 +277,8 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
                       }//end of outer else(this is automatically understood that it is newPrice)
 
                       //echo '$Original_Price  = '.$Original_Price;
-                      Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,'price' => $derived_Sellingprice,
+                      Cart::instance('Ordered_Flowers')->update($row->rowId,['qty' => $newQty,
+                      'price' => $derived_Sellingprice,
                       'options'=>['T_Amt' => $final_total_Amount,
                       'orig_price' => $row->options->orig_price,
                       'image'=>$row->options->image,'priceType'=>$descision]]);
