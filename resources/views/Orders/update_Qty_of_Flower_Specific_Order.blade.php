@@ -8,7 +8,7 @@
 	<div class="container" style="margin-top: 50px;">
 			<div class="panel panel-primary">
 					  <div class="panel-heading" style="background-color: #C93756">
-			            <h3 class="panel-title">Update Acessories Details</h3>
+			            <h3 class="panel-title">Update Flowrer's Quantity</h3>
 			          </div>
 <?php
 	$Flower_SellingPrice = 0;

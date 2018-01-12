@@ -580,7 +580,8 @@
 															<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 														</div>
 														<div class="panel-body">
-															Panel content
+                              <h4 style = "color:green">*By choosing the <b>(Cash)</b> option, you'll need to give atleast the 20% of the total purchase that you made upon transaction</h4>
+                              <h4 style = "color:green">*By choosing the <b>(Bank Deposit)</b> option, you'll need to deposite atleast the 20% or full amount of the total purchase that you made upon transaction</h4>
 															<br>
 															<br>
 														</div>
@@ -623,7 +624,6 @@
 													pag naclick yung Bank Deposite na radio button ay magiging value ng input na may id na final_paymentmethod ay 'bank'
 													-->
 
-                          <!-- JOMECHAEL POGI -->
 
 													 <input id = 'finalPickup_Date' name = 'finalPickup_Date'>
 													 <input id = 'finalPickup_Time' name = 'finalPickup_Time'>
