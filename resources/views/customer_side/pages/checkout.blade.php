@@ -52,15 +52,16 @@
 
   	                <div class="tab-content">
 		                    <div class="tab-pane active" role="tabpanel" id="step1">
-		                        <h3 class="fontx text-center">New Customer</h3>
-		                        <p class="text-center fontxx">By creating an account, you can shop faster and  be up to date on an order's status. </p>
-		                        <div class="row">
                         @if(Auth::check() == 1)
-
-                          <button type="button" class="btn btn-primary next-step" style="margin-left: 44%;">Save and continue</button>
+                          <h2 class="fontx text-center">Hello {{ Auth::user()-> username }}</h2>
+                          <p class="text-center fontxx" style = "color:green">*You are already logged in, you can proceed to the next step of the checkout process</p>
+                          <div class="row">
+                          <button type="button" class="btn btn-primary next-step" style="margin-left: 44%;">Proceed to the Next step</button>
 
                         @elseif(Auth::check() == 0)
-
+                        <h2 class="fontx text-center">New Customer?</h2>
+                        <p class="text-center fontxx">By creating an account, you can shop faster and  be up to date on an order's status. </p>
+                        <div class="row">
                         <div class="funkyradio text-center fontxx">
 								        <div class="funkyradio-default">
 								            <input type="radio" name="radio" id="registerRdoBtn" checked/>
@@ -537,11 +538,12 @@
 												<div class="col-md-12">
 													<div class="panel panel-info">
 														<div class="panel-heading">
-															<h3 class="panel-title">Option Details</h3>
+															<h3 class="panel-title">Payment Option Details</h3>
 															<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 														</div>
 														<div class="panel-body">
-															Panel content
+                               <h4 style = "color:green">*By choosing the <b>(Cash)</b> option, you'll need to give atleast the 20% of the total purchase that you made upon transaction</h4>
+														   <h4 style = "color:green">*By choosing the <b>(Bank Deposit)</b> option, you'll need to deposite atleast the 20% or full amount of the total purchase that you made upon transaction</h4>
 															<br>
 															<br>
 														</div>
@@ -813,8 +815,16 @@
 														</div>
 													</div>
 													<div class="col-md-offset-6">
-														<h3 class="fontx text-center"> TOTAL AMOUNT: {{(number_format (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
-                            Cart::instance('flowerwish')->subtotal()), 0 ))}}</h3>
+                            <h4 class="fontx text"> <b>AMOUNT of Purchase:</b> Php {{(number_format (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal()) , 0 ))}}
+                            </h4>
+                            <h4 class="fontx text"> <b>Vat(12%):</b>  Php {{number_format (0.12*(str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal())) , 0 )}}
+                            </h4>
+														<h4 class="fontx text"> <b>TOTAL AMOUNT: </b>Php {{number_format ((str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                              Cart::instance('flowerwish')->subtotal())) + (0.12*(str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
+                                Cart::instance('flowerwish')->subtotal()))) , 0 )}}
+                            </h4>
 													</div>
 												</div>
 											</div>
