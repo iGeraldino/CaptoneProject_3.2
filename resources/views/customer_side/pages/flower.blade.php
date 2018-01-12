@@ -24,11 +24,11 @@
                                 {{ $flowerlist -> flower_name }}</h4>
                                 <hr class="colorgraph">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <span class="label label-danger"> Php. {{ $flowerlist -> Final_SellingPrice }}</span>
+                                <div class="col-sm-8">
+                                    <span class="btn btn-md btn-danger"> Php {{ number_Format($flowerlist -> Final_SellingPrice,2) }}</span>
                                 </div>
                                 <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success" href="{{ route('product.show', ['id' => $flowerlist -> flower_ID ])}}">  <span class="glyphicon glyphicon-shopping-cart"></span> View</a>
+                                    <a class="btn btn-lg btn-success" href="{{ route('product.show', ['id' => $flowerlist -> flower_ID ])}}">  <span class="glyphicon glyphicon-shopping-cart"></span> View</a>
                                 </div>
                             </div>
                         </div>

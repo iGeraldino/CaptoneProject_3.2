@@ -145,7 +145,8 @@ class ManageOrder_bankController extends Controller
            array($Order_ID,$customerPayment->Payment_ID,$amount,$amount,0));
            Session::put('ConfirmOrderSession','Successful2');
         }
-        return redirect()->route('dashboard');
+
+        return redirect()->('dashboard');
 //
     }
 

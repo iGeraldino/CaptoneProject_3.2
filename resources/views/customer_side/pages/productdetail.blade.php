@@ -10,7 +10,7 @@
 
     <form method="POST" action="{{ route('addtocart.store') }}">
 
-        <div class="col-xs-4 item-photo" style="border-style:solid;">
+        <div class="col-xs-4 item-photo" >
             <img style="max-width:100%; height:50%; width:100%;" src="{{ asset('flowerimage/'. $prod -> IMG)}}"/>
         </div>
         <div class="col-xs-5" style="border:0px solid gray">
@@ -19,10 +19,10 @@
             <input type="hidden" name ="id" value="{{ $prod -> flower_ID }}">
             <input type="hidden" name ="fp" value="{{ $prod -> Final_SellingPrice }}">
             <input type="hidden" name ="pic" value="{{ $prod -> IMG}}">
-            <h6 class="title-price"><small>Flower Name</small></h6>
+            <h5 class="title-price"><b>Flower Name: </b></h5>
             <h3 style="margin-top:0px;" >{{ $prod -> flower_name }}</h3>
-            <h6 class="title-price"><small>PRICE</small></h6>
-            <h3 style="margin-top:0px;" >PHP {{ $prod -> Final_SellingPrice }}</h3>
+            <h5 class="title-price"><b>Price: </b></h5>
+            <h3 style="margin-top:0px;" >Php {{ number_Format($prod -> Final_SellingPrice,2) }}</h3>
 
             <!-- Detalles especificos del producto -->
             <div class="section">
@@ -31,18 +31,18 @@
                     <div class="attr" style="width:25px;background:white;"></div>
                 </div>
             </div>
-            <div class="section" style="padding-bottom:20px;">
-                <h6 class="title-attr"><small>QUANTITY</small></h6>
+            <hr>
+            <div class="section col-md-12" style="padding-bottom:20px;">
+                <h5 class="title-price"><b>Quantity: </b></h5>
                 <div>
-                    <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-                    <input type="number" value="1" name="quantity"/>
-                    <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+                    <input class = "form-control" type="number" placeholder = "0" name="quantity" min = "1"/>
+                </div>
+                <br>
+                <div class="section" style="padding-bottom:20px;">
+                  <button type="submit" class="btn btn-lg btn-success" ><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add to Cart</button>
                 </div>
             </div>
             <!-- Botones de compra -->
-            <div class="section" style="padding-bottom:20px;">
-                <button type="submit" class="btn btn-success" ><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add to Cart</button>
-            </div>
 
             {{ csrf_field() }}
 

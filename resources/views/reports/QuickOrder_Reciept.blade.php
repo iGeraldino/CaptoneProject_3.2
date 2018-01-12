@@ -105,7 +105,7 @@
 			    			<div class="receipt-header">
 								<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 									<div class="receipt-right">
-										<h5>WONDER BLOOM Flowershop.</h5>
+										<h5>Flowershop.</h5>
 										<p>+6391-7572-9859 <i class="fa fa-phone"></i></p>
 										<p>wonderbloom@gmail.com <i class="fa fa-envelope-o"></i></p>
 										<p>123 Dimasalang St., Sampaloc, Manila <i class="fa fa-location-arrow"></i></p>
@@ -236,13 +236,13 @@
 							@else
 						@endif
 							<div class="receipt-right">
-                  <h5 style = "margin-top:-20%">BREAKDOWN OF ORDER:</h5>
+                  <h5 style = "margin-top:-20%">PRICE BREAKDOWN:</h5>
                   <p  style = "margin-top:-20%"><b>(Flower) Amount:</b>  Php {{number_format($Total_AmtFlwr,2)}}</p>
                   <p  style = "margin-top:-20%"><b>(Bouquet) Amount:</b> Php {{number_format($totalAmt_Bqt,2)}}</p>
                   <p  style = "margin-top:-20%"><b>Amount of Purchase:</b> Php {{number_format($InvoiceDetails[10],2)}}</p>
                   <hr style = "margin-top:-20%">
                   <h6 style = "margin-top:-20%">OTHER CHARGES:</h6>
-                  <p  style = "margin-top:-30%"><b>Delivery Charge:</b> Php {{number_format($InvoiceDetails[11],2)}}</p>
+                  <p  style = "margin-top:-40%"><b>Delivery Charge:</b> Php {{number_format($InvoiceDetails[11],2)}}</p>
 									<p style = "margin-top:-30%"><b>Amount of Vat(12%):</b> Php {{number_format($InvoiceDetails[12],2)}}</p>
                   <hr style = "margin-top:-20%">
                   <p style = "color:red;"><b>Total Amount: </b>Php {{ number_format($InvoiceDetails[15],2) }}</p>

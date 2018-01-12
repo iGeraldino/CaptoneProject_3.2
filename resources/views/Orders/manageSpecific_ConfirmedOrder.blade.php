@@ -61,7 +61,7 @@
                 @elseif(strtoupper($SalesOrder->Status) == "CLOSED")
                 <p><b>Status: </b><span class = "btn btn-sm btn-success">CLOSED</span></p>
                 @elseif(strtoupper($SalesOrder->Status) == "P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-warning">PARTIALLY PAID</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-info">PARTIALLY PAID</span></p>
                 @elseif(strtoupper($SalesOrder->Status) == "P_FULL")
                  <p><b>Status: </b><span class = "btn btn-sm btn-primary">FULLY PAID</span></p>
                 @elseif(strtoupper($SalesOrder->Status) == "BALANCED")
@@ -72,7 +72,7 @@
                 @elseif(strtoupper($SalesOrder->Status) == "CANCELLED")
                  <p><b>Status: </b><span class = "btn btn-sm btn-danger">CANCELLED</span></p>
                 @elseif(strtoupper($SalesOrder->Status) == "A_P_PARTIAL")
-                 <p><b>Status: </b><span class = "btn btn-sm btn-info">ACQUIRED WITH PARTIAL PAYMENT</span></p>
+                 <p><b>Status: </b><span class = "btn btn-sm btn-warning">ACQUIRED WITH PARTIAL PAYMENT</span></p>
                 @endif
 
 								<p><b>Date of Order: </b><span class = "btn btn-sm btn-info">{{date("M d, Y @ h:i a",strtotime($SalesOrder->created_at))}}</span></p>

@@ -101,9 +101,10 @@
 		<div class="row">
 			<div class="col-md-6" style="margin-left: -7px;">
 				<div class="title container" style="margin-top: 3%;">
-					<h3>WONDERBLOOM FLOWERSHOP ORDERING</h3>
-				</div>
-
+          <h3>WONDERBLOOM FLOWERSHOP ORDERING</h3>
+          <h4>Make a long trasaction</h4>
+          <h7>You ca choose flowers even though they are not available in the inventory at this time</h7>
+        </div>
 				<!-- Tabs with icons on Card -->
 				<div class="card card-nav-tabs">
 					<div class="header Sharp">

@@ -105,7 +105,7 @@
 			    			<div class="receipt-header">
 								<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 									<div class="receipt-right">
-										<h5>WONDER BLOOM Flowershop.</h5>
+										<h5>Flowershop.</h5>
 										<p>+6391-7572-9859 <i class="fa fa-phone"></i></p>
 										<p>wonderbloom@gmail.com <i class="fa fa-envelope-o"></i></p>
 										<p>123 Dimasalang St., Sampaloc, Manila <i class="fa fa-location-arrow"></i></p>
@@ -244,12 +244,18 @@
 						</div>
 							@else
 							@endif
-							<div class="receipt-left">
-									<h6 >(Bouquet) Total Amount: PHP {{ number_format($totalAmt_Bqt,2)}}</h6>
-									<h6 >(Flower) Total Amount: PHP {{ number_format($Total_AmtFlwr,2)}}</h6>
-									<h6 >Delivery Charge: PHP {{ number_format($NewSalesOrder_details -> Delivery_Charge,2)}}</h6>
-									<h6 >Vat(12%): PHP {{ number_format($NewSalesOrder_details -> VAT,2)}}</h6>
-									<h4 style = "color:red;"><b>Total Amount: {{ number_format($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge,2) }}</b></h4>
+							<div class="receipt-right">
+                  <h5 style = "margin-top:-20%">PRICE BREAKDOWN:</h5>
+                  <p  style = "margin-top:-20%"><b>(Flower) Amount:</b>  Php {{number_format($Total_AmtFlwr,2)}}</p>
+                  <p  style = "margin-top:-20%"><b>(Bouquet) Amount:</b> Php {{number_format($totalAmt_Bqt,2)}}</p>
+                  <p  style = "margin-top:-20%"><b>Amount of Purchase:</b> Php {{number_format($totalAmt_Bqt + $Total_AmtFlwr,2)}}</p>
+                  <hr style = "margin-top:-20%">
+                  <h6 style = "margin-top:-20%">OTHER CHARGES:</h6>
+                  <p  style = "margin-top:-40%"><b>Delivery Charge:</b> Php {{number_format($NewSalesOrder_details->Delivery_Charge,2)}}</p>
+									<p style = "margin-top:-30%"><b>Amount of Vat(12%):</b> Php {{number_format($NewSalesOrder_details -> VAT,2)}}</p>
+                  <hr style = "margin-top:-20%">
+                  <p style = "color:red;"><b>Total Amount: </b>Php {{ number_format($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge,2) }}</p>
+                  <p style = "color:green;"><b>Minimum Amount to Pay:</b> Php {{ number_format(0.20*($NewSalesOrder_details -> Total_Amt + $NewSalesOrder_details -> Delivery_Charge),2) }}</p>
 							</div>
 						</div>
 					</div>
@@ -271,19 +277,19 @@
 							</div>
 							<hr>
 							<h4><b>Important Note:</b><h4>
-							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of the total amount of purchase)</p>
-							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of purchase, then the order will not be acknowledged.</p>
-							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the shop. This will be about the confirmation and other stuffs that you must prepare upon completing the transaction.</p>
-							<p class="left"><span style = "color:red;">*</span>If you would like to cancel the order, please cancel it immediately by calling us or sending us an email.</p>
+							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</p>
+							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of items that you baught, then the order will not be acknowledged.</p>
+							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</p>
+							<p class="left"><span style = "color:red;">*</span>If you would like to cancel the order, please cancel it immediately by calling us r sending us an email.</p>
 							<p class="left"><span style = "color:red;">*</span>Items under this order cannot be changed.</p>
 							<p class="left"><span style = "color:red;">*</span>Delivery Charge are not applied to your transaction,this will depend upon the negotiation that will be made between you and the company by the time that you recieve a call.</p>
 							<div class="col-xs-4 col-sm-4 col-md-4">
 
 							</div>
 						</div>
-		       </div>
+					 </div>
 
-		        </div>
+		    </div>
 			</div>
 		</div>
 	</body>

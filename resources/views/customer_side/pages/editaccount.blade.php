@@ -179,7 +179,7 @@
                                           <tr>
                                               <th width="12%" class="text-center">Order Id</th>
                                               <th width="25%" class="text-center">Total Amount</th>
-                                              <th width="10%" class="text-center">Print Summary</th>
+                                              <th width="10%" class="text-center">Action</th>
 
                                           </tr>
                                           </thead>
@@ -217,7 +217,7 @@
                                                 <th class="text-center">Shipping Method</th>
                                                 <th width="20%" class="text-center">Created At</th>
                                                 <th width="10%" class="text-center">Status</th>
-                                                <th width="10%" class="text-center"> Print Summary </th>
+                                                <th width="10%" class="text-center"> Action </th>
 
                                             </tr>
                                             </thead>
@@ -232,21 +232,29 @@
                                                 <td> {{ $past -> created_at }}</td>
                                                 <td>
 
-                                                    @if ( $past -> Status == "pending" )
+                                                    @if ( strtoupper($past -> Status) == "PENDING" )
 
-                                                        <span class="label label-warning"> Pending </span>
+                                                        <span class="btn btn-md btn-warning"> Pending </span>
 
-                                                        @elseif ( $past -> Status == "CLOSED")
+                                                        @elseif ( strToupper($past -> Status) == "CLOSED")
 
-                                                        <span class="label label-danger"> Closed </span>
+                                                        <span class="btn btn-md btn-success"> Closed </span>
 
-                                                        @elseif ( $past-> Status == "P_FULL")
+                                                        @elseif ( strtoupper($past-> Status) == "P_FULL")
 
-                                                        <span class="label label-success"> Paid Full </span>
+                                                        <span class="btn btn-md btn-primary"> Paid Full </span>
 
-                                                        @elseif ( $past-> Status == "P_PARTIAL")
+                                                        @elseif ( strToUpper($past-> Status) == "P_PARTIAL")
 
-                                                        <span class="label label-info"> Paid Partial </span>
+                                                        <span class="btn btn-md btn-info"> Paid Partial </span>
+
+                                                        @elseif ( strToUpper($past-> Status) == "CANCELLED")
+
+                                                        <span class="btn btn-md btn-danger"> Cancelled </span>
+
+                                                        @elseif ( strToUpper($past-> Status) == "A_P_PARTIAL")
+
+                                                        <span class="btn btn-md btn-warning"> Acquired Paid Partial </span>
 
                                                     @endif
 
