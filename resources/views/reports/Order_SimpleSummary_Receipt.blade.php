@@ -244,8 +244,8 @@
 						</div>
 							@else
 							@endif
-							<div class="receipt-left">
-									<h5 style = "margin-top:-20%">BREAKDOWN OF ORDER:</h5>
+							<div class="receipt-right">
+									<h5 style = "margin-top:-20%">Transaction Breakdown:</h5>
 									<p  style = "margin-top:-20%"><b>(Flower) Amount:</b>  Php {{number_format($Total_AmtFlwr,2)}}</p>
 									<p  style = "margin-top:-20%"><b>(Bouquet) Amount:</b> Php {{number_format($totalAmt_Bqt,2)}}</p>
 									<p  style = "margin-top:-20%"><b>Amount of Purchase:</b> Php {{number_format($NewSalesOrder_details->Subtotal,2)}}</p>
@@ -275,7 +275,7 @@
 								</div>
 							</div>
 							<hr>
-							<h4><b>Important Note:</b><h4>
+							<h4><b>Please take note:</b><h4>
 							<p class="left"><span style = "color:red;">*</span>You must send the copy of your deposit slip (Amounting of 20% minimum of total amount)</p>
 							<p class="left"><span style = "color:red;">*</span>If you failed to submit or give us atleast the 20% of the total amount of items that you baught, then the order will not be acknowledged.</p>
 							<p class="left"><span style = "color:red;">*</span>With regards to the order please wait for a call or an email from the company. This will be about the confirmation and other stuffs that you must prepare upon ordering.</p>

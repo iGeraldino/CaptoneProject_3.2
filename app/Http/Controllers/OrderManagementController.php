@@ -755,7 +755,7 @@ class OrderManagementController extends Controller
       'NewOrder_SchedDetails'=>$NewOrder_SchedDetails,'SalesOrder_flowers'=>$SalesOrder_flowers,'NewOrder_Bouquet'=>$NewOrder_Bouquet,
         'SalesOrder_Bqtflowers'=>$SalesOrder_Bqtflowers,'SalesOrder_BqtAccessories'=>$SalesOrder_BqtAccessories,'NewSalesOrder_details'=>$NewSalesOrder_details]);
 
-        return $pdf->download('sampleDelivery.pdf');
+        return $pdf->download('LongOrderTransaction_Summary.pdf');
       //
   }
 

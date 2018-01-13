@@ -395,7 +395,7 @@
 	                </div>
 	              </div><!--end of row-->
 	              		<div class="col-md-12">
-	              			<p>The information provided by the customer must be real unless the reservation may be cancelled.</p>
+	              			<p style = "color: red">*The information provided by the customer must be real unless the reservation may be cancelled.</p>
 	              		</div>
 						<div class="pull-right">
 							<button id = "Cust_Det_NextBtn" type="submit" class="btn btn-sm Lemon" disabled> Next</button>
@@ -456,9 +456,10 @@
 									</div>
 								</div>
 								<div>
-									<p>*If you can’t pick up the flower on time, you’ll have at least 3 days to pick it up.</p>
-									<p>*For arranged flowers, the pickup is within a day only.</p>
-									<p>*No refund or exchange of flowers</p>
+									<p><b>Note: </b></p>
+									<p style = "color:red">*If you can’t pick up the flower on time, you’ll have at least 3 days to pick it up.</p>
+									<p style = "color:red">*For arranged flowers, the pickup is within a day only.</p>
+									<p style = "color:red">*No refund or exchange of flowers</p>
 								</div>
 								<div class = "pull-right">
 									<a id = "Shipping_PickUp_BackBtn" type="button" class="btn btn-sm Love"> Back</a>
@@ -579,9 +580,10 @@
 
 										</div>
 										<div class="col-md-12">
-												<p>*No deposit, no delivery. </p>
-												<p>*The minimum amount to be purchased for delivery within Metro Manila is 3,000.</p>
-												<p>*if outside Metro Manila, the delivery charge is not covered.It depend upon the negotiation that will be
+												<p><b>Note: </b></p>
+												<p style = "color: red">*No deposit, no delivery.</p>
+												<p style = "color: red">*The minimum amount to be purchased for delivery within Metro Manila is 3,000.</p>
+												<p style = "color: red">*if outside Metro Manila, the delivery charge is not covered.It depend upon the negotiation that will be
 												made between you and the company</p>
 											</div>
 										<div class = "pull-right">
@@ -596,7 +598,6 @@
 						<!---start of pickup Payment method div-->
 							<div id = "PickUp_Payment_MethodDiv" hidden>
 									<div class="panel-body">
-										Pickup
 										<h5 class="text-center">Payment Method</h5>
 										<div class="col-md-6">
 											<label>
@@ -623,14 +624,18 @@
 									<div id = "Pickup_cashDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
 										<div class="panel-footer">
-										<textarea class="form-control" placeholder="Details" rows="3">Cash Pickup</textarea>
+										<textarea class="form-control" placeholder="Details" rows="3" disabled>
+											*By choosing the (Cash) option, you'll need to give atleast the 20% of the total purchase that you made upon transaction
+										</textarea>
 											<a id = "paymentMethod_PickUpCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_PickUpCashBtn"  data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
 										</div>
 									</div>
 									<div id = "Pickup_BankDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">bank Pickup</textarea>
+										<textarea class="form-control" placeholder="Details" rows="4" disabled>
+											*By choosing the (Bank Deposit) option, you'll need to deposite atleast the 20% or full amount of the total purchase that you made upon transaction
+										</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_PickUpBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_PickUpBankBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
@@ -638,7 +643,9 @@
 									</div>
 									<div id = "Pickup_PayLaterDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">PayLater Pickup</textarea>
+										<textarea class="form-control" placeholder="Details" rows="4" disabled>
+											*With this option(Pay Later), The transaction will be treated as debt of the Customer and will be listed under their account. This is available only for hotels and shop owner types of customer.
+										</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_PickUpPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_PickUpPayLaterBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
@@ -648,7 +655,6 @@
 							<!---start of Delivery Payment method div-->
 							<div id = "Delivery_Payment_MethodDiv" hidden>
 									<div class="panel-body">
-										delivery
 										<h5 class="text-center">Payment Method</h5>
 										<div class="col-md-6">
 											<label>
@@ -673,7 +679,9 @@
 									</div>
 									<div id = "Delivery_cashDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">Cash Delivery</textarea>
+										<textarea class="form-control" placeholder="Details" rows="3" disabled>
+											*By choosing the (Cash) option, you'll need to give atleast the 20% of the total purchase that you made upon transaction
+										</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryCashBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
@@ -681,7 +689,9 @@
 									</div>
 									<div id = "Delivery_bankDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">Bank Delivery</textarea>
+										<textarea class="form-control" placeholder="Details" rows="3" disabled>
+											*By choosing the (Bank Deposit) option, you'll need to deposite atleast the 20% or full amount of the total purchase that you made upon transaction
+										</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryBankBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_DeliveryBankBtn" data-toggle="modal" data-target="#PROCESS_MODAL" class="btn btn-sm Lemon"> Process</button>
@@ -689,7 +699,9 @@
 									</div>
 									<div id = "Delivery_PayLaterDetails_Div" hidden>
 										<h6><b>Method Details</b></h6>
-										<textarea class="form-control" placeholder="Details" rows="3">PayLater Delivery</textarea>
+										<textarea class="form-control" placeholder="Details" rows="4" disabled>
+											*With this option(Pay Later) The transaction will be treated as debt of the Customer and will be listed under their account. This is available only for hotels and shop owner types of customer.
+										</textarea>
 										<div class="panel-footer">
 											<a id = "paymentMethod_DeliveryPayLaterBackBtn" type="button" class="btn btn-sm Love"> Back</a>
 											<button id = "process_DeliveryCashBtn" data-toggle="modal" data-target="#payLatermodal" class="btn btn-sm Lemon"> Process</button>
@@ -851,7 +863,7 @@
 											<div class="checkbox">
 												<label style = "color:red;">
 													<input type="checkbox" name="importantCheckBox" id = "importantCheckBox"  >
-													<p><b>Note:</b> if you check this box,you are sure for this order details</p>
+													<p><b>Note:</b> if you check this box, you are sure for this order details</p>
 												</label>
 											</div>
 										</div>
@@ -2298,7 +2310,7 @@
 							$('#ShippingMethod_Div').show("fold");
 						});
 
-					
+
 
 	});//end of document ready
   </script>
