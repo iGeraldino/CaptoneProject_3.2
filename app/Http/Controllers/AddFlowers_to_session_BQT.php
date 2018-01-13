@@ -150,7 +150,8 @@ class AddFlowers_to_session_BQT extends Controller
         }//end of outer else
 
             Session::put('Added_FlowerToBQT_Order', 'Successful');
-              return redirect()-> route('Long_Sales_Order.index');
+            
+            return redirect()-> route('Long_Sales_Order.index');
 
             //return redirect()->route('Order.CustomizeaBouquet');
       }//END OF MAIN ELSE

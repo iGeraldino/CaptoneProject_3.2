@@ -763,7 +763,12 @@ class OrderManagementController extends Controller
   public function ViewOrderSummary()
   {
     //for showing the checkout options of the order
-    $cities = DB::table('cities')
+    
+      if(auth::guard('admins')->user()->type == '1'){
+          
+      
+      
+      $cities = DB::table('cities')
       ->select('*')
       ->get();
 
@@ -786,6 +791,36 @@ class OrderManagementController extends Controller
     ->with('provinces2',$province)
     ->with('city2',$cities)
     ->with('province',$province);
+        
+      }
+      else if (auth::guard('admins')->user()->type == '2'){
+    
+             $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+
+    $customers = DB::table('customer_details')
+    ->select('*')
+    ->get();
+    $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
+
+    return view('orders/ordersummary')
+    ->with('CustTradeAgreements',$CustWith_TradeAgreement)
+    ->with('cust',$customers)
+    ->with('city',$cities)
+    ->with('cities',$cities)
+    ->with('cities2',$cities)
+    ->with('provinces',$province)
+    ->with('provinces2',$province)
+    ->with('city2',$cities)
+    ->with('province',$province);
+     
+      
+      }
 
   }
 

@@ -264,7 +264,49 @@ class Orderlong_orderingController extends Controller
     public function show($id)
     {
         //
+        if(auth::guard('admins')->user()->type == '1'){
+            $cities = DB::table('cities')
+          ->select('*')
+          ->get();
 
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+
+        $NewSalesOrder = newSales_order::find($id);
+        $NewSalesOrder_details = Neworder_details::find($id);
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                   ->where('Order_ID', $id)
+                                   ->first();
+
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                    ->where('Order_ID', $id)
+                                    ->get();
+
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+       //dd($NewOrder_SchedDetails);
+        return view('Orders/finalorder')
+        ->with('cities',$cities)
+        ->with('provinces',$province)
+        ->with('NewSalesOrder',$NewSalesOrder)
+        ->with('NewSalesOrder_details',$NewSalesOrder_details)
+        ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+        ->with('SalesOrder_flowers',$SalesOrder_flowers)
+        ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+        ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+        ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+
+        }
+        
+        else if(auth::guard('admins')->user()->type == '2'){
+            
+        
+        
         $cities = DB::table('cities')
           ->select('*')
           ->get();
@@ -300,6 +342,7 @@ class Orderlong_orderingController extends Controller
         ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
         ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
         ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+        }
 
     }
 

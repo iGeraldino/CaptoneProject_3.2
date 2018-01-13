@@ -392,6 +392,11 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
     public function show($id)
     {
       //
+        
+      if(auth::guard('admins')->user()->type == '1'){
+          
+       
+        
       $cities = DB::table('cities')
         ->select('*')
         ->get();
@@ -434,6 +439,54 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
       ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
       ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
       ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+          
+      }
+        else if (auth::guard('admins')->user()->type == '2'){
+            $cities = DB::table('cities')
+        ->select('*')
+        ->get();
+
+      $province = DB::table('provinces')
+        ->select('*')
+        ->get();
+
+
+
+
+      $NewSalesOrder = newSales_order::find($id);
+      $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+      $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                  ->where('Order_ID', $id)
+                                  ->get();
+
+      $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+      $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+      $PaymentAndInvoiceDetails = DB::select('CALL show_InvoiceandPayment_Details(?)',array($id));
+      $InvoiceDetails = array();
+      foreach($PaymentAndInvoiceDetails as $row){
+        $InvoiceDetails = collect([$row->Invoice_ID,$row->Payment_ID,
+        $row->AmountPaid,$row->ChangeVal,
+        $row->DateofPayment,$row->Cust_ID,
+        $row->FName,$row->Lname,
+        $row->TypeOfPayment,$row->payment_balance,
+        $row->AmountofPurchase,$row->Del_Charge,$row->Vat,
+        $row->invoice_Balance,$row->InvoiceStat,$row->Tamt]);
+      }
+
+     //dd($NewOrder_SchedDetails);
+      return view('Orders/quickOrder_FinalView')
+      ->with('invoice',$InvoiceDetails)
+      ->with('NewSalesOrder',$NewSalesOrder)
+      ->with('SalesOrder_flowers',$SalesOrder_flowers)
+      ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+      ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+      ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+    }
+
+        
     }
 
     /**

@@ -492,6 +492,16 @@ class PagesController extends Controller
 							  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
 							  //
 							  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+                
+                				$flowers = db::table('sales_order_flowers','flower_details')
+									->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
+									->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
+									->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
+									->groupBy('sales_order_flowers.Flower_ID')
+									->orderBy('sales_order_flowers.QTY', 'desc')
+									->take(6)
+									->get();
+
 				  return view('cashier.pages.cashier_dashboard')
 				   ->with('spoiledFlowers',$spoiledFlowers)
 				   ->with('soldFlowers',$soldFlowers)
@@ -504,7 +514,8 @@ class PagesController extends Controller
 				   ->with('CriticalFLowers',$CriticalFLowers)
 				   ->with('arriving',$arriving)
 				   ->with('Porders',$Pending_salesOrders)
-				   ->with('SpoiledFLowers',$SpoiledFLowers);
+				   ->with('SpoiledFLowers',$SpoiledFLowers)
+                   ->with('flowers', $flowers);
 				   //->with('charts',$charts);
 
 		 }

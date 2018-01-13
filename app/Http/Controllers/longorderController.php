@@ -45,7 +45,7 @@ class longorderController extends Controller
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
-        else{
+        else if(auth::guard('admins')->user()->type == '1'){
 
             $cities = DB::table('cities')
               ->select('*')
@@ -75,7 +75,40 @@ class longorderController extends Controller
             ->with('province',$province)
             ->with('accessories',$accessories)
             ->with('FlowerList',$AvailableFlowers);
-    }
+    
+        }
+        else if(auth::guard('admins')->user()->type == '2'){
+        			$cities = DB::table('cities')
+							->select('*')
+							->get();
+
+						$province = DB::table('provinces')
+							->select('*')
+							->get();
+
+						$salesOrders = DB::table('sales_order')
+						->select('*')
+						->get();
+
+						$customers = DB::table('customer_details')
+						->select('*')
+						->get();
+
+						$AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+						$accessories = DB::select('CALL Acessories_Records()');
+
+						//
+						return view('cashier/pages/cashier_long_order')
+						->with('orders',$salesOrders)
+						->with('cust',$customers)
+						->with('city',$cities)
+						->with('city2',$cities)
+						->with('province',$province)
+						->with('accessories',$accessories)
+						->with('FlowerList',$AvailableFlowers);
+
+        }
+        
     }
     /**
      * Show the form for creating a new resource.

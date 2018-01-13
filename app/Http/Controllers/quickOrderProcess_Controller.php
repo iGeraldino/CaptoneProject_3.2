@@ -44,6 +44,11 @@ class quickOrderProcess_Controller extends Controller
     public function store(Request $request)
     {
         //
+        
+        if(auth::guard('admins')->user()->type == '1'){
+            
+        
+        
         $transatype = $request->Trans_typeField;
         $CustStat = $request->customer_stat;
         $CustID = $request->idfield;
@@ -75,6 +80,40 @@ class quickOrderProcess_Controller extends Controller
         //dd($CustomerDetails);
         Session::put('newCustomerDetails', $CustomerDetails);
         return view('Orders.quickOrderSummary');
+        }
+        else if(auth::guard('admins')->user()->type == '2'){
+            $transatype = $request->Trans_typeField;
+        $CustStat = $request->customer_stat;
+        $CustID = $request->idfield;
+        $CustFname = $request->Cust_FNameField2;
+        $CustMname = $request->Cust_MNameField2;
+        $CustLname = $request->Cust_LNameField2;
+        $CustContact = $request->ContactNum_Field2;
+        $CustEmail = $request->email_Field2;
+        $CustType = $request->custTypeFieldVal;
+        $CustHotel = $request->hotelNameField2;
+        $CustShop = $request->shopNameField2;
+
+      /*  echo '<h3><b>$transatype = </b>'.$transatype.'</h3>';
+        echo '<h3><b>$CustStat = </b>'.$CustStat.'</h3>';
+        echo '<h3><b>$CustID = </b>'.$CustID.'</h3>';
+        echo '<h3><b>$CustFname = </b>'.$CustFname.'</h3>';
+        echo '<h3><b>$CustMname = </b>'.$CustMname.'</h3>';
+        echo '<h3><b>$CustLname = </b>'.$CustLname.'</h3>';
+        echo '<h3><b>$CustContact = </b>'.$CustContact.'</h3>';
+        echo '<h3><b>$CustEmail = </b>'.$CustEmail.'</h3>';
+        echo '<h3><b>$CustType = </b>'.$CustType.'</h3>';
+        echo '<h3><b>$CustHotel = </b>'.$CustHotel.'</h3>';
+        echo '<h3><b>$CustShop = </b>'.$CustShop.'</h3>';
+
+*/
+        Session::remove('newCustomerDetails');
+        $CustomerDetails = collect([$transatype,$CustStat,$CustID,$CustFname,$CustMname,
+        $CustLname,$CustContact,$CustEmail,$CustType,$CustHotel,$CustShop]);
+        //dd($CustomerDetails);
+        Session::put('newCustomerDetails', $CustomerDetails);
+        return view('Orders.quickOrderSummary');
+        }
     }
 
     /**

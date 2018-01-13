@@ -448,23 +448,24 @@
   Morris.Donut({
   element: 'myfirstchart',
   data:[
-    { label: '2008', value: 1 },
-    { label: '2009', value: 10 },
-    { label: '2010', value: 5 },
-    { label: '2011', value: 5 },
+
+    @foreach($flowers as $flow)
+
+    { label: '{{ $flow->flower_name }}', value: {{ $flow -> Quantity}} },
+    @endforeach
+
   ],
-  backgroundColor: '#ccc',
-  labelColor: '#060',
   colors: [
     '#0BA462',
     '#39B580',
     '#67C69D',
     '#95D7BB'
   ],
-  xkey:'year',
+  xkey:'Quantity',
   ykeys:['value'],
   labels:['value']
 })
+
 
 $(function () {
 
