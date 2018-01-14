@@ -46,7 +46,7 @@ class customerListController extends Controller
 
         $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
         $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
-        
+
         return view('customer/customerlist')
         ->with('accts',$custAccts)
         ->with('customers',$customerDetails)
@@ -136,9 +136,14 @@ class customerListController extends Controller
           $province = DB::table('provinces')
           ->select('*')
           ->get();
-         $customerDetails = CustomerDetails::all();
-        return view('customer/customerlist')->with('customers',$customerDetails)->with('city',$cities)
-        ->with('province',$province);
+          $customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
+          $custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
+
+          return view('customer/customerlist')
+          ->with('accts',$custAccts)
+          ->with('customers',$customerDetails)
+          ->with('city',$cities)
+          ->with('province',$province);
       }
 
     }

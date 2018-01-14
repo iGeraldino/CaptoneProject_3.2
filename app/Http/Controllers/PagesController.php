@@ -449,7 +449,7 @@ class PagesController extends Controller
 		}
 
 		//Cashier
-	
+
 
 	public function getCashierDashboard() {
 
@@ -492,7 +492,7 @@ class PagesController extends Controller
 							  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
 							  //
 							  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
-                
+
                 				$flowers = db::table('sales_order_flowers','flower_details')
 									->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
 									->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
@@ -681,7 +681,7 @@ class PagesController extends Controller
 					$province = DB::table('provinces')
 					->select('*')
 					->get();
-
+					
 				$customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
 				$custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
 
@@ -789,6 +789,15 @@ class PagesController extends Controller
 					$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
 					WHERE Status IN ('PENDING','pending')");
 
+					$flowers = db::table('sales_order_flowers','flower_details')
+										->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
+										->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
+										->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
+										->groupBy('sales_order_flowers.Flower_ID')
+										->orderBy('sales_order_flowers.QTY', 'desc')
+										->take(6)
+										->get();
+
 					  /*			$charts = Charts::new('line','highcharts')
 					        ->setTitle('My website users')
 					        ->setLabels('ES','FR','RU')
@@ -829,7 +838,8 @@ class PagesController extends Controller
 					   ->with('tobeAcquired',$tobeAcquired_Orders)
 					   ->with('CriticalFLowers',$CriticalFLowers)
 					   ->with('arriving',$arriving)
-					   ->with('Porders',$Pending_salesOrders)
+						 ->with('Porders',$Pending_salesOrders)
+					   ->with('flowers',$flowers)
 					   ->with('SpoiledFLowers',$SpoiledFLowers);
 					   //->with('charts',$charts);
 
@@ -1124,11 +1134,28 @@ class PagesController extends Controller
 
 	public function getInventorySideFlowerTransaction() {
 
-			$Flower_Transactions = DB::select('call Inventory_Transaction_in_Flowers()');
+			if(auth::guard('admins')->check() == false){
+					Session::put('loginSession','fail');
+					return redirect() -> route('adminsignin');
+			}
+			else{
+					$flwr = DB::table('flower_details')
+					->select('*')
+					->get();
+					$batches = DB::select('CALL list_of_batches()');
+					$Flower_Transactions = DB::select('call Inventory_Transaction_in_Flowers()');
+					$type = 'Flower';
+				 return view('inventory_side/pages/inventory_side_flower_transaction')
+					->with('flwr',$flwr)
+					->with('batch',$batches)
+					->with('Itype',$type)
+					->with('transactions',$Flower_Transactions);
+			}
+			/*$Flower_Transactions = DB::select('call Inventory_Transaction_in_Flowers()');
           $type = 'Flower';
          return view('inventory_side/pages/inventory_side_flower_transaction')
           ->with('Itype',$type)
-          ->with('transactions',$Flower_Transactions);
+          ->with('transactions',$Flower_Transactions);*/
 		}
 
 	public function getInventorySideAccTransaction() {

@@ -29,42 +29,80 @@ class Order_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-            $cities = DB::table('cities')
+            if(auth::guard('admins')->user()->type == '1'){
+                $cities = DB::table('cities')
+                  ->select('*')
+                  ->get();
+
+                $province = DB::table('provinces')
+                  ->select('*')
+                  ->get();
+
+                $ClosedsalesOrders = DB::table('sales_order')
+                ->select('*')
+                ->where('Status','CLOSED')
+                ->get();
+
+                $Pending_salesOrders = DB::table('sales_order')
+                ->select('*')
+                ->where('Status','PENDING')
+                ->get();
+
+                $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
+
+                $customers = DB::table('customer_details')
+                ->select('*')
+                ->get();
+
+
+
+                //
+                return view('Orders.Sales_Order_list')
+                ->with('Dorders',$ClosedsalesOrders)
+                ->with('Porders',$Pending_salesOrders)
+                ->with('Corders',$Confirmed_salesOrders)
+                ->with('cust',$customers)
+                ->with('city',$cities)
+                ->with('city2',$cities)
+                ->with('province',$province);
+            //}
+            }
+            else if(auth::guard('admins')->user()->type == '2'){
+              $cities = DB::table('cities')
+                ->select('*')
+                ->get();
+
+              $province = DB::table('provinces')
+                ->select('*')
+                ->get();
+
+              $ClosedsalesOrders = DB::table('sales_order')
+              ->select('*')
+              ->where('Status','CLOSED')
+              ->get();
+
+              $Pending_salesOrders = DB::table('sales_order')
+              ->select('*')
+              ->where('Status','PENDING')
+              ->get();
+
+              $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
+
+              $customers = DB::table('customer_details')
               ->select('*')
               ->get();
 
-            $province = DB::table('provinces')
-              ->select('*')
-              ->get();
-
-            $ClosedsalesOrders = DB::table('sales_order')
-            ->select('*')
-            ->where('Status','CLOSED')
-            ->get();
-
-            $Pending_salesOrders = DB::table('sales_order')
-            ->select('*')
-            ->where('Status','PENDING')
-            ->get();
-
-            $Confirmed_salesOrders = DB::select('CALL confirmed_Orders()');
-
-            $customers = DB::table('customer_details')
-            ->select('*')
-            ->get();
-
-
-
-            //
-            return view('Orders.Sales_Order_list')
-            ->with('Dorders',$ClosedsalesOrders)
-            ->with('Porders',$Pending_salesOrders)
-            ->with('Corders',$Confirmed_salesOrders)
-            ->with('cust',$customers)
-            ->with('city',$cities)
-            ->with('city2',$cities)
-            ->with('province',$province);
-        //}
+              //
+              return view('Orders.Sales_Order_list')
+              ->with('Dorders',$ClosedsalesOrders)
+              ->with('Porders',$Pending_salesOrders)
+              ->with('Corders',$Confirmed_salesOrders)
+              ->with('cust',$customers)
+              ->with('city',$cities)
+              ->with('city2',$cities)
+              ->with('province',$province);
+          //}
+          }
     }
 
   }
@@ -234,43 +272,125 @@ class Order_Controller extends Controller
         //
         //
 
-        $cities = DB::table('cities')
-          ->select('*')
-          ->get();
+        if(auth::guard('admins')->user()->type == '1'){
+          $cities = DB::table('cities')
+            ->select('*')
+            ->get();
 
-        $province = DB::table('provinces')
-          ->select('*')
-          ->get();
+          $province = DB::table('provinces')
+            ->select('*')
+            ->get();
 
-        $NewSalesOrder = newSales_order::find($id);
-        $NewSalesOrder_details = Neworder_details::find($id);
-        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+          $NewSalesOrder = newSales_order::find($id);
+          $NewSalesOrder_details = Neworder_details::find($id);
+          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
 
-        $NewOrder_SchedDetails = DB::table('shop_schedule')
-                                   ->where('Order_ID', $id)
-                                   ->first();
+          $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                     ->where('Order_ID', $id)
+                                     ->first();
 
-        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-                                    ->where('Order_ID', $id)
-                                    ->get();
+          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                      ->where('Order_ID', $id)
+                                      ->get();
 
-        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
 
-        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
-        //dd($SalesOrder_flowers);
+          //dd($SalesOrder_flowers);
 
-       //dd($NewOrder_SchedDetails);
-        return view('Orders/viewDetails_ofSalesOrder')
-        ->with('cities',$cities)
-        ->with('provinces',$province)
-        ->with('NewSalesOrder',$NewSalesOrder)
-        ->with('NewSalesOrder_details',$NewSalesOrder_details)
-        ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
-        ->with('SalesOrder_flowers',$SalesOrder_flowers)
-        ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
-        ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
-        ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+         //dd($NewOrder_SchedDetails);
+          return view('Orders/viewDetails_ofSalesOrder')
+          ->with('cities',$cities)
+          ->with('provinces',$province)
+          ->with('NewSalesOrder',$NewSalesOrder)
+          ->with('NewSalesOrder_details',$NewSalesOrder_details)
+          ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+          ->with('SalesOrder_flowers',$SalesOrder_flowers)
+          ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+          ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+          ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+        }
+        else if (auth::guard('admins')->user()->type == '2'){
+          $cities = DB::table('cities')
+            ->select('*')
+            ->get();
+
+          $province = DB::table('provinces')
+            ->select('*')
+            ->get();
+
+          $NewSalesOrder = newSales_order::find($id);
+          $NewSalesOrder_details = Neworder_details::find($id);
+          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+          $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                     ->where('Order_ID', $id)
+                                     ->first();
+
+          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                      ->where('Order_ID', $id)
+                                      ->get();
+
+          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+          //dd($SalesOrder_flowers);
+
+         //dd($NewOrder_SchedDetails);
+          return view('Orders/viewDetails_ofSalesOrder')
+          ->with('cities',$cities)
+          ->with('provinces',$province)
+          ->with('NewSalesOrder',$NewSalesOrder)
+          ->with('NewSalesOrder_details',$NewSalesOrder_details)
+          ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+          ->with('SalesOrder_flowers',$SalesOrder_flowers)
+          ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+          ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+          ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+        }
+        else if(auth::guard('admins')->user()->type == '3'){
+          $cities = DB::table('cities')
+            ->select('*')
+            ->get();
+
+          $province = DB::table('provinces')
+            ->select('*')
+            ->get();
+
+          $NewSalesOrder = newSales_order::find($id);
+          $NewSalesOrder_details = Neworder_details::find($id);
+          $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+
+          $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                     ->where('Order_ID', $id)
+                                     ->first();
+
+          $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                      ->where('Order_ID', $id)
+                                      ->get();
+
+          $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+
+          $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+          //dd($SalesOrder_flowers);
+
+         //dd($NewOrder_SchedDetails);
+          return view('Orders/viewDetails_ofSalesOrder')
+          ->with('cities',$cities)
+          ->with('provinces',$province)
+          ->with('NewSalesOrder',$NewSalesOrder)
+          ->with('NewSalesOrder_details',$NewSalesOrder_details)
+          ->with('NewOrder_SchedDetails',$NewOrder_SchedDetails)
+          ->with('SalesOrder_flowers',$SalesOrder_flowers)
+          ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
+          ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
+          ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
+        }
+
+
     }
 
     /**

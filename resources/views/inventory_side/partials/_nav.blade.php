@@ -93,7 +93,6 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/inventory_flower_list"><i class="fa fa-circle-o"></i> Flower List</a></li>
-                <li><a href="/inventory_side_transaction"><i class="fa fa-circle-o"></i> Inventory Transaction</a></li>
                 <li><a href="/inventory_side_schedule"><i class="fa fa-circle-o"></i> Schedule Inventory</a></li>
                 <li><a href="/inventory_flower_price_list"><i class="fa fa-circle-o"></i> Flower Price List</a></li>
               </ul>
@@ -106,7 +105,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href=""><i class="fa fa-circle-o"></i> Overall Inventory Transactions</a></li>
+
                 <li><a href="/inventory_side_flower_transaction"><i class="fa fa-circle-o"></i> Flower Inventory Transaction</a></li>
                 <!--<li><a href="#"><i class="fa fa-circle-o"></i> Reserved Flowers</a></li>-->
                 <li><a href=""><i class="fa fa-circle-o"></i> Accessories Invetory Transactions</a></li>
@@ -114,27 +113,11 @@
             </li>
 
 
-
-
-
-
-
-
           </ul>
         </li>
       </ul>
 
-      <!-- sidebar menu: Online shop -->
-      <ul class="sidebar-menu">
-        <li class="treeview">
-          <a href="/WonderbloomFlowershop">
-            <i class="material-icons">store_directory</i> <span>Online Shop</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-        </li>
-      </ul>
+
 
     </section>
     <!-- /.sidebar -->

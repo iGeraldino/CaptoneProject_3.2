@@ -17,12 +17,25 @@ class Administrator_bouquet_Controller extends Controller
 {
     //
     public function Creation_of_bouquet(){
-      $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
-      $accessories = DB::select('CALL Acessories_Records()');
-      //
-      return view('bouquet.creationof_Bouquet_ServerSide')
-      ->with('accessories',$accessories)
-      ->with('FlowerList',$AvailableFlowers);
+
+      if(auth::guard('admins')->user()->type == '1'){
+        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+        $accessories = DB::select('CALL Acessories_Records()');
+        //
+        return view('bouquet.creationof_Bouquet_ServerSide')
+        ->with('accessories',$accessories)
+        ->with('FlowerList',$AvailableFlowers);
+      }
+      else if(auth::guard('admins')->user()->type == '3'){
+        $AvailableFlowers = DB::select('call wonderbloomdb2.Viewing_Flowers_With_UpdatedPrice()');
+        $accessories = DB::select('CALL Acessories_Records()');
+        //
+        return view('bouquet.creationof_Bouquet_ServerSide')
+        ->with('accessories',$accessories)
+        ->with('FlowerList',$AvailableFlowers);
+      }
+
+
     }
 
     public function DeleteFlower_per_AdminBqt_Session($flower_ID)

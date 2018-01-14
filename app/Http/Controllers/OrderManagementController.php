@@ -31,6 +31,7 @@ class OrderManagementController extends Controller
 
   public function DeleteLong_Bouquet($Bouquet_ID){
 
+
         $qtytofulfill = 0;
 
             foreach(Cart::instance('Ordered_Bqt')->content() as $Bqt){
@@ -339,62 +340,122 @@ class OrderManagementController extends Controller
 }//
 
   public function show_Order_ToRelease($id,$type){
-    $cities = DB::table('cities')
-      ->select('*')
-      ->get();
+    if(auth::guard('admins')->user()->type == '1'){
+      $cities = DB::table('cities')
+        ->select('*')
+        ->get();
 
-    $province = DB::table('provinces')
-      ->select('*')
-      ->get();
-      $cityname = "";
-      $provname = "";
-    $NewSalesOrder = sales_order::find($id);
+      $province = DB::table('provinces')
+        ->select('*')
+        ->get();
+        $cityname = "";
+        $provname = "";
+      $NewSalesOrder = sales_order::find($id);
 
-    $NewSalesOrder_details = Neworder_details::find($id);
-    foreach($cities as $city){
-      if($city->id == $NewSalesOrder_details->Delivery_City){
-          $cityname = $city->name;
-          break;
+      $NewSalesOrder_details = Neworder_details::find($id);
+      foreach($cities as $city){
+        if($city->id == $NewSalesOrder_details->Delivery_City){
+            $cityname = $city->name;
+            break;
+        }
       }
-    }
-    foreach($province as $prov){
-      if($prov->id == $NewSalesOrder_details->Delivery_Province){
-          $provname = $prov->name;
-          break;
+      foreach($province as $prov){
+        if($prov->id == $NewSalesOrder_details->Delivery_Province){
+            $provname = $prov->name;
+            break;
+        }
       }
+
+
+      $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                 ->where('Order_ID', $id)
+                                 ->first();
+
+      $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+      $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                  ->where('Order_ID', $id)
+                                  ->get();
+
+      $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+      //dd($NewOrder_Bouquet);
+
+      $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+      $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+        return view('Orders.Order_Torelease')
+        ->with('fromtype',$type)
+        ->with('payments',$payments)
+        ->with('cityname',$cityname)
+        ->with('provname',$provname)
+        ->with('cities',$cities)
+        ->with('province',$province)
+        ->with('SalesOrder',$NewSalesOrder)
+        ->with('Sched_Details',$NewOrder_SchedDetails)
+        ->with('OrderDetails',$NewSalesOrder_details)
+        ->with('Flowers',$SalesOrder_flowers)
+        ->with('Bouquet',$NewOrder_Bouquet)
+        ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
     }
+    else if(auth::guard('admins')->user()->type == '2'){
+      $cities = DB::table('cities')
+        ->select('*')
+        ->get();
+
+      $province = DB::table('provinces')
+        ->select('*')
+        ->get();
+        $cityname = "";
+        $provname = "";
+      $NewSalesOrder = sales_order::find($id);
+
+      $NewSalesOrder_details = Neworder_details::find($id);
+      foreach($cities as $city){
+        if($city->id == $NewSalesOrder_details->Delivery_City){
+            $cityname = $city->name;
+            break;
+        }
+      }
+      foreach($province as $prov){
+        if($prov->id == $NewSalesOrder_details->Delivery_Province){
+            $provname = $prov->name;
+            break;
+        }
+      }
 
 
-    $NewOrder_SchedDetails = DB::table('shop_schedule')
-                               ->where('Order_ID', $id)
-                               ->first();
+      $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                 ->where('Order_ID', $id)
+                                 ->first();
 
-    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
-    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-                                ->where('Order_ID', $id)
-                                ->get();
+      $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+      $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                  ->where('Order_ID', $id)
+                                  ->get();
 
-    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
-    //dd($NewOrder_Bouquet);
+      $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+      //dd($NewOrder_Bouquet);
 
-    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+      $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
 
-    $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+      $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
-      return view('Orders.Order_Torelease')
-      ->with('fromtype',$type)
-      ->with('payments',$payments)
-      ->with('cityname',$cityname)
-      ->with('provname',$provname)
-      ->with('cities',$cities)
-      ->with('province',$province)
-      ->with('SalesOrder',$NewSalesOrder)
-      ->with('Sched_Details',$NewOrder_SchedDetails)
-      ->with('OrderDetails',$NewSalesOrder_details)
-      ->with('Flowers',$SalesOrder_flowers)
-      ->with('Bouquet',$NewOrder_Bouquet)
-      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
-      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+        return view('Orders.Order_Torelease')
+        ->with('fromtype',$type)
+        ->with('payments',$payments)
+        ->with('cityname',$cityname)
+        ->with('provname',$provname)
+        ->with('cities',$cities)
+        ->with('province',$province)
+        ->with('SalesOrder',$NewSalesOrder)
+        ->with('Sched_Details',$NewOrder_SchedDetails)
+        ->with('OrderDetails',$NewSalesOrder_details)
+        ->with('Flowers',$SalesOrder_flowers)
+        ->with('Bouquet',$NewOrder_Bouquet)
+        ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+   }
   }
 
   public function print_paymentSummary($id){
@@ -452,188 +513,378 @@ class OrderManagementController extends Controller
   }
 
   public function show_debts($id){
-    $cities = DB::table('cities')
-    ->select('*')
-    ->get();
+        if(auth::guard('admins')->user()->type == '1'){
+          $cities = DB::table('cities')
+          ->select('*')
+          ->get();
 
-    $province = DB::table('provinces')
-    ->select('*')
-    ->get();
+          $province = DB::table('provinces')
+          ->select('*')
+          ->get();
 
-    $provname = "";
-    $cityname = "";
+          $provname = "";
+          $cityname = "";
 
-    $customer = CustomerDetails::find($id);
-    foreach($province as $prov){
-      if($customer->Province == $prov->id){
-        $provname = $prov->name;
-        break;
-      }
-    }
-    foreach($cities as $city){
-      if($customer->Province == $city->id){
-         $cityname = $city->name;
-        break;
-      }
-    }
+          $customer = CustomerDetails::find($id);
+          foreach($province as $prov){
+            if($customer->Province == $prov->id){
+              $provname = $prov->name;
+              break;
+            }
+          }
+          foreach($cities as $city){
+            if($customer->Province == $city->id){
+               $cityname = $city->name;
+              break;
+            }
+          }
 
-    $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
-    $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
-    $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
-    $full = DB::select('CALL fully_paidOrders(?)',array($id));
+          $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+          $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+          $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+          $full = DB::select('CALL fully_paidOrders(?)',array($id));
 
-    $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+          $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
 
-    $debt = 0;
-    foreach($debtDetails as $debtDetails){
-      $debt = $debtDetails->Total_Debt;
-    }
-    //dd($customer);
+          $debt = 0;
+          foreach($debtDetails as $debtDetails){
+            $debt = $debtDetails->Total_Debt;
+          }
+          //dd($customer);
 
-    //dd($balanced);
+          //dd($balanced);
 
-    return view('Orders.Manage_Payment_forDebts')
-    ->with('cust',$customer)
-    ->with('city',$cityname)
-    ->with('prov',$provname)
-    ->with('b_Orders',$balanced)
-    ->with('debt',$debt);
-    //to be continued
+          return view('Orders.Manage_Payment_forDebts')
+          ->with('cust',$customer)
+          ->with('city',$cityname)
+          ->with('prov',$provname)
+          ->with('b_Orders',$balanced)
+          ->with('debt',$debt);
+          //to be continued
+        }
+        else if(auth::guard('admins')->user()->type == '2'){
+          $cities = DB::table('cities')
+          ->select('*')
+          ->get();
+
+          $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+
+          $provname = "";
+          $cityname = "";
+
+          $customer = CustomerDetails::find($id);
+          foreach($province as $prov){
+            if($customer->Province == $prov->id){
+              $provname = $prov->name;
+              break;
+            }
+          }
+          foreach($cities as $city){
+            if($customer->Province == $city->id){
+               $cityname = $city->name;
+              break;
+            }
+          }
+
+          $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+          $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+          $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+          $full = DB::select('CALL fully_paidOrders(?)',array($id));
+
+          $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+
+          $debt = 0;
+          foreach($debtDetails as $debtDetails){
+            $debt = $debtDetails->Total_Debt;
+          }
+          //dd($customer);
+
+          //dd($balanced);
+
+          return view('Orders.Manage_Payment_forDebts')
+          ->with('cust',$customer)
+          ->with('city',$cityname)
+          ->with('prov',$provname)
+          ->with('b_Orders',$balanced)
+          ->with('debt',$debt);
+          //to be continued
+        }
+
   }
 
   public function Show_Specific_customerWith_Debt($id){
-    //echo $id;
-    $cities = DB::table('cities')
-    ->select('*')
-    ->get();
-
-    $province = DB::table('provinces')
-    ->select('*')
-    ->get();
-
-    $provname = "";
-    $cityname = "";
-
-    $customer = CustomerDetails::find($id);
-    foreach($province as $prov){
-      if($customer->Province == $prov->id){
-        $provname = $prov->name;
-        break;
-      }
-    }
-    foreach($cities as $city){
-      if($customer->Province == $city->id){
-         $cityname = $city->name;
-        break;
-      }
-    }
-
-    $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
-    $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
-    $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
-    $full = DB::select('CALL fully_paidOrders(?)',array($id));
-
-    $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
-
-    $debt = 0;
-    foreach($debtDetails as $debtDetails){
-      $debt = $debtDetails->Total_Debt;
-    }
-
-    return view('Orders.Customers_Orders_WithDebt')
-    ->with('cust',$customer)
-    ->with('city',$cityname)
-    ->with('prov',$provname)
-    ->with('b_Orders',$balanced)
-    ->with('pending',$pending)
-    ->with('closed',$closed_Cancel)
-    ->with('full',$full)
-    ->with('debtDetails',$debtDetails)
-    ->with('debt',$debt);
-    //to be continued
-  }
-
-  public function ShowSpecific_Confirmed_Orders($id,$type){
-    $cities = DB::table('cities')
+    if(auth::guard('admins')->user()->type == '1'){
+      //echo $id;
+      $cities = DB::table('cities')
       ->select('*')
       ->get();
 
-    $province = DB::table('provinces')
+      $province = DB::table('provinces')
       ->select('*')
       ->get();
-      $cityname = "";
+
       $provname = "";
-    $NewSalesOrder = sales_order::find($id);
+      $cityname = "";
 
-    $NewSalesOrder_details = Neworder_details::find($id);
-
-    foreach($cities as $city){
-      if($NewSalesOrder_details == null){
-        $cityname = 'N/A';
-      }else{
-        if($city->id == $NewSalesOrder_details->Delivery_City){
-          $cityname = $city->name;
-          break;
-        }
-      }
-    }
-    foreach($province as $prov){
-      if($NewSalesOrder_details == null){
-        $provname = 'N/A';
-      }else{
-        if($prov->id == $NewSalesOrder_details->Delivery_Province){
+      $customer = CustomerDetails::find($id);
+      foreach($province as $prov){
+        if($customer->Province == $prov->id){
           $provname = $prov->name;
           break;
         }
       }
+      foreach($cities as $city){
+        if($customer->Province == $city->id){
+           $cityname = $city->name;
+          break;
+        }
+      }
+
+      $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+      $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+      $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+      $full = DB::select('CALL fully_paidOrders(?)',array($id));
+
+      $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+
+      $debt = 0;
+      foreach($debtDetails as $debtDetails){
+        $debt = $debtDetails->Total_Debt;
+      }
+
+      return view('Orders.Customers_Orders_WithDebt')
+      ->with('cust',$customer)
+      ->with('city',$cityname)
+      ->with('prov',$provname)
+      ->with('b_Orders',$balanced)
+      ->with('pending',$pending)
+      ->with('closed',$closed_Cancel)
+      ->with('full',$full)
+      ->with('debtDetails',$debtDetails)
+      ->with('debt',$debt);
+      //to be continued
+    }
+    else if(auth::guard('admins')->user()->type == '2'){
+      //echo $id;
+      $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+      $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+
+      $provname = "";
+      $cityname = "";
+
+      $customer = CustomerDetails::find($id);
+      foreach($province as $prov){
+        if($customer->Province == $prov->id){
+          $provname = $prov->name;
+          break;
+        }
+      }
+      foreach($cities as $city){
+        if($customer->Province == $city->id){
+           $cityname = $city->name;
+          break;
+        }
+      }
+
+      $balanced = DB::select('CALL Customer_DebtedOrders(?)',array($id));
+      $pending = DB::select('CALL customer_pendingOrders(?)',array($id));
+      $closed_Cancel = DB::select('CALL closed_and_Cancelled_Orders(?)',array($id));
+      $full = DB::select('CALL fully_paidOrders(?)',array($id));
+
+      $debtDetails = DB::select('CALL specific_Customer_Debt(?)',array($id));
+
+      $debt = 0;
+      foreach($debtDetails as $debtDetails){
+        $debt = $debtDetails->Total_Debt;
+      }
+
+      return view('Orders.Customers_Orders_WithDebt')
+      ->with('cust',$customer)
+      ->with('city',$cityname)
+      ->with('prov',$provname)
+      ->with('b_Orders',$balanced)
+      ->with('pending',$pending)
+      ->with('closed',$closed_Cancel)
+      ->with('full',$full)
+      ->with('debtDetails',$debtDetails)
+      ->with('debt',$debt);
+      //to be continued
     }
 
+  }
 
-    $NewOrder_SchedDetails = DB::table('shop_schedule')
-                               ->where('Order_ID', $id)
-                               ->first();
+  public function ShowSpecific_Confirmed_Orders($id,$type){
+      if(auth::guard('admins')->user()->type == '1'){
+        $cities = DB::table('cities')
+          ->select('*')
+          ->get();
 
-    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
-    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
-                                ->where('Order_ID', $id)
-                                ->get();
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+          $cityname = "";
+          $provname = "";
+        $NewSalesOrder = sales_order::find($id);
 
-    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
-    //dd($NewOrder_Bouquet);
+        $NewSalesOrder_details = Neworder_details::find($id);
 
-    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+        foreach($cities as $city){
+          if($NewSalesOrder_details == null){
+            $cityname = 'N/A';
+          }else{
+            if($city->id == $NewSalesOrder_details->Delivery_City){
+              $cityname = $city->name;
+              break;
+            }
+          }
+        }
+        foreach($province as $prov){
+          if($NewSalesOrder_details == null){
+            $provname = 'N/A';
+          }else{
+            if($prov->id == $NewSalesOrder_details->Delivery_Province){
+              $provname = $prov->name;
+              break;
+            }
+          }
+        }
 
-    $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
-    $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                   ->where('Order_ID', $id)
+                                   ->first();
 
-    $now = Carbon::now()->timezone('Asia/Manila');
-    $datenow = $now -> format('Y-m-d H:i:s');
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                    ->where('Order_ID', $id)
+                                    ->get();
 
-    foreach($Shop_Schedule as $shopsched){
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+        //dd($NewOrder_Bouquet);
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+        $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+        $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+
+        $now = Carbon::now()->timezone('Asia/Manila');
+        $datenow = $now -> format('Y-m-d H:i:s');
+
+        foreach($Shop_Schedule as $shopsched){
 
 
-    }
+        }
 
-    $time = $shopsched -> Time;
-    $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
+        $time = $shopsched -> Time;
+        $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
 
 
-      return view('Orders.manageSpecific_ConfirmedOrder')
-      ->with('fromtype',$type)
-      ->with('payments',$payments)
-      ->with('cityname',$cityname)
-      ->with('provname',$provname)
-      ->with('cities',$cities)
-      ->with('province',$province)
-      ->with('SalesOrder',$NewSalesOrder)
-      ->with('Sched_Details',$NewOrder_SchedDetails)
-      ->with('OrderDetails',$NewSalesOrder_details)
-      ->with('Flowers',$SalesOrder_flowers)
-      ->with('Bouquet',$NewOrder_Bouquet)
-      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
-      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
-      ->with('hourdiff', $hourdiff);
+          return view('Orders.manageSpecific_ConfirmedOrder')
+          ->with('fromtype',$type)
+          ->with('payments',$payments)
+          ->with('cityname',$cityname)
+          ->with('provname',$provname)
+          ->with('cities',$cities)
+          ->with('province',$province)
+          ->with('SalesOrder',$NewSalesOrder)
+          ->with('Sched_Details',$NewOrder_SchedDetails)
+          ->with('OrderDetails',$NewSalesOrder_details)
+          ->with('Flowers',$SalesOrder_flowers)
+          ->with('Bouquet',$NewOrder_Bouquet)
+          ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+          ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
+          ->with('hourdiff', $hourdiff);
+      }
+      else if(auth::guard('admins')->user()->type == '2'){
+        $cities = DB::table('cities')
+          ->select('*')
+          ->get();
+
+        $province = DB::table('provinces')
+          ->select('*')
+          ->get();
+          $cityname = "";
+          $provname = "";
+        $NewSalesOrder = sales_order::find($id);
+
+        $NewSalesOrder_details = Neworder_details::find($id);
+
+        foreach($cities as $city){
+          if($NewSalesOrder_details == null){
+            $cityname = 'N/A';
+          }else{
+            if($city->id == $NewSalesOrder_details->Delivery_City){
+              $cityname = $city->name;
+              break;
+            }
+          }
+        }
+        foreach($province as $prov){
+          if($NewSalesOrder_details == null){
+            $provname = 'N/A';
+          }else{
+            if($prov->id == $NewSalesOrder_details->Delivery_Province){
+              $provname = $prov->name;
+              break;
+            }
+          }
+        }
+
+
+        $NewOrder_SchedDetails = DB::table('shop_schedule')
+                                   ->where('Order_ID', $id)
+                                   ->first();
+
+        $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+        $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                    ->where('Order_ID', $id)
+                                    ->get();
+
+        $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+        //dd($NewOrder_Bouquet);
+
+        $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+        $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
+
+        $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+
+        $now = Carbon::now()->timezone('Asia/Manila');
+        $datenow = $now -> format('Y-m-d H:i:s');
+
+        foreach($Shop_Schedule as $shopsched){
+
+
+        }
+
+        $time = $shopsched -> Time;
+        $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
+
+
+          return view('Orders.manageSpecific_ConfirmedOrder')
+          ->with('fromtype',$type)
+          ->with('payments',$payments)
+          ->with('cityname',$cityname)
+          ->with('provname',$provname)
+          ->with('cities',$cities)
+          ->with('province',$province)
+          ->with('SalesOrder',$NewSalesOrder)
+          ->with('Sched_Details',$NewOrder_SchedDetails)
+          ->with('OrderDetails',$NewSalesOrder_details)
+          ->with('Flowers',$SalesOrder_flowers)
+          ->with('Bouquet',$NewOrder_Bouquet)
+          ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+          ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
+          ->with('hourdiff', $hourdiff);
+      }
   }
 
     //
@@ -651,6 +902,7 @@ class OrderManagementController extends Controller
   }
 
   public function ManageSpecific_Order($id){
+  if(auth::guard('admins')->user()->type == '1'){
     $cities = DB::table('cities')
       ->select('*')
       ->get();
@@ -708,6 +960,126 @@ class OrderManagementController extends Controller
       ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
       ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
 
+  }
+  else if(auth::guard('admins')->user()->type == '2'){
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+      $cityname = "";
+      $provname = "";
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+    foreach($cities as $city){
+      if($city->id == $NewSalesOrder_details->Delivery_City){
+          $cityname = $city->name;
+          break;
+      }
+    }
+    foreach($province as $prov){
+      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provname = $prov->name;
+          break;
+      }
+    }
+    //2
+
+
+
+
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+    //dd($NewOrder_Bouquet);
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+      return view('Orders.ManageSpecificOrder')
+      ->with('cityname',$cityname)
+      ->with('provname',$provname)
+      ->with('cities',$cities)
+      ->with('province',$province)
+      ->with('SalesOrder',$NewSalesOrder)
+      ->with('Sched_Details',$NewOrder_SchedDetails)
+      ->with('OrderDetails',$NewSalesOrder_details)
+      ->with('Flowers',$SalesOrder_flowers)
+      ->with('Bouquet',$NewOrder_Bouquet)
+      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+
+  }
+  else if(auth::guard('admins')->user()->type == '3'){
+    $cities = DB::table('cities')
+      ->select('*')
+      ->get();
+
+    $province = DB::table('provinces')
+      ->select('*')
+      ->get();
+      $cityname = "";
+      $provname = "";
+    $NewSalesOrder = sales_order::find($id);
+
+    $NewSalesOrder_details = Neworder_details::find($id);
+    foreach($cities as $city){
+      if($city->id == $NewSalesOrder_details->Delivery_City){
+          $cityname = $city->name;
+          break;
+      }
+    }
+    foreach($province as $prov){
+      if($prov->id == $NewSalesOrder_details->Delivery_Province){
+          $provname = $prov->name;
+          break;
+      }
+    }
+    //2
+
+
+
+
+
+    $NewOrder_SchedDetails = DB::table('shop_schedule')
+                               ->where('Order_ID', $id)
+                               ->first();
+
+    $SalesOrder_flowers = DB::select('CALL show_sales_Orders_Flowers(?)',array($id));
+    $NewOrder_Bouquet = DB::table('sales_order_bouquet')
+                                ->where('Order_ID', $id)
+                                ->get();
+
+    $SalesOrder_Bqtflowers = DB::select('CALL show_SalesOrder_Bqt_Flowers(?)',array($id));
+    //dd($NewOrder_Bouquet);
+
+    $SalesOrder_BqtAccessories = DB::select('CALL show_SalesOrder_Bqt_Accessories(?)',array($id));
+
+      return view('Orders.ManageSpecificOrder')
+      ->with('cityname',$cityname)
+      ->with('provname',$provname)
+      ->with('cities',$cities)
+      ->with('province',$province)
+      ->with('SalesOrder',$NewSalesOrder)
+      ->with('Sched_Details',$NewOrder_SchedDetails)
+      ->with('OrderDetails',$NewSalesOrder_details)
+      ->with('Flowers',$SalesOrder_flowers)
+      ->with('Bouquet',$NewOrder_Bouquet)
+      ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
+      ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+
+  }
+
 
   }
 
@@ -763,11 +1135,11 @@ class OrderManagementController extends Controller
   public function ViewOrderSummary()
   {
     //for showing the checkout options of the order
-    
+
       if(auth::guard('admins')->user()->type == '1'){
-          
-      
-      
+
+
+
       $cities = DB::table('cities')
       ->select('*')
       ->get();
@@ -791,10 +1163,10 @@ class OrderManagementController extends Controller
     ->with('provinces2',$province)
     ->with('city2',$cities)
     ->with('province',$province);
-        
+
       }
       else if (auth::guard('admins')->user()->type == '2'){
-    
+
              $cities = DB::table('cities')
       ->select('*')
       ->get();
@@ -818,8 +1190,8 @@ class OrderManagementController extends Controller
     ->with('provinces2',$province)
     ->with('city2',$cities)
     ->with('province',$province);
-     
-      
+
+
       }
 
   }

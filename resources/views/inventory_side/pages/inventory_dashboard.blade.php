@@ -73,7 +73,7 @@
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="/Sales_Qoutation" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <a  class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
 
@@ -152,35 +152,7 @@
                 <td class="text-center">{{$FLowers->flwrName}}</td>
                 <td class="text-right" style = "color:red"><b>{{$FLowers->QTY_Remaining}} stems</b> </td>
                 <td class="text-right">{{date_format(date_create($FLowers->Date_to_Spoil),'M d, Y')}}</td>
-                <td class="text-center"> <button  type="button" class="btn btn-just-icon Subu" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#flowerModal{{$FLowers->Flower_ID}}" ><i class="material-icons">more_horiz</i></button>
-
-                  <!-- Modal Core -->
-                  <div class="modal fade" id="flowerModal{{$FLowers->Flower_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                        </div>
-                        <div class="modal-body">
-                          <div class="col-md-6">
-                            <h5 style="text-transform: uppercase;"><b>FlOWER NAME:{{$FLowers->flwrName}}</b></h5>
-                          </div>
-                          <div class="col-md-6">
-                            <h5 class="">{{$FLowers->Flower_ID}}</h5>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-info btn-simple">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                </td>
+                <td class="text-center"> <a href = "{{route('manageBatch.Spoiled',['ID'=>$FLowers->inventory_ID])}}" type="buttonedit" class="btn btn-just-icon Subu" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a></td>
               </tr>
               @endforeach
             </tbody>
@@ -191,7 +163,6 @@
       <!-- /.box -->
   <!-- /.col -->
     </div>
-
 
     <div>
       <div class="box">
@@ -227,8 +198,8 @@
                  <td><span class = "btn btn-sm btn-primary">To be recieved</span></td>
                 @endif
                 <td align="center">
-                   <button type = "button" class = "btn btn-just-icon Subu" rel="tooltip" title="VIEW" data-toggle="modal" data-target="#flowerdetModal{{$FLowers->Flower_ID}}"><i class="material-icons">search</i>
-                   </button>
+                  <a type = "button" href="{{ route('InventoryArriving_Flowers.show',$arriving->Sched_Id) }}" class = "btn btn-just-icon Subu" rel="tooltip" title="Manage"><i class="material-icons">search</i>
+                  </a>
                 </td>
               </tr>
             @endforeach
@@ -257,7 +228,6 @@
                 <th class="text-center"> CUSTOMER ID </th>
                 <th class="text-center"> DATE CREATED</th>
                 <th class="text-center"> STATUS</th>
-                <th class="text-center"> ACTION</th>
             </thead>
             <tbody>
               @foreach($Porders as $Olist)
@@ -267,9 +237,7 @@
                   <td class="text-center"> <b>{{date_format(date_create($Olist->created_at),"M d, Y")}}</b> @ <b>{{date_format(date_create($Olist->created_at),"h:i a")}}</b> </td>
                   <td class="text-center" style="text-transform: uppercase; color:green;"><span class = "btn btn-sm btn-warning">  {{$Olist->Status}} </span></td>
 
-                  <td class="text-center">
-                    <a href = "{{route('SalesOrderManage.Order',['id'=>$Olist->sales_order_ID])}}" type="buttonedit" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE THIS ORDER" ><i class="material-icons">more_horiz</i></a>
-                  </td>
+
                 </tr>
               @endforeach
             </tbody>
@@ -294,7 +262,6 @@
                   <th class="text-center"> Shipping Method</th>
                   <th class="text-center"> Status</th>
                   <th class="text-center"> Date to Acquire</th>
-                  <th class="text-center"> Actions</th>
               </thead>
               <tbody>
               @foreach($tobeAcquired as $T_Aorders)
@@ -314,9 +281,7 @@
                   <td class="text-center"><span class = "btn btn-sm btn-danger">No Payment Yet</span></td>
                   @endif
                   <td class="text-center">{{date("M d, Y @ h:i a",strtotime($T_Aorders->Date_to_Acquire))}}</td>
-                  <td class = "text-center">
-                    <a href = "{{route('order.Manage_Releasing_Order',['id'=>$T_Aorders->Order_ID,'type'=>'dash'])}}" type="buttonView" class="btn btn-just-icon Subu" data-toggle="tooltip" title="VIEW DETAILS" ><i class="material-icons">more_horiz</i></a>
-                  </td>
+
                 </tr>
               @endforeach
               </tbody>
@@ -341,7 +306,6 @@
                   <thead>
                       <th class="text-center"> Order ID</th>
                       <th class="text-center"> Status</th>
-                      <th class="text-center"> Actions</th>
                   </thead>
                   <tbody>
                   @foreach($b_Orders as $B_Orders)
@@ -356,9 +320,6 @@
                       @elseif($B_Orders->Status == 'A_P_PARTIAL')
                       <td class="text-center"><span   class = "btn btn-sm btn-warning">Acquired Partially paid</span></td>
                       @endif
-                      <td class = "text-center">
-                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$B_Orders->sales_order_ID,'type'=>'dash'])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
-                      </td>
                     </tr>
                   @endforeach
                   </tbody>
@@ -370,16 +331,13 @@
                   <thead>
                       <th class="text-center"> Order ID</th>
                       <th class="text-center"> Status</th>
-                      <th class="text-center"> Actions</th>
                   </thead>
                   <tbody>
                   @foreach($p_Orders as $P_orders)
                     <tr>
                       <td>ORDR-{{$P_orders->sales_order_ID}}</td>
                       <td class="text-center"><span   class = "btn btn-sm btn-info">Fully Paid</span></td>
-                      <td class = "text-center">
-                         <a href = "{{route('order.Manage_Confirmed_Order',['id'=>$P_orders->sales_order_ID,'type'=>'dash'])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
-                      </td>
+
                     </tr>
                   @endforeach
                   </tbody>
@@ -392,51 +350,6 @@
         <!-- /.box -->
       <!-- /.col -->
       </div>
-
-      <div>
-        <div class="box">
-          <div class="box-header Subu">
-            <h5 class="text-center" style="color: white;"><b>HOTELS & SHOPS WITH DEBTS</b></h5>
-          </div>
-          <div class="box-body" style="overflow-x: auto;">
-            <table id="Debtors_TBL" class="table table-bordered table-striped">
-              <thead>
-                  <th class="text-center"> Customer</th>
-                  <th class="text-center"> Type</th>
-                  <th class="text-center"> HOTEL/SHOP </th>
-                  <th class="text-center"> Amount of Balance</th>
-                  <th class="text-center"> Actions</th>
-              </thead>
-              <tbody>
-              @foreach($debtors as $debtors_row)
-                <tr>
-                  @if($debtors_row->cust_ID!=null)
-                    <td>(CUST-{{$debtors_row->cust_ID}}) {{$debtors_row->FName}} {{$debtors_row->MName}}, {{$debtors_row->LName}}</td>
-                  @else
-                    <td>{{$debtors_row->FName}} {{$debtors_row->MName}}, {{$debtors_row->LName}}</td>
-                  @endif
-                  @if($debtors_row->CType == 'H')
-                  <td>Hotel</td>
-                  <td>{{$debtors_row->H_name}}</td>
-                  @elseif($debtors_row->CType == 'S')
-                  <td>Shop</td>
-                  <td>{{$debtors_row->S_name}}</td>
-                  @endif
-                  <td class="text-center" style = "color:red;"><b>Php {{number_format($debtors_row->Total_Debt,2)}}</b></td>
-                  <td class = "text-center">
-                     <a href = "{{route('SalesOrder.UnderCustomer',['id'=>$debtors_row->cust_ID])}}" type="buttonRelease" class="btn btn-just-icon Inbox" data-toggle="tooltip" title="MANAGE" ><i class="material-icons">more_horiz</i></a>
-                  </td>
-                </tr>
-              @endforeach
-              </tbody>
-            </table>
-          </div>
-          <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
-      <!-- /.col -->
-      </div>
-
   </div>
 
 </div>
@@ -445,26 +358,27 @@
 @section('scripts')
 
 <script>
-  Morris.Donut({
+Morris.Donut({
   element: 'myfirstchart',
   data:[
-    { label: '2008', value: 1 },
-    { label: '2009', value: 10 },
-    { label: '2010', value: 5 },
-    { label: '2011', value: 5 },
+
+    @foreach($flowers as $flow)
+
+    { label: '{{ $flow->flower_name }}', value: {{ $flow -> Quantity}} },
+    @endforeach
+
   ],
-  backgroundColor: '#ccc',
-  labelColor: '#060',
   colors: [
     '#0BA462',
     '#39B580',
     '#67C69D',
     '#95D7BB'
   ],
-  xkey:'year',
+  xkey:'Quantity',
   ykeys:['value'],
   labels:['value']
 })
+
 
 $(function () {
 

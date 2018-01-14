@@ -34,11 +34,16 @@ class AdminAccounts_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
+
+          if(auth::guard('admins')->user()->type == '1'){
             $Accounts = DB::select('call view_AdminAccounts()');
 
 
             return view('Administrators/Creating_AdminAcct')
                 ->with('Accts',$Accounts);
+
+          }
+
 
         }
 
@@ -381,7 +386,7 @@ class AdminAccounts_Controller extends Controller
 
         if ($admintableexist == null and $request->randomcode == "1234") {
 
-            
+
 
             if ($code == $randomcode) {
 

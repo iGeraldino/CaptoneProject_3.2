@@ -188,9 +188,9 @@ class ClientController extends Controller
 
           session::remove('orderid');
           $bouquetlist =  db::select('call pcs_in_bouquet()');
-          
-          
-          
+
+
+
 
           return view('customer_side.pages.bouquet') ->with('bouquetlist', $bouquetlist);
 

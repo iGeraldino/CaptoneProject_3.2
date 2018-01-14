@@ -27,6 +27,7 @@ class quickorderController extends Controller
     public function index()
     {
         //
+      if(auth::guard('admins')->user()->type == '1'){
         $cities = DB::table('cities')
           ->select('*')
           ->get();
@@ -61,7 +62,46 @@ class quickorderController extends Controller
         ->with('province',$province)
         ->with('accessories',$accessories)
         ->with('FlowerList',$AvailableFlowers);
+        }
+        else if(auth::guard('admins')->user()->type == '2'){
+          $cities = DB::table('cities')
+            ->select('*')
+            ->get();
+
+          $province = DB::table('provinces')
+            ->select('*')
+            ->get();
+
+          $salesOrders = DB::table('sales_order')
+          ->select('*')
+          ->get();
+
+          $customers = DB::table('customer_details')
+          ->select('*')
+          ->get();
+
+            $batches_ofFlowers = DB::select('CALL breakdownBatchOf_Available_Flowers()');
+          //dd($batches_ofFlowers);
+          $AvailableFlowers = DB::select('CALL wonderbloomdb2.Viewing_AvailableFlowers_With_UpdatedPrice()');
+
+          $accessories = DB::select('CALL AvailableAcessories_Records()');
+
+          $CustWith_TradeAgreement = DB::select("call View_Customers_withAgreement()");
+
+          return view('Orders.quickorder')
+          ->with('batches',$batches_ofFlowers)
+          ->with('CustTradeAgreements',$CustWith_TradeAgreement)
+          ->with('orders',$salesOrders)
+          ->with('cust',$customers)
+          ->with('city',$cities)
+          ->with('city2',$cities)
+          ->with('province',$province)
+          ->with('accessories',$accessories)
+          ->with('FlowerList',$AvailableFlowers);
+
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -392,11 +432,11 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
     public function show($id)
     {
       //
-        
+
       if(auth::guard('admins')->user()->type == '1'){
-          
-       
-        
+
+
+
       $cities = DB::table('cities')
         ->select('*')
         ->get();
@@ -439,7 +479,7 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
       ->with('NewOrder_Bouquet',$NewOrder_Bouquet)
       ->with('SalesOrder_Bqtflowers',$SalesOrder_Bqtflowers)
       ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
-          
+
       }
         else if (auth::guard('admins')->user()->type == '2'){
             $cities = DB::table('cities')
@@ -486,7 +526,7 @@ $flowersBqtInv = DB::select('CALL breakdownBatchOf_Available_Flowers()');
       ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
     }
 
-        
+
     }
 
     /**

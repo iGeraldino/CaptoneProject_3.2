@@ -25,9 +25,18 @@ class AddFlowerController extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
+           if(auth::guard('admins')->user()->type == '1'){
             $flower = flower_details::all();
 
             return view ('flower/flowerlist')->with('flower', $flower);
+          }
+          else if(auth::guard('admins')->user()->type == '3'){
+            $flower = flower_details::all();
+
+            return view ('flower/flowerlist')->with('flower', $flower);
+
+          }
+
         }
 
     }
@@ -50,6 +59,7 @@ class AddFlowerController extends Controller
      */
     public function store(Request $request)
     {
+
         //validate
         if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
