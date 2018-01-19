@@ -206,12 +206,24 @@ class Manage_Flowers_on_Session_Order_Controller extends Controller
      */
     public function edit($id)
     {
-        $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($id));
+        if(auth::guard('admins')->user()->type == "1"){
+             $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($id));
 
 
       //dd($flower_Det);
         return view('Orders.updateQty_Ordered_Flower')
         ->with('flower_Det',$flower_Det);
+   
+        }
+        else if(auth::guard('admins')->user()->type == "2"){
+             $flower_Det = DB::select('CALL Specific_Flower_withUpdated_Price(?)',array($id));
+
+
+      //dd($flower_Det);
+        return view('Orders.updateQty_Ordered_Flower')
+        ->with('flower_Det',$flower_Det);
+   
+        }
     }
 
     /**
