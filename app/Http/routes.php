@@ -13,6 +13,11 @@
 
 Route::group(['middleware' => ['web']], function() {
 
+	//for ajax datatable Cancelling
+		Route::get('show_allShopFlowers','PagesController@All_ShopFlowers');
+
+
+	//
 	Route::resource('flowerReport_Transaction', 'InventoryTransaction_ReportController');
 
 	Route::resource('floweradd', 'flowercontroller');
@@ -262,8 +267,6 @@ Route::get('/cancelCustomiztationOf_Bouquet/{order_ID}',['uses' => 'OrderManagem
 
 
 Route::get('/cancelCustomiztationOf_SessionBouquet',['uses' => 'OrderManagementController@Cancel_and_Clear_BqtSession_Order', 'as'=>'Order.CancelBouquetCreation']);
-
-
 
 
 Route::get('/Release_Order/{id}',['uses' => 'OrderManagementController@release_Order', 'as'=>'order.Release_Order']);//redirects you to the confirmation of orders

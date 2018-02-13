@@ -25,6 +25,19 @@ use Carbon\Carbon;
 
 class PagesController extends Controller
 {
+
+	//
+	public function All_ShopFlowers(Request $request){
+		//rturs he vlues ofall the departments in the database
+		if($request->ajax()){
+			return json_encode([
+				'data' => DB::select('CALL Viewing_Flowers_With_UpdatedPrice()')
+				//->select('*')
+				//->get()
+			]);
+		}//end of if
+	}//end of function
+
     //
 	public function getSupplierList() {
 
@@ -231,10 +244,10 @@ class PagesController extends Controller
 						->setValues(100,50,25)
 						->setElementLabel("Total Users");
 			*/
-			$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
-			$soldFlowers = DB::select('CALL percentageSold()');
-			$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
-			WHERE Status IN ('PENDING','pending')");
+				$spoiledFlowers = DB::select('CALL spoiledFlowr_percentage()');
+				$soldFlowers = DB::select('CALL percentageSold()');
+				$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
+					WHERE Status IN ('PENDING','pending')");
 
 				/*			$charts = Charts::new('line','highcharts')
 							->setTitle('My website users')
@@ -486,7 +499,7 @@ class PagesController extends Controller
 				        $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
 								$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-						$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+								$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
 							  $order_Paid = DB::select('CALL fullyPaid_Orders()');
 							  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
@@ -681,7 +694,7 @@ class PagesController extends Controller
 					$province = DB::table('provinces')
 					->select('*')
 					->get();
-					
+
 				$customerDetails = DB::select('CALL showCustomerdetails_WithoutAcct()');
 				$custAccts = DB::select('CALL showCustomerswith_ExistingAccts()');
 

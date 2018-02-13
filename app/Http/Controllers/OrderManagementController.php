@@ -383,6 +383,18 @@ class OrderManagementController extends Controller
 
       $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
+
+      $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+      $now = Carbon::now()->timezone('Asia/Manila');
+      $datenow = $now -> format('Y-m-d H:i:s');
+
+      $hourdiff = "";
+
+      foreach($Shop_Schedule as $shopsched){
+        $time = $shopsched->Time;
+        $hourdiff = number_format((strtotime($datenow) - strtotime($time))/3600, 0);
+      }
+
         return view('Orders.Order_Torelease')
         ->with('fromtype',$type)
         ->with('payments',$payments)
@@ -396,7 +408,8 @@ class OrderManagementController extends Controller
         ->with('Flowers',$SalesOrder_flowers)
         ->with('Bouquet',$NewOrder_Bouquet)
         ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
-        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
+        ->with('hourdiff', $hourdiff);
     }
     else if(auth::guard('admins')->user()->type == '2'){
       $cities = DB::table('cities')
@@ -441,6 +454,18 @@ class OrderManagementController extends Controller
 
       $payments = DB::select('CALL Breakdown_ofPayment_underTheorder(?)',array($id));
 
+
+            $Shop_Schedule = shop_schedule::where('Order_ID', $id)->get();
+            $now = Carbon::now()->timezone('Asia/Manila');
+            $datenow = $now -> format('Y-m-d H:i:s');
+
+            $hourdiff = "";
+
+            foreach($Shop_Schedule as $shopsched){
+              $time = $shopsched->Time;
+              $hourdiff = number_format((strtotime($datenow) - strtotime($time))/3600, 0);
+            }
+
         return view('Orders.Order_Torelease')
         ->with('fromtype',$type)
         ->with('payments',$payments)
@@ -454,7 +479,8 @@ class OrderManagementController extends Controller
         ->with('Flowers',$SalesOrder_flowers)
         ->with('Bouquet',$NewOrder_Bouquet)
         ->with('Bqt_Flowers',$SalesOrder_Bqtflowers)
-        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories);
+        ->with('Bqt_Acrs',$SalesOrder_BqtAccessories)
+        ->with('hourdiff', $hourdiff);
    }
   }
 
@@ -778,13 +804,14 @@ class OrderManagementController extends Controller
         $now = Carbon::now()->timezone('Asia/Manila');
         $datenow = $now -> format('Y-m-d H:i:s');
 
+        $hourdiff = "";
+
         foreach($Shop_Schedule as $shopsched){
-
-
+          $time = $shopsched->Time;
+          $hourdiff = number_format((strtotime($datenow) - strtotime($time))/3600, 0);
         }
+        //dd($hourdiff);
 
-        $time = $shopsched -> Time;
-        $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
 
 
           return view('Orders.manageSpecific_ConfirmedOrder')
@@ -862,11 +889,10 @@ class OrderManagementController extends Controller
 
         foreach($Shop_Schedule as $shopsched){
 
-
+          $time = $shopsched >Time;
         }
 
-        $time = $shopsched -> Time;
-        $hourdiff = number_format((strtotime($time) - strtotime($datenow))/3600, 0);
+        $hourdiff = number_format( strtotime($datenow) - (strtotime($time))/3600, 0);
 
 
           return view('Orders.manageSpecific_ConfirmedOrder')
@@ -1562,6 +1588,7 @@ class OrderManagementController extends Controller
       $Sales_Order = sales_order::find($id);
       $Order_Details = order_details::find($id);
       $Shop_Schedule = db::table('shop_schedule')->where('Order_ID', $id)->Select('shedule_status')->get();
+
 
       $statusdetails = "CANCELLED";
       $statusinvoice = "CA";

@@ -412,7 +412,7 @@
                   <td>{{$debtors_row->H_name}}</td>
                   @elseif($debtors_row->CType == 'S')
                   <td>Shop</td>
-                  <td>{{$debtors_row->S_name}}</td>
+                  <td>{{$debtors_row->S_Name}}</td>
                   @endif
                   <td class="text-center" style = "color:red;"><b>Php {{number_format($debtors_row->Total_Debt,2)}}</b></td>
                   <td class = "text-center">

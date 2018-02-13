@@ -146,7 +146,7 @@ class ManageOrder_bankController extends Controller
            Session::put('ConfirmOrderSession','Successful2');
         }
 
-        return redirect()->('dashboard');
+        return redirect()->route('dashboard');
 //
     }
 

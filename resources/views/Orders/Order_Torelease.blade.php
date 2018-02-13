@@ -44,6 +44,7 @@
 				<div class="title container" style="margin-top: 5%;">
 					<h3><b>ORDER MANAGEMENT</b></h3>
 				</div>
+					<input class="hidden" type="text" value={{ $SalesOrder -> Status}} id="OrdStatus">
 
 				<div class="panel" style="margin-top: 3%">
 					<div class="panel-heading  Sharp">
@@ -262,8 +263,8 @@
 
             <hr>
 
-            <p class = "text-left"><b>Complete what would you like to do?</b></p>
             @if($SalesOrder->Status == "BALANCED" OR $SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
+						<p class = "text-left"><b>Complete what would you like to do?</b></p>
               <div class="row">
                 <div class = "col-md-6">
                   @if($SalesOrder->Status == "A_P_PARTIAL" OR $SalesOrder->Status == "A_UNPAID")
@@ -289,9 +290,14 @@
                 </div>
               </div>
             @elseif($SalesOrder->Status  == "P_PARTIAL")
+						 <p class = "text-left"><b>Complete what would you like to do?</b></p>
               <div class="row">
                 <div class = "col-md-6">
-                  <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit"> Cancel Order</button>
+									<a type = "button" id="cancelPPartial" class= "btn btn-md btn-danger" href="{{ route('OrderCancellation', ['id' => $SalesOrder -> sales_order_ID])}}"  data-toggle="tooltip"
+										data-placement="bottom"
+										title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
+										Cancel Order
+									</a>
                 </div>
                 <div class = "col-md-6">
                 @if($SalesOrder->cust_Type == 'C')
@@ -347,11 +353,12 @@
               <br>
               <br>
             @elseif($SalesOrder->Status  == "P_FULL")
+						   <p class = "text-left"><b>Complete what would you like to do?</b></p>
+
                 <div class="row">
                   <div class = "col-md-6" style = "margin-left:-3%;">
-
-                    <button type = "button" class = "btn btn-md btn-danger" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
-                      <span class = "glyphicon glyphicon-remove"></span> Cancel Order</button>
+										<a type = "button" id ="cancelPFull"class = "btn btn-md btn-danger" href="{{ route('OrderCancellation', ['id' => $SalesOrder -> sales_order_ID])}}" data-toggle="tooltip"  data-placement="bottom" title="By Cancelling this order, the system will not monitor this order as an order to be accomplished anymore, and the recorded payment obtained from this customer will not be treated as a profit">
+											<span class = "glyphicon glyphicon-remove"></span> Cancel Order</a>
                   </div>
                   <div class = "col-md-6" style = "margin-left:-7%;">
                     <button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
@@ -396,7 +403,93 @@
                 <hr>
                 <p style = "color:green;"><b>*Closing this Order?</b></p>
                 <p>This order will be shown at the table of orders to be acquired within 24 hours which is located at the dashboard. Closing of this order is a function not available in this page, but is available at  the page of releasing the orders</p>
-            @endif
+					  @elseif($SalesOrder->Status  == "CLOSED")
+						<p class = "text-left"><b>Complete what would you like to do?</b></p>
+						 <div class="row">
+							 <div class = "col-md-6" style = "margin-left:3%;">
+								 <button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+									 Payment Breakdown <span class = "glyphicon glyphicon-list"></span></button>
+							 </div>
+						 </div>
+						 <div id = "p_breakdownDIV" hidden>
+						 <div class = "col-md-12">
+							 <button id = "payment_buildupBtn" type = "button" class = "btn btn-md pull-right" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+								 Hide Breakdown of Payments<span class = "glyphicon glyphicon-chevron-up"></span>
+							 </button>
+						 </div>
+							 <hr>
+							 <br>
+							 <p style = "color:green"><b>*Breakdown of payments made by the customer to this Order</b></p>
+							 <table id="paymentsTbl" class="table table-bordered table-striped">
+								 <thead>
+										 <th class="text-center"> ID</th>
+										 <th class="text-center"> Amount </th>
+										 <th class="text-center"> Amount Used</th>
+										 <th class="text-center"> Change</th>
+										 <th class="text-center"> Balance paid for</th>
+
+								 </thead>
+								 <tbody>
+								 @foreach($payments as $pay)
+									 <tr>
+										 <td>{{$pay->P_ID}}</td>
+										 <td>Php {{number_format($pay->Amount_Paid,2)}}</td>
+										 <td>Php {{number_format($pay->Amt_Used,2)}}</td>
+										 <td>Php {{number_format($pay->change,2)}}</td>
+										 <td>Php {{number_format($pay->BALANCE,2)}}</td>
+								 </button>
+								 @endforeach
+								 </tbody>
+							 </table>
+						 </div>
+						 <hr>
+						 <p style = "color:green;"><b>*This transaction was already done or closed</b></p>
+						 @elseif(strtoupper($SalesOrder->Status)  == "CANCELLED")
+								 <div class="row">
+									 <div class = "col-md-6" style = "margin-left:4%;">
+										 <button id = "payment_breakdownBtn" type = "button" class = "btn btn-md" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+											 Payment Breakdown <span class = "glyphicon glyphicon-list"></span></button>
+									 </div>
+								 </div>
+								 <div id = "p_breakdownDIV" hidden>
+								 <div class = "col-md-12">
+									 <button id = "payment_buildupBtn" type = "button" class = "btn btn-md pull-right" data-toggle="tooltip"  data-placement="bottom" title="this button will show you the breakdown of payments made by the customer why this order reaches its Status now">
+										 Hide Breakdown of Payments<span class = "glyphicon glyphicon-chevron-up"></span>
+									 </button>
+								 </div>
+									 <hr>
+									 <br>
+									 <p style = "color:green"><b>*Breakdown of payments made by the customer to this Order</b></p>
+									 <table id="paymentsTbl" class="table table-bordered table-striped">
+										 <thead>
+												 <th class="text-center"> ID</th>
+												 <th class="text-center"> Amount </th>
+												 <th class="text-center"> Amount Used</th>
+												 <th class="text-center"> Change</th>
+												 <th class="text-center"> Balance paid for</th>
+
+										 </thead>
+										 <tbody>
+										 @foreach($payments as $pay)
+											 <tr>
+												 <td>{{$pay->P_ID}}</td>
+												 <td>Php {{number_format($pay->Amount_Paid,2)}}</td>
+												 <td>Php {{number_format($pay->Amt_Used,2)}}</td>
+												 <td>Php {{number_format($pay->change,2)}}</td>
+												 <td>Php {{number_format($pay->BALANCE,2)}}</td>
+										 </button>
+										 @endforeach
+										 </tbody>
+									 </table>
+								 </div>
+								 <hr>
+								 <p style = "color:green;"><b>*This Order was already closed due to cancellation</b></p>
+								 @if($SalesOrder->customer_ID != NULL)
+									 <p>The order was already cancelled by the customer named {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}} with the customer ID CUST-{{$SalesOrder->customer_ID}}</p>
+								 @else
+									 <p>The order was already cancelled by the customer named {{$SalesOrder->Customer_Fname}} {{$SalesOrder->Customer_LName}}</p>
+								 @endif
+						@endif
 
               <div id = "PaymentDiv" hidden>
                 <div class="radio" hidden>
@@ -1249,6 +1342,21 @@
 		});
 
 
+		console.log({{ $hourdiff }});
+//		alert({{ $hourdiff }});
+		if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "P_FULL"){
+						$('#cancelPFull').hide();
+		}
+		else if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "P_PARTIAL" ) {
+						$('#cancelPPartial').hide();
+		}
+		else if ( {{ $hourdiff }} > 24 && $('#OrdStatus').val() == "BALANCED" ) {
+							$('#cancelPPartial').hide();
+		}
+		else{
+			$('#cancelPPartial').show();
+			$('#cancelPFull').show();
+		}
 
 
 

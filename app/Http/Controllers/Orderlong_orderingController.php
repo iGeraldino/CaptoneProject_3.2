@@ -302,11 +302,11 @@ class Orderlong_orderingController extends Controller
         ->with('SalesOrder_BqtAccessories',$SalesOrder_BqtAccessories);
 
         }
-        
+
         else if(auth::guard('admins')->user()->type == '2'){
-            
-        
-        
+
+
+
         $cities = DB::table('cities')
           ->select('*')
           ->get();

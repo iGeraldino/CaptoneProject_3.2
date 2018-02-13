@@ -364,10 +364,10 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
       // dd(Cart::instance('overallFLowers')->content());
 
             if(auth::guard('admins')->user()->type == "1"){
-                $newQty = $request->QTY_Field;
-            $New_Price = $request->NewPrice_Field;
-            $decision = $request->Decision_Field;
-            $batch_ID  = $request->BatchID_Field;
+            $newQty     =  $request->QTY_Field;
+            $New_Price  =  $request->NewPrice_Field;
+            $decision   =  $request->Decision_Field;
+            $batch_ID   =  $request->BatchID_Field;
 //dd($id);
             $flower_details = flower_details::find($id);
             $image = '';
@@ -438,6 +438,7 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                  }
                  $rowidofRecord = 0;
                  foreach(Cart::instance('QuickOrdered_Flowers')->content() as $row){
+                    $rowidofRecord = 0;
                      if($row->id == $id AND $row->options->batchID == $batch_ID){
                          $rowidofRecord = $row->rowId;
                          //for existing item in the cart update a specific record
@@ -484,17 +485,22 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                         //$rowidofRecord = 1234;
                         $rowidofRecord = $row->rowId;
                         echo "<h3>".$rowidofRecord."</h3>";
-                        //why is the rowId changing upon update?!------------------------------------d
-
+                        //why is the rowId changing upon update?!------------------------------------
                          break;
                      }//end of if
                  }
+                echo  $rowidofRecord;
+
                  Cart::instance('QuickOrdered_Flowers')->update($rowidofRecord,['qty'=>$newQty,
                  'price' => $derived_Sellingprice, 'options'=>['T_Amt'=>$final_total_Amount,
                  'orig_price'=>$Original_Price,'NewPrice'=>$New_Price,'image'=>$image,
                  'priceType'=>$decision,'batchID'=>$batch_ID]]);
-               //echo '$Original_Price  = '.$Original_Price;
-               return redirect()->back();
+                 //echo '$Original_Price  = '.$Original_Price;
+
+                 echo  $rowidofRecord;
+
+
+                 return redirect()->back();
             }
           else if(auth::guard('admins')->user()->type == "2"){
               $newQty = $request->QTY_Field;
@@ -617,8 +623,8 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                         //$rowidofRecord = 1234;
                         $rowidofRecord = $row->rowId;
                         echo "<h3>".$rowidofRecord."</h3>";
-                        //why is the rowId changing upon update?!------------------------------------d
 
+                        //why is the rowId changing upon update?!------------------------------------d
                          break;
                      }//end of if
                  }
@@ -626,10 +632,10 @@ class Manage_Flowers_on_Session_QuickOrder_Controller extends Controller
                  'price' => $derived_Sellingprice, 'options'=>['T_Amt'=>$final_total_Amount,
                  'orig_price'=>$Original_Price,'NewPrice'=>$New_Price,'image'=>$image,
                  'priceType'=>$decision,'batchID'=>$batch_ID]]);
-               //echo '$Original_Price  = '.$Original_Price;
-               return redirect()->back();
+                 //echo '$Original_Price  = '.$Original_Price;
+                 return redirect()->back();
           }
-          
+
     }
   }
 

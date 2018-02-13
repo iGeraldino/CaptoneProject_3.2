@@ -191,8 +191,8 @@
 							<div class="tab-pane" id="Bouquets">
 								<div class="col-md-6">
 									Flowers
-
-							  @foreach($FlowerList as $Fdetails)
+                  <div class="row">
+							     @foreach($FlowerList as $Fdetails)
 										<div class="col-md-6">
 											<img id = "bqtFlwr_Image_Field" src="{{ asset('flowerimage/'.$Fdetails->IMG)}}" alt="Raised Image" class="img-rounded img-responsive img-raised" style="max-height: 105px; max-width: 105px;min-height: 105px; min-width: 105px;">
 										<div hidden>
@@ -212,7 +212,8 @@
 										</div>
 											<a class="btn btn-sm Lemon BqtFlower_Btn" data-toggle="modal" data-target="#Bqtflower_modal"> QUICK VIEW</a>
 										</div>
-               @endforeach
+                    @endforeach
+                  </div>
 
 
 								</div>

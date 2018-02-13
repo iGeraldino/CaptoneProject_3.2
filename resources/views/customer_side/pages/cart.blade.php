@@ -21,7 +21,7 @@
 		<input id = "addflowerSession" value = "{{$AddingFlowertoCartSession}}">
 		<input id = "updateflowerSession" value = "{{$UpdateflowertoCartSession}}">
 		<input id = "deleteflowerSession" value = "{{$DeleteFlowertoCartSession}}">
-	
+
 </div>
 		<div class="container" style="margin-top: 100px;">
 		    <div class="row">
@@ -167,7 +167,7 @@
 			return true;
 		});
 	}
-	
+
 	</script>
 	<script>
 		$(document).ready(function(){

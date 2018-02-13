@@ -18,15 +18,15 @@
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
           <h3 class="modal-title" id="lineModalLabel">Create New Customer Record</h3>
 
-         <input type="text" id="emailvalidator" value="">
+         <input type="text" id="emailvalidator" value="" hidden>
         </div>
 
 
       {!! Form::open(array('route' => 'customers.store', 'data-parsley-validate'=>'', 'method'=>'POST')) !!}
         <div class="modal-body">
           <!-- content goes here -->
-          <label>Name: </label>
           <div class="input-group">
+            <label><b>NAME: </b></label>
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
             <input type="text" class="form-control" name="Cust_FNameField" id="Cust_FNameField"  placeholder="First Name..." required/>
             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
