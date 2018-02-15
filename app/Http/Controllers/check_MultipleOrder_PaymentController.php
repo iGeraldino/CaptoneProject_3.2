@@ -47,88 +47,183 @@ class check_MultipleOrder_PaymentController extends Controller
     public function store(Request $request)
     {
         //
-        $current = Carbon::now('Asia/Manila');
+        if(auth::guard('admins')->check() == false){
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+        }
+        else{
+            if(auth::guard('admins')->user()->type == '1'){
+              $current = Carbon::now('Asia/Manila');
 
-          //
-          $decision = $request->Decision_text3;
-          $Minimum_Down = $request->SubtotalDown3;
+                //
+                $decision = $request->Decision_text3;
+                $Minimum_Down = $request->SubtotalDown3;
 
-          $fromId = $request->Currentcust_ID3;
-          $fromFname = $request->Current_FName3;
-          $fromLname = $request->Current_LName3;
-          $nFname = $request->nf_namefield3;
-          $nlname = $request->nl_namefield3;
-          $asignatory = $request->asignatory;
+                $fromId = $request->Currentcust_ID3;
+                $fromFname = $request->Current_FName3;
+                $fromLname = $request->Current_LName3;
+                $nFname = $request->nf_namefield3;
+                $nlname = $request->nl_namefield3;
+                $asignatory = $request->asignatory;
 
-          $bankname = $request->Bank_Name3;
-          $checkNum = $request->check_Number;
-          $dateofCheck = $request->check_date;
-          $dateRecieved = $request->recieved_date;
-          $timeRecieved = $request->recieved_time;
-          $amount = $request->Check_Amount;
+                $bankname = $request->Bank_Name3;
+                $checkNum = $request->check_Number;
+                $dateofCheck = $request->check_date;
+                $dateRecieved = $request->recieved_date;
+                $timeRecieved = $request->recieved_time;
+                $amount = $request->Check_Amount;
 
-          $BalanceTobepaid = str_replace(',','',Cart::instance('ordersTopay')->subtotal());
+                $BalanceTobepaid = str_replace(',','',Cart::instance('ordersTopay')->subtotal());
 
-          $customerPayment = new CustomerPayment;
-          $customerPayment->check_Number = $checkNum;
-          $customerPayment->asignatory = $asignatory;
-          $customerPayment->Amount = $amount;
-          $customerPayment->Amount_Used = $amount;
-          $customerPayment->Date_Obtained = $dateRecieved;
-          $customerPayment->date_of_check = $dateofCheck;
-          if($decision == "N"){
-            $customerPayment->From_Id = null;
-            $customerPayment->From_FName = $nFname;
-            $customerPayment->From_LName = $nlname;
-          }else{
-            $customerPayment->From_Id = $fromId;
-            $customerPayment->From_FName = $fromFname;
-            $customerPayment->From_LName = $fromLname;
-          }
+                $customerPayment = new CustomerPayment;
+                $customerPayment->check_Number = $checkNum;
+                $customerPayment->asignatory = $asignatory;
+                $customerPayment->Amount = $amount;
+                $customerPayment->Amount_Used = $amount;
+                $customerPayment->Date_Obtained = $dateRecieved;
+                $customerPayment->date_of_check = $dateofCheck;
+                if($decision == "N"){
+                  $customerPayment->From_Id = null;
+                  $customerPayment->From_FName = $nFname;
+                  $customerPayment->From_LName = $nlname;
+                }else{
+                  $customerPayment->From_Id = $fromId;
+                  $customerPayment->From_FName = $fromFname;
+                  $customerPayment->From_LName = $fromLname;
+                }
 
-          $customerPayment->Type = "CHECK";
-          $customerPayment->bank_name = $bankname;
-          $customerPayment->BALANCE = $BalanceTobepaid;
-          if($request -> hasFile('Checkimg')){
-              $image = $request->file('Checkimg');
-              $filename = time().'.' . $image->getClientOriginalExtension();
-              $location = public_path('paymentPictures/' . $filename);
-              Image::make($image)->save($location);
-              $customerPayment->image = $filename;
-          }
-          $customerPayment->save();
+                $customerPayment->Type = "CHECK";
+                $customerPayment->bank_name = $bankname;
+                $customerPayment->BALANCE = $BalanceTobepaid;
+                if($request -> hasFile('Checkimg')){
+                    $image = $request->file('Checkimg');
+                    $filename = time().'.' . $image->getClientOriginalExtension();
+                    $location = public_path('paymentPictures/' . $filename);
+                    Image::make($image)->save($location);
+                    $customerPayment->image = $filename;
+                }
+                $customerPayment->save();
 
-        foreach(Cart::instance('ordersTopay')->content() as $orders){
+              foreach(Cart::instance('ordersTopay')->content() as $orders){
 
-          //$NewSalesOrder = sales_order::find($id);
-          $NewSalesOrder_details = Neworder_details::find($orders->id);
-          $Balance = 0.00;//gets the balance even they paid greater but uses partial of the payment only
-          $status = '';
-          $stat = '';
-          if($NewSalesOrder_details->Status == 'BALANCED' OR $NewSalesOrder_details->Status == 'P_PARTIAL'){
-            $status = 'P_FULL';
-            $stat = 'PF';
-          }
-          else if($NewSalesOrder_details->Status == 'A_UNPAID' OR $NewSalesOrder_details->Status == 'A_P_PARTIAL'){
-            $status = 'CLOSED';
-            $stat = 'C';
-          }
+                //$NewSalesOrder = sales_order::find($id);
+                $NewSalesOrder_details = Neworder_details::find($orders->id);
+                $Balance = 0.00;//gets the balance even they paid greater but uses partial of the payment only
+                $status = '';
+                $stat = '';
+                if($NewSalesOrder_details->Status == 'BALANCED' OR $NewSalesOrder_details->Status == 'P_PARTIAL'){
+                  $status = 'P_FULL';
+                  $stat = 'PF';
+                }
+                else if($NewSalesOrder_details->Status == 'A_UNPAID' OR $NewSalesOrder_details->Status == 'A_P_PARTIAL'){
+                  $status = 'CLOSED';
+                  $stat = 'C';
+                }
 
-            //dd('> or equal'.$Newstatus.'-------'.$Newstat);
+                  //dd('> or equal'.$Newstatus.'-------'.$Newstat);
 
-            $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($orders->id,$status,0.00));//updated the status of the order details as well sa the salesorder status
+                  $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($orders->id,$status,0.00));//updated the status of the order details as well sa the salesorder status
 
-            $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
-            array($orders->id,$current,$stat,0.00));
-            //update the invoice
+                  $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+                  array($orders->id,$current,$stat,0.00));
+                  //update the invoice
 
-            //make a record of customer payment Settlement record
-            $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
-            array($orders->id,$customerPayment->Payment_ID,$amount,$orders->price,0.00));
-            Session::put('PaymentCompletion_Session','Successful');
+                  //make a record of customer payment Settlement record
+                  $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+                  array($orders->id,$customerPayment->Payment_ID,$amount,$orders->price,0.00));
+                  Session::put('PaymentCompletion_Session','Successful');
+                 }
+                 Cart::instance('ordersTopay')->destroy();
+                 return redirect()->route('ManageMultipleOrder_Check.show',$customerPayment->Payment_ID);
+         }
+         else if(auth::guard('admins')->user()->type == '2'){
+           $current = Carbon::now('Asia/Manila');
+           //
+           $decision = $request->Decision_text3;
+           $Minimum_Down = $request->SubtotalDown3;
+
+           $fromId = $request->Currentcust_ID3;
+           $fromFname = $request->Current_FName3;
+           $fromLname = $request->Current_LName3;
+           $nFname = $request->nf_namefield3;
+           $nlname = $request->nl_namefield3;
+           $asignatory = $request->asignatory;
+
+           $bankname = $request->Bank_Name3;
+           $checkNum = $request->check_Number;
+           $dateofCheck = $request->check_date;
+           $dateRecieved = $request->recieved_date;
+           $timeRecieved = $request->recieved_time;
+           $amount = $request->Check_Amount;
+
+           $BalanceTobepaid = str_replace(',','',Cart::instance('ordersTopay')->subtotal());
+
+           $customerPayment = new CustomerPayment;
+           $customerPayment->check_Number = $checkNum;
+           $customerPayment->asignatory = $asignatory;
+           $customerPayment->Amount = $amount;
+           $customerPayment->Amount_Used = $amount;
+           $customerPayment->Date_Obtained = $dateRecieved;
+           $customerPayment->date_of_check = $dateofCheck;
+           if($decision == "N"){
+             $customerPayment->From_Id = null;
+             $customerPayment->From_FName = $nFname;
+             $customerPayment->From_LName = $nlname;
+           }else{
+             $customerPayment->From_Id = $fromId;
+             $customerPayment->From_FName = $fromFname;
+             $customerPayment->From_LName = $fromLname;
            }
-           Cart::instance('ordersTopay')->destroy();
-           return redirect()->route('ManageMultipleOrder_Check.show',$customerPayment->Payment_ID);
+
+           $customerPayment->Type = "CHECK";
+           $customerPayment->bank_name = $bankname;
+           $customerPayment->BALANCE = $BalanceTobepaid;
+           if($request -> hasFile('Checkimg')){
+               $image = $request->file('Checkimg');
+               $filename = time().'.' . $image->getClientOriginalExtension();
+               $location = public_path('paymentPictures/' . $filename);
+               Image::make($image)->save($location);
+               $customerPayment->image = $filename;
+           }
+           $customerPayment->save();
+
+         foreach(Cart::instance('ordersTopay')->content() as $orders){
+
+           //$NewSalesOrder = sales_order::find($id);
+           $NewSalesOrder_details = Neworder_details::find($orders->id);
+           $Balance = 0.00;//gets the balance even they paid greater but uses partial of the payment only
+           $status = '';
+           $stat = '';
+           if($NewSalesOrder_details->Status == 'BALANCED' OR $NewSalesOrder_details->Status == 'P_PARTIAL'){
+             $status = 'P_FULL';
+             $stat = 'PF';
+           }
+           else if($NewSalesOrder_details->Status == 'A_UNPAID' OR $NewSalesOrder_details->Status == 'A_P_PARTIAL'){
+             $status = 'CLOSED';
+             $stat = 'C';
+           }
+
+             //dd('> or equal'.$Newstatus.'-------'.$Newstat);
+
+             $UpdateOrderDet = DB::select('CALL confirmOrder(?,?,?)',array($orders->id,$status,0.00));//updated the status of the order details as well sa the salesorder status
+
+             $newInvoice = DB::select("CALL update_BalAndstat_ofInvoice(?,?,?,?);",
+             array($orders->id,$current,$stat,0.00));
+             //update the invoice
+
+             //make a record of customer payment Settlement record
+             $createPaymentSettlement = DB::select('CALL create_RecordPaymentSettlement(?,?,?,?,?)',
+             array($orders->id,$customerPayment->Payment_ID,$amount,$orders->price,0.00));
+             Session::put('PaymentCompletion_Session','Successful');
+            }
+            Cart::instance('ordersTopay')->destroy();
+            return redirect()->route('ManageMultipleOrder_Check.show',$customerPayment->Payment_ID);
+          }
+          else{
+            Session::put('loginSession','fail');
+            return redirect() -> route('adminsignin');
+          }
+       }
     }
 
     /**
@@ -140,14 +235,36 @@ class check_MultipleOrder_PaymentController extends Controller
     public function show($id)
     {
       //
-      //Cart::instance('ordersTopay')->destroy();
-      $payment_Details = Customer_Payment::find($id);
-      //dd($payment_Details);
-      $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
-      //dd($p_settlements);
-     return view('orders.payment_Summary')
-      ->with('P_Settlements',$p_settlements)
-      ->with('P_Details',$payment_Details);
+      if(auth::guard('admins')->check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
+          if(auth::guard('admins')->user()->type == '1'){
+          //Cart::instance('ordersTopay')->destroy();
+            $payment_Details = Customer_Payment::find($id);
+            //dd($payment_Details);
+            $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
+            //dd($p_settlements);
+           return view('orders.payment_Summary')
+            ->with('P_Settlements',$p_settlements)
+            ->with('P_Details',$payment_Details);
+          }
+         else if(auth::guard('admins')->user()->type == '2'){
+          //Cart::instance('ordersTopay')->destroy();
+            $payment_Details = Customer_Payment::find($id);
+            //dd($payment_Details);
+            $p_settlements = DB::select('CALL payment_Settlements(?)',array($id));
+            //dd($p_settlements);
+           return view('orders.payment_Summary')
+            ->with('P_Settlements',$p_settlements)
+            ->with('P_Details',$payment_Details);
+          }
+          else{
+                Session::put('loginSession','fail');
+                return redirect() -> route('adminsignin');
+          }
+        }
     }
 
     /**

@@ -35,7 +35,7 @@
           <div class="small-box Shalala">
             <div class="inner">
               @foreach($spoiledFlowers as $spoiledFlowers)
-              <h3>{{number_format($spoiledFlowers->spoiled,2)}} %</h3>
+              <h3>{{number_format($spoiledFlowers->spoiled,2)}} <sup style="font-size: 20px">%</sup></h3>
               @endforeach
               <p>Spoiled Flowers Percentage</p>
             </div>
@@ -56,7 +56,7 @@
               @foreach($soldFlowers as $soldFlowers)
               <h3>{{number_format($soldFlowers->sold,2)}}<sup style="font-size: 20px">%</sup></h3>
               @endforeach
-              <p>Flower Sold Percentage</p>
+              <p>Sold Flowers Percentage</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -69,16 +69,20 @@
           <!-- small box -->
           <div class="small-box Sulfur">
             <div class="inner">
-              @foreach($cust_Account as $Account)
-              <h3>{{$Account->count}}</h3>
+              @foreach($received as $received)
+              <h3>
+                {{number_format($received->received,2)}}
+                <sup style="font-size: 20px">%</sup>
+
+              </h3>
               @endforeach
 
-              <p>Customers with Account</p>
+              <p>Flowers received from Supplier</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="/customers" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+
           </div>
         </div>
 

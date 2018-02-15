@@ -258,7 +258,7 @@ class PagesController extends Controller
 						$orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
 						WHERE Status IN ('PENDING','pending')");
 
-						$cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
+						$received = DB::select("CALL percentagereceived()");
 
 							//dd($orderscount);
 
@@ -272,14 +272,14 @@ class PagesController extends Controller
 							$CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
 							$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-				$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+							$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
-				$order_Paid = DB::select('CALL fullyPaid_Orders()');
-				$orderWith_Bal = DB::select('CALL withBalance_Orders()');
+							$order_Paid = DB::select('CALL fullyPaid_Orders()');
+							$orderWith_Bal = DB::select('CALL withBalance_Orders()');
 				//
-				$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
+							$SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 
-				$flowers = db::table('sales_order_flowers','flower_details')
+							$flowers = db::table('sales_order_flowers','flower_details')
 									->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
 									->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
 									->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
@@ -292,7 +292,7 @@ class PagesController extends Controller
 				return view('dashboard')
 				 ->with('spoiledFlowers',$spoiledFlowers)
 				 ->with('soldFlowers',$soldFlowers)
-				 ->with('cust_Account',$cust_Account)
+				 ->with('received',$received)
 				 ->with('orderscount',$orderscount)
 				 ->with('p_Orders',$order_Paid)
 				 ->with('b_Orders',$orderWith_Bal)
@@ -485,7 +485,7 @@ class PagesController extends Controller
 				      $orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
 				      WHERE Status IN ('PENDING','pending')");
 
-				      $cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
+				      $received = DB::select("CALL percentageReceived()");
 
 				        //dd($orderscount);
 
@@ -506,7 +506,7 @@ class PagesController extends Controller
 							  //
 							  $SpoiledFLowers = DB::select('CALL Spoiled_Flowers()');
 
-                				$flowers = db::table('sales_order_flowers','flower_details')
+                $flowers = db::table('sales_order_flowers','flower_details')
 									->join('sales_order_bouquet_flowers', 'sales_order_flowers.Flower_ID', '=' ,'sales_order_bouquet_flowers.Flower_ID')
 									->join('flower_details', 'sales_order_flowers.Flower_ID','=','flower_details.flower_ID')
 									->select('sales_order_flowers.Flower_ID', Db::raw('sum(sales_order_flowers.QTY) as Quantity'),'flower_details.flower_name')
@@ -518,7 +518,7 @@ class PagesController extends Controller
 				  return view('cashier.pages.cashier_dashboard')
 				   ->with('spoiledFlowers',$spoiledFlowers)
 				   ->with('soldFlowers',$soldFlowers)
-				   ->with('cust_Account',$cust_Account)
+				   ->with('received',$received)
 				   ->with('orderscount',$orderscount)
 				   ->with('p_Orders',$order_Paid)
 				   ->with('b_Orders',$orderWith_Bal)
@@ -555,6 +555,7 @@ class PagesController extends Controller
 										$ClosedsalesOrders = DB::table('sales_order')
 										->select('*')
 										->where('Status','CLOSED')
+										->where('Status','CANCELLED')
 										->get();
 
 										$Pending_salesOrders = DB::table('sales_order')
@@ -820,8 +821,7 @@ class PagesController extends Controller
 					      $orderscount = DB::select("SELECT COUNT(*) as 'count' from sales_order
 					      WHERE Status IN ('PENDING','pending')");
 
-					      $cust_Account = DB::select("SELECT COUNT(*) as 'count' FROM users");
-
+					     $received = DB::select("CALL percentagereceived()");
 					        //dd($orderscount);
 
 					        $Pending_salesOrders = DB::table('sales_order')
@@ -834,7 +834,7 @@ class PagesController extends Controller
 					        $CriticalFLowers = DB::select('CALL viewCritical_FLowersQuantity()');
 
 									$tobeAcquired_Orders = DB::select('CALL view_Orders_tobeReleased_within24hrs()');
-			$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
+									$Customers_WithDebts = DB::select('CALL show_Customers_With_Debt()');
 
 					  $order_Paid = DB::select('CALL fullyPaid_Orders()');
 					  $orderWith_Bal = DB::select('CALL withBalance_Orders()');
@@ -843,7 +843,7 @@ class PagesController extends Controller
 					  return view('inventory_side.pages.inventory_dashboard')
 					   ->with('spoiledFlowers',$spoiledFlowers)
 					   ->with('soldFlowers',$soldFlowers)
-					   ->with('cust_Account',$cust_Account)
+					   ->with('received',$received)
 					   ->with('orderscount',$orderscount)
 					   ->with('p_Orders',$order_Paid)
 					   ->with('b_Orders',$orderWith_Bal)
@@ -881,10 +881,12 @@ class PagesController extends Controller
               ->select('*')
               ->get();
 
-            $ClosedsalesOrders = DB::table('sales_order')
+            $ClosedsalesOrders = DB::select('CALL closedCancelled_Orders()');
+						/*DB::table('sales_order')
             ->select('*')
-            ->where('Status','CLOSED')
-            ->get();
+						//->where('Status','CLOSED')
+						->where('Status','CANCELLED')
+            ->get();*/
 
             $Pending_salesOrders = DB::table('sales_order')
             ->select('*')

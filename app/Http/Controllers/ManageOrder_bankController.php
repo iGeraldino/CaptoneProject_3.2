@@ -80,6 +80,7 @@ class ManageOrder_bankController extends Controller
           $customerPayment->Amount = $amount;
           $customerPayment->Amount_Used = $amount;
           $customerPayment->Date_Obtained = $current;
+          $customerPayment->deposite_SlipNum = $SlipNum;
           if($decision == "N"){
             $customerPayment->From_Id = null;
             $customerPayment->From_FName = $nFname;
@@ -118,6 +119,7 @@ class ManageOrder_bankController extends Controller
           $customerPayment->Amount = $amount;
           $customerPayment->Amount_Used = $amount;
           $customerPayment->Date_Obtained = $current;
+          $customerPayment->deposite_SlipNum = $SlipNum;
           if($decision == "N"){
             $customerPayment->From_Id = null;
             $customerPayment->From_FName = $nFname;
@@ -243,6 +245,8 @@ class ManageOrder_bankController extends Controller
               $customerPayment->Amount = $amount;
               $customerPayment->Amount_Used = $amount;
               $customerPayment->Date_Obtained = $current;
+              $customerPayment->deposite_SlipNum = $SlipNum;
+
               if($decision == "N"){
                 $customerPayment->From_Id = null;
                 $customerPayment->From_FName = $nFname;
@@ -300,6 +304,8 @@ class ManageOrder_bankController extends Controller
                         $customerPayment->Amount = $amount;
                         $customerPayment->Amount_Used = $amount;
                         $customerPayment->Date_Obtained = $current;
+                        $customerPayment->deposite_SlipNum = $SlipNum;
+
                         if($decision == "N"){
                           $customerPayment->From_Id = null;
                           $customerPayment->From_FName = $nFname;

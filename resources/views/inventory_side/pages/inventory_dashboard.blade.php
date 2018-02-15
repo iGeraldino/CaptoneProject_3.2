@@ -13,7 +13,7 @@
           <div class="small-box Shalala">
             <div class="inner">
               @foreach($spoiledFlowers as $spoiledFlowers)
-              <h3>{{number_format($spoiledFlowers->spoiled,2)}} %</h3>
+              <h3>{{number_format($spoiledFlowers->spoiled,2)}} <sup style="font-size: 20px">%</sup></h3>
               @endforeach
               <p>Spoiled Flowers Percentage</p>
             </div>
@@ -47,16 +47,15 @@
           <!-- small box -->
           <div class="small-box Sulfur">
             <div class="inner">
-              @foreach($cust_Account as $Account)
-              <h3>{{$Account->count}}</h3>
+              @foreach($received as $received)
+              <h3>{{number_format($received->received,2)}}<sup style="font-size: 20px">%</sup></h3>
               @endforeach
 
-              <p>Customers with Account</p>
+              <p>Flowers received from Supplier</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="/customers" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -83,7 +82,7 @@
       <!-- AREA CHART -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Area Chart</h3>
+          <h3 class="box-title">Mostly Bought Flowers</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool buttonedit" data-widget="collapse"><i class="fa fa-minus"></i>
