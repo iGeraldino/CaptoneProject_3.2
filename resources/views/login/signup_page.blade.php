@@ -1,13 +1,15 @@
-
 @extends('login_design')
 @section('css')
     <link href="{{ URL::asset('_CSS/login_css.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
-
+<?php
+  $SignupStatus = Session::get('SingupStatus');
+  Session::remove('SingupStatus');
+?>
 <div class="section-signup colorx">
-
+  <input id = "SignupStat"  value = "{{$SignupStatus}}" hidden>
 	<div class="container">
 		 <div class="row">
 			<div class="col-md-4 col-md-offset-1">
@@ -26,14 +28,12 @@
 								</span>
 								<input type="text" class="form-control" name="email" placeholder="User Name...">
 							</div>
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									<i class="material-icons">lock_outline</i>
-								</span>
-								<input type="password" name="password" placeholder = "Password..." class = "form-control"/>
-							</div>
-
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="material-icons">lock</i>
+                </span>
+                <input type="text" class="form-control" name="password" placeholder="Password...">
+              </div>
 							<div class="text-center">
 								<button type="submit"  class="btn btn-simple btn-primary btn-lg">Login</button>
 							</div>
@@ -50,57 +50,62 @@
 						<br>
 						<br>
 						<div class="content">
-							<div class="col-md-6">
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons"> person </i>
-									</span>
-									<input type="text" class="form-control" id="fname" placeholder="First Name..." tabindex="1" required>
-								</div>
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons"> phone </i>
-									</span>
-									<input type="text" class="form-control" id="contno" placeholder="Contact Number..." tabindex="1" maxlength="13" required>
-								</div>
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons">lock_outline</i>
-									</span>
-									<input type="password" id="password" placeholder = "Password..." class = "form-control" tabindex="3"/>
-								</div>
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons">email</i>
-									</span>
-									<input type="email" id="email" placeholder = "Email Address..." class = "form-control" tabindex="2" required/>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons"> person </i>
-									</span>
-									<input type="text" class="form-control" id="lname" placeholder="Last Name..." tabindex="1" required>
-								</div>
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons"> person </i>
-									</span>
-									<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="1" required>
-								</div>
-								<div class="input-group" style="margin-top: -15%;">
-									<span class="input-group-addon">
-										<i class="material-icons">lock_outline</i>
-									</span>
-									<input type="password"  id="password2" placeholder = "Confirm Password..." class = "form-control" tabindex="4"/>
-									<h7 id="error" style="color: red"> Password is not the same</h7>
-								</div>
-							</div>
+              <div class = "row">
+  							<div class="col-md-6">
+  								<div class="input-group" style="margin-top: -15%;">
+  									<span class="input-group-addon">
+  										<i class="material-icons"> person </i>
+  									</span>
+  									<input type="text" class="form-control" id="fname" placeholder="First Name..." tabindex="1" required>
+  								</div>
+                  <div class="input-group" style="margin-top: -15%;">
+                    <span class="input-group-addon">
+                      <i class="material-icons">email</i>
+                    </span>
+                    <input type="email" id="email" placeholder = "Email Address..." class = "form-control" tabindex="3" required/>
+                  </div>
+  								<div class="input-group" style="margin-top: -15%;">
+  									<span class="input-group-addon">
+  										<i class="material-icons"> phone </i>
+  									</span>
+  									<input type="text" class="form-control" id="contno" placeholder="Contact Number..." tabindex="5" maxlength="13" required>
+  								</div>
+  							</div>
+  							<div class="col-md-6">
+  								<div class="input-group" style="margin-top: -15%;">
+  									<span class="input-group-addon">
+  										<i class="material-icons"> person </i>
+  									</span>
+  									<input type="text" class="form-control" id="lname" placeholder="Last Name..." tabindex="2" required>
+  								</div>
+  								<div class="input-group" style="margin-top: -15%;">
+  									<span class="input-group-addon">
+  										<i class="material-icons"> person </i>
+  									</span>
+  									<input type="text" class="form-control" id="username" placeholder="User Name..." tabindex="4" required>
+  								</div>
+  							</div>
+              </div>
 
-
-
-
+              <div class = "row">
+                <div class="col-md-6">
+                  <div class="input-group" style="margin-top: -15%;">
+                    <span class="input-group-addon">
+                      <i class="material-icons">lock_outline</i>
+                    </span>
+                    <input required type="password" name="password" id ="password" placeholder = "Password..." class = "form-control" tabindex="6"/>
+                  </div>
+                </div>
+                <div class="col-md-6">
+  								<div class="input-group" style="margin-top: -15%;">
+  									<span class="input-group-addon">
+  										<i class="material-icons">lock_outline</i>
+  									</span>
+  									<input required type="password"  id="password2" placeholder = "Confirm Password..." class = "form-control" tabindex="7"/>
+  									<h7 id="error" style="color: red"> Password is not the same</h7>
+  								</div>
+  							</div>
+              </div>
 							<div class="input-group hidden">
 								<span class="input-group-addon">
 									<i class="material-icons">people</i>
@@ -110,12 +115,10 @@
 								</select>
 							</div>
 
-
 							<div class="text-center">
 								<button data-toggle="modal" data-target="#myModal" id="signupbutt" type="submit" class="btn btn-simple btn-primary btn-lg" tabindex="7">Signup</button>
 							</div>
-
-						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -178,10 +181,26 @@
 @endsection
 
 @section('scripts')
-
 	<script>
+      if($('#SignupStat').val() == 'Failed1')
+      {
+        alert('Authentication Code: 1234 is no Longer available for singingup as an Admin');
+        swal('Sorry','Authentication Code: 1234 is no Longer available for singingup as an Admin',"Error");
+      }
+      else if($('#SignupStat').val() == 'Failed2')
+      {
+        alert('The authentication code that you entered is not valid therefore, you are not authorized to signup as an admin. If you want to ask an admin to make an account for you by using his authentication code');
+        swal("Unauthorized Signup!","The authentication code that you entered is not valid therefore, you are not authorized to signup as an admin. If you want to ask an admin to make an account for you by using his authentication code","error");
+      }
 
-        $(document).ready(function(){
+      $(document).ready(function(){
+          if({{ $validator }} == 0){
+            swal("Authentication Code : 1234","Info");
+          }
+          else if( {{ $validator }} == 1){
+
+          }
+
 
                 //called when key is pressed in textbox
             $("#contno").keypress(function (e) {
@@ -194,38 +213,25 @@
 
            // $('#signupbutt').attr('disabled', true);
 
-			$('#error').hide();
+			   $('#error').hide();
 
-			$('#password').change(function(){
-
+			   $('#password').change(function(){
+//alert('hlkh');
                 $('#password2').change(function(){
-
                     var password = $('#password').val();
                     var password2 = $('#password2').val();
-
-
                     if(password == password2){
-
-						$('#error').slideUp();
-						$('#signupbutt').attr('disabled', false);
-
-					}
-					else{
-
+						            $('#error').slideUp();
+            						$('#signupbutt').attr('disabled', false);
+            				}
+                    else{
                         $('#error').slideDown();
-
-					}
-
+            				}
             }); //password change script
-
-
-
-
         }); // password change script
 
 
 			$('#signupbutt').click(function(){
-
 			     var username = $('#username').val();
 			    $('#username1').val(username);
 			    var email = $('#email').val();
@@ -240,24 +246,8 @@
 			    $('#lname1').val(lname);
 			    var contno = $('#contno').val();
 			    $('#contno1').val(contno);
-
-
 			});
-
-      if({{ $validator }} == 0){
-
-        swal("Authentication Code : 1234","Info");
-
-      }
-      else if( {{ $validator }} == 1){
-
-
-      }
-
-
-
-
-        });
+  });
 
 	</script>
 

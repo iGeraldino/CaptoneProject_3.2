@@ -10,7 +10,9 @@ class sales_order extends Model
       protected $table = 'sales_order';
 
   protected $fillable = [
-      'customer_ID', 'Customer_Fname','Customer_Mname','Customer_Lname','Contact_Num','email_Address','Status','Type'
+      'customer_ID', 'Customer_Fname','Customer_Mname',
+      'Customer_Lname','Contact_Num','email_Address','Status','Type',
+      'created_at','updated_at'
   ];
 
   public $timestamps = true;

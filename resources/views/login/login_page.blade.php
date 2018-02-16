@@ -8,7 +8,7 @@
 
 <div class="section-signup colorx">
 <?php
-	 $sessionLoginValue = Session::get('loginSession'); 
+	 $sessionLoginValue = Session::get('loginSession');
   	 Session::remove('loginSession');//determines the addition of new flower
 ?>
 
@@ -65,14 +65,13 @@
 @endsection
 
 @section('scripts')
-
 <script>
 
   if($("#LoggedInfield").val()=='OUT'){
     //Show popup
     swal("Thank you!","You successfully Logged out!","success");
    }
-	
+
   if($("#LoggedInfield").val()=='fail'){
     //Show popup
     swal("Warning!","You must login your account first!","warning");

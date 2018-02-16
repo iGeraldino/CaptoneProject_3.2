@@ -34,22 +34,12 @@ class AdminAccounts_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-
-          if(auth::guard('admins')->user()->type == '1'){
-            $Accounts = DB::select('call view_AdminAccounts()');
-
-
-            return view('Administrators/Creating_AdminAcct')
+            if(auth::guard('admins')->user()->type == '1'){
+                $Accounts = DB::select('call view_AdminAccounts()');
+                return view('Administrators/Creating_AdminAcct')
                 ->with('Accts',$Accounts);
-
-          }
-
-
+              }
         }
-
-
-
-
     }
 
     /**
@@ -60,19 +50,14 @@ class AdminAccounts_Controller extends Controller
     public function create()
     {
         //
-
         $admin = auth() ->guard('admins');
-
-
-
-        if($admin -> check() == false){
+        if($admin->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
-
+          return redirect() -> route('dashboard');
         }
-
     }
 
     /**
@@ -115,8 +100,6 @@ class AdminAccounts_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
          else {
-
-
                $validator = validator::make($request -> all(), [
               'email' => 'email|required|unique:admins',
               'passField' => 'required|min:4',
@@ -144,7 +127,6 @@ class AdminAccounts_Controller extends Controller
                  $AdminRec->save();
                  $current = Carbon::now('Asia/Manila');
                  $acct = db::table('admins')->insert([
-
                    'email' => trim($AdminRec->email_address),
                    'password' => trim(bcrypt($request->passField)),
                    'username' => trim($request->username),
@@ -152,10 +134,7 @@ class AdminAccounts_Controller extends Controller
                    'Admin_ID' => $AdminRec->Admin_Id,
                    'created_at' => $current,
                    'updated_at' => $current
-
                  ]);
-
-
 
                 /*
                  $acct = new Admin;
@@ -168,7 +147,7 @@ class AdminAccounts_Controller extends Controller
                  dd($acct->save());*/
 
                   Session::put('Adding_newAdminSession','Successful');
-                 return redirect()->route('Admins.index');
+                  return redirect()->route('dashboard');
              }
          }
 
@@ -195,20 +174,25 @@ class AdminAccounts_Controller extends Controller
     {
         //
         //echo $id;
-        $admin = auth() ->guard('admins');
-
-        if($admin -> check() == false){
+        if(auth::guard('admins')->check() == false){
             Session::put('loginSession','fail');
             return redirect() -> route('adminsignin');
         }
         else{
-        $AcctDet = DB::select('CALL Specific_Admin(?)',array($id));
+            if(auth::guard('admins')->user()->type == '1'){
 
-        $Exist =   Db::table('Users')->where('id' , '<>' , $id)->get();
-        return view('Administrators.Edit_Account')
-        ->with('AdminAcct',$AcctDet)
-        ->with('Exist', $Exist);
-        }
+              $AcctDet = DB::select('CALL Specific_Admin(?)',array($id));
+
+              $Exist =   Db::table('Users')->where('id' , '<>' , $id)->get();
+              return view('Administrators.Edit_Account')
+              ->with('AdminAcct',$AcctDet)
+              ->with('Exist', $Exist);
+            }
+            else {
+              Session::put('loginSession','fail');
+              return redirect() -> route('adminsignin');
+            }
+      }
     }
 
     /**
@@ -220,80 +204,67 @@ class AdminAccounts_Controller extends Controller
      */
     public function update(Request $request, $id)
     {
+      if(auth::guard('admins')->check() == false){
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
+      }
+      else{
+          if(auth::guard('admins')->user()->type == '1'){
+              $firstname = trim($request->Fname);
+              $lastname = trim($request->Lname);
+              $contact = trim($request->contact_Num);
+              $type = trim($request->admintype);
+              $username = trim($request->username);
+              $email = trim($request->email);
+              $password = trim($request->passField);
+              $admintype = "";
 
-        $firstname = trim($request->Fname);
-        $lastname = trim($request->Lname);
-        $contact = trim($request->contact_Num);
-        $type = trim($request->admintype);
-        $username = trim($request->username);
-        $email = trim($request->email);
-        $password = trim($request->passField);
-        $admintype = "";
+              //user account
 
-        //user account
+              $admin = auth()->guard('admins');
 
-        $admin = auth()->guard('admins');
+              if ($type == 1 ){
+                  $admintype = "Admin";
+              }
+              elseif( $type == 2){
+                  $admintype = "Cashier";
+              }
+              elseif(type == 3 ){
+                  $admintype = "Warehouse Man";
+              }
+              //Succession
 
-        if ($type == 1 ){
+              if( count (AdminTable::where('email_address', '=', $email)->where('Admin_Id','!=',$admin->user()->Admin_ID) ->get()) <= 0){
+                  db::table('administrator_table')
+                      ->where('Admin_Id', $id)
+                      ->update([
+                          'FName' => $firstname,
+                          'LName' => $lastname,
+                          'contact_Num' => $contact,
+                          'email_address' => $email,
+                          'type' => $admintype,
+                      ]);
+                  db::table('admins')
+                      ->where('Admin_ID', $id)
+                      ->update([
 
-            $admintype = "Admin";
+                          'email' => $email,
+                          'username' => $username,
+                          'password' => bcrypt($password),
+                          'type' => $type
+                      ]);
 
+                  return redirect() -> route('Admins.index');
+              }
+              else{
+                  return redirect() -> route('editAdminAcct', ['id' => $admin->user()->Admin_ID]);
+              }
         }
-        elseif( $type == 2){
-
-            $admintype = "Cashier";
-
-        }
-        elseif(type == 3 ){
-
-            $admintype = "Warehouse Man";
-
-        }
-
-
-
-
-        //Succession
-
-        if( count (AdminTable::where('email_address', '=', $email)->where('Admin_Id','!=',$admin->user()->Admin_ID) ->get()) <= 0) {
-
-
-            db::table('administrator_table')
-                ->where('Admin_Id', $id)
-                ->update([
-
-                    'FName' => $firstname,
-                    'LName' => $lastname,
-                    'contact_Num' => $contact,
-                    'email_address' => $email,
-                    'type' => $admintype,
-
-                ]);
-
-            db::table('admins')
-                ->where('Admin_ID', $id)
-                ->update([
-
-                    'email' => $email,
-                    'username' => $username,
-                    'password' => bcrypt($password),
-                    'type' => $type
-                ]);
-
-            return redirect() -> route('Admins.index');
-
-
-
-        }
-
         else{
-
-
-            return redirect() -> route('editAdminAcct', ['id' => $admin->user()->Admin_ID]);
-
-
+          Session::put('loginSession','fail');
+          return redirect() -> route('adminsignin');
         }
-
+      }
     }
 
     /**
@@ -312,10 +283,15 @@ class AdminAccounts_Controller extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
-            $Deletion = DB::select('CALL Account_adminDeletion(?)',array($id));
-           // $Deletion2 = DB::select('CALL delete_AdminAcct(?)',array($id));
-            Session::put('DeletionSession','Successful');
-            return redirect() -> route('Admins.index');
+            if(auth::guard('admins')->user()->type == '1'){
+              $Deletion = DB::select('CALL Account_adminDeletion(?)',array($id));
+              Session::put('DeletionSession','Successful');
+              return redirect() -> route('Admins.index');
+            }
+            else{
+              Session::put('loginSession','fail');
+              return redirect() -> route('adminsignin');
+            }
         }
     }
 
@@ -385,64 +361,46 @@ class AdminAccounts_Controller extends Controller
         $admintableexist = db::table('admins')->get();
 
         if ($admintableexist == null and $request->randomcode == "1234") {
-
-
-
             if ($code == $randomcode) {
-
-
                 $newcode = $randomcode + 1;
-
-
-
                 $validator = validator::make($request->all(), [
                     'email' => 'email|required|unique:admins',
                     'username' => 'required|unique:admins',
-
                 ]);
 
+                    if ($validator->fails()) {
+                        Session::put('Adding_newAdminSession', 'Fail');
+                        return redirect()->route('AdminSignup')
+                            ->withErrors($validator);
+                        //->withInput();
+                    } else {
+                        $AdminRec = new AdminTable;
+                        $AdminRec->FName = trim($request->fname);
+                        $AdminRec->LName = trim($request->lname);
+                        $AdminRec->email_address = trim($request->email);
+                        $AdminRec->contact_Num = trim($request->contno);
+                        $AdminRec->type = 'admin';
 
-                if ($validator->fails()) {
-                    Session::put('Adding_newAdminSession', 'Fail');
-                    return redirect()->route('AdminSignup')
-                        ->withErrors($validator);
-                    //->withInput();
-                } else {
-
-                    $AdminRec = new AdminTable;
-                    $AdminRec->FName = trim($request->fname);
-                    $AdminRec->LName = trim($request->lname);
-                    $AdminRec->email_address = trim($request->email);
-                    $AdminRec->contact_Num = trim($request->contno);
-                    $AdminRec->type = 'admin';
-
-                    $AdminRec->save();
+                        $AdminRec->save();
 
 
-                    $acct = new Admin;
-                    $acct->email = trim($request->email);
-                    $acct->password = trim(bcrypt($request->password));
-                    $acct->username = trim($request->username);
-                    $acct->type = $request->admintype;//this means that this is an admin account
-                    $acct->Random_Code = $newcode;
-                    $acct->Admin_ID = $AdminRec->Admin_Id;
-                    $acct->save();
-                    $admin->login($acct);
-                    Session::put('Adding_newAdminSession', 'Successful');
-                    return redirect()->route('dashboard');
-                }
-            }
-
-        else{
-
-
-
-            $validator = validator::make($request->all(), [
+                        $acct = new Admin;
+                        $acct->email = trim($request->email);
+                        $acct->password = trim(bcrypt($request->password));
+                        $acct->username = trim($request->username);
+                        $acct->type = $request->admintype;//this means that this is an admin account
+                        $acct->Random_Code = $newcode;
+                        $acct->Admin_ID = $AdminRec->Admin_Id;
+                        $acct->save();
+                        $admin->login($acct);
+                        Session::put('Adding_newAdminSession', 'Successful');
+                        return redirect()->route('dashboard');
+                    }
+            } else{
+                $validator = validator::make($request->all(), [
                 'email' => 'email|required|unique:admins',
                 'username' => 'required|unique:admins',
-
             ]);
-
 
             if ($validator->fails()) {
                 Session::put('Adding_newAdminSession', 'Fail');
@@ -450,8 +408,6 @@ class AdminAccounts_Controller extends Controller
                     ->withErrors($validator);
                 //->withInput();
             } else {
-
-
                 $AdminRec = new AdminTable;
                 $AdminRec->FName = trim($request->fname);
                 $AdminRec->LName = trim($request->lname);
@@ -473,23 +429,22 @@ class AdminAccounts_Controller extends Controller
                 $admin->login($acct);
                 Session::put('Adding_newAdminSession', 'Successful');
                 return redirect()->route('dashboard');
-
-
             }
-
         }
-
-
         } elseif ($admintableexist <> null and $request->randomcode == "1234") {
-
-            dd("table is null and code is 1234", $rancode);
-
+            Session::put("SingupStatus",'Failed1');
+            return redirect()->route('postsignin');
+            //dd("table is null and code is 1234", $rancode);
         } elseif ($admintableexist <> null and $request->randomcode <> "1234") {
 
-            $randomcodeexist = db::table('admins')->where('Random_Code', '=', $rancode)->get();
+            $randomcodeexist = db::table('admins')
+            ->where('Random_Code', '=', $rancode)
+            ->get();
 
-            if ($randomcodeexist == null) {
-                dd("di kita mahal"); // Swal pag kasi di makita yung value ng code sa loob
+            if ($randomcodeexist == null){
+                Session::put("SingupStatus",'Failed2');
+                return redirect()->route('postsignin');
+                //dd("di kita mahal"); // Swal pag kasi di makita yung value ng code sa loob
             } else {
 
                 foreach ($randomcodeexist as $randcodeexist) {
@@ -541,13 +496,10 @@ class AdminAccounts_Controller extends Controller
                                 return redirect()->route('dashboard');
                             }
                         } else {
-
                             $validator = validator::make($request->all(), [
                                 'email' => 'email|required|unique:admins',
                                 'username' => 'required|unique:admins',
-
                             ]);
-
 
                             if ($validator->fails()) {
                                 Session::put('Adding_newAdminSession', 'Fail');
@@ -555,8 +507,6 @@ class AdminAccounts_Controller extends Controller
                                     ->withErrors($validator);
                                 //->withInput();
                             } else {
-
-
                                 $AdminRec = new AdminTable;
                                 $AdminRec->FName = trim($request->fname);
                                 $AdminRec->LName = trim($request->lname);
@@ -578,21 +528,12 @@ class AdminAccounts_Controller extends Controller
                                 $admin->login($acct);
                                 Session::put('Adding_newAdminSession', 'Successful');
                                 return redirect()->route('dashboard');
-
-                            }
-
+                          }
                         }
+                      }
                     }
-
-                    }
-
-
                 }
-
-
             }
-
-
         }
 
         public function AdminPostSignin(Request $request){

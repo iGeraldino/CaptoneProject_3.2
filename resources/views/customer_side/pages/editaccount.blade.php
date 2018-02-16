@@ -6,8 +6,15 @@
 @endsection
 @section('content')
 
+<?php
+  $newOrderSuccess = Session::get('orderSuccessful');
+  Session::remove('orderSuccessful');
+
+?>
+
 	<div class="container" style="margin-top: 80px;">
 
+    <input type = "text" id = "orderSuccessSession" value = "{{$newOrderSuccess}}">
         <div class="row">
             @foreach($details as $details)
 
@@ -567,6 +574,9 @@
 
         });
 
+        if($("#orderSuccessSession").val() == 'Successful'){
+          swal("Order was Successfully Sent!","You have successfully sent your Order to our shop pleae wait for a call or text from our employee regarding your order,Thank you God bless","success");
+        }
 
 
 

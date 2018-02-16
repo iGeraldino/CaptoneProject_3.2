@@ -25,6 +25,7 @@ use App\Neworder_details;
 use Cart;
 use Session;
 
+
 class checkoutcontroller extends Controller
 {
     public function checkingregistration(){
@@ -114,7 +115,7 @@ class checkoutcontroller extends Controller
     }
 
     public function userfinalCheckout(Request $request){ //Delivery
-
+      $current = Carbon::now('Asia/Manila');
 
       $cust_id = Auth::user()->Cust_ID;
       $fname = $request->input('Cust_FName');
@@ -135,7 +136,8 @@ class checkoutcontroller extends Controller
                 'email_Address' => $email,
                 'Status' => $status,
                 'Type' => $type,
-
+                'created_at'=> $current,
+                'updated_at'=> $current,
             ]);
 
       $sales_order -> save();
@@ -175,6 +177,7 @@ class checkoutcontroller extends Controller
       $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
       Cart::instance('flowerwish')->subtotal()) );
 
+      $deliveryCharge = 0;
       if($orderdetailmethod == 'delivery'){
             if($deliverprov == 47 AND $deliverycity == 969){
                 $deliveryCharge = 0;
@@ -212,13 +215,15 @@ class checkoutcontroller extends Controller
         'shipping_method' => $orderdetailmethod,
         'VAT' => $vat,
         'BALANCE'=> $deliveryCharge + $amount + $vat,
+        'created_at' => $current,
+        'updated_at' => $current,
       ]);
 
       $orderdetails -> save();
       $lastid = $orderdetails->id;
 
         $deliverydate = date('Y/m/d',strtotime($request->Cust_Date));
-        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
+        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
         $schedulestatus = "PENDING";
 
@@ -230,6 +235,8 @@ class checkoutcontroller extends Controller
         'Time' => $deliverytime,
         'Schedule_Type' => $Scheduletype,
         'shedule_status' => "P",
+        'created_at'  => $current,
+        'updated_at'  => $current,
       ]);
 
       $shop_schedule -> save();
@@ -503,6 +510,7 @@ class checkoutcontroller extends Controller
         Cart::instance('finalflowerbqt')->destroy();
 
         Session::put('orderid', $sales_order_ID);
+        Session::put('orderSuccessful', 'Successful');
         Return redirect() -> route('geteditaccount');
       // dulo
 
@@ -538,7 +546,7 @@ class checkoutcontroller extends Controller
 
       foreach(Cart::instance('flowerwish')->content() as $row){
 
-          $salesflower = new sales_order_flowers([
+        $salesflower = new sales_order_flowers([
             'Sales_Order_ID' => $sales_order_ID,
             'Flower_ID' => $row->id,
             'QTY' => $row->qty,
@@ -581,7 +589,7 @@ class checkoutcontroller extends Controller
       $lastid = $orderdetails->id;
 
       $deliverydate = date('Y/m/d',strtotime($request->finalPickup_Date));
-      $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
+      $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
       $Scheduletype = $request->input('final_shippingMethod');
       $schedulestatus = "PENDING";
 
@@ -939,7 +947,7 @@ class checkoutcontroller extends Controller
         $lastid = $orderdetails->id;
 
         $deliverydate = date('Y/m/d',strtotime($request->finalPickup_Date));
-        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('finalPickup_Time')));
+        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('final_shippingMethod');
         $schedulestatus = "PENDING";
 
@@ -1273,6 +1281,7 @@ class checkoutcontroller extends Controller
         $orderdetailcontact = $request->input('finalrecipient_Number');
         $amount =  (str_replace(array(','), array(''), Cart::instance('finalboqcart')->subtotal()) + str_replace(array(','), array(''),
                 Cart::instance('flowerwish')->subtotal()) );
+                  $deliveryCharge = 0;
 
         if($orderdetailmethod == 'delivery'){
             if($deliverprov == 47 AND $deliverycity == 969){
@@ -1318,7 +1327,7 @@ class checkoutcontroller extends Controller
         $lastid = $orderdetails->id;
 
         $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
-        $deliverytime = date('Y/m/d H:i:s', strtotime($request->input('Cust_Time')));
+        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
         $schedulestatus = "PENDING";
 

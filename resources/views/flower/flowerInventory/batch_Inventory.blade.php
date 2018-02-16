@@ -39,7 +39,7 @@
           <div class = "col-md-4">
           	<div class = "form-group">
               <span class="control-label"><b>DESCRIPTION: </b></span>
-              <textarea class = "form-control" rows="4" cols="50" disabled">
+              <textarea class = "form-control" rows="4" cols="50" disabled>
                 {{$flowerDet->Description}}
               </textarea>
             </div>
@@ -67,9 +67,13 @@
                     <th> Unit Cost </th>
                     <th> Selling Price</th>
                     <th> Current Selling Price</th>
-                    <th> QTY Recieved</th>
-                    <th> QTY Remaining</th>
+                    <th style = "font-weight:bold"> QTY Recieved</th>
+                    <th style = "font-weight:bold"> Initial Spoiled</th>
+                    <th style = "font-weight:bold"> QTY Remaining</th>
+                    <th> Adjusted Spoiled</th>
+                    <th> Adjusted Good</th>
                     <th> QTY Sold</th>
+                    <th> QTY Spoiled</th>
                     <th> Supplier Name</th>
                     <th> Date Recieved</th>
                     <th> Spoilage Date</th>
@@ -77,15 +81,45 @@
                 </thead>
 
                 <tbody>
+                  <?php
+                    $totalNegative = 0;
+                    $totalPositive = 0;
+                    $counter = 0;
+                  ?>
                  @foreach($flowers as $flowersRow)
                     <tr>
                       <th> BATCH-{{$flowersRow->Batch}}  </th>
-                      <td style = "color:red;"> {{$flowersRow->UnitCost}} </td>
-                      <td style = "color:red;"> Php {{number_format($flowersRow->O_SellingPrice,2)}} </td>
-                      <td style = "color:red;"> {{$flowersRow->SellingPrice}} </td>
-                      <td> {{$flowersRow->QTYRecieved}} pcs.</td>
-                      <td> {{$flowersRow->QTYRemaining}} </td>
-                      <td> {{$flowersRow->QTYSold}} </td>
+                      <td style = " font-weight:bold"> {{$flowersRow->UnitCost}} </td>
+                      <td style = " font-weight:bold"> Php {{number_format($flowersRow->O_SellingPrice,2)}} </td>
+                      <td style = " font-weight:bold"> {{$flowersRow->SellingPrice}} </td>
+                      <td style = "color:blue; font-weight:semi-bold"> {{$flowersRow->QTYRecieved}} pcs.</td>
+                      <td style = "color:red; font-weight:semi-bold"> {{$flowersRow->InitQTYSpoiled}} pcs.</td>
+                      <td style = "color:blue; font-weight:semi-bold"> {{$flowersRow->QTYRemaining}} </td>
+
+                      <?php
+                      $totalNegative = 0;
+                      $totalPositive = 0;
+                      ?>
+                      @foreach($adjustments as $adjust)
+                        @if($adjust->Batch_ID == $flowersRow->Batch AND $adjust->Item_ID == $flowerDet->flower_ID)
+                        <?php $counter++;?>
+
+                          @if($adjust->SpoiledQ != NULL)
+                            <?php
+                              $totalNegative += $adjust->SpoiledQ;
+                            ?>
+                          @endif
+                          @if($adjust->GoodQ != NULL)
+                            <?php
+                              $totalPositive += $adjust->GoodQ;
+                            ?>
+                          @endif
+                        @endif
+                      @endforeach
+                      <td style = "color:red;"> ({{$totalNegative * -1}} pcs.)</td>
+                      <td style = "color:blue;"> {{$totalPositive}} pcs.</td>
+                      <td style = "color:green;"> ({{$flowersRow->QTYSold}}) </td>
+                      <td style = "color:red;"> ({{$flowersRow->QTYSpoiled}}) </td>
                       <td> {{$flowersRow->FName}} {{$flowersRow->MName}}, {{$flowersRow->LName}}  </td>
                       <td> {{$flowersRow->Date_Recieved}} </td>
                       <td> {{$flowersRow->Spoil_date}} </td>
@@ -103,7 +137,7 @@
         </div>
   </div>
 
-  
+
 
   </div>
 @endsection

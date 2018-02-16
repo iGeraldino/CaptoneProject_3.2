@@ -22,11 +22,14 @@ class InventoryMonitoringController extends Controller
             return redirect() -> route('adminsignin');
         }
         else{
+          $adjustments = DB::select('CALL adjustment_PerbatchandFlower()');
 			    $flower_Details = flower_details::find($flower_ID);
 			    $View_FlowerInventory = DB::select('call Detailed_Inventory_Per_Flower(?)',array($flower_ID));
 	        //dd($View_FlowerInventory);
-	        return view('flower.flowerInventory.batch_Inventory')->with('flowers',$View_FlowerInventory)
-	        ->with('flowerDet',$flower_Details);
+	        return view('flower.flowerInventory.batch_Inventory')
+          ->with('flowers',$View_FlowerInventory)
+	        ->with('flowerDet',$flower_Details)
+          ->with('adjustments',$adjustments);
 	       }
 	}//end of function
 

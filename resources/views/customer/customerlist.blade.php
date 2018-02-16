@@ -5,11 +5,6 @@
   <!-- Content Header (Page header) -->
   <section class="content-header" style="margin-top: 2%;">
 
-
-
-
-
-
 <!-- line modal -->
     <div class="modal fade" id="newCust" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -272,7 +267,7 @@
                                             echo 'Not aviailable';
                                           }
                                           else{
-                                            echo $customerDetailsrow->Hotel_Name;
+                                            echo $customerDetailsrow->Shop_Name;
                                           }
                                          ?>
                                         </h5>
@@ -316,7 +311,7 @@
 
                     <!-- /.box-header -->
                     <div class="box-body">
-                      <table id="example2" class="table table-bordered table-striped">
+                      <table id="Noaccts" class="table table-bordered table-striped">
                         <thead style="color: #6e48aa">
                             <th class="text-center"> ID </th>
                             <th class="text-center"> NAME </th>
@@ -518,7 +513,21 @@
 
 
 @section('scripts')
-    <script>
+<script type = "text/javascript">
+$(function () {
+  $("#withaccts").DataTable({
+    "lengthMenu": [3, 5, 10, 15, 20],
+    "pageLength": 5
+    });
+
+    $("#Noaccts").DataTable({
+      "lengthMenu": [3, 5, 10, 15, 20],
+      "pageLength": 5
+      });
+  });
+
+</script>
+<script type = "text/javascript">
       $(document).ready(function(){
         $("#TownField").attr("disabled", true);
 
@@ -604,7 +613,8 @@
 
         if ( {{ session()->get('user_signup')}} == '1'){
 
-          swal({title: "Customer Account is not created", text:"Email is existing. Please edit the Customer Email Before this Customer will have account", type: "error"},
+          swal({title: "Customer Account is not created",
+          text:"Email is existing. Please edit the Customer Email Before this Customer will have account", type: "error"},
           function(){
 
             {{ session()->forget('user_signup')}};
@@ -617,18 +627,12 @@
 
         }
         else{
-
           swal({title: "Good job!", text:"Customer account is created", type: "success"},
           function(){
-
             {{ session()->forget('user_signup')}};
-
-          }
-
-          );
+          });
         }
-
-
       });
+
     </script>
 @endsection

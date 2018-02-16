@@ -552,11 +552,7 @@ class PagesController extends Controller
 											->select('*')
 											->get();
 
-										$ClosedsalesOrders = DB::table('sales_order')
-										->select('*')
-										->where('Status','CLOSED')
-										->where('Status','CANCELLED')
-										->get();
+										$ClosedsalesOrders = DB::select('CALL closedCancelled_Orders()');
 
 										$Pending_salesOrders = DB::table('sales_order')
 										->select('*')
@@ -1029,21 +1025,15 @@ class PagesController extends Controller
             $validator = "";
 
 	        if($code == null){
-
 	            $signcode = "1234";
                 $validator = 0;
-
             }
             else{
-
 	            $signcode = '';
 	            $validator = 1;
-
-
             }
-
-
-			return view('login/signup_page')->with(['signcode' => $signcode, 'validator' => $validator]);
+			return view('login/signup_page')
+			->with(['signcode' => $signcode, 'validator' => $validator]);
 		}
 
 	public function getInventoryReportsFlower() {

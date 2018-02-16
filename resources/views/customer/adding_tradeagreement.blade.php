@@ -1,13 +1,13 @@
 @extends('main')
 
 @section('content')
-   
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
        <?php
-          $AddingTradeSessionValue = Session::get('Adding_Agreement'); 
+          $AddingTradeSessionValue = Session::get('Adding_Agreement');
           Session::remove('Adding_Agreement');//determines the addition of new flower
-          $DeletingTradeSessionValue = Session::get('DeletingSession'); 
+          $DeletingTradeSessionValue = Session::get('DeletingSession');
           Session::remove('DeletingSession');//determines the addition of new flower
        ?>
           <input type = "text" class = "hidden" id = "addingSessionField" value = "{{$AddingTradeSessionValue}}">
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-3" style="margin-top: 1%;">
           <a href="http://localhost:8000/customers">
-            <button type="button" class="btn btn-round btn-pressure pull-right Inbox"> 
+            <button type="button" class="btn btn-round btn-pressure pull-right Inbox">
                 Return to the Customer List
               <i class="material-icons">account_circle</i>
             </button>
@@ -80,19 +80,35 @@
                 </thead>
 
                 <tbody>
-                    <tr>  
+                    <tr>
                     @foreach($agreements as $agreement)
                         <td>    AGMT_{{$agreement->Agreement_ID}}   </td>
-                        <td>    {{$agreement->Starting_Date}}   </td>
-                        <td>    {{$agreement->Ending_Date}}  </td> 
+                        <td>    {{date_format(date_create($agreement->Starting_Date),'M d, Y')}}   </td>
+                        <td>    {{date_format(date_create($agreement->Ending_Date),'M d, Y')}}  </td>
                         <td>    {{$agreement->Status}}   </td>
 
-                        <td align="center" > 
-                          <a data-toggle="modal" href="#betaModal{{$agreement->Agreement_ID}}"> <button class="btn btn-just-icon Subu btn-md" rel="tooltip" title="VIEW"> <i class="material-icons">search</i></button></a>
-                           {!! Form::open(['route' => ['TradeAgreements.destroy',$agreement->Agreement_ID],'method'=>'DELETE']) !!}
-                          <button type = "submit" name = "YesBtn" class="btn btn-just-icon btn-md Shalala" rel="tooltip" title="DELETE" > <i class="material-icons">delete</i></button>
-                          {!! Form::close() !!}
-                        </td> 
+                        <td>
+                          <div class = "row">
+                            <div class = "col-md-4">
+                            </div>
+                            <div class = "col-md-2">
+                              <a data-toggle="modal" href="#betaModal{{$agreement->Agreement_ID}}">
+                                <button class="btn btn-just-icon Subu btn-md" rel="tooltip" title="VIEW">
+                                  <i class="material-icons">search</i>
+                                </button>
+                              </a>
+                            </div>
+                            <div class = "col-md-2">
+                              {!! Form::open(['route' => ['TradeAgreements.destroy',$agreement->Agreement_ID],'method'=>'DELETE']) !!}
+                              <button type = "submit" name = "YesBtn" class="btn btn-just-icon btn-md Shalala" rel="tooltip" title="DELETE" >
+                                <i class="material-icons">delete</i>
+                              </button>
+                              {!! Form::close() !!}
+                            </div>
+                            <div class = "col-md-4">
+                            </div>
+                          </div>
+                        </td>
 
                         <div id="betaModal{{$agreement->Agreement_ID}}" class="modal fade">
                                     <div class="modal-dialog text-center" style = "width: 40%;" >
@@ -126,7 +142,7 @@
                                                 <div class = "col-md-6">
                                                   <h5>{{$CustomerDet->Cust_FName}} {{$CustomerDet->Cust_MName}}, {{$CustomerDet->Cust_LName}}</h5>
                                                 </div>
-                                              </div>                                              
+                                              </div>
                                               <div class = "row">
                                                 <div class = "col-md-6">
                                                   <h4><b>Start Date: </b></h4>
@@ -134,7 +150,7 @@
                                                 <div class = "col-md-6">
                                                   <h5>{{$agreement->Starting_Date}} </h5>
                                                 </div>
-                                              </div>                                              
+                                              </div>
                                               <div class = "row">
                                                 <div class = "col-md-6">
                                                   <h4><b>Due Date: </b></h4>
@@ -145,7 +161,7 @@
                                               </div>
                                             </div>
                                             <div class="modal-footer" id = "editFooter">
-                                              
+
                                             </div>
 
                                         </div>
@@ -154,9 +170,9 @@
                           <!--end of modal-->
 
                      </tr>
-                    @endforeach 
+                    @endforeach
                 </tbody>
-       
+
               </table>
             </div>
             <!-- /.box-body -->
@@ -181,16 +197,16 @@
                 </thead>
 
                 <tbody>
-                    <tr>  
+                    <tr>
                     @foreach($Inativeagreements as $inactiveagreement)
                         <td>    AGMT_{{$inactiveagreement->Agreement_ID}}   </td>
                         <td>    {{$inactiveagreement->Starting_Date}}   </td>
-                        <td>    {{$inactiveagreement->Ending_Date}}  </td> 
+                        <td>    {{$inactiveagreement->Ending_Date}}  </td>
                         <td>    {{$inactiveagreement->Status}}   </td>
 
-                        <td align="center" > 
+                        <td align="center" >
                           <a data-toggle="modal" href="#inactiveDetail{{$inactiveagreement->Agreement_ID}}"> <button class="btn btn-info btn-md"> View </button></a>
-                        </td> 
+                        </td>
 
                         <div id="inactiveDetail{{$inactiveagreement->Agreement_ID}}" class="modal fade">
                                     <div class="modal-dialog text-center" style = "width: 40%;" >
@@ -206,16 +222,16 @@
                                                 <h5><b>Ending Dante</b>{{$inactiveagreement->Ending_Date}}</h5>
                                                 <h5><b>Status:</b>{{$inactiveagreement->Status}}</h5>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
                           <!--end of modal-->
 
                      </tr>
-                    @endforeach 
+                    @endforeach
                 </tbody>
-       
+
               </table>
             </div>
             <!-- /.box-body -->
@@ -227,14 +243,14 @@
         </div>
       </div>
       <!-- End Tabs with icons on Card -->
-      
+
     </div>
-        
+
       </div>
     </div>
 
 
-     
+
   </section>
 
   <!-- Modal -->
@@ -260,7 +276,7 @@
                 <input type='date' name ="EDateField" id ="EDateField" class = "form-control" required/>
               </div>
             </div>
-            
+
             <br>
            <div class="modal-footer" id = "editFooter">
             <div class="btn-group btn-group-justified" role="group" aria-label="group button">
@@ -277,10 +293,10 @@
       </div>
     </div>
   </div>
-  
-      
 
-       
+
+
+
 @endsection
 
 @section('scripts')
@@ -305,9 +321,9 @@
         $("#FLowerIDfield").change(function(){
 
           var element =  $(this);
-          //var  = element.val(); 
+          //var  = element.val();
           var price = $('option:selected').attr( "data-tag" );
-          //console.log(price) ; 
+          //console.log(price) ;
           $('#origPriceField').val(price);
         });//end of function
     });
@@ -318,10 +334,10 @@
       var yyyy = today.getFullYear();
        if(dd<10){
               dd='0'+dd
-          } 
+          }
           if(mm<10){
               mm='0'+mm
-          } 
+          }
 
       today = yyyy+'-'+mm+'-'+dd;
         $("#SDateField").setAttribute("min", today);

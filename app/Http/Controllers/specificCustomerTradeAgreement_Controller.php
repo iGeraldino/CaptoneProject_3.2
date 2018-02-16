@@ -61,7 +61,7 @@ class specificCustomerTradeAgreement_Controller extends Controller
         $customerAgreement->Ending_Date = $request->EDateField;
         $customerAgreement->Status = 'ACTIVE';
 
-        $customerAgreement->save();        
+        $customerAgreement->save();
 
 
         Session::put('Adding_Agreement','Successful');
@@ -102,7 +102,10 @@ class specificCustomerTradeAgreement_Controller extends Controller
                 ->where('trade_agreement.Status', '=', 'INACTIVE')
                 ->get();
 
-               return view('customer.adding_tradeagreement')->with('agreements',$TradeAgreements)->with('Inativeagreements',$inactiveAgreements)->with('CustomerDet',$CustomerDetails);
+               return view('customer.adding_tradeagreement')
+               ->with('agreements',$TradeAgreements)
+               ->with('Inativeagreements',$inactiveAgreements)
+               ->with('CustomerDet',$CustomerDetails);
                //->with('flowerstoAgree',$FlowersTobeAgreed);
            }
     }

@@ -12,5 +12,6 @@ class shop_schedule extends Model
   protected $fillable = [
       'Order_ID', 'Customer_fname','Customer_lname',
       'Date_of_Event','Time','Schedule_Type','schedule_status',
+      'created_at','updated_at'
   ];
 }

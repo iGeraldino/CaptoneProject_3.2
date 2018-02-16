@@ -38,10 +38,8 @@ class Order_Controller extends Controller
                   ->select('*')
                   ->get();
 
-                $ClosedsalesOrders = DB::table('sales_order')
-                ->select('*')
-                ->where('Status','CLOSED')
-                ->get();
+                $ClosedsalesOrders = DB::select('CALL closedCancelled_Orders()');
+
 
                 $Pending_salesOrders = DB::table('sales_order')
                 ->select('*')
