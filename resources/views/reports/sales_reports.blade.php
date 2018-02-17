@@ -5,6 +5,7 @@
 	<style type="text/css">
 		.font {
 			font-family: helvetica;
+			font-size: 12px;
 		}
 		.a1 {
 			text-align: center;
@@ -65,7 +66,7 @@
 			<h4 class="a1"> Monitoring of the in and Out of the flowers in the inventory</h4>
 		@endif
 
-		<table class=" a2 a5 table-striped table-bordered" style="width: 100%;">
+		<table class="a2 a5 table-striped table-bordered" style="width: 100%;">
 			<thead>
 				<tr>
 			      <th class="center color1 font">TRANSACTION ID</th>
@@ -97,8 +98,10 @@
 							@elseif($row->Item_Type == 'Acessories')
 								<td class="font center" style = "color:light-gray;"><b>ACRS-{{$row->Item_ID}}</b></td>
 							@endif
-							@if($row->Quantity < 0)
-				      	<td class="font center" style = "color:red;"><b>{{$row->Quantity}} pcs.</b></td>
+							@if($row->Quantity < 0 and $row->Type_of_changes == 'O' )
+				      	<td class="font center" style = "color:green;"><b>{{$row->Quantity}} pcs.</b></td>
+							@elseif($row->Quantity < 0 and $row->Type_of_changes == 'S' )
+									<td class="font center" style = "color:red;"><b>{{$row->Quantity}} pcs.</b></td>
 							@elseif($row->Quantity >= 0)
 								<td class="font center" style = "color:gray;"><b>{{$row->Quantity}} pcs.</b></td>
 							@endif

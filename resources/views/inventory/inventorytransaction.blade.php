@@ -145,6 +145,12 @@
                           </a>
                         </li>
                         <li>
+                          <a href="#spoilage" data-toggle="tab">
+                            <i class="material-icons">date_range</i>
+                            Generate Spoilage Report
+                          </a>
+                        </li>
+                        <li>
                           <a href="#batch" data-toggle="tab">
                             <i class="material-icons">assignment</i>
                             By Batch
@@ -236,6 +242,40 @@
                         <div class = "col-md-3"></div>
                       </div>
                     </div>
+                    <div class="tab-pane" id="spoilage">
+                      <div class = "row">
+                        <div class="col-md-6 col-md-offset-2" style="margin-top: -6%;">
+                          <!-- Date range -->
+                    {!! Form::open(array('route' => 'Flwr_Spoilagereport.store', 'data-parsley-validate'=>'', 'files' => 'true', 'method'=>'POST')) !!}
+                          <input type="text" value="byDate" name="Report_type" class="hidden">
+                          <input type="text" value="{{$Itype}}" name="itemtype" class="hidden">
+                          <div class="form-group">
+                            <label class="pull-left"><h4>Date range:</h4></label>
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                              <input type="text" class="form-control pull-right" id="trans_range2_1" name = "trans_range2_1">
+                              <button type = "submit" id = "submt_rangeSALESBTN" class = "btn btn-md Lemon">Generate Report</button>
+                            </div>
+                            <!-- /.input group -->
+                          </div>
+                          <!-- /.form group -->
+
+                            {!! Form::close() !!}
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <hr>
+                      <div class = "row">
+                        <div class = "col-md-3"></div>
+                        <div class = "col-md-6">
+                          <p><b>*This part of this page will generate a spoilage report based on the date range that you'll be choosing. The report that will be generated will focus on the expected profit,revenue, and loss made with the flowers that are being spoiled in the inventory.</b></p>
+                        </div>
+                        <div class = "col-md-3"></div>
+                      </div>
+                    </div>
                     <div class="tab-pane" id="batch">
                       <div class="row">
                         <div class="col-md-4 col-md-offset-4">
@@ -319,6 +359,7 @@
       //Date range picker
       $('#trans_range').daterangepicker();
       $('#trans_range2').daterangepicker();
+      $('#trans_range2_1').daterangepicker();
   </script>
   <script>
       $(document).ready(function(){

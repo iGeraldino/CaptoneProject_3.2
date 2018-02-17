@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use \PDF;
 
-class Sales_Report_Controller extends Controller
+class InventorySpoilageReport_Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,7 +42,7 @@ class Sales_Report_Controller extends Controller
         //
         $report_Type = 'byDate';
         $itemType = $request->itemtype;
-        $date_range = $request->trans_range2;
+        $date_range = $request->trans_range2_1;
         $batch = 'N/A';
         //dd($report_Type,$itemType,$date_range);
 
@@ -56,15 +56,15 @@ class Sales_Report_Controller extends Controller
 
         $totalProfit = DB::select('call total_profit(?,?)',array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1]))));
 
-        $trans = DB::select("CALL sales_breakdown(?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1]))));
+        $trans = DB::select("CALL spoilage_breakdown(?,?)",array(date('Y-m-d',strtotime($dates[0])),date('Y-m-d',strtotime($dates[1]))));
 
-        $pdf = \PDF::loadView("reports.Final_Sales_Report",['trans'=>$trans,
+        $pdf = \PDF::loadView("reports.Final_Spoilage_Report",['trans'=>$trans,
         'start'=>$dates[0],'totalProfit'=>$totalProfit,
         'end'=>$dates[1],'type'=>$itemType,
         'report_Type'=>$report_Type,'$batch'=>$batch]);
 
         $current = Carbon::now('Asia/Manila');
-        return $pdf->download('FLOWER_'.$current.'Flower_SALESReport.pdf');
+        return $pdf->download('FLOWER_'.$current.'Flower_SPOILAGE_Report.pdf');
     }
 
     /**

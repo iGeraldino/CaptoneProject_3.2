@@ -70,6 +70,8 @@ Route::group(['middleware' => ['web']], function() {
 
 	Route::resource('Flwr_Salesreport', 'Sales_Report_Controller');
 
+	Route::resource('Flwr_Spoilagereport', 'InventorySpoilageReport_Controller');
+
 	Route::resource('InventorySpoilage','spoiled_Monitoring_Controller');
 
 	Route::resource('Admins', 'AdminAccounts_Controller');
