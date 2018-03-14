@@ -9,12 +9,11 @@
 <?php
   $newOrderSuccess = Session::get('orderSuccessful');
   Session::remove('orderSuccessful');
-
 ?>
 
 	<div class="container" style="margin-top: 80px;">
 
-    <input type = "text" id = "orderSuccessSession" value = "{{$newOrderSuccess}}">
+    <input type = "text" id = "orderSuccessSession" value = "{{$newOrderSuccess}}" hidden>
         <div class="row">
             @foreach($details as $details)
 

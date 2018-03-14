@@ -482,7 +482,7 @@
 											                 	 	<div class="input-group-addon">
 											                    		<i class="fa fa-calendar"></i>
 											                  		</div>
-											                  		<input type="date" id="datepickup" class="form-control pull-right" >
+											                  		<input type="date" id="datepickup" name="datepickup" class="form-control pull-right" >
 											                	</div>
 											                	<!-- /.input group -->
 											              	</div>
@@ -840,7 +840,7 @@
 						@endif
 							  <!--Form() open dito-->
 											<div class="row pull-right">
-												<div  hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
+												<div hidden><!-- dapat ay hidden tong div na to Jom para lang to sa pagsubmit ng details sa controller -->
 													<!--ito yung isasubmit mo sa form open mo para makuha mo yung details na kelangan mo for order_details na table ilagay mo to sa route na pang delivery lang ang sinesave at iba rin ang routes ng pang pickup lang ang sinesave
 
 													paano magkakalaman ito?

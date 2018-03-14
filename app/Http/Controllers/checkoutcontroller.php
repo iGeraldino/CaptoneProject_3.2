@@ -127,6 +127,9 @@ class checkoutcontroller extends Controller
       $type = "online";
       $check = 0;
 
+      //dd($request->finalPickup_Date);
+
+
       $sales_order = new sales_order([
                 'customer_ID' => $cust_id,
                 'Customer_Fname' => $fname,
@@ -139,8 +142,7 @@ class checkoutcontroller extends Controller
                 'created_at'=> $current,
                 'updated_at'=> $current,
             ]);
-
-      $sales_order -> save();
+      $sales_order->save();
 
 
 
@@ -222,8 +224,8 @@ class checkoutcontroller extends Controller
       $orderdetails -> save();
       $lastid = $orderdetails->id;
 
-        $deliverydate = date('Y/m/d',strtotime($request->Cust_Date));
-        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
+        $deliverydate = date('Y-m-d',strtotime($request->Cust_Date));
+        $deliverytime = date('Y-m-d',strtotime($request ->Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
         $schedulestatus = "PENDING";
 
@@ -529,6 +531,8 @@ class checkoutcontroller extends Controller
       $status = "PENDING";
       $type = "online";
 
+      //dd($request->finalPickup_Date);
+
       $sales_order = new sales_order([
                 'customer_ID' => $cust_id,
                 'Customer_Fname' => $fname,
@@ -588,8 +592,8 @@ class checkoutcontroller extends Controller
       $orderdetails->save();
       $lastid = $orderdetails->id;
 
-      $deliverydate = date('Y/m/d',strtotime($request->finalPickup_Date));
-      $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
+      $deliverydate = date('Y-m-d',strtotime($request->finalPickup_Date));
+      $deliverytime = date('Y-m-d',strtotime($request ->finalPickup_Date))." ".date('H:i:s', strtotime($request->input('finalPickup_Time')));
       $Scheduletype = $request->input('final_shippingMethod');
       $schedulestatus = "PENDING";
 
@@ -946,8 +950,8 @@ class checkoutcontroller extends Controller
         $orderdetails->save();
         $lastid = $orderdetails->id;
 
-        $deliverydate = date('Y/m/d',strtotime($request->finalPickup_Date));
-        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
+        $deliverydate = date('Y-m-d',strtotime($request->finalPickup_Date));
+        $deliverytime = date('Y-m-d',strtotime($request ->finalPickup_Date))." ".date('H:i:s', strtotime($request->input('finalPickup_Time')));
         $Scheduletype = $request->input('final_shippingMethod');
         $schedulestatus = "PENDING";
 
@@ -1321,13 +1325,11 @@ class checkoutcontroller extends Controller
             'BALANCE' => $amount + $vat + $deliveryCharge,
         ]);
 
-
-
         $orderdetails -> save();
         $lastid = $orderdetails->id;
 
-        $deliverydate = date('Y/m/d',strtotime($request -> Cust_Date));
-        $deliverytime = date('Y/m/d',strtotime($request -> Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
+        $deliverydate = date('Y-m-d',strtotime($request ->Cust_Date));
+        $deliverytime = date('Y-m-d',strtotime($request ->Cust_Date))." ".date('H:i:s', strtotime($request->input('Cust_Time')));
         $Scheduletype = $request->input('Cust_shippingMethod');
         $schedulestatus = "PENDING";
 

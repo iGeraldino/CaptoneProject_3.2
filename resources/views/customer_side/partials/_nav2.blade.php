@@ -7,7 +7,7 @@
                         <span class="icon-bar"></span>
                          <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/home">Wonderbloom</a>
+                    <a class="navbar-brand" href="/home">Flowershop</a>
                 </div>
 
                 <div class="collapse navbar-collapse">

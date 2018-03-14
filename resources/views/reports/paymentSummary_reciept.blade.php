@@ -162,7 +162,6 @@
                         <th > VAT</th>
                         <th > Total Amount</th>
                         <th > Balance</th>
-                        <th > Amount used from the Payment</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -173,7 +172,6 @@
                       <td>Php {{number_format($P_Det->Del_Charge,2)}}</td>
                       <td>Php {{number_format($P_Det->vat,2)}}</td>
                       <td>Php {{number_format($P_Det->T_amt,2)}}</td>
-                      <td>Php {{number_format($P_Det->Balance,2)}}</td>
                       <td>Php {{number_format($P_Det->Balance,2)}}</td>
                     </tr>
                     @endforeach

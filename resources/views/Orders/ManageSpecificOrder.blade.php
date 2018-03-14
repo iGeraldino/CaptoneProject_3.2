@@ -364,11 +364,13 @@
                 <div class = "col-md-6">
                   <div class="form-group label-floating">
                     <label class="control-label">Enter Amount Paid</label>
-                      <input id = "payment_field" name = "payment_field" type="number" step = "0.01" class="form-control" min = "<?php
-                        if($SalesOrder->Status == 'PENDING'){
-                          $min = $OrderDetails->Subtotal * 0.20;
+                      <input id = "payment_field" name = "payment_field"
+											type="number"
+											class="form-control" min = "<?php
+                        if(strToUpper($SalesOrder->Status) == 'PENDING'){
+													$min = $OrderDetails->Subtotal * 0.20;
                         }else{
-                          $min = $OrderDetails->BALANCE;
+													$min = $OrderDetails->BALANCE;
                         }
                         echo $min;
                        ?>" required/>
@@ -630,9 +632,11 @@
 			}
 		});
 
-    if($('#payment_field').val() == "" || $('#payment_field').val() == null){
-      $('#partialCheckbox_DIV').hide();
-    }
+$('#partialCheckbox_DIV').hide();
+
+    //if($('#payment_field').val() == "" || $('#payment_field').val() == null){
+      //$('#partialCheckbox_DIV').hide();
+    //}
 
     var DownPayment = $('#SubtotalDown').val();
 		var change = 0;
@@ -643,21 +647,21 @@
 
 			if($(this).val() == null || $(this).val() == "" || parseFloat($(this).val()) == 0){
 				change = 0 - $('#balanceField').val();
-				$('#partialCheckbox_DIV').hide();
+				//$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
 			}
       else if(parseFloat($(this).val()) < parseFloat(DownPayment)){
          change = parseFloat($(this).val()) - parseFloat(DownPayment);
 
-        $('#partialCheckbox_DIV').hide();
+        //$('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
       else if(parseFloat($(this).val()) > parseFloat(DownPayment)){
 			 change = 0;
 
-        $('#partialCheckbox_DIV').show();
+//        $('#partialCheckbox_DIV').show();
         $('#changeField').val(change.toFixed(2));
         var payment = $('#payment_field').val();
         var balance = $('#balanceField').val();
@@ -673,7 +677,7 @@
 					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
 				 }
 				 else if(parseFloat(balance) == parseFloat(payment)){
-					 alert('equal ang balance at payment');
+					 //alert('equal ang balance at payment');
 					 change = 0;
             $('#changeField').val(change.toFixed(2));
  					 $('#DisplaychangeField').val('Php '+change.toFixed(2));
@@ -681,13 +685,13 @@
       }
       else if(parseFloat($('#payment_field').val()) == parseFloat(DownPayment)){
         var change = parseFloat($('#payment_field').val()) - parseFloat(DownPayment);
-        $('#partialCheckbox_DIV').hide();
+  //      $('#partialCheckbox_DIV').hide();
         $('#changeField').val(change.toFixed(2));
 				$('#DisplaychangeField').val('Php '+change.toFixed(2));
       }
     });
 
-		$('#PartialField').change(function(){
+		/*$('#PartialField').change(function(){
 				var payment = parseFloat($('#payment_field').val());
 				var changeval = 0;
 				changeval = payment - parseFloat($(this).val());
@@ -695,10 +699,10 @@
 				$('#changeField').val(changeval.toFixed(2));
 				$('#DisplaychangeField').val('Php '+changeval.toFixed(2));
 		});
+*/
 
 
-
-
+/*
     $('#partial_PaymentCheckBox').click(function(){
 			if($('#partial_PaymentCheckBox').is(":checked")){
         $('#partialDiv').show("fold");
@@ -719,10 +723,10 @@
         $('#partialDiv').hide("fold");
 			}
 		});
-
+*/
     $('#cash_ShowSubmitButton').click(function(){
 			if($('#cash_ShowSubmitButton').is(":checked")){
-				//$('#bank_ShowSubmitButton').attr('checked',false);
+				$('#bank_ShowSubmitButton').attr('checked',false);
         $('#cashSbmt_BtnDIV').show("fold");
         $('#cashSBMT').attr("disabled",false);
 			}else{

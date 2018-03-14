@@ -98,8 +98,8 @@ class quickorderController extends Controller
           ->with('province',$province)
           ->with('accessories',$accessories)
           ->with('FlowerList',$AvailableFlowers);
-
         }
+        //manage this so that if there are no flowers in the inventory, you'll redirect to the long ordering.
     }
 
 
